@@ -1,0 +1,31 @@
+/*
+	CUSTOM STYLE
+*/
+
+.font-jasaweb {
+	color : #E62129 !important;
+}
+
+.btn-jasaweb {
+    background-color: #E62129;
+    border-color: #E62129;
+    color: #fff;
+}
+
+.bg-jasaweb {
+	background: #E62129 none repeat scroll 0 0 !important;
+}
+
+body.modal-open {
+	overflow: hidden;
+	position:fixed;
+	width: 100%;
+}
+
+table {
+    white-space: nowrap;
+}
+
+.table-scroll {
+	overflow: scroll;
+}
