@@ -8,6 +8,7 @@ class C_barang extends MY_Controller {
 
 	public function __construct() {
         parent::__construct();
+        $this->load->library(array('PHPExcel','PHPExcel/IOFactory'));
 	}
 
 	public function index(){
@@ -128,6 +129,73 @@ class C_barang extends MY_Controller {
 		echo json_encode($response);
 	}
 
+	public function import(){
+		ini_set('max_execution_time', 3600);
+		if(!isset($_FILES['file'])){
+			echo 'PLEASE CHECK AGAIN';
+		}else{
+			$fileName = str_replace(" ", "_", time().$_FILES['file']['name']);
+		 
+			$config['upload_path'] = './assets/upload/'; //buat folder dengan nama assets di root folder
+			$config['file_name'] = $fileName;
+			$config['allowed_types'] = 'xls|xlsx|csv';
+			$config['max_size'] = 10000;
+			 
+			$this->load->library('upload');
+			$this->upload->initialize($config);
+			 
+			if(! $this->upload->do_upload('file') )
+			$this->upload->display_errors();
+			     
+			$media = $this->upload->data('file');
+			$inputFileName = './assets/upload/'.$config['file_name'];
+
+			try {
+			    $inputFileType = IOFactory::identify($inputFileName);
+			    $objReader = IOFactory::createReader($inputFileType);
+			    $objPHPExcel = $objReader->load($inputFileName);
+			} catch(Exception $e) {
+			    die('Error loading file "'.pathinfo($inputFileName,PATHINFO_BASENAME).'": '.$e->getMessage());
+			}
+
+			$sheet = $objPHPExcel->getSheet(0);
+			$highestRow = $sheet->getHighestRow();
+			$highestColumn = $sheet->getHighestColumn();
+			 
+			for ($row = 2; $row <= $highestRow; $row++){                  //  Read a row of data into an array                 
+			    $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
+			                                    NULL,
+			                                    TRUE,
+			                                    FALSE);
+
+			     $data = array(
+			 		"barang_id"				=> $this->db->escape_str($rowData[0][0]),
+			        "m_jenis_barang_id"		=> $this->db->escape_str($rowData[0][1]),
+			        "m_kategori_id"			=> $this->db->escape_str($rowData[0][2]),
+			        "barang_kode"			=> ' ',
+			        "barang_nomor"			=> ' ',
+			        "barang_nama"			=> $this->db->escape_str($rowData[0][5]),
+			        "brand_id"				=> $this->db->escape_str($rowData[0][6]),
+			        "harga_beli"			=> $this->db->escape_str($rowData[0][7]),
+			        "harga_jual"			=> $this->db->escape_str($rowData[0][8]),
+			        "harga_jual_pajak"		=> $this->db->escape_str($rowData[0][9]),
+			        "m_satuan_id"			=> ' ',
+			        "barang_minimum_stok"	=> ' ',
+			        "barang_status_aktif"	=> 'y',
+			        "barang_create_date"	=> date('Y-m-d H:i:s'),
+			        "barang_create_by"		=> $this->session->userdata('user_username'),
+			        "barang_update_date"	=> date('Y-m-d H:i:s'),
+			        "barang_update_by"		=> $this->session->userdata('user_username'),
+			        "barang_revised"		=> 0
+			    );
+			     
+			    $insert = $this->db->query("insert ignore into m_barang values('".implode("', '", $data)."')");
+			    delete_files('./assets/');
+			}
+			redirect('Master-Data/Barang');
+		}
+	}
+
 	public function getForm(){
  		$this->load->view("barang/V_form_barang");
 	}
@@ -137,11 +205,15 @@ class C_barang extends MY_Controller {
 	}
 
 	public function loadDataWhere(){
+		$harga_jual = 0;
+		$harga_beli = 0;
+
 		$select = '*';
 		$where['data'][] = array(
 			'column' => 'barang_id',
 			'param'	 => $this->input->get('id')
 		);
+
 		$query = $this->mod->select($select, $this->tbl, NULL, $where);
 		if ($query<>false) {
 
@@ -159,6 +231,7 @@ class C_barang extends MY_Controller {
 						'text' 	=> $val2->jenis_barang_nama
 					);
 				}
+
 				// END CARI JENIS BARANG
 				// CARI Satuan
 				$hasil2['val2'] = array();
@@ -173,6 +246,16 @@ class C_barang extends MY_Controller {
 						'text' 	=> $val2->satuan_nama
 					);
 				}
+
+
+				$query_harga = $this->mod->select('*','m_harga',NULL,$where);
+				$response['query'] = $query_harga;
+				if ($query_harga) {
+					foreach ($query_harga->result() as $val2) {
+						$harga_jual 	= $val2->harga_jual;
+						$harga_beli 	= $val2->harga_beli;
+					}
+				}
 				// END CARI Satuan
 				$response['val'][] = array(
 					'kode' 							=> $val->barang_id,
@@ -182,7 +265,8 @@ class C_barang extends MY_Controller {
 					'barang_minimum_stok' 			=> $val->barang_minimum_stok,
 					'm_satuan_id'					=> $hasil2,
 					'm_jenis_barang_id' 			=> $hasil1,
-					'barang_status_aktif' 			=> $val->barang_status_aktif
+					'harga_jual' 					=> $harga_jual,
+					'harga_beli' 					=> $harga_beli
 				);
 			}
 
@@ -516,6 +600,8 @@ class C_barang extends MY_Controller {
 				'param'	 => $id
 			);
 			$update = $this->mod->update_data_table($this->tbl, $where, $data);
+			$dataharga = $this->general_post_data3(2, null, $id);
+			$updateharga = $this->mod->update_data_table('m_harga', $where, $dataharga);
 			if($data['barang_status_aktif'] == 'n')
 			{
 				$updateAttr = $this->nonaktif_atribut($id);
@@ -530,6 +616,8 @@ class C_barang extends MY_Controller {
 			$data = $this->general_post_data(1);
 			$insert = $this->mod->insert_data_table($this->tbl, NULL, $data);
 			if($insert->status) {
+				$data2 = $this->general_post_data3(1, $insert->output);
+				$insert = $this->mod->insert_data_table('m_harga', NULL, $data2);
 				$response['status'] = '200';
 			} else {
 				$response['status'] = '204';
@@ -705,6 +793,57 @@ class C_barang extends MY_Controller {
 		return $data;
 	}
 	/* end Function */
+
+	function general_post_data3($type, $idbarang = null, $id = null){
+		// 1 Insert, 2 Update, 3 Delete / Non Aktif
+		$where['data'][] = array(
+			'column' => 'barang_id',
+			'param'	 => $id
+		);
+		$queryRevised = $this->mod->select('barang_revised', $this->tbl, NULL, $where);
+		if ($queryRevised) {
+			$revised = $queryRevised->row_array();
+			$rev = $revised['barang_revised'] + 1;
+		}
+		if ($type == 1) {
+			$data = array(
+				'barang_id' 					=> $idbarang,
+				'cabang_id' 					=> $this->session->userdata('cabang_id'),
+				'harga_jual' 					=> $this->input->post('harga_jual', TRUE),
+				'harga_beli' 					=> $this->input->post('harga_beli', TRUE),
+				'barang_status_aktif' 			=> $this->input->post('barang_status_aktif', TRUE),
+				'barang_create_date' 			=> date('Y-m-d H:i:s'),
+				'barang_update_date' 			=> date('Y-m-d H:i:s'),
+				'barang_create_by' 				=> $this->session->userdata('user_username'),
+				'barang_revised' 				=> 0,
+			);
+		} else if ($type == 2) {
+			$data = array(
+				'harga_jual' 					=> $this->input->post('harga_jual', TRUE),
+				'harga_beli' 					=> $this->input->post('harga_beli', TRUE),
+				'barang_status_aktif' 			=> $this->input->post('barang_status_aktif', TRUE),
+				'barang_update_date' 			=> date('Y-m-d H:i:s'),
+				'barang_update_by' 				=> $this->session->userdata('user_username'),
+				'barang_revised' 				=> $rev,
+			);
+		} else if ($type == 3) {
+			$data = array(
+				'barang_status_aktif' 			=> 'n',
+				'barang_update_date' 			=> date('Y-m-d H:i:s'),
+				'barang_update_by' 				=> $this->session->userdata('user_username'),
+				'barang_revised' 				=> $rev,
+			);
+		} else if ($type == 4) {
+			$data = array(
+				'barang_status_aktif' 			=> 'y',
+				'barang_update_date' 			=> date('Y-m-d H:i:s'),
+				'barang_update_by' 				=> $this->session->userdata('user_username'),
+				'barang_revised' 				=> $rev,
+			);
+		}
+
+		return $data;
+	}
 
 	function nonaktif_atribut($type_id)
 	{

@@ -94,6 +94,26 @@
                 </div>
             </div>
         </div>
+        <div class="form-group">
+            <label class="control-label col-md-4">Harga Jual
+                <span class="required"> * </span>
+            </label>
+            <div class="col-md-8">
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" class="form-control num2" name="harga_jual" required /> </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-4">Harga Beli
+                <span class="required"> * </span>
+            </label>
+            <div class="col-md-8">
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" class="form-control num2" name="harga_beli" required /> </div>
+            </div>
+        </div>
         <div class="form-actions">
             <div class="row">
                 <div class="col-md-offset-4 col-md-8 text-right">

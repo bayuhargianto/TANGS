@@ -26,7 +26,7 @@
                         <input type="text" class="form-control" name="jenis_barang_nama" required /> </div>
                 </div>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label class="control-label col-md-4">Nama Jenis Gudang
                     <span class="required"> * </span>
                 </label>
@@ -37,7 +37,7 @@
                         </select>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="form-group">
                 <label class="control-label col-md-4">Status Jenis Barang
                     <span class="required"> * </span>

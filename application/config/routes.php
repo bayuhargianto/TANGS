@@ -76,6 +76,28 @@ $route['Master-Data/Cabang/loadDataWhere']						= 'C_cabang/loadDataWhere';
 $route['Master-Data/Cabang/loadDataSelect']						= 'C_cabang/loadData_select';
 $route['Master-Data/Cabang/loadDataSelectKota']					= 'C_cabang/loadData_selectKota';
 // End Cabang
+// Brand
+$route['Master-Data/Master-Brand']								= 'C_brand';
+$route['Master-Data/Master-Brand/getForm']						= 'C_brand/getForm';
+$route['Master-Data/Master-Brand/loadData']						= 'C_brand/loadData';
+$route['Master-Data/Master-Brand/postData']						= 'C_brand/postData';
+$route['Master-Data/Master-Brand/deleteData']					= 'C_brand/deleteData';
+$route['Master-Data/Master-Brand/aktifData']					= 'C_brand/aktifData';
+$route['Master-Data/Master-Brand/loadDataWhere']				= 'C_brand/loadDataWhere';
+$route['Master-Data/Master-Brand/loadDataSelect']				= 'C_brand/loadData_select';
+$route['Master-Data/Master-Brand/loadDataSelectKota']			= 'C_brand/loadData_selectKota';
+// End Brand
+// Kategori
+$route['Master-Data/Master-Kategori']							= 'C_kategori';
+$route['Master-Data/Master-Kategori/getForm']					= 'C_kategori/getForm';
+$route['Master-Data/Master-Kategori/loadData']					= 'C_kategori/loadData';
+$route['Master-Data/Master-Kategori/postData']					= 'C_kategori/postData';
+$route['Master-Data/Master-Kategori/deleteData']				= 'C_kategori/deleteData';
+$route['Master-Data/Master-Kategori/aktifData']					= 'C_kategori/aktifData';
+$route['Master-Data/Master-Kategori/loadDataWhere']				= 'C_kategori/loadDataWhere';
+$route['Master-Data/Master-Kategori/loadDataSelect']			= 'C_kategori/loadData_select';
+$route['Master-Data/Master-Kategori/loadDataSelectKota']		= 'C_kategori/loadData_selectKota';
+// End Kategori
 // Tipe Karyawan
 $route['Master-Data/Tipe-Karyawan']								= 'C_tipe_karyawan';
 $route['Master-Data/Tipe-Karyawan/getForm']						= 'C_tipe_karyawan/getForm';
@@ -161,6 +183,7 @@ $route['Master-Data/Barang/postData']							= 'C_barang/postData';
 $route['Master-Data/Barang/deleteData']							= 'C_barang/deleteData';
 $route['Master-Data/Barang/aktifData']							= 'C_barang/aktifData';
 $route['Master-Data/Barang/loadDataWhere']						= 'C_barang/loadDataWhere';
+$route['Master-Data/Barang/Import']								= 'C_barang/import';
 $route['Master-Data/Barang/loadDataSelect']						= 'C_barang/loadData_select';
 $route['Master-Data/Barang/loadDataSelectKode']					= 'C_barang/loadData_select2';
 $route['Master-Data/Barang/loadDataSelectUraian']				= 'C_barang/loadData_select3';
@@ -458,6 +481,8 @@ $route['Penjualan/Surat-Jalan/loadData']					= 'C_surat_jalan/loadData/2';
 $route['Penjualan/Surat-Jalan/loadDataSelect']				= 'C_surat_jalan/loadData_selectFaktur';
 $route['Penjualan/Surat-Jalan/loadDataWhere']				= 'C_surat_jalan/loadDataWhere';
 $route['Penjualan/Surat-Jalan/loadDataSelect2']				= 'C_surat_jalan/loadData_selectSJRetur';
+$route['Penjualan/Point-of-Sale']							= 'C_POS/index';
+
 // $route['Gudang/Surat-Jalan/checkStokSO']					= 'C_surat_jalan/checkStokSO';
 // end Surat Jalan
 

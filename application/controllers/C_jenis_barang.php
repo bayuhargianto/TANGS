@@ -43,7 +43,8 @@ class C_jenis_barang extends MY_Controller {
 		);
 		//WHERE LIKE
 		$where_like['data'][] = array(
-			'column' => 'jenis_barang_nama, jenis_gudang_nama, jenis_barang_status_aktif',
+			// 'column' => 'jenis_barang_nama, jenis_gudang_nama, jenis_barang_status_aktif',
+			'column' => 'jenis_barang_nama, jenis_barang_status_aktif',
 			'param'	 => $this->input->get('search[value]')
 		);
 		//ORDER
@@ -53,9 +54,9 @@ class C_jenis_barang extends MY_Controller {
 			'type'	 => $this->input->get('order[0][dir]')
 		);
 
-		$query_total = $this->mod->select($select, 'v_jenis_barang');
-		$query_filter = $this->mod->select($select, 'v_jenis_barang', NULL, NULL, NULL, $where_like, $order);
-		$query = $this->mod->select($select, 'v_jenis_barang', NULL, NULL, NULL, $where_like, $order, $limit);
+		$query_total = $this->mod->select($select, 'm_jenis_barang');
+		$query_filter = $this->mod->select($select, 'm_jenis_barang', NULL, NULL, NULL, $where_like, $order);
+		$query = $this->mod->select($select, 'm_jenis_barang', NULL, NULL, NULL, $where_like, $order, $limit);
 
 		$response['data'] = array();
 		if ($query<>false) {
@@ -96,7 +97,7 @@ class C_jenis_barang extends MY_Controller {
 				$response['data'][] = array(
 					$no,
 					$val->jenis_barang_nama,
-					$val->jenis_gudang_nama,
+					// $val->jenis_gudang_nama,
 					$status,
 					$button
 				);
@@ -117,9 +118,10 @@ class C_jenis_barang extends MY_Controller {
 	}
 
 	public function getForm(){
-		$query = $this->mod->select('jenis_gudang_id, jenis_gudang_nama', 'm_jenis_gudang');
-		$jenisGudang['jenis'] = $query->result_array();
- 		$this->load->view("jenis-barang/V_form_jenis_barang", $jenisGudang);
+		// $query = $this->mod->select('jenis_gudang_id, jenis_gudang_nama', 'm_jenis_gudang');
+		// $jenisGudang['jenis'] = $query->result_array();
+ 		// $this->load->view("jenis-barang/V_form_jenis_barang", $jenisGudang);
+ 		$this->load->view("jenis-barang/V_form_jenis_barang");
 	}
 
 	public function loadDataWhere(){
@@ -133,23 +135,23 @@ class C_jenis_barang extends MY_Controller {
 
 			foreach ($query->result() as $val) {
 				// CARI JENIS GUDANG
-				$hasil1['val2'] = array();
-				$where_type['data'][] = array(
-					'column' => 'jenis_gudang_id',
-					'param'	 => $val->m_jenis_gudang_id
-				);
-				$query_type = $this->mod->select('*','m_jenis_gudang',NULL,$where_type);
-				foreach ($query_type->result() as $val2) {
-					$hasil1['val2'][] = array(
-						'id' 	=> $val2->jenis_gudang_id,
-						'text' 	=> $val2->jenis_gudang_nama
-					);
-				}
+				// $hasil1['val2'] = array();
+				// $where_type['data'][] = array(
+				// 	'column' => 'jenis_gudang_id',
+				// 	'param'	 => $val->m_jenis_gudang_id
+				// );
+				// $query_type = $this->mod->select('*','m_jenis_gudang',NULL,$where_type);
+				// foreach ($query_type->result() as $val2) {
+				// 	$hasil1['val2'][] = array(
+				// 		'id' 	=> $val2->jenis_gudang_id,
+				// 		'text' 	=> $val2->jenis_gudang_nama
+				// 	);
+				// }
 				// END CARI JENIS GUDANG
 				$response['val'][] = array(
 					'kode' 							=> $val->jenis_barang_id,
 					'jenis_barang_nama' 			=> $val->jenis_barang_nama,
-					'm_jenis_gudang_id' 			=> $hasil1,
+					// 'm_jenis_gudang_id' 			=> $hasil1,
 					'jenis_barang_status_aktif' 	=> $val->jenis_barang_status_aktif
 				);
 			}
@@ -273,7 +275,7 @@ class C_jenis_barang extends MY_Controller {
 		if ($type == 1) {
 			$data = array(
 				'jenis_barang_nama' 				=> $this->input->post('jenis_barang_nama', TRUE),
-				'm_jenis_gudang_id' 				=> $this->input->post('m_jenis_gudang_id', TRUE),
+				// 'm_jenis_gudang_id' 				=> $this->input->post('m_jenis_gudang_id', TRUE),
 				'jenis_barang_status_aktif' 		=> $this->input->post('jenis_barang_status_aktif', TRUE),
 				'jenis_barang_create_date' 			=> date('Y-m-d H:i:s'),
 				'jenis_barang_update_date' 			=> date('Y-m-d H:i:s'),
@@ -283,7 +285,7 @@ class C_jenis_barang extends MY_Controller {
 		} else if ($type == 2) {
 			$data = array(
 				'jenis_barang_nama' 				=> $this->input->post('jenis_barang_nama', TRUE),
-				'm_jenis_gudang_id' 				=> $this->input->post('m_jenis_gudang_id', TRUE),
+				// 'm_jenis_gudang_id' 				=> $this->input->post('m_jenis_gudang_id', TRUE),
 				'jenis_barang_status_aktif' 		=> $this->input->post('jenis_barang_status_aktif', TRUE),
 				'jenis_barang_update_date' 			=> date('Y-m-d H:i:s'),
 				'jenis_barang_update_by' 			=> $this->session->userdata('user_username'),

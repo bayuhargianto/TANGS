@@ -83,6 +83,7 @@
         <script src="<?php echo base_url();?>assets/theme/layouts/layout4/scripts/layout.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url();?>assets/theme/layouts/layout4/scripts/demo.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url();?>assets/theme/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
+        <script src="<?php echo base_url();?>assets/theme/global/plugins/dropzone/dropzone.min.js" type="text/javascript"></script>
         <!-- END THEME LAYOUT SCRIPTS -->
         <script type="text/javascript">
         $(document).ready(function(){ 

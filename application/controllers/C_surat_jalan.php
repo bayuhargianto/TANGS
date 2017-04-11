@@ -11,7 +11,7 @@ class C_surat_jalan extends MY_Controller {
 	}
 
 	public function index(){
-		// $this->view();
+		$this->view();
 	}
 
 	public function view($type){

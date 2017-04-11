@@ -62,7 +62,7 @@
                                             <tr>
                                                 <th> No </th>
                                                 <th> Nama Jenis Barang </th>
-                                                <th> Nama Jenis Gudang </th>
+                                                <!-- <th> Nama Jenis Gudang </th> -->
                                                 <th> Status </th>
                                                 <th> Action </th>
                                             </tr>
@@ -99,9 +99,9 @@
                       url: '<?php echo base_url();?>Master-Data/Jenis-Barang/loadData/'
                     },
                     "columns": [
-                      {"name": "no","orderable": false,"searchable": false,  "className": "text-center", "width": "5%"},
+                      {"name": "no","orderable": false,"searchable": false,  "className": "text-center", "width": "10%"},
                       {"name": "jenis_barang_nama"},
-                      {"name": "jenis_gudang_nama"},
+                      // {"name": "jenis_gudang_nama"},
                       {"name": "jenis_barang_status_aktif"},
                       {"name": "action","orderable": false,"searchable": false, "className": "text-center", "width": "15%"}
                     ],
@@ -164,9 +164,9 @@
                     for(var i=0; i<data.val.length;i++){
                       document.getElementsByName("kode")[0].value = data.val[i].kode;
                       document.getElementsByName("jenis_barang_nama")[0].value = data.val[i].jenis_barang_nama;
-                      for(var j=0; j<data.val[i].m_jenis_gudang_id.val2.length; j++){
-                        $("#m_jenis_gudang_id").append('<option value="'+data.val[i].m_jenis_gudang_id.val2[j].id+'" selected>'+data.val[i].m_jenis_gudang_id.val2[j].text+'</option>');
-                      }
+                      // for(var j=0; j<data.val[i].m_jenis_gudang_id.val2.length; j++){
+                      //   $("#m_jenis_gudang_id").append('<option value="'+data.val[i].m_jenis_gudang_id.val2[j].id+'" selected>'+data.val[i].m_jenis_gudang_id.val2[j].text+'</option>');
+                      // }
                       if (data.val[i].jenis_barang_status_aktif == 'y') {
                         document.getElementById('aktif').selected = true;
                       } else if (data.val[i].jenis_barang_status_aktif == 'n') {

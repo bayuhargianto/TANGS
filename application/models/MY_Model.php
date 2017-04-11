@@ -132,7 +132,41 @@ class MY_Model extends CI_Model {
 
         return $result;
     }
-    
+    public function importModel($dataarray) {
+      for ($i = 0; $i < count($dataarray); $i++) {
+            $data = array(
+                // 'barang' => $dataarray[$i]['nama'],
+                // 'jumlah' => $dataarray[$i]['tempat_lahir'],
+                // 'satuan' => $dataarray[$i]['tanggal_lahir']
+
+                "barang_id"             => $dataarray[$i]['barang_id'],
+                "m_jenis_barang_id"     => $dataarray[$i]['m_jenis_barang_id'],
+                "m_kategori_id"         => $dataarray[$i]['m_kategori_id'],
+                "barang_kode"           => $dataarray[$i]['barang_kode'],
+                "barang_nomor"          => $dataarray[$i]['barang_nomor'],
+                "barang_nama"           => $dataarray[$i]['barang_nama'],
+                "brand_id"              => $dataarray[$i]['brand_id'],
+                "harga_beli"            => $dataarray[$i]['harga_beli'],
+                "harga_jual"            => $dataarray[$i]['harga_jual'],
+                "harga_jual_pajak"      => $dataarray[$i]['harga_jual_pajak'],
+                "m_satuan_id"           => $dataarray[$i]['m_satuan_id'],
+                "barang_minimum_stok"   => $dataarray[$i]['barang_minimum_stok'],
+                "barang_status_aktif"   => $dataarray[$i]['barang_status_aktif'],
+                "barang_create_date"    => $dataarray[$i]['barang_create_date'],
+                "barang_create_by"      => $dataarray[$i]['barang_create_by'],
+                "barang_update_date"    => $dataarray[$i]['barang_update_date'],
+                "barang_update_by"      => $dataarray[$i]['barang_update_by'],
+                "barang_revised"        => $dataarray[$i]['barang_revised']
+            );
+            //ini untuk menambahkan apakah dalam tabel sudah ada data yang sama
+            //apabila data sudah ada maka data di-skip
+            // saya contohkan kalau ada data nama yang sama maka data tidak dimasukkan
+            $this->db->where('barang_kode', $this->input->post('barang_kode'));            
+            if ($cek) {
+                $this->db->insert('m_barang', $data);
+            }
+        }
+    }
     /* ====================================
         General Function
     ==================================== */

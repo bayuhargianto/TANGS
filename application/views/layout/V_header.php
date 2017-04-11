@@ -50,6 +50,7 @@
         <link href="<?php echo base_url();?>assets/theme/layouts/layout4/css/themes/light.min.css" rel="stylesheet" type="text/css" id="style_color" />
         <link href="<?php echo base_url();?>assets/theme/layouts/layout4/css/custom.min.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url()?>assets/custom_theme/css/my_style.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo base_url();?>assets/theme/global/plugins/dropzone/dropzone.min.css" type="text/css">
         <link rel="shortcut icon" href="favicon.ico" /> </head>
     <!-- END HEAD -->
 

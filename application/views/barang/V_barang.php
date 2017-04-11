@@ -49,8 +49,14 @@
                                                     if($priv_add == 1)
                                                     {
                                                       // echo $priv_add;
+                                                      echo $this->session->flashdata('msg');
                                                       echo '<button id="modalAdd-btn" class="btn sbold dark" data-toggle="modal" onclick="openFormBarang(),reset()"><i class="icon-plus"></i>&nbsp; Tambah Data
                                                     </button>';
+                                                      echo '<form action="'.site_url("Master-Data/Barang/Import").'" class="dropzone" id="my-awesome-dropzone">
+                                                        <div class="fallback">
+                                                          <input name="file" type="file" multiple />
+                                                        </div>
+                                                      </form>';
                                                     }
                                                   ?>
                                                     
@@ -174,6 +180,8 @@
                       document.getElementsByName("barang_nomor")[0].value = data.val[i].barang_nomor;
                       document.getElementsByName("barang_nama")[0].value = data.val[i].barang_nama;
                       document.getElementsByName("barang_minimum_stok")[0].value = data.val[i].barang_minimum_stok;
+                      document.getElementsByName("harga_jual")[0].value = data.val[i].harga_jual;
+                      document.getElementsByName("harga_beli")[0].value = data.val[i].harga_beli;
                       for(var j=0; j<data.val[i].m_jenis_barang_id.val2.length; j++){
                         $("#m_jenis_barang_id").append('<option value="'+data.val[i].m_jenis_barang_id.val2[j].id+'" selected>'+data.val[i].m_jenis_barang_id.val2[j].text+'</option>');
                       }
@@ -433,6 +441,10 @@
                   }
                 });
               }
+
+              var Dropzone = require("dropzone");
+
+              $("div#my-awesome-dropzone").dropzone({ url: "<?php echo site_url("Master-Data/Barang/Import") ?>" });
 
         </script>
 
