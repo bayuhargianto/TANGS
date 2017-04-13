@@ -19,8 +19,8 @@ class C_jenis_barang extends MY_Controller {
 		$priv = $this->cekUser(8);
 		$data = array(
 			'aplikasi'		=> $this->app_name,
-			'title_page' 	=> 'Jenis Barang',
-			'title_page2' 	=> 'Master Jenis Barang',
+			'title_page' 	=> 'Category 1',
+			'title_page2' 	=> 'Master Category 1',
 			'priv_add'		=> $priv['create']
 			);
 		if($priv['read'] == 1)

@@ -7,7 +7,7 @@
                 <button class="close" data-close="alert"></button> Your form validation is successful! </div>
             <input type="hidden" id="url" value="Master-Data/Jenis-Barang/postData/">
             <div class="form-group" hidden="true">
-                <label class="control-label col-md-4">Kode Jenis Barang (Auto)
+                <label class="control-label col-md-4">Kode Category 1 (Auto)
                     <span class="required"> * </span>
                 </label>
                 <div class="col-md-8">
@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-md-4">Nama Jenis Barang
+                <label class="control-label col-md-4">Nama Category 1
                     <span class="required"> * </span>
                 </label>
                 <div class="col-md-8">
@@ -39,7 +39,7 @@
                 </div>
             </div> -->
             <div class="form-group">
-                <label class="control-label col-md-4">Status Jenis Barang
+                <label class="control-label col-md-4">Status Category 1
                     <span class="required"> * </span>
                 </label>
                 <div class="col-md-8">

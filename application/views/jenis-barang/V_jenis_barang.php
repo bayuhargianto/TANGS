@@ -61,7 +61,7 @@
                                         <thead>
                                             <tr>
                                                 <th> No </th>
-                                                <th> Nama Jenis Barang </th>
+                                                <th> Category 1 </th>
                                                 <!-- <th> Nama Jenis Gudang </th> -->
                                                 <th> Status </th>
                                                 <th> Action </th>

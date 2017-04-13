@@ -140,17 +140,17 @@ class MY_Model extends CI_Model {
                 // 'satuan' => $dataarray[$i]['tanggal_lahir']
 
                 "barang_id"             => $dataarray[$i]['barang_id'],
-                "m_jenis_barang_id"     => $dataarray[$i]['m_jenis_barang_id'],
-                "m_kategori_id"         => $dataarray[$i]['m_kategori_id'],
-                "barang_kode"           => $dataarray[$i]['barang_kode'],
-                "barang_nomor"          => $dataarray[$i]['barang_nomor'],
+                "m_category_1_id"       => $dataarray[$i]['m_category_1_id'],
+                "m_category_2_id"       => $dataarray[$i]['m_category_2_id'],
+                "barcode"               => $dataarray[$i]['barcode'],
+                "artikel"               => $dataarray[$i]['artikel'],
                 "barang_nama"           => $dataarray[$i]['barang_nama'],
                 "brand_id"              => $dataarray[$i]['brand_id'],
                 "harga_beli"            => $dataarray[$i]['harga_beli'],
                 "harga_jual"            => $dataarray[$i]['harga_jual'],
                 "harga_jual_pajak"      => $dataarray[$i]['harga_jual_pajak'],
                 "m_satuan_id"           => $dataarray[$i]['m_satuan_id'],
-                "barang_minimum_stok"   => $dataarray[$i]['barang_minimum_stok'],
+                "stok"                  => $dataarray[$i]['stok'],
                 "barang_status_aktif"   => $dataarray[$i]['barang_status_aktif'],
                 "barang_create_date"    => $dataarray[$i]['barang_create_date'],
                 "barang_create_by"      => $dataarray[$i]['barang_create_by'],
@@ -161,7 +161,7 @@ class MY_Model extends CI_Model {
             //ini untuk menambahkan apakah dalam tabel sudah ada data yang sama
             //apabila data sudah ada maka data di-skip
             // saya contohkan kalau ada data nama yang sama maka data tidak dimasukkan
-            $this->db->where('barang_kode', $this->input->post('barang_kode'));            
+            $this->db->where('barcode', $this->input->post('barcode'));            
             if ($cek) {
                 $this->db->insert('m_barang', $data);
             }

@@ -44,8 +44,7 @@ class C_barang extends MY_Controller {
 		);
 		//WHERE LIKE
 		$where_like['data'][] = array(
-			'column' => 'barang_kode, barang_nama, jenis_barang_nama, barang_minimum_stok, satuan_nama, barang_status_aktif',
-			'param'	 => $this->input->get('search[value]')
+			'column' => 'barang_kode, barang_nama, jenis_barang_nama, stok, satuan_nama, barang_status_aktif', 'param'	 => $this->input->get('search[value]')
 		);
 		//ORDER
 		$index_order = $this->input->get('order[0][column]');
@@ -108,7 +107,7 @@ class C_barang extends MY_Controller {
 					$val->barang_kode,
 					$val->barang_nama,
 					$val->jenis_barang_nama,
-					number_format($val->barang_minimum_stok, 2, ',', '.'),
+					number_format($val->stok, 2, ',', '.'),
 					$val->satuan_nama,
 					$status,
 					$button
@@ -130,9 +129,9 @@ class C_barang extends MY_Controller {
 	}
 
 	public function import(){
-		ini_set('max_execution_time', 3600);
+		ini_set('max_execution_time', -1);
 		if(!isset($_FILES['file'])){
-			echo 'PLEASE CHECK AGAIN';
+			$this->session->set_flashdata('msg', 'Mohon Cek Kembali File Anda');
 		}else{
 			$fileName = str_replace(" ", "_", time().$_FILES['file']['name']);
 		 
@@ -167,20 +166,101 @@ class C_barang extends MY_Controller {
 			                                    NULL,
 			                                    TRUE,
 			                                    FALSE);
+			    
+			    $cat1_id = $this->db->query("SELECT jenis_barang_id FROM m_jenis_barang WHERE jenis_barang_nama = '".$rowData[0][0]."'")->row();
+				$cat2_id = $this->db->query("SELECT category_2_id FROM m_category_2 WHERE category_2_nama = '".$rowData[0][1]."'")->row();
 
-			     $data = array(
-			 		"barang_id"				=> $this->db->escape_str($rowData[0][0]),
-			        "m_jenis_barang_id"		=> $this->db->escape_str($rowData[0][1]),
-			        "m_kategori_id"			=> $this->db->escape_str($rowData[0][2]),
-			        "barang_kode"			=> ' ',
-			        "barang_nomor"			=> ' ',
-			        "barang_nama"			=> $this->db->escape_str($rowData[0][5]),
-			        "brand_id"				=> $this->db->escape_str($rowData[0][6]),
+				$jenis_barang_id 	= $cat1_id->jenis_barang_id;
+			    $category_2_id 		= $cat2_id->category_2_id;
+
+			    $data_category1 = array(
+			        "jenis_barang_id"				=> $jenis_barang_id,
+			        "jenis_barang_nama"				=> $this->db->escape_str($rowData[0][0]),
+			        "jenis_barang_status_aktif"		=> 'y',
+			        "jenis_barang_create_date"		=> date('Y-m-d H:i:s'),
+			        "jenis_barang_create_by"		=> $this->session->userdata('user_username'),
+			        "jenis_barang_update_date"		=> date('Y-m-d H:i:s'),
+			        "jenis_barang_update_by"		=> $this->session->userdata('user_username'),
+			        "jenis_barang_revised"			=> 0
+			    );
+			    
+			    $data_category2 = array(
+			        "category_2_id"				=> $category_2_id,
+			        "category_2_nama"			=> $this->db->escape_str($rowData[0][1]),
+			        "category_2_status_aktif"	=> 'y',
+			        "category_2_create_date"	=> date('Y-m-d H:i:s'),
+			        "category_2_create_by"		=> $this->session->userdata('user_username'),
+			        "category_2_update_date"	=> date('Y-m-d H:i:s'),
+			        "category_2_update_by"		=> $this->session->userdata('user_username'),
+			        "category_2_revised"		=> 0
+			    );
+
+				$sat_id = $this->db->query("SELECT satuan_id FROM m_satuan WHERE satuan_nama = '".$rowData[0][5]."'")->row();
+				if($sat_id){
+					$satuan_id		= $sat_id->satuan_id;
+				}else{
+					$satuan_id		= '';
+				}
+
+				$brd_id = $this->db->query("SELECT brand_id FROM m_brand WHERE brand_nama = '".$rowData[0][6]."'")->row();
+				if($brd_id){
+					$brand_id		= $brd_id->brand_id;
+				}else{
+					$brand_id		= '';
+				}
+			    $data_satuan = array(
+			        "satuan_id"				=> $satuan_id,
+			        "satuan_nama"			=> $this->db->escape_str($rowData[0][5]),
+			        "satuan_status_aktif"	=> 'y',
+			        "satuan_create_date"	=> date('Y-m-d H:i:s'),
+			        "satuan_create_by"		=> $this->session->userdata('user_username'),
+			        "satuan_update_date"	=> date('Y-m-d H:i:s'),
+			        "satuan_update_by"		=> $this->session->userdata('user_username'),
+			        "satuan_revised"		=> 0
+			    );
+
+			    $data_brand = array(
+			        "brand_id"				=> $brand_id,
+			        "brand_nama"			=> $this->db->escape_str($rowData[0][6]),
+			        "brand_status_aktif"	=> 'y',
+			        "brand_create_date"		=> date('Y-m-d H:i:s'),
+			        "brand_create_by"		=> $this->session->userdata('user_username'),
+			        "brand_update_date"		=> date('Y-m-d H:i:s'),
+			        "brand_update_by"		=> $this->session->userdata('user_username'),
+			        "brand_revised"			=> 0
+			    );
+
+			    $this->db->query("insert ignore into m_jenis_barang values('".implode("', '", $data_category1)."')");
+			    $this->db->query("insert ignore into m_category_2 values('".implode("', '", $data_category2)."')");
+			    $this->db->query("insert ignore into m_satuan values('".implode("', '", $data_satuan)."')");
+			    $this->db->query("insert ignore into m_brand values('".implode("', '", $data_brand)."')");
+// echo "<br><br>insert ignore into m_jenis_barang values('".implode("', '", $data_category1)."')";
+// echo "<br>insert ignore into m_category_2 values('".implode("', '", $data_category2)."')";
+// echo "<br>insert ignore into m_satuan values('".implode("', '", $data_satuan)."')";
+// echo "<br>insert ignore into m_brand values('".implode("', '", $data_brand)."')<br>";
+// echo "<br>".$satuan_id."<br>";
+// echo $brand_id."<br>";
+			    
+
+				
+// echo "SELECT satuan_id FROM m_satuan WHERE satuan_nama = '".$rowData[0][5]."'";
+// echo "SELECT brand_id FROM m_brand WHERE brand_nama = '".$rowData[0][6]."'";
+				
+			    $data_barang = array(
+			 		"barang_id"				=> '',
+			 		"m_jenis_barang_id"		=> $jenis_barang_id,
+			 		"m_category_2_id"		=> $category_2_id,
+			        "barang_kode"			=> $this->db->escape_str($rowData[0][2]),
+			        "barang_nomor"			=> $this->db->escape_str($rowData[0][3]),
+			        "barang_nama"			=> $this->db->escape_str($rowData[0][4]),
+			        "m_satuan_id"			=> $satuan_id,
+			        "brand_id"				=> $brand_id,
 			        "harga_beli"			=> $this->db->escape_str($rowData[0][7]),
 			        "harga_jual"			=> $this->db->escape_str($rowData[0][8]),
 			        "harga_jual_pajak"		=> $this->db->escape_str($rowData[0][9]),
-			        "m_satuan_id"			=> ' ',
-			        "barang_minimum_stok"	=> ' ',
+			        "stok"					=> $this->db->escape_str($rowData[0][10]),
+			        "barang_minimum_stok"	=> $this->db->escape_str($rowData[0][11]),
+			        "stok_maks"				=> $this->db->escape_str($rowData[0][12]),
 			        "barang_status_aktif"	=> 'y',
 			        "barang_create_date"	=> date('Y-m-d H:i:s'),
 			        "barang_create_by"		=> $this->session->userdata('user_username'),
@@ -188,12 +268,29 @@ class C_barang extends MY_Controller {
 			        "barang_update_by"		=> $this->session->userdata('user_username'),
 			        "barang_revised"		=> 0
 			    );
-			     
-			    $insert = $this->db->query("insert ignore into m_barang values('".implode("', '", $data)."')");
-			    delete_files('./assets/');
+			    $this->db->query("insert ignore into m_barang values('".implode("', '", $data_barang)."')");
+			    // echo "<br><br>insert ignore into m_barang values('".implode("', '", $data_barang)."')";
+
+			    delete_files('./assets/upload/');
 			}
-			redirect('Master-Data/Barang');
+			// redirect('Master-Data/Barang');
 		}
+	}
+
+	public function import_jenis_barang(){
+
+	}
+
+	public function import_category_2(){
+
+	}
+
+	public function import_satuan(){
+
+	}
+
+	public function import_brand(){
+
 	}
 
 	public function getForm(){
@@ -259,12 +356,12 @@ class C_barang extends MY_Controller {
 				// END CARI Satuan
 				$response['val'][] = array(
 					'kode' 							=> $val->barang_id,
-					'barang_kode' 					=> $val->barang_kode,
-					'barang_nomor' 					=> $val->barang_nomor,
+					'barang_kode' 						=> $val->barang_kode,
+					'artikel' 						=> $val->artikel,
 					'barang_nama' 					=> $val->barang_nama,
-					'barang_minimum_stok' 			=> $val->barang_minimum_stok,
+					'stok' 							=> $val->stok,
 					'm_satuan_id'					=> $hasil2,
-					'm_jenis_barang_id' 			=> $hasil1,
+					'jenis_barang_id' 			=> $hasil1,
 					'harga_jual' 					=> $harga_jual,
 					'harga_beli' 					=> $harga_beli
 				);
@@ -314,11 +411,11 @@ class C_barang extends MY_Controller {
 				// END CARI Satuan
 				$response['val'][] = array(
 					'kode' 							=> $val->barang_id,
-					'barang_kode' 					=> $val->barang_kode,
-					'barang_nomor' 					=> $val->barang_nomor,
+					'barang_kode' 						=> $val->barang_kode,
+					'artikel' 						=> $val->artikel,
 					'barang_nama' 					=> $val->barang_nama,
-					'barang_minimum_stok' 			=> $val->barang_minimum_stok,
-					'm_jenis_barang_id' 			=> $hasil1,
+					'stok' 			=> $val->stok,
+					'm_jenis_barang_id' 				=> $hasil1,
 					'm_satuan_id'					=> $hasil2,
 					'barang_status_aktif' 			=> $val->barang_status_aktif
 				);
@@ -713,12 +810,12 @@ class C_barang extends MY_Controller {
 		}
 		if ($type == 1) {
 			$data = array(
-				'barang_kode' 					=> $this->input->post('barang_kode', TRUE),
-				'barang_nomor' 					=> $this->input->post('barang_nomor', TRUE),
+				'barang_kode' 						=> $this->input->post('barang_kode', TRUE),
+				'artikel' 						=> $this->input->post('artikel', TRUE),
 				'barang_nama' 					=> $this->input->post('barang_nama', TRUE),
-				'm_jenis_barang_id' 			=> $this->input->post('m_jenis_barang_id', TRUE),
+				'm_jenis_barang_id' 				=> $this->input->post('m_jenis_barang_id', TRUE),
 				'm_satuan_id' 					=> $this->input->post('m_satuan_id', TRUE),
-				'barang_minimum_stok' 			=> $this->input->post('barang_minimum_stok', TRUE),
+				'stok' 							=> $this->input->post('stok', TRUE),
 				'barang_status_aktif' 			=> $this->input->post('barang_status_aktif', TRUE),
 				'barang_create_date' 			=> date('Y-m-d H:i:s'),
 				'barang_update_date' 			=> date('Y-m-d H:i:s'),
@@ -728,11 +825,11 @@ class C_barang extends MY_Controller {
 		} else if ($type == 2) {
 			$data = array(
 				'barang_kode' 					=> $this->input->post('barang_kode', TRUE),
-				'barang_nomor' 					=> $this->input->post('barang_nomor', TRUE),
+				'artikel' 					=> $this->input->post('artikel', TRUE),
 				'barang_nama' 					=> $this->input->post('barang_nama', TRUE),
 				'm_jenis_barang_id' 			=> $this->input->post('m_jenis_barang_id', TRUE),
 				'm_satuan_id' 					=> $this->input->post('m_satuan_id', TRUE),
-				'barang_minimum_stok' 			=> $this->input->post('barang_minimum_stok', TRUE),
+				'stok' 			=> $this->input->post('stok', TRUE),
 				'barang_status_aktif' 			=> $this->input->post('barang_status_aktif', TRUE),
 				'barang_update_date' 			=> date('Y-m-d H:i:s'),
 				'barang_update_by' 				=> $this->session->userdata('user_username'),

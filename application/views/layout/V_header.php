@@ -35,6 +35,7 @@
         <link href="<?php echo base_url();?>assets/custom_theme/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url();?>assets/theme/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url();?>assets/theme/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo base_url();?>assets/theme/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
 
         <link href="<?php echo base_url();?>assets/theme/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url();?>assets/theme/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css" rel="stylesheet" type="text/css" />
@@ -50,7 +51,8 @@
         <link href="<?php echo base_url();?>assets/theme/layouts/layout4/css/themes/light.min.css" rel="stylesheet" type="text/css" id="style_color" />
         <link href="<?php echo base_url();?>assets/theme/layouts/layout4/css/custom.min.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url()?>assets/custom_theme/css/my_style.css" rel="stylesheet" type="text/css" />
-        <link href="<?php echo base_url();?>assets/theme/global/plugins/dropzone/dropzone.min.css" type="text/css">
+        <link href="<?php echo base_url();?>assets/theme/global/plugins/dropzone/dropzone.min.css" type="text/css" />
+        <link href="<?php echo base_url();?>assets/theme/global/plugins/dropzone/basic.min.css" type="text/css" />
         <link rel="shortcut icon" href="favicon.ico" /> </head>
     <!-- END HEAD -->
 

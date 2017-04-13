@@ -48,11 +48,14 @@
                                                   <?php
                                                     if($priv_add == 1)
                                                     {
-                                                      // echo $priv_add;
-                                                      echo $this->session->flashdata('msg');
+                                                      $this->session->flashdata('msg');
+                                                      
                                                       echo '<button id="modalAdd-btn" class="btn sbold dark" data-toggle="modal" onclick="openFormBarang(),reset()"><i class="icon-plus"></i>&nbsp; Tambah Data
-                                                    </button>';
-                                                      echo '<form action="'.site_url("Master-Data/Barang/Import").'" class="dropzone" id="my-awesome-dropzone">
+                                                      </button>';
+                                                      echo '<button id="btn1" class="btn sbold dark" data-toggle="modal"><i class="icon-doc"></i>&nbsp; Import Data
+                                                      </button><br><br>
+                                                      <form action="'.site_url("Master-Data/Barang/Import").'" class="dropzone dropzone-file-area" id="contoh1" style="width: 1000px;">
+                                                        <h3 class="sbold">Drop files here or click to import excel files</h3>
                                                         <div class="fallback">
                                                           <input name="file" type="file" multiple />
                                                         </div>
@@ -68,10 +71,10 @@
                                         <thead>
                                             <tr>
                                                 <th> No </th>
-                                                <th> Kode Barang </th>
-                                                <th> Nama Barang </th>
-                                                <th> Jenis Barang </th>
-                                                <th> Minimum Stok </th>
+                                                <th> Barcode </th>
+                                                <th> Description </th>
+                                                <th> Category 1 </th>
+                                                <th> Stok </th>
                                                 <th> Satuan Barang </th>
                                                 <th> Status </th>
                                                 <th> Action </th>
@@ -96,8 +99,13 @@
         <?php $this->load->view('layout/V_footer');?>
 
         <script type="text/javascript">
+
             $(document).ready(function(){
                 searchData();
+                
+                $("#btn1").click(function(){
+                  $("#contoh1").toggle(500);
+                });
             });
 
             function searchData() { 
@@ -113,7 +121,7 @@
                       {"name": "barang_kode"},
                       {"name": "barang_nama"},
                       {"name": "jenis_barang_nama"},
-                      {"name": "barang_minimum_stok"},
+                      {"name": "stok"},
                       {"name": "m_satuan_id"},
                       {"name": "barang_status_aktif"},
                       {"name": "action","orderable": false,"searchable": false, "className": "text-center", "width": "20%"}
@@ -441,11 +449,6 @@
                   }
                 });
               }
-
-              var Dropzone = require("dropzone");
-
-              $("div#my-awesome-dropzone").dropzone({ url: "<?php echo site_url("Master-Data/Barang/Import") ?>" });
-
         </script>
 
     </body>
