@@ -321,7 +321,7 @@
                                     '+data.val[i].barang_kode+'\
                                 </td>\
                                 <td>\
-                                    '+data.val[i].barang_nama+' ('+data.val[i].barang_nomor+' , '+data.val[i].m_jenis_barang_id.val2[i].text+')\
+                                    '+data.val[i].barang_nama+' ('+data.val[i].barang_nomor+' , '+data.val[i].jenis_barang_id.val2[i].text+')\
                                 </td>\
                                 <td>\
                                     <input type="text" class="form-control num2" name="permintaan_pembeliandet_qty[]" value="0" required/>\

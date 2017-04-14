@@ -22,6 +22,8 @@
         <link href="<?php echo base_url();?>assets/theme/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url();?>assets/theme/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
         <!-- END GLOBAL MANDATORY STYLES -->
+        <link href="<?php echo base_url();?>assets/theme/global/plugins/dropzone/dropzone.min.css" type="text/css" />
+        <link href="<?php echo base_url();?>assets/theme/global/plugins/dropzone/basic.min.css" type="text/css" />
         <!-- BEGIN THEME GLOBAL STYLES -->
         <link href="<?php echo base_url();?>assets/theme/global/css/components.min.css" rel="stylesheet" id="style_components" type="text/css" />
         <link href="<?php echo base_url();?>assets/theme/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
@@ -51,8 +53,6 @@
         <link href="<?php echo base_url();?>assets/theme/layouts/layout4/css/themes/light.min.css" rel="stylesheet" type="text/css" id="style_color" />
         <link href="<?php echo base_url();?>assets/theme/layouts/layout4/css/custom.min.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url()?>assets/custom_theme/css/my_style.css" rel="stylesheet" type="text/css" />
-        <link href="<?php echo base_url();?>assets/theme/global/plugins/dropzone/dropzone.min.css" type="text/css" />
-        <link href="<?php echo base_url();?>assets/theme/global/plugins/dropzone/basic.min.css" type="text/css" />
         <link rel="shortcut icon" href="favicon.ico" /> </head>
     <!-- END HEAD -->
 

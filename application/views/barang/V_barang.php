@@ -54,7 +54,7 @@
                                                       </button>';
                                                       echo '<button id="btn1" class="btn sbold dark" data-toggle="modal"><i class="icon-doc"></i>&nbsp; Import Data
                                                       </button><br><br>
-                                                      <form action="'.site_url("Master-Data/Barang/Import").'" class="dropzone dropzone-file-area" id="contoh1" style="width: 1000px;">
+                                                      <form action="#" class="dropzone dropzone-file-area" id="contoh1" style="width: 1000px;">
                                                         <h3 class="sbold">Drop files here or click to import excel files</h3>
                                                         <div class="fallback">
                                                           <input name="file" type="file" multiple />
@@ -193,6 +193,9 @@
                       for(var j=0; j<data.val[i].m_jenis_barang_id.val2.length; j++){
                         $("#m_jenis_barang_id").append('<option value="'+data.val[i].m_jenis_barang_id.val2[j].id+'" selected>'+data.val[i].m_jenis_barang_id.val2[j].text+'</option>');
                       }
+                      for(var j=0; j<data.val[i].m_brand_id.val2.length; j++){
+                        $("#m_brand_id").append('<option value="'+data.val[i].m_brand_id.val2[j].id+'" selected>'+data.val[i].m_brand_id.val2[j].text+'</option>');
+                      }
                       for(var j=0; j<data.val[i].m_satuan_id.val2.length; j++){
                         $("#m_satuan_id").append('<option value="'+data.val[i].m_satuan_id.val2[j].id+'" selected>'+data.val[i].m_satuan_id.val2[j].text+'</option>');
                       }
@@ -279,6 +282,11 @@
                       for(var j=0; j<data.val[i].m_jenis_barang_id.val2.length; j++){
                         $("#m_jenis_barang_id").append('<option value="'+data.val[i].m_jenis_barang_id.val2[j].id+'" selected>'+data.val[i].m_jenis_barang_id.val2[j].text+'</option>');
                         $("#m_jenis_barang_id").select2();
+                      }
+                      $("#m_brand_id").select2('destroy');
+                      for(var j=0; j<data.val[i].m_brand_id.val2.length; j++){
+                        $("#m_brand_id").append('<option value="'+data.val[i].m_brand_id.val2[j].id+'" selected>'+data.val[i].m_brand_id.val2[j].text+'</option>');
+                        $("#m_brand_id").select2();
                       }
                       document.getElementsByName("barang_minimum_stok")[0].value = data.val[i].barang_minimum_stok;
                       // for(var j=0; j<data.val[i].m_jenis_barang_id.val2.length; j++){

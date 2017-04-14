@@ -1,7 +1,4 @@
-<script src="<?php echo base_url();?>assets/custom_theme/bootstrap-daterangepicker/daterangepicker.js" type="text/javascript"></script>
-        <script src="<?php echo base_url();?>assets/theme/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
-        <script src="<?php echo base_url();?>assets/theme/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js" type="text/javascript"></script>
-        <script src="<?php echo base_url();?>assets/theme/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+
         <!-- MODAL -->
         <div id="modaladd" class="modal fade bs-modal-lg" tabindex="-1" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-lg" style="width: 90%;">
@@ -55,6 +52,11 @@
         <script src="<?php echo base_url();?>assets/theme/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url();?>assets/theme/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url();?>assets/theme/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
+
+        <script src="<?php echo base_url();?>assets/custom_theme/bootstrap-daterangepicker/daterangepicker.js" type="text/javascript"></script>
+        <script src="<?php echo base_url();?>assets/theme/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+        <script src="<?php echo base_url();?>assets/theme/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js" type="text/javascript"></script>
+        <script src="<?php echo base_url();?>assets/theme/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
         
         <script src="<?php echo base_url();?>assets/custom_theme/bootstrap-daterangepicker/daterangepicker.js" type="text/javascript"></script>
         <script src="<?php echo base_url();?>assets/theme/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
@@ -71,6 +73,7 @@
         <script src="<?php echo base_url()?>assets/theme/global/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url();?>assets/custom_theme/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
         <!-- <script src="<?php echo base_url();?>assets/custom_theme/jquery-number/jquery.number.min.js"></script> -->
+        <script src="<?php echo base_url();?>assets/theme/global/plugins/dropzone/dropzone.min.js" type="text/javascript"></script>
         <!-- END PAGE LEVEL PLUGINS -->
         <!-- BEGIN THEME GLOBAL SCRIPTS -->
         <script src="<?php echo base_url();?>assets/theme/global/scripts/app.min.js" type="text/javascript"></script>
@@ -78,6 +81,7 @@
         <script src="<?php echo base_url();?>assets/custom_theme/scripts/custom.js" type="text/javascript"></script>
         <!-- END THEME GLOBAL SCRIPTS -->
         <!-- BEGIN PAGE LEVEL SCRIPTS -->
+        <script src="<?php echo base_url();?>assets/theme/global/plugins/dropzone/form-dropzone.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url();?>assets/theme/pages/scripts/table-datatables-managed.min.js" type="text/javascript"></script>
         <!-- <script src="<?php echo base_url();?>assets/theme/pages/scripts/form-wizard.min.js" type="text/javascript"></script> -->
         <!-- <script src="<?php echo base_url();?>assets/theme/pages/scripts/form-validation.min.js" type="text/javascript"></script> -->
@@ -87,8 +91,6 @@
         <script src="<?php echo base_url();?>assets/theme/layouts/layout4/scripts/layout.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url();?>assets/theme/layouts/layout4/scripts/demo.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url();?>assets/theme/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
-        <script src="<?php echo base_url();?>assets/theme/global/plugins/dropzone/dropzone.min.js" type="text/javascript"></script>
-        <script src="<?php echo base_url();?>assets/theme/global/plugins/dropzone/form-dropzone.min.js" type="text/javascript"></script>
         <!-- END THEME LAYOUT SCRIPTS -->
         <script type="text/javascript">
         $(document).ready(function(){ 

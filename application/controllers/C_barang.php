@@ -356,12 +356,12 @@ class C_barang extends MY_Controller {
 				// END CARI Satuan
 				$response['val'][] = array(
 					'kode' 							=> $val->barang_id,
-					'barang_kode' 						=> $val->barang_kode,
-					'artikel' 						=> $val->artikel,
+					'barang_kode' 					=> $val->barang_kode,
+					'barang_nomor' 					=> $val->barang_nomor,
 					'barang_nama' 					=> $val->barang_nama,
 					'stok' 							=> $val->stok,
 					'm_satuan_id'					=> $hasil2,
-					'jenis_barang_id' 			=> $hasil1,
+					'jenis_barang_id' 				=> $hasil1,
 					'harga_jual' 					=> $harga_jual,
 					'harga_beli' 					=> $harga_beli
 				);

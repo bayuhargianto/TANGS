@@ -46,13 +46,25 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-md-4">Nama Jenis Barang
+                <label class="control-label col-md-4">Nama Category 1
                     <span class="required"> * </span>
                 </label>
                 <div class="col-md-8">
                     <div class="input-icon right">
                         <i class="fa"></i>
                         <select class="form-control" id="m_jenis_barang_id" name="m_jenis_barang_id" aria-required="true" aria-describedby="select-error" required>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-4">Nama Category 2
+                    <span class="required"> * </span>
+                </label>
+                <div class="col-md-8">
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        <select class="form-control" id="m_category_2_id" name="m_category_2_id" aria-required="true" aria-describedby="select-error" required>
                         </select>
                     </div>
                 </div>
@@ -80,6 +92,18 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="control-label col-md-4">Nama Brand
+                    <span class="required"> * </span>
+                </label>
+                <div class="col-md-8">
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        <select class="form-control" id="m_brand_id" name="m_brand_id" aria-required="true" aria-describedby="select-error" required>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="control-label col-md-4">Status Barang
                     <span class="required"> * </span>
                 </label>
@@ -95,6 +119,16 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="control-label col-md-4">Harga Beli
+                <span class="required"> * </span>
+            </label>
+            <div class="col-md-8">
+                <div class="input-icon right">
+                    <i class="fa"></i>
+                    <input type="text" class="form-control num2" name="harga_beli" required /> </div>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="control-label col-md-4">Harga Jual
                 <span class="required"> * </span>
             </label>
@@ -105,13 +139,13 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-md-4">Harga Beli
+            <label class="control-label col-md-4">Harga Jual + Pajak
                 <span class="required"> * </span>
             </label>
             <div class="col-md-8">
                 <div class="input-icon right">
                     <i class="fa"></i>
-                    <input type="text" class="form-control num2" name="harga_beli" required /> </div>
+                    <input type="text" class="form-control num2" name="harga_jual_pajak" required /> </div>
             </div>
         </div>
         <div class="form-actions">
