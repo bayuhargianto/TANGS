@@ -62,6 +62,7 @@
                                             <tr>
                                                 <th> No </th>
                                                 <th> Category 2 </th>
+                                                <th> Category 1 </th>
                                                 <th> Status </th>
                                                 <th> Action </th>
                                             </tr>
@@ -100,6 +101,7 @@
                     "columns": [
                       {"name": "no","orderable": false,"searchable": false,  "className": "text-center", "width": "5%"},
                       {"name": "category_2_nama"},
+                      {"name": "m_jenis_barang_id"},
                       {"name": "category_2_status_aktif"},
                       {"name": "action","orderable": false,"searchable": false, "className": "text-center", "width": "15%"}
                     ],
@@ -162,6 +164,9 @@
                     for(var i=0; i<data.val.length;i++){
                       document.getElementsByName("kode")[0].value = data.val[i].kode;
                       document.getElementsByName("category_2_nama")[0].value = data.val[i].category_2_nama;
+                      for(var j=0; j<data.val[i].m_jenis_barang_id.val2.length; j++){
+                        $("#m_jenis_barang_id").append('<option value="'+data.val[i].m_jenis_barang_id.val2[j].id+'" selected>'+data.val[i].m_jenis_barang_id.val2[j].text+'</option>');
+                      }
                       if (data.val[i].category_2_status_aktif == 'y') {
                         document.getElementById('aktif').selected = true;
                       } else if (data.val[i].category_2_status_aktif == 'n') {

@@ -106,7 +106,8 @@
                                                                     <input type="text" class="form-control" name="penawaran_nomor" readonly /> </div>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group">
+                                                        <input type="hidden" name="penawaran_jenis" value="1">
+                                                        <!-- <div class="form-group">
                                                             <label class="control-label col-md-4">Jenis Penawaran Harga
                                                                 <span class="required"> * </span>
                                                             </label>
@@ -123,7 +124,7 @@
                                                                     </label>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
                                                         <div class="form-group">
                                                             <label class="control-label col-md-4">Tanggal Penawaran Harga
                                                                 <span class="required"> * </span>
@@ -697,19 +698,19 @@
                       document.getElementsByName("penawaran_nomor")[0].value = data.val[i].penawaran_nomor;
                       document.getElementsByName("penawaran_tanggal")[0].value = data.val[i].penawaran_tanggal;
                       document.getElementsByName("penawaran_status")[0].value = data.val[i].penawaran_status;
-                      if (data.val[i].penawaran_jenis == 1) {
-                        document.getElementById('penawaran_jenis1').checked = true;
-                      } else if (data.val[i].penawaran_jenis == 2) {
-                        document.getElementById('penawaran_jenis2').checked = true;
-                      }
+                      // if (data.val[i].penawaran_jenis == 1) {
+                      //   document.getElementById('penawaran_jenis1').checked = true;
+                      // } else if (data.val[i].penawaran_jenis == 2) {
+                      //   document.getElementById('penawaran_jenis2').checked = true;
+                      // }
                       $("#t_permintaan_pembelian_id").select2("destroy");
                       for(var j=0; j<data.val[i].permintaan_pembelian_id.val1.length; j++){
                         $("#t_permintaan_pembelian_id").append('<option value="'+data.val[i].permintaan_pembelian_id.val1[j].id+'" selected>'+data.val[i].permintaan_pembelian_id.val1[j].text+'</option>');
                       }
                       $("#t_permintaan_pembelian_id").select2();
                       $("#t_permintaan_pembelian_id").attr("disabled", "disabled");
-                      document.getElementById('penawaran_jenis1').disabled = true;
-                      document.getElementById('penawaran_jenis2').disabled = true;
+                      // document.getElementById('penawaran_jenis1').disabled = true;
+                      // document.getElementById('penawaran_jenis2').disabled = true;
                       // document.getElementById('btnAddSPP').disabled = true;
                       checkItem();
                     }

@@ -49,7 +49,23 @@ class C_purchase_order_customer extends MY_Controller {
 			// {
 			// 	$this->load->view('layout/V_404', $data);
 			// }
-		}		
+		} else if ($type == 3) {
+			$priv = $this->cekUser(79);
+			$data = array(
+				'aplikasi'		=> $this->app_name,
+				'title_page' 	=> 'Penjualan',
+				'title_page2' 	=> 'Purchase Order Customer',
+				// 'priv_add'		=> $priv['create']
+				);
+			// if($priv['read'] == 1)
+			// {
+				$this->open_page('purchase-order-customer/V_purchase_order_customer3', $data);
+			// }
+			// else
+			// {
+			// 	$this->load->view('layout/V_404', $data);
+			// }
+		}	
 	}
 
 	public function loadData($type){
@@ -60,6 +76,27 @@ class C_purchase_order_customer extends MY_Controller {
 			'start'  => $this->input->get('start'),
 			'finish' => $this->input->get('length')
 		);
+		if($type == 2)
+		{
+			$where['data'][] = array(
+				'column' => 'po_customer_status >=',
+				'param'  => 6
+			);
+		}
+		else if($type == 3)
+		{
+			$where['data'][] = array(
+				'column' => 'po_customer_status >=',
+				'param'  => 4
+			);
+		}
+		else
+		{
+			$where['data'][] = array(
+				'column' => 'po_customer_status >=',
+				'param'  => 1
+			);
+		}
 		//WHERE LIKE
 		$where_like['data'][] = array(
 			'column' => 'cabang_nama, po_customer_nomor, po_customer_tanggal, po_customer_status_nama',
@@ -73,8 +110,8 @@ class C_purchase_order_customer extends MY_Controller {
 		);
 
 		$query_total = $this->mod->select($select, 'v_po_customer');
-		$query_filter = $this->mod->select($select, 'v_po_customer', NULL, NULL, NULL, $where_like, $order);
-		$query = $this->mod->select($select, 'v_po_customer', NULL, NULL, NULL, $where_like, $order, $limit);
+		$query_filter = $this->mod->select($select, 'v_po_customer', NULL, $where, NULL, $where_like, $order);
+		$query = $this->mod->select($select, 'v_po_customer', NULL, $where, NULL, $where_like, $order, $limit);
 
 		$response['data'] = array();
 		if ($query<>false) {
@@ -101,6 +138,18 @@ class C_purchase_order_customer extends MY_Controller {
 					</button>
 					</a>
 					<a href="'.base_url().'Persetujuan/Purchase-Order-Customer/print-PO-Customer/'.$val->po_customer_id.'">
+					<button class="btn green-jungle" type="button" title="Print PO Customer">
+						<i class="icon-printer text-center"></i>
+					</button>
+					</a>';
+				} else if ($type == 3) {
+					$button = '
+					<a href="'.base_url().'Penjualan/Purchase-Order-Customer/Form/'.$val->po_customer_id.'">
+					<button class="btn blue-ebonyclay" type="button" title="Lihat PO Customer">
+						<i class="icon-eye text-center"></i>
+					</button>
+					</a>
+					<a href="'.base_url().'Penjualan/Purchase-Order-Customer/print-PO-Customer/'.$val->po_customer_id.'">
 					<button class="btn green-jungle" type="button" title="Print PO Customer">
 						<i class="icon-printer text-center"></i>
 					</button>
@@ -132,6 +181,7 @@ class C_purchase_order_customer extends MY_Controller {
 	}
 
 	public function getForm1($id = null){
+		$this->check_session();
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Marketing',
@@ -142,6 +192,7 @@ class C_purchase_order_customer extends MY_Controller {
 	}
 
 	public function getForm2($id = null){
+		$this->check_session();
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Persetujuan',
@@ -149,6 +200,17 @@ class C_purchase_order_customer extends MY_Controller {
 			'id'			=> $id
 		);
 		$this->open_page('purchase-order-customer/V_form_purchase_order_customer2', $data);
+	}
+
+	public function getForm3($id = null){
+		$this->check_session();
+		$data = array(
+			'aplikasi'		=> $this->app_name,
+			'title_page' 	=> 'Penjualan',
+			'title_page2' 	=> 'Purchase Order Customer',
+			'id'			=> $id
+		);
+		$this->open_page('purchase-order-customer/V_form_purchase_order_customer3', $data);
 	}
 
 	public function loadDataWhere($type){
@@ -218,19 +280,49 @@ class C_purchase_order_customer extends MY_Controller {
 								$stok_gudang = $val3->stok_gudang_jumlah;
 							}
 						}
+						$satuan_konversi = '';
+						$konversi = "0.00";
+						$konversi = (float) $konversi;
+						if (@$where_konversi['data']) {
+							unset($where_konversi['data']);
+						}
+						if (@$join_satuan['data']) {
+							unset($join_satuan['data']);
+						}
+						$join_satuan['data'][] = array(
+							'table' => 'm_satuan b',
+							'join'	=> 'b.satuan_id = a.konversi_akhirsatuan',
+							'type'	=> 'left'
+						);
+						$where_konversi['data'][] = array(
+							'column' => 'barang_id',
+							'param'	 => $val2->m_barang_id
+						);
+						$queryKonversi = $this->mod->select('a.*, b.*', 'm_konversi a', $join_satuan, $where_konversi);
+						if($queryKonversi)
+						{
+							foreach ($queryKonversi->result() as $val3) {
+								$konversi = $val3->konversi_akhir;
+								$satuan_konversi = $val3->satuan_nama;
+							}
+						}
 						
 						$response['val2'][] = array(
 							'po_customerdet_id'					=> $val2->po_customerdet_id,
 							't_po_customer_id'					=> $val2->t_po_customer_id,
 							'm_barang_id'						=> $val2->m_barang_id,
 							'po_customerdet_qty'				=> $val2->po_customerdet_qty,
-							'stok_gudang_qty'					=> $stok_gudang,
+							'po_customerdet_barang_uraian'		=> $val2->po_customerdet_barang_uraian,
+							// 'stok_gudang_qty'					=> $stok_gudang,
 							'po_customerdet_harga_satuan'		=> $val2->po_customerdet_harga_satuan,
+							'po_customerdet_status'				=> $val2->po_customerdet_status,
 							'po_customerdet_keterangan'			=> $val2->po_customerdet_keterangan,
 							'barang_kode'						=> $val2->barang_kode,
 							'barang_nama'						=> $val2->barang_nama,
 							'barang_uraian'						=> $val2->barang_nama.' ('.$val2->barang_nomor.', '.$val2->jenis_barang_nama.')',
 							'satuan_nama'						=> $val2->satuan_nama,
+							'satuan_konversi'					=> $satuan_konversi,
+							'konversi'							=> $konversi
 						);
 					}
 				}
@@ -279,9 +371,14 @@ class C_purchase_order_customer extends MY_Controller {
 					'po_customer_jasaangkut_jenis'	=> $val->po_customer_jasaangkut_jenis,
 					'po_customer_ekspedisi'			=> $val->po_customer_ekspedisi,
 					'po_customer_jasaangkut_bayar'	=> $val->po_customer_jasaangkut_bayar,
+					'po_customer_file'				=> $val->po_customer_file,
 					'po_customer_catatan'			=> $val->po_customer_catatan,
 					'po_customer_step'				=> $val->po_customer_step,
 					'po_customer_status'			=> $val->po_customer_status,
+					'po_customer_sejarah'			=> $val->po_customer_sejarah,
+					'po_customer_ppn'				=> $val->po_customer_ppn,
+					'po_customer_nama_kontak'		=> $val->po_customer_nama_kontak,
+					'po_customer_tanggal_persetujuan'	=> date("d/m/Y H:i", strtotime($val->po_customer_tanggal_persetujuan))
 				);
 			}
 
@@ -300,7 +397,7 @@ class C_purchase_order_customer extends MY_Controller {
 			$select = '*';
 			$where['data'][] = array(
 				'column' => 'po_customer_status',
-				'param'	 => 5
+				'param'	 => 10
 			);
 			$where_like['data'][] = array(
 				'column' => 'po_customer_nomor',
@@ -477,8 +574,10 @@ class C_purchase_order_customer extends MY_Controller {
 							't_po_customer_id'					=> $val2->t_po_customer_id,
 							'm_barang_id'						=> $val2->m_barang_id,
 							'po_customerdet_qty'				=> $val2->po_customerdet_qty,
+							'po_customerdet_barang_uraian'		=> $val2->po_customerdet_barang_uraian,
 							'stok_gudang_qty'					=> $stok_gudang,
 							'po_customerdet_harga_satuan'		=> $val2->po_customerdet_harga_satuan,
+							'po_customerdet_barang_uraian'		=> $val2->po_customerdet_barang_uraian,
 							'po_customerdet_keterangan'			=> $val2->po_customerdet_keterangan,
 							'barang_kode'						=> $val2->barang_kode,
 							'barang_nama'						=> $val2->barang_nama,
@@ -496,11 +595,32 @@ class C_purchase_order_customer extends MY_Controller {
 				);
 				$query_partner = $this->mod->select('*','m_partner',NULL,$where_partner);
 				foreach ($query_partner->result() as $val2) {
+					// CARI KOTA
+					$hasil7['val2'] = array();
+					if(@$where_kota['data'])
+					{
+						unset($where_kota['data']);
+					}
+					$where_kota['data'][] = array(
+						'column' => 'id',
+						'param'	 => $val2->partner_kota
+					);
+					$query_kota = $this->mod->select('*','regencies',NULL,$where_kota);
+					if ($query_kota) {
+						foreach ($query_kota->result() as $val3) {
+							$hasil7['val3'][] = array(
+								'id' 		=> $val3->id,
+								'text' 		=> $val3->name,
+							);
+						}
+					}
+					// END CARI KOTA
 					$hasil['val2'][] = array(
 						'id' 			=> $val2->partner_id,
 						'text' 			=> $val2->partner_nama,
 						'alamat' 		=> $val2->partner_alamat,
 						'telp' 			=> json_decode($val2->partner_telepon),
+						'kota'			=> $hasil7,
 					);
 				}
 				// END CARI PARTNER
@@ -516,6 +636,10 @@ class C_purchase_order_customer extends MY_Controller {
 					foreach ($query_cabang->result() as $val2) {
 						// CARI KOTA
 						$hasil7['val2'] = array();
+						if(@$where_kota['data'])
+						{
+							unset($where_kota['data']);
+						}
 						$where_kota['data'][] = array(
 							'column' => 'id',
 							'param'	 => $val2->cabang_kota
@@ -540,7 +664,31 @@ class C_purchase_order_customer extends MY_Controller {
 					}
 				}
 				// END CARI CABANG
+				// CARI Sales
+				$hasil2['val2'] = array();
+				$where_sales['data'][] = array(
+					'column' => 'karyawan_id',
+					'param'	 => $val->m_karyawan_id
+				);
+				$query_sales = $this->mod->select('*','m_karyawan',NULL,$where_sales);
+				if ($query_sales) {
+					foreach ($query_sales->result() as $val2) {
+						$hasil2['val2'][] = array(
+							'id' 	=> $val2->karyawan_id,
+							'text' 	=> $val2->karyawan_nama,
+						);
+					}
+				}
+				// END CARI Sales
 				$name = $val->po_customer_nomor;
+				$queryheader = $this->mod->select('*', 'm_header');
+				$header = '';
+				if($queryheader)
+				{
+					foreach ($queryheader->result() as $val3) {
+						$header = $val3->header_text;
+					}
+				}
 				$response['val'][] = array(
 					'kode' 							=> $val->po_customer_id,
 					'cabang'						=> $hasil6,
@@ -557,6 +705,10 @@ class C_purchase_order_customer extends MY_Controller {
 					'po_customer_step'				=> $val->po_customer_step,
 					'po_customer_status'			=> $val->po_customer_status,
 					'po_customer_created_by'		=> $val->po_customer_created_by,
+					'po_customer_ppn'				=> $val->po_customer_ppn,
+					'po_customer_sejarah'			=> $val->po_customer_sejarah,
+					'sales'							=> $hasil2,
+					'header'						=> $header,
 				);
 			}
 		}
@@ -575,20 +727,54 @@ class C_purchase_order_customer extends MY_Controller {
 	// Function Insert & Update
 	public function postData($type){
 		$id = $this->input->post('kode');
+		$config['upload_path']          = './uploads/file_po_customer/';
+        $config['allowed_types']        = 'gif|jpg|png|pdf|doc';
+        $config['max_size']             = 30000;
+
+		$this->load->library('upload', $config);
+
+        if ( ! $this->upload->do_upload('po_customer_file'))
+        {
+                $error = array('error' => $this->upload->display_errors());
+                $response['check'] = $error;
+        }
+        else
+        {
+                $success = array('upload_data' => $this->upload->data());
+                $response['check'] = $success;
+        }
 		$response['id'] 	= $id;
 		$response['test'] 	= $type;
 		$response['step'] 	= $this->input->post('step', TRUE);
 		if (strlen($id)>0) {
 			if ($type == 2) {
-			} else {
-				if (@$this->input->post('step', TRUE) == 2) {
+				if (@$this->input->post('step', TRUE) == 4) {
 					//UPDATE
-					$data = $this->general_post_data(2, $id);
+					$data = $this->general_post_data(3, $id);
 					$where['data'][] = array(
 						'column' => 'po_customer_id',
 						'param'	 => $id
 					);
 					$update = $this->mod->update_data_table($this->tbl, $where, $data);
+					for($i = 0; $i < sizeof($this->input->post('po_customerdet_status3', TRUE)); $i++)
+					{
+						$data_det = $this->general_post_data2(2, null, $i, $this->input->post('po_customerdet_id', TRUE)[$i]);
+						if(@$where_det['data'])
+						{
+							unset($where_det['data']);
+						}
+						$where_det['data'][] = array(
+							'column' => 'po_customerdet_id',
+							'param'  => $this->input->post('po_customerdet_id', TRUE)[$i]
+						);
+						$response['data_det'][] = $data_det;
+						$update_det = $this->mod->update_data_table('t_po_customerdet', $where_det, $data_det);
+						if($update_det->status) {
+							$response['status'] = '200';
+						} else {
+							$response['status'] = '204';
+						}
+					}
 				} else if (@$this->input->post('step', TRUE) == 3) {
 					//UPDATE
 					$data = $this->general_post_data(3, $id);
@@ -598,7 +784,99 @@ class C_purchase_order_customer extends MY_Controller {
 					);
 					$update = $this->mod->update_data_table($this->tbl, $where, $data);
 				}
-				$response['data'] 	= $data;
+				// $response['data'] 	= $data;
+				$response['id'] 	= $id;
+				$response['status'] = '200';
+			} else if($type == 3) {
+				if($this->input->post('po_customer_status', TRUE) == 6)
+				{
+					$data = $this->general_post_data(5, $id);
+					$where['data'][] = array(
+						'column' => 'po_customer_id',
+						'param'	 => $id
+					);
+					$response['data'] = $data;
+					$update = $this->mod->update_data_table($this->tbl, $where, $data);
+				}
+				else
+				{
+					$data = $this->general_post_data(2, $id);
+					$where['data'][] = array(
+						'column' => 'po_customer_id',
+						'param'	 => $id
+					);
+					$response['data'] = $data;
+					$update = $this->mod->update_data_table($this->tbl, $where, $data);
+				}
+				for($i = 0; $i < sizeof($this->input->post('po_customerdet_status', TRUE)); $i++)
+				{
+					$data_det = $this->general_post_data2(2, null, $i, $this->input->post('po_customerdet_id', TRUE)[$i]);
+					if(@$where_det['data'])
+					{
+						unset($where_det['data']);
+					}
+					$where_det['data'][] = array(
+						'column' => 'po_customerdet_id',
+						'param'  => $this->input->post('po_customerdet_id', TRUE)[$i]
+					);
+					$response['data_det'][] = $data_det;
+					$update_det = $this->mod->update_data_table('t_po_customerdet', $where_det, $data_det);
+					if($update_det->status) {
+						$response['status'] = '200';
+					} else {
+						$response['status'] = '204';
+					}
+				}
+			} else {
+				if($this->input->post('po_customer_status', TRUE) <= 5)
+				{
+					if (@$this->input->post('step', TRUE) == 2) {
+						//UPDATE
+						$data = $this->general_post_data(4, $id);
+						$where['data'][] = array(
+							'column' => 'po_customer_id',
+							'param'	 => $id
+						);
+						$update = $this->mod->update_data_table($this->tbl, $where, $data);
+					} else if (@$this->input->post('step', TRUE) == 3) {
+						//UPDATE
+						$data = $this->general_post_data(3, $id);
+						$where['data'][] = array(
+							'column' => 'po_customer_id',
+							'param'	 => $id
+						);
+						$update = $this->mod->update_data_table($this->tbl, $where, $data);
+					} else {
+						$data = $this->general_post_data(4, $id);
+						$where['data'][] = array(
+							'column' => 'po_customer_id',
+							'param'	 => $id
+						);
+						$update = $this->mod->update_data_table($this->tbl, $where, $data);
+						// print_r($data);
+						for($i = 0; $i < sizeof($this->input->post('po_customerdet_id', TRUE)); $i++)
+						{
+							$data_det = $this->general_post_data2(3, null, $i, $this->input->post('po_customerdet_id', TRUE)[$i]);
+							if(@$where_det['data'])
+							{
+								unset($where_det['data']);
+							}
+							$where_det['data'][] = array(
+								'column' => 'po_customerdet_id',
+								'param'  => $this->input->post('po_customerdet_id', TRUE)[$i]
+							);
+							$response['data_det'][] = $data_det;
+							$update_det = $this->mod->update_data_table('t_po_customerdet', $where_det, $data_det);
+							if($update_det->status) {
+								$response['status'] = '200';
+							} else {
+								$response['status'] = '204';
+							}
+						}
+						
+					}
+				}
+				// $response['data'] 	= $data;
 				$response['id'] 	= $id;
 				$response['status'] = '200';
 			}
@@ -610,7 +888,7 @@ class C_purchase_order_customer extends MY_Controller {
 				$response['status'] = '200';
 
 				// INSERT DETAIL BARANG
-				for ($i = 0; $i < sizeof($this->input->post('m_barang_id', TRUE)); $i++) { 
+				for ($i = 0; $i < sizeof($this->input->post('po_customerdet_barang_uraian', TRUE)); $i++) { 
 					$data_det = $this->general_post_data2(1, $insert->output, $i);
 					$insert_det = $this->mod->insert_data_table('t_po_customerdet', NULL, $data_det);
 					if($insert_det->status) {
@@ -659,7 +937,10 @@ class C_purchase_order_customer extends MY_Controller {
 				'po_customer_jasaangkut_jenis'	=> $this->input->post('po_customer_jasaangkut_jenis', TRUE),
 				'po_customer_ekspedisi'			=> $this->input->post('po_customer_ekspedisi', TRUE),
 				'po_customer_jasaangkut_bayar'	=> $this->input->post('po_customer_jasaangkut_bayar', TRUE),
+				'po_customer_file'				=> $this->upload->file_name,
 				'po_customer_catatan'			=> $this->input->post('po_customer_catatan', TRUE),
+				'po_customer_sejarah'			=> $this->input->post('po_customer_sejarah', TRUE),
+				'po_customer_ppn'				=> $this->input->post('po_customer_ppn', TRUE),
 				'po_customer_step' 				=> $this->input->post('step', TRUE),
 				'po_customer_status' 			=> $this->input->post('po_customer_status', TRUE),
 				'po_customer_created_date'		=> date('Y-m-d H:i:s'),
@@ -684,14 +965,57 @@ class C_purchase_order_customer extends MY_Controller {
 				'po_customer_revised' 		=> $rev,
 			);
 		} else if ($type == 4) {
+			if(($namafile = $this->upload->file_name) != "")
+			{
+				$namafile = $this->upload->file_name;
+			}
+			else
+			{
+				$namafile = $this->input->post('po_customer_file_lama', TRUE);
+			}
 			$data = array(
+				'm_partner_id'					=> $this->input->post('m_partner_id', TRUE),
+				'po_customer_kontak_person'		=> $this->input->post('po_customer_kontak_person', TRUE),
+				'po_customer_nama_pelanggan'	=> $this->input->post('po_customer_nama_pelanggan', TRUE),
+				'po_customer_alamat_kirim'		=> $this->input->post('po_customer_alamat_kirim', TRUE),
+				'm_karyawan_id'					=> $this->input->post('m_karyawan_id', TRUE),
+				'po_customer_perjanjian_bayar'	=> $this->input->post('po_customer_perjanjian_bayar', TRUE),
+				'po_customer_jasaangkut_jenis'	=> $this->input->post('po_customer_jasaangkut_jenis', TRUE),
+				'po_customer_ekspedisi'			=> $this->input->post('po_customer_ekspedisi', TRUE),
+				'po_customer_jasaangkut_bayar'	=> $this->input->post('po_customer_jasaangkut_bayar', TRUE),
+				'po_customer_catatan'			=> $this->input->post('po_customer_catatan', TRUE),
+				'po_customer_sejarah'			=> $this->input->post('po_customer_sejarah', TRUE),
+				'po_customer_ppn'				=> $this->input->post('po_customer_ppn', TRUE),
 				'po_customer_status' 		=> $this->input->post('po_customer_status', TRUE),
-				'po_customer_step' 			=> $this->input->post('step', TRUE),
+				'po_customer_file'			=> $namafile,
 				'po_customer_updated_date'	=> date('Y-m-d H:i:s'),
 				'po_customer_updated_by'	=> $this->session->userdata('user_username'),
 				'po_customer_revised' 		=> $rev,
 			);
-		} 
+		} else if ($type == 5) {
+			if($this->input->post('po_customer_nama_kontak', TRUE) !== '')
+			{
+				$datetime = explode(' ', $this->input->post('po_customer_tanggal_persetujuan',TRUE));
+				$arrDate = explode('/', $datetime[0]);
+				$data = array(
+					'po_customer_status' 				=> $this->input->post('po_customer_status',TRUE),
+					'po_customer_nama_kontak' 			=> $this->input->post('po_customer_nama_kontak',TRUE),
+					'po_customer_tanggal_persetujuan' 	=> date('Y-m-d H:i:s', strtotime($arrDate[2]."-".$arrDate[1]."-".$arrDate[0].$datetime[1])),
+					'po_customer_updated_date'			=> date('Y-m-d H:i:s'),
+					'po_customer_updated_by'			=> $this->session->userdata('user_username'),
+					'po_customer_revised' 				=> $rev,
+				);
+			}
+			else
+			{
+				$data = array(
+					'po_customer_status' 				=> $this->input->post('po_customer_status',TRUE),
+					'po_customer_updated_date'			=> date('Y-m-d H:i:s'),
+					'po_customer_updated_by'			=> $this->session->userdata('user_username'),
+					'po_customer_revised' 				=> $rev,
+				);
+			}
+		}
 
 		return $data;
 	}
@@ -711,7 +1035,8 @@ class C_purchase_order_customer extends MY_Controller {
 		if ($type == 1) {
 			$data = array(
 				't_po_customer_id' 				=> $idHdr,
-				'm_barang_id' 					=> $this->input->post('m_barang_id', TRUE)[$seq],
+				// 'm_barang_id' 					=> $this->input->post('m_barang_id', TRUE)[$seq],
+				'po_customerdet_barang_uraian' 	=> $this->input->post('po_customerdet_barang_uraian', TRUE)[$seq],
 				'po_customerdet_qty' 			=> $this->replaceFormatNumber($this->input->post('po_customerdet_qty', TRUE)[$seq]),
 				'po_customerdet_harga_satuan'	=> $this->replaceFormatNumber($this->input->post('po_customerdet_harga_satuan', TRUE)[$seq]),
 				'po_customerdet_keterangan'		=> $this->input->post('po_customerdet_keterangan', TRUE)[$seq],
@@ -719,6 +1044,33 @@ class C_purchase_order_customer extends MY_Controller {
 				'po_customerdet_created_by'		=> $this->session->userdata('user_username'),
 				'po_customerdet_updated_date'	=> date('Y-m-d H:i:s'),
 				'po_customerdet_revised' 		=> 0,
+			);
+		} else if($type == 2) {
+			$data = array(
+				'po_customerdet_keterangan'		=> $this->input->post('po_customerdet_keterangan', TRUE)[$seq],
+				'po_customerdet_status'			=> $this->input->post('po_customerdet_status', TRUE)[$seq],
+				'po_customerdet_updated_date'	=> date('Y-m-d H:i:s'),
+				'po_customerdet_updated_by'		=> $this->session->userdata('user_username'),
+				'po_customerdet_revised' 		=> $rev,
+			);
+		} else if($type == 3) {
+			if($this->input->post('po_customerdet_status', TRUE)[$seq] == 4)
+			{
+				$status = 4; // untuk barang yang sudah disetujui
+			}
+			else
+			{
+				$status = 1; // untuk barang yang di cancel dan revisi (butuh persetujuan lebih lanjut)
+			}
+			$data = array(
+				'po_customerdet_barang_uraian' 	=> $this->input->post('po_customerdet_barang_uraian', TRUE)[$seq],
+				'po_customerdet_qty' 			=> $this->replaceFormatNumber($this->input->post('po_customerdet_qty', TRUE)[$seq]),
+				'po_customerdet_harga_satuan'	=> $this->replaceFormatNumber($this->input->post('po_customerdet_harga_satuan', TRUE)[$seq]),
+				'po_customerdet_keterangan'		=> $this->input->post('po_customerdet_keterangan', TRUE)[$seq],
+				'po_customerdet_status'			=> $status,
+				'po_customerdet_updated_date'	=> date('Y-m-d H:i:s'),
+				'po_customerdet_updated_by'		=> $this->session->userdata('user_username'),
+				'po_customerdet_revised' 		=> $rev,
 			);
 		}
 

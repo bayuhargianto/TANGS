@@ -316,6 +316,8 @@
                                         </td>\
                                     </tr>\
                                 ');
+                                $('.num2').number( true, 2, '.', ',' );
+                                $('.num2').css('text-align', 'right');
                             }
                             sumSubTotal();
                           }
@@ -397,9 +399,10 @@
                                     </td>\
                                 </tr>\
                             ');
-
                             $('.num2').number( true, 2, '.', ',' );
+                            $('.num2').css('text-align', 'right');
                             $('.money').number( true, 2, '.', ',' );
+                            $('.money').css('text-align', 'right');
                         }
                         sumSubTotal();
                     }, 2000);
@@ -410,25 +413,27 @@
             function sumSubTotal() {
                 subTotal = 0;
                 for (var i = 1; i <= itemBarang; i++) {
-                    qty = parseInt(document.getElementById('nota_kreditdet_qty'+i).value.replace(/\./g, ""));
-                    hrg = parseInt(document.getElementById('nota_kreditdet_harga_satuan'+i).value.replace(/\./g, ""));
-                    disc = parseInt(document.getElementById('nota_kreditdet_discount'+i).value.replace(/\./g, ""));
+                    qty = parseFloat(document.getElementById('nota_kreditdet_qty'+i).value.replace(/\,/g, ""));
+                    hrg = parseFloat(document.getElementById('nota_kreditdet_harga_satuan'+i).value.replace(/\,/g, ""));
+                    disc = parseFloat(document.getElementById('nota_kreditdet_discount'+i).value.replace(/\,/g, ""));
                     document.getElementById('totalhargabrg'+i).value = qty * hrg - (qty * hrg * disc / 100);
                     subTotal += qty * hrg - (qty * hrg * disc / 100);
                 }
                 document.getElementById('nota_kredit_netto').value = subTotal;
                 $('.money').number( true, 2, '.', ',' );
+                $('.money').css('text-align', 'right');
                 sumTotal();
             }
 
             function sumTotal() {
-                subTotal = parseInt(document.getElementById('nota_kredit_netto').value.replace(/\./g, ""));
-                potongan = parseInt(document.getElementById('nota_kredit_potongan_harga').value.replace(/\./g, ""));
-                dp = parseInt(document.getElementById('nota_kredit_uang_muka').value.replace(/\./g, ""));
+                subTotal = parseFloat(document.getElementById('nota_kredit_netto').value.replace(/\,/g, ""));
+                potongan = parseFloat(document.getElementById('nota_kredit_potongan_harga').value.replace(/\,/g, ""));
+                dp = parseFloat(document.getElementById('nota_kredit_uang_muka').value.replace(/\,/g, ""));
                 document.getElementById('nota_kredit_total2').value = subTotal - potongan - dp;
-                ppn = parseInt(document.getElementById('nota_kredit_ppn').value.replace(/\./g, ""));
+                ppn = parseFloat(document.getElementById('nota_kredit_ppn').value.replace(/\,/g, ""));
                 document.getElementById('nota_kredit_total').value = (subTotal - potongan - dp) + ((subTotal - potongan - dp) * ppn / 100)
                 $('.money').number( true, 2, '.', ',' );
+                $('.money').css('text-align', 'right');
             }
 
             function editData(id) {
@@ -501,7 +506,9 @@
                         ');
 
                         $('.num2').number( true, 2, '.', ',' );
+                        $('.num2').css('text-align', 'right');
                         $('.money').number( true, 2, '.', ',' );
+                        $('.money').css('text-align', 'right');
                     }
                     setTimeout(function(){
                         sumSubTotal();

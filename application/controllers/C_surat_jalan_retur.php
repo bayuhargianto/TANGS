@@ -139,6 +139,7 @@ class C_surat_jalan_retur extends MY_Controller {
 	}
 
 	public function getForm1($id = null){
+		$this->check_session();
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Penjualan',

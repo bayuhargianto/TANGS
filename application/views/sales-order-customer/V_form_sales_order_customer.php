@@ -156,6 +156,22 @@
                                                     <input type="text" class="form-control" name="karyawan_nama" readonly /> </div>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4">PPN
+                                            </label>
+                                            <div class="col-md-8">
+                                                <div class="input-icon right">
+                                                    <i class="fa"></i>
+                                                    <label class="mt-radio"> Ya
+                                                        <input type="radio" value="1" name="po_customer_ppn" id="po_customer_ppn1" disabled checked />
+                                                        <span></span>
+                                                    </label>
+                                                    <label class="mt-radio"> Tidak
+                                                        <input type="radio" value="2" name="po_customer_ppn" id="po_customer_ppn2" disabled />
+                                                        <span></span>
+                                                    </label> </div>
+                                            </div>
+                                        </div>
                                         <hr>
                                         <div class="form-group" id="tblInsert">
                                             <div class="col-md-12 table-scroll">
@@ -163,42 +179,34 @@
                                                     <thead>
                                                         <tr>
                                                             <th> No </th>
-                                                            <th> Kode Barang </th>
                                                             <th> Uraian dan Spesifikasi Barang </th>
+                                                            <th> Kode Barang </th>
+                                                            <th> Nama Barang </th>
                                                             <th> Qty PO Customer </th>
                                                             <th> Satuan </th>
-                                                            <th> Harga Barang Satuan </th>
+                                                            <th colspan="2"> Harga Barang Satuan </th>
                                                             <th> Harga Barang Total </th>
                                                             <th> Keterangan </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                     </tbody>
-                                                    <!-- <tfoot>
+                                                    <tfoot>
                                                         <tr>
-                                                            <th colspan="6" class="text-right"> Sub Total </th>
+                                                            <th colspan="8" class="text-right"> Uang Muka Diterima </th>
                                                             <th>
-                                                                <input type="text" class="form-control money" id="order_subtotal" name="order_subtotal" value="0" required readonly />
+                                                                <input type="text" class="form-control money" id="so_customer_dp" name="so_customer_dp" value="0" onchange="sumTotal()" required />
                                                             </th>
+                                                            <th></th>
                                                         </tr>
                                                         <tr>
-                                                            <th colspan="6" class="text-right"> PPN % </th>
+                                                            <th colspan="8" class="text-right"> Total </th>
                                                             <th>
-                                                                <div class="input-group">
-                                                                    <input type="text" class="form-control decimal" id="order_ppn" name="order_ppn" value="0" onkeypress="cekPPN(this)" onchange="sumTotal()" required readonly />
-                                                                    <span class="input-group-addon" style="">
-                                                                        % 
-                                                                    </span>
-                                                                </div>
+                                                                <input type="text" class="form-control money" id="so_customer_total" name="so_customer_total" value="0" required readonly />
                                                             </th>
+                                                            <th></th>
                                                         </tr>
-                                                        <tr>
-                                                            <th colspan="6" class="text-right"> Total </th>
-                                                            <th>
-                                                                <input type="text" class="form-control money" id="order_total" name="order_total" value="0" required readonly />
-                                                            </th>
-                                                        </tr>
-                                                    </tfoot> -->
+                                                    </tfoot>
                                                 </table>
                                             </div>
                                         </div>
@@ -250,7 +258,7 @@
                 });
                 $('#t_po_customer_id').css('width', '100%');
                 selectList_POCustomer("#t_po_customer_id");
-                if (document.getElementsByName("kode")[0].value != null) {
+                if (document.getElementsByName("kode")[0].value.length >0) {
                     editData(document.getElementsByName("kode")[0].value);
                 }
             });
@@ -262,7 +270,7 @@
                 }
             }
 
-            function getDetailPOCustomer(id) {
+            function getDetailPOCustomer(id, status = null) {
                 $.ajax({
                   type : "GET",
                   url  : '<?php echo base_url();?>Marketing/Purchase-Order-Customer/loadDataWhere/',
@@ -274,6 +282,43 @@
                         document.getElementsByName("partner_nama")[0].value = data.val[i].po_customer_nama_pelanggan;
                         document.getElementsByName("partner_alamat_kirim")[0].value = data.val[i].po_customer_alamat_kirim;
                         document.getElementsByName("karyawan_nama")[0].value = data.val[i].m_karyawan_id.val2[0].text;
+                        if(data.val[i].po_customer_ppn == 1)
+                        {
+                            document.getElementById('po_customer_ppn1').checked = true;
+                            $("#default-table thead").empty();
+                            $("#default-table thead").append('<tr>\
+                                <th rowspan="2" align="center"> No </th>\
+                                <th rowspan="2" align="center"> Uraian dan Spesifikasi Barang </th>\
+                                <th rowspan="2" align="center"> Kode Barang </th>\
+                                <th rowspan="2" align="center"> Nama Barang </th>\
+                                <th rowspan="2" align="center"> Qty PO Customer </th>\
+                                <th rowspan="2" align="center"> Satuan </th>\
+                                <th colspan="2" align="center"> Harga Barang Satuan </th>\
+                                <th rowspan="2" align="center"> Harga Barang Total </th>\
+                                <th rowspan="2" align="center"> Keterangan </th>\
+                            </tr>\
+                            <tr>\
+                                <th align="center">DPP</th>\
+                                <th align="center">PPN</th>\
+                                <th colspan="2"></th>\
+                            </tr>');
+                        }
+                        else
+                        {
+                            document.getElementById('po_customer_ppn2').checked = true;
+                            $("#default-table thead").empty();
+                            $("#default-table thead").append('<tr>\
+                                <th> No </th>\
+                                <th> Uraian dan Spesifikasi Barang </th>\
+                                <th> Kode Barang </th>\
+                                <th> Nama Barang </th>\
+                                <th> Qty PO Customer </th>\
+                                <th> Satuan </th>\
+                                <th colspan="2"> Harga Barang Satuan </th>\
+                                <th> Harga Barang Total </th>\
+                                <th> Keterangan </th>\
+                            </tr>');
+                        }
                         $.ajax({
                           type : "GET",
                           url  : '<?php echo base_url();?>Master-Data/Partner/loadDataWhere/',
@@ -283,59 +328,141 @@
                             for(var j=0; j<data.val.length;j++){
                                 document.getElementsByName("partner_alamat")[0].value = data.val[j].partner_alamat;
                                 document.getElementsByName("partner_telp")[0].value = data.val[j].partner_telepon2;
-                                var namaCetak = JSON.parse(data.val[j].partner_nama_cetak);
+                                var namaCetak = data.val[j].partner_nama_cetak.val2;
                                 for(var j = 0; j < namaCetak.length; j++)
                                 {
-                                    $("#nama_cetak").append('<option value="'+namaCetak[j]+'">'+namaCetak[j]+'</option>');
+                                    $("#nama_cetak").append('<option value="'+namaCetak[j].text+'">'+namaCetak[j].text+'</option>');
                                 }
                                 $("#nama_cetak").select2();
                             }
                           }
                         });
                     }
+                    itemBarang = data.val2.length;
                     for(var i = 0; i < data.val2.length; i++){
                         // STEP 1
-                        $("#default-table tbody").append('\
-                            <tr>\
-                                <td>\
-                                    '+(i+1)+'\
-                                </td>\
-                                <td>\
-                                    '+data.val2[i].barang_kode+'\
-                                </td>\
-                                <td>\
-                                    '+data.val2[i].barang_uraian+'\
-                                </td>\
-                                <td>\
-                                    <input type="text" class="form-control num2" value="'+data.val2[i].po_customerdet_qty+'" readonly/>\
-                                </td>\
-                                <td>\
-                                    '+data.val2[i].satuan_nama+'\
-                                </td>\
-                                <td>\
-                                    <input type="text" class="form-control money" value="'+data.val2[i].po_customerdet_harga_satuan+'" readonly/>\
-                                </td>\
-                                <td>\
-                                    <input type="text" class="form-control money" value="'+(data.val2[i].po_customerdet_qty * data.val2[i].po_customerdet_harga_satuan)+'" readonly/>\
-                                </td>\
-                                <td>\
-                                    <textarea class="form-control" rows="3" readonly>'+data.val2[i].po_customerdet_keterangan+'</textarea>\
-                                </td>\
-                            </tr>\
-                        ');
-
+                        if(document.getElementById('po_customer_ppn2').checked)
+                        {
+                            $("#default-table tbody").append('\
+                                <tr>\
+                                    <td>\
+                                        '+(i+1)+'\
+                                    </td>\
+                                    <td>\
+                                        '+data.val2[i].po_customerdet_barang_uraian+'\
+                                    </td>\
+                                    <td id="kode'+(i+1)+'">\
+                                    </td>\
+                                    <td>\
+                                        <input type="hidden" class="form-control num2" id="po_customerdet_id'+(i+1)+'" name="po_customerdet_id[]" value="'+data.val2[i].po_customerdet_id+'" />\
+                                        <select id="m_barang_id'+(i+1)+'" class="form-control" name="m_barang_id[]"></select>\
+                                    </td>\
+                                    <td>\
+                                        <input type="text" class="form-control num2" id="orderdet_qty'+(i+1)+'" value="'+data.val2[i].po_customerdet_qty+'" readonly/>\
+                                    </td>\
+                                    <td id="satuan'+(i+1)+'">\
+                                    </td>\
+                                    <td colspan="2">\
+                                        <input type="text" class="form-control money" id="orderdet_harga_satuan'+(i+1)+'" value="'+data.val2[i].po_customerdet_harga_satuan+'" readonly/>\
+                                    </td>\
+                                    <td>\
+                                        <input type="text" class="form-control money" id="orderdet_total'+(i+1)+'" value="'+(data.val2[i].po_customerdet_qty * data.val2[i].po_customerdet_harga_satuan)+'" readonly/>\
+                                    </td>\
+                                    <td>\
+                                        <textarea style="width:300px;" class="form-control" rows="3" readonly>'+data.val2[i].po_customerdet_keterangan+'</textarea>\
+                                    </td>\
+                                </tr>\
+                            ');
+                            // selectList_barang2("#m_barang_id"+(i+1));
+                        }
+                        else
+                        {
+                            var dpp = data.val2[i].po_customerdet_harga_satuan/1.1;
+                            var ppn = data.val2[i].po_customerdet_harga_satuan/1.1*10/100;
+                            $("#default-table tbody").append('\
+                                <tr>\
+                                    <td>\
+                                        '+(i+1)+'\
+                                    </td>\
+                                    <td>\
+                                        '+data.val2[i].po_customerdet_barang_uraian+'\
+                                    </td>\
+                                    <td id="kode'+(i+1)+'">\
+                                    </td>\
+                                    <td>\
+                                        <input type="hidden" class="form-control num2" id="po_customerdet_id'+(i+1)+'" name="po_customerdet_id[]" value="'+data.val2[i].po_customerdet_id+'" />\
+                                        <select id="m_barang_id'+(i+1)+'" class="form-control" style="width:200px;" name="m_barang_id[]" onchange="getKode('+(i+1)+')"></select>\
+                                    </td>\
+                                    <td>\
+                                        <input type="text" class="form-control num2" id="orderdet_qty'+(i+1)+'" value="'+data.val2[i].po_customerdet_qty+'" readonly/>\
+                                    </td>\
+                                    <td id="satuan'+(i+1)+'">\
+                                    </td>\
+                                    <td>\
+                                        <input type="text" class="form-control money" id="orderdet_dpp'+(i+1)+'" value="'+dpp+'" readonly/>\
+                                    </td>\
+                                    <td>\
+                                        <input type="text" class="form-control money" id="orderdet_ppn'+(i+1)+'" value="'+ppn+'" readonly/>\
+                                    </td>\
+                                    <td>\
+                                        <input type="text" class="form-control money" id="orderdet_total'+(i+1)+'" value="'+(data.val2[i].po_customerdet_qty * (dpp+ppn))+'" readonly/>\
+                                    </td>\
+                                    <td>\
+                                        <textarea style="width:300px;" class="form-control" rows="3" readonly>'+data.val2[i].po_customerdet_keterangan+'</textarea>\
+                                    </td>\
+                                </tr>\
+                            ');
+                            
+                            // $('.sel').css('width', '150px');
+                        }
+                        if((document.getElementsByName("kode")[0].value.length > 0) && ((status == 4)|| (status==1)))
+                        {
+                            $("#kode"+(i+1)).html(data.val2[i].barang_kode);
+                            $("#satuan"+(i+1)).html(data.val2[i].satuan_nama);
+                            $("#m_barang_id"+(i+1)).append('<option value="'+data.val2[i].m_barang_id+'">'+data.val2[i].barang_nama+'</option');
+                            // document.getElementById('m_barang_id'+(i+1)).disabled = true;
+                        }
+                        else if((document.getElementsByName("kode")[0].value.length > 0) && ((status != 4)|| (status!=1))) {
+                            $("#kode"+(i+1)).html(data.val2[i].barang_kode);
+                            $("#satuan"+(i+1)).html(data.val2[i].satuan_nama);
+                            $("#m_barang_id"+(i+1)).append('<option value="'+data.val2[i].m_barang_id+'">'+data.val2[i].barang_nama+'</option');
+                            document.getElementById('m_barang_id'+(i+1)).disabled = true;
+                        }
+                        selectList_barang2("#m_barang_id"+(i+1));
                         $('.num2').number( true, 2, '.', ',' );
+                        $('.num2').css('text-align', 'right');
+                        $('.num2').css('width', '150px');
                         $('.money').number( true, 2, '.', ',' );
+                        $('.money').css('text-align', 'right');
+                        $('.money').css('width', '150px');
+                        
                     }
-
+                    sumTotal();
                   }
                 });
             }
 
-            // function sumSubTotal() {
+            function getKode(index) {
+                var id = document.getElementById('m_barang_id'+index).value;
+                $.ajax({
+                    type : "GET",
+                    url  : '<?php echo base_url();?>Master-Data/Barang/loadDataWhere/',
+                    data : "id="+id,
+                    dataType : "json",
+                    success:function(data){
+                        for(var i=0; i< data.val.length; i++)
+                        {
+                            $("#kode"+index).html(data.val[i].barang_kode);
+                            $("#satuan"+index).html(data.val[i].m_satuan_id.val2[0].text);
+                        }
+                    }
+                });
+            }
+
+            // function sumTotal() {
             //     subTotal = 0;
             //     for (var i = 1; i <= itemBarang; i++) {
-            //         qty = document.getElementById('orderdet_qty'+i).value;
+            //         qty = parseFloat(document.getElementById('orderdet_qty'+i).value.re;
             //         hrg = parseInt(document.getElementById('orderdet_harga_satuan'+i).value.replace(/\./g, ""));
             //         document.getElementById('orderdet_total'+i).value = qty * hrg;
             //         subTotal += qty * hrg;
@@ -345,12 +472,20 @@
             //     sumTotal();
             // }
 
-            // function sumTotal() {
-            //     subTotal = parseInt(document.getElementById('order_subtotal').value.replace(/\./g, ""));
-            //     ppn = parseInt(document.getElementById('order_ppn').value.replace(/\./g, ""));
-            //     document.getElementById('order_total').value = subTotal + (subTotal * ppn / 100);
-            //     $('.money').number( true, 2, '.', ',' );
-            // }
+            function sumTotal() {
+                total = 0;
+                for (var i = 1; i <= itemBarang; i++) {
+                    subTotal = parseFloat(document.getElementById('orderdet_total'+i).value.replace(/\,/g, ""));
+                    // ppn = parseInt(document.getElementById('order_ppn').value.replace(/\,/g, ""));
+                    total = total + subTotal;
+                }
+                var dp = parseFloat(document.getElementById('so_customer_dp').value.replace(/\,/g, ""))
+                total = total - dp;
+                document.getElementById('so_customer_total').value = total;
+                $('.money').number( true, 2, '.', ',' );
+                $('.money').css('text-align', 'right');
+                $('.money').css('width', '150px');
+            }
 
             function editData(id, edit = null) {
                 $.ajax({
@@ -360,24 +495,31 @@
                   dataType : "json",
                   success:function(data){
                     for(var i=0; i<data.val.length;i++){
-                        document.getElementById('submit').disabled = true;
-                        document.getElementById('btnAddPOCustomer').disabled = true;
                         $("#KodeSO").attr('hidden', false);
                         document.getElementsByName("kode")[0].value = data.val[i].kode;
                         document.getElementsByName("so_customer_nomor")[0].value = data.val[i].so_customer_nomor;
                         document.getElementsByName("so_customer_tanggal")[0].value = data.val[i].so_customer_tanggal;
-                        document.getElementsByName("so_customer_tanggal")[0].disabled = true;
+                        document.getElementsByName("so_customer_dp")[0].value = data.val[i].so_customer_dp;
                         $("#t_po_customer_id").select2('destroy');
                         for(var j=0; j<data.val[i].t_po_customer_id.val2.length; j++){
-                            getDetailPOCustomer(data.val[i].t_po_customer_id.val2[j].id);
+                            getDetailPOCustomer(data.val[i].t_po_customer_id.val2[j].id, data.val[i].so_customer_status);
                             $("#t_po_customer_id").append('<option value="'+data.val[i].t_po_customer_id.val2[j].id+'" selected>'+data.val[i].t_po_customer_id.val2[j].text+'</option>');
                         }
+                        // $("#nama_cetak").append('<option value="'+data.val[i].so_customer_nama_cetak+'">'+data.val[i].so_customer_nama_cetak+'</option>')
                         $("#t_po_customer_id").select2();
-                        $("#nama_cetak").append('<option value="'+data.val[i].so_customer_nama_cetak+'" selected>'+data.val[i].so_customer_nama_cetak+'</option>');
+                        $("#nama_cetak").select2().select2('val',data.val[i].so_customer_nama_cetak);
+                        // $("#nama_cetak").append('<option value="'+data.val[i].so_customer_nama_cetak+'" selected>'+data.val[i].so_customer_nama_cetak+'</option>');
                         $("#nama_cetak").select2();
-                        document.getElementById("t_po_customer_id").disabled = true;
+                        
                         document.getElementsByName("so_customer_catatan")[0].value = data.val[i].so_customer_catatan;
-                        document.getElementsByName("so_customer_catatan")[0].readOnly = true;
+                        if((data.val[i].so_customer_status == 4) || (data.val[i].so_customer_status == 1)) {} else {
+                            document.getElementById('submit').disabled = true;
+                            document.getElementById('btnAddPOCustomer').disabled = true;
+                            document.getElementsByName("so_customer_tanggal")[0].disabled = true;
+                            document.getElementById("t_po_customer_id").disabled = true;
+                            document.getElementsByName("so_customer_catatan")[0].readOnly = true;
+                            document.getElementsByName("so_customer_dp")[0].readOnly = true;
+                        }
                     }
                   }
                 });

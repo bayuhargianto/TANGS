@@ -122,7 +122,6 @@
       });
 
       $("#login").submit(function(event){
-   
         $.ajax({
           url: '<?php echo base_url();?>Login/doLogin',
           type: 'POST',
@@ -176,7 +175,6 @@
 
         return false;
       });
-
     </script>
     </body>
 

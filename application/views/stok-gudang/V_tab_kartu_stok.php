@@ -49,7 +49,6 @@
             <th> Masuk </th>
             <th> Keluar </th>
             <th> Sisa </th>
-            <th> Nilai </th>
         </tr>
     </thead>
     <tbody>

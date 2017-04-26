@@ -52,23 +52,23 @@
                                                                 <i class="fa fa-check"></i> PO Customer </span>
                                                         </a>
                                                     </li>
-                                                    <li>
+                                                    <!-- <li>
                                                         <a href="#tab2" data-toggle="tab" class="step">
                                                             <span class="number"> 2 </span>
                                                             <span class="desc">
                                                                 <i class="fa fa-check"></i> Cek Stok Barang </span>
                                                         </a>
-                                                    </li>
+                                                    </li> -->
                                                     <li>
                                                         <a href="#tab3" data-toggle="tab" class="step">
-                                                            <span class="number"> 3 </span>
+                                                            <span class="number"> 2 </span>
                                                             <span class="desc">
                                                                 <i class="fa fa-check"></i> Cek Kredit Limit </span>
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#tab4" data-toggle="tab" class="step">
-                                                            <span class="number"> 4 </span>
+                                                            <span class="number"> 3 </span>
                                                             <span class="desc">
                                                                 <i class="fa fa-check"></i> Persetujuan </span>
                                                         </a>
@@ -114,7 +114,7 @@
                                                                 <div class="input-icon right">
                                                                     <i class="fa"></i>
                                                                     <div class="datepicker input-group">
-                                                                        <input name="po_customer_tanggal" type="text" value="<?php echo date('d/m/Y');?>" class="form-control">
+                                                                        <input name="po_customer_tanggal" type="text" value="<?php echo date('d/m/Y');?>" class="form-control" readonly>
                                                                         <span class="input-group-addon" style="">
                                                                             <span class="icon-calendar"></span>
                                                                         </span>
@@ -132,6 +132,23 @@
                                                                     <select class="form-control" id="m_partner_id" name="m_partner_id" aria-required="true" aria-describedby="select-error" onchange="copyCustomer()" required>
                                                                     </select>
                                                                 </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-4">Sejarah Customer
+                                                                <span class="required"> * </span>
+                                                            </label>
+                                                            <div class="col-md-8">
+                                                                <div class="input-icon right">
+                                                                    <i class="fa"></i>
+                                                                    <label class="mt-radio"> Customer Lama
+                                                                        <input type="radio" value="1" name="po_customer_sejarah" id="po_customer_sejarah1" required checked />
+                                                                        <span></span>
+                                                                    </label>
+                                                                    <label class="mt-radio"> Customer Baru
+                                                                        <input type="radio" value="2" name="po_customer_sejarah" id="po_customer_sejarah2" required />
+                                                                        <span></span>
+                                                                    </label> </div>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
@@ -230,14 +247,32 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
+                                                            <label class="control-label col-md-4">PPN
+                                                                <span class="required"> * </span>
+                                                            </label>
+                                                            <div class="col-md-8">
+                                                                <div class="input-icon right">
+                                                                    <i class="fa"></i>
+                                                                    <label class="mt-radio"> Ya
+                                                                        <input type="radio" value="1" name="po_customer_ppn" id="po_customer_ppn1" required checked />
+                                                                        <span></span>
+                                                                    </label>
+                                                                    <label class="mt-radio"> Tidak
+                                                                        <input type="radio" value="2" name="po_customer_ppn" id="po_customer_ppn2" required />
+                                                                        <span></span>
+                                                                    </label> </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
                                                             <label class="control-label col-md-4">Nama Barang
                                                                 <span class="required"> * </span>
                                                             </label>
                                                             <div class="col-md-7">
                                                                 <div class="input-icon right">
                                                                     <i class="fa"></i>
-                                                                    <select class="form-control" id="m_barang_id" name="m_barang_id" aria-required="true" aria-describedby="select-error">
-                                                                    </select>
+                                                                    <!-- <select class="form-control" id="m_barang_id" name="m_barang_id" aria-required="true" aria-describedby="select-error">
+                                                                    </select> -->
+                                                                    <input type="text" class="form-control" id="po_customer_uraian" name="po_customer_uraian">
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-1">
@@ -252,13 +287,12 @@
                                                                     <thead>
                                                                         <tr>
                                                                             <th> No </th>
-                                                                            <th> Kode Barang </th>
                                                                             <th> Uraian dan Spesifikasi Barang </th>
                                                                             <th> Qty PO Customer </th>
-                                                                            <th> Satuan </th>
                                                                             <th> Harga Barang Satuan </th>
                                                                             <th> Harga Barang Total </th>
                                                                             <th> Keterangan </th>
+                                                                            <th> Status </th>
                                                                             <th> Action </th>
                                                                         </tr>
                                                                     </thead>
@@ -284,6 +318,18 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
+                                                            <label class="control-label col-md-4">File PO
+                                                            </label>
+                                                            <div class="col-md-8">
+                                                                <div class="input-icon right">
+                                                                    <div id="namafile"></div>
+                                                                        <i class="fa"></i>
+                                                                        <input type="hidden" class="form-control" name="po_customer_file_lama" />
+                                                                        <input type="file" class="form-control" name="po_customer_file" onchange="setName()" />
+                                                                    </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
                                                             <label class="control-label col-md-4">Catatan
                                                             </label>
                                                             <div class="col-md-8">
@@ -293,7 +339,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="tab-pane" id="tab2">
+                                                    <!-- <div class="tab-pane" id="tab2">
                                                         <div class="form-group" id="tblStokBarang">
                                                             <input type="hidden" name="statusStok" id="statusStok" value="0" />
                                                             <div class="col-md-12 table-scroll">
@@ -309,6 +355,7 @@
                                                                             <th> Harga Barang Satuan </th>
                                                                             <th> Harga Barang Total </th>
                                                                             <th> Keterangan </th>
+                                                                            <th> Status </th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody id="tableTbody2">
@@ -323,7 +370,7 @@
                                                                 -
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                     <div class="tab-pane" id="tab3">
                                                         <input type="hidden" name="statusKredit" id="statusKredit" value="0" />
                                                         <div class="form-group">
@@ -345,7 +392,7 @@
                                                                         <span class="input-group-addon" style="">
                                                                             RP
                                                                         </span>
-                                                                        <input type="text" class="form-control money" id="partner_limit_kredit4 name="partner_limit_kredit4" readonly />
+                                                                        <input type="text" class="form-control money" id="partner_limit_kredit4" name="partner_limit_kredit4" readonly />
                                                                     </div> 
                                                                 </div>
                                                             </div>
@@ -355,6 +402,41 @@
                                                             </label>
                                                             <div class="col-md-8" id="statusstep4">
                                                                 -
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label">Daftar Piutang Belum Lunas</label><br>
+                                                            <div class="col-md-12 table-scroll">
+                                                                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="default-table4">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th> No </th>
+                                                                            <th> Nomor Faktur </th>
+                                                                            <th> Tanggal Jatuh Tempo </th>
+                                                                            <th> Total Pembayaran </th>
+                                                                            <th> Nominal Pembayaran </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="tableTbody4">
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label">Daftar BG/CEK Belum Cair</label><br>
+                                                            <div class="col-md-12 table-scroll">
+                                                                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="default-table5">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th> No </th>
+                                                                            <th> Nomor Giro </th>
+                                                                            <th> Tanggal Jatuh Tempo </th>
+                                                                            <th> Nominal </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="tableTbody5">
+                                                                    </tbody>
+                                                                </table>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -395,6 +477,23 @@
                                                                     <select class="form-control" id="m_partner_id2" name="m_partner_id2" aria-required="true" aria-describedby="select-error" disabled>
                                                                     </select>
                                                                 </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-4">Sejarah Customer
+                                                                <span class="required"> * </span>
+                                                            </label>
+                                                            <div class="col-md-8">
+                                                                <div class="input-icon right">
+                                                                    <i class="fa"></i>
+                                                                    <label class="mt-radio"> Customer Lama
+                                                                        <input type="radio" value="1" name="po_customer_sejarah2" id="po_customer_sejarah12" required checked />
+                                                                        <span></span>
+                                                                    </label>
+                                                                    <label class="mt-radio"> Customer Baru
+                                                                        <input type="radio" value="2" name="po_customer_sejarah2" id="po_customer_sejarah22" required />
+                                                                        <span></span>
+                                                                    </label> </div>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
@@ -492,6 +591,23 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-4">PPN
+                                                                <span class="required"> * </span>
+                                                            </label>
+                                                            <div class="col-md-8">
+                                                                <div class="input-icon right">
+                                                                    <i class="fa"></i>
+                                                                    <label class="mt-radio"> Ya
+                                                                        <input type="radio" value="1" name="po_customer_ppn2" id="po_customer_ppn12" required checked />
+                                                                        <span></span>
+                                                                    </label>
+                                                                    <label class="mt-radio"> Tidak
+                                                                        <input type="radio" value="2" name="po_customer_ppn2" id="po_customer_ppn22" required />
+                                                                        <span></span>
+                                                                    </label> </div>
+                                                            </div>
+                                                        </div>
                                                         <hr>
                                                         <div class="form-group" id="tblInsert2">
                                                             <div class="col-md-12 table-scroll">
@@ -499,13 +615,12 @@
                                                                     <thead>
                                                                         <tr>
                                                                             <th> No </th>
-                                                                            <th> Kode Barang </th>
                                                                             <th> Uraian dan Spesifikasi Barang </th>
                                                                             <th> Qty PO Customer </th>
-                                                                            <th> Satuan </th>
                                                                             <th> Harga Barang Satuan </th>
                                                                             <th> Harga Barang Total </th>
                                                                             <th> Keterangan </th>
+                                                                            <th> Status </th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody id="tableTbody3">
@@ -571,7 +686,7 @@
                                                         <button type="button" class="btn blue-ebonyclay button-next hidden" id="lanjut2" onclick="checkItem()" >
                                                         Lanjut
                                                         </button>
-                                                        <button type="button" class="btn red-thunderbird hidden" id="simpantidaksetuju2" onclick="simpanTidakSetuju2()" disabled>
+                                                        <button type="button" class="btn red-thunderbird hidden" id="simpantidaksetuju2" onclick="simpanTidakSetuju2()">
                                                         Tidak Setuju
                                                         </button>
                                                         <button type="button" class="btn blue-ebonyclay button-next hidden" id="lanjut3" onclick="checkItem()" >
@@ -664,27 +779,48 @@
             }
 
             function addBarang() {
-                var id = document.getElementsByName('m_barang_id')[0].value;
-                if (id.length > 0) {
+                var id = document.getElementsByName('po_customer_uraian')[0].value;
+                // if (id.length > 0) {
                     getDetailBarang(id);
-                }
-                $("#m_barang_id").select2('destroy');
-                $("#m_barang_id").empty();
-                selectList_barang2("#m_barang_id");
+                // }
+                // $("#m_barang_id").select2('destroy');
+                // $("#m_barang_id").empty();
+                // selectList_barang2("#m_barang_id");
                 checkItem();
+            }
+
+            function setName() {
+                document.getElementsByName("po_customer_file_lama")[0].value = document.getElementsByName("po_customer_file")[0].files[0]['name'];
             }
 
             function removeBarang(itemSeq) {
                 var parent = document.getElementById("tableTbody");
                 for (var i = 1; i <= itemBarang; i++) {
                   if (i >= itemSeq && i < itemBarang) {
-                    document.getElementById("td2"+i).innerHTML = document.getElementById("td2"+(i+1)).innerHTML;
-                    document.getElementById("td3"+i).innerHTML = document.getElementById("td3"+(i+1)).innerHTML;
+                    if(document.getElementById("po_customerdet_status"+(i+1)).value != 4)
+                    {
+                        document.getElementById("po_customerdet_qty"+i).readOnly = false;
+                        document.getElementById("po_customerdet_harga_satuan"+i).readOnly = false;
+                        document.getElementById("po_customerdet_keterangan"+i).readOnly = false;
+                    }
+                    else
+                    {
+                        document.getElementById("po_customerdet_qty"+i).readOnly = true;
+                        document.getElementById("po_customerdet_harga_satuan"+i).readOnly = true;
+                        document.getElementById("po_customerdet_keterangan"+i).readOnly = true;
+                    }
+                    // document.getElementById("td2"+i).innerHTML = document.getElementById("td2"+(i+1)).innerHTML;
+                    document.getElementById("po_customerdet_barang_uraian"+i).value = document.getElementById("po_customerdet_barang_uraian"+(i+1)).value;
+                    // document.getElementById("td3"+i).innerHTML = document.getElementById("td3"+(i+1)).innerHTML;
                     document.getElementById("po_customerdet_qty"+i).value = document.getElementById("po_customerdet_qty"+(i+1)).value;
-                    document.getElementById("td5"+i).innerHTML = document.getElementById("td5"+(i+1)).innerHTML;
+                    // document.getElementById("td5"+i).innerHTML = document.getElementById("td5"+(i+1)).innerHTML;
                     document.getElementById("po_customerdet_harga_satuan"+i).value = document.getElementById("po_customerdet_harga_satuan"+(i+1)).value;
                     document.getElementById("po_customerdet_harga_total"+i).value = document.getElementById("po_customerdet_harga_total"+(i+1)).value;
                     document.getElementById("po_customerdet_keterangan"+i).value = document.getElementById("po_customerdet_keterangan"+(i+1)).value;
+                    document.getElementById("po_customerdet_status"+i).value = document.getElementById("po_customerdet_status"+(i+1)).value;
+                    if(document.getElementsByName("kode")[0].value.length > 0) {
+                        document.getElementById("po_customerdet_id"+i).value = document.getElementById("po_customerdet_id"+(i+1)).value;
+                    }
                   };
                 };
                 for (var i = 1; i <= itemBarang; i++) {
@@ -702,63 +838,82 @@
                 itemBarang++;
                 last_num++;
                 $("#jml_itemBarang").val(itemBarang);
-                $.ajax({
-                  type : "GET",
-                  url  : '<?php echo base_url();?>Master-Data/Barang/loadDataWhere/',
-                  data : { id : id },
-                  dataType : "json",
-                  success:function(data){
-                    for(var i = 0; i < data.val.length; i++){
+                // $.ajax({
+                //   type : "GET",
+                //   url  : '<?php echo base_url();?>Master-Data/Barang/loadDataWhere/',
+                //   data : { id : id },
+                //   dataType : "json",
+                //   success:function(data){
+                //     for(var i = 0; i < data.val.length; i++){
+                    // alert(last_num);
                         $("#default-table tbody").append('\
                             <tr id="detail'+last_num+'">\
                                 <td id="td1'+last_num+'">\
                                     '+itemBarang+'\
                                 </td>\
                                 <td id="td2'+last_num+'">\
-                                    <input type="hidden" name="m_barang_id[]" value="'+data.val[i].kode+'"/>\
-                                    <input type="hidden" name="po_customerdet_id[]" value=""/>\
-                                    '+data.val[i].barang_kode+'\
+                                    <input type="text" class="form-control" id="po_customerdet_barang_uraian'+last_num+'" name="po_customerdet_barang_uraian[]" value="'+id+'" required/>\
                                 </td>\
                                 <td id="td3'+last_num+'">\
-                                    '+data.val[i].barang_nama+' ('+data.val[i].barang_nomor+' , '+data.val[i].m_jenis_barang_id.val2[i].text+')\
-                                </td>\
-                                <td id="td4'+last_num+'">\
                                     <input type="text" class="form-control num2" id="po_customerdet_qty'+last_num+'" name="po_customerdet_qty[]" value="0" onchange="checkSubtotal()" required/>\
                                 </td>\
-                                <td id="td5'+last_num+'">\
-                                    '+data.val[i].m_satuan_id.val2[i].text+'\
-                                </td>\
-                                <td id="td6'+last_num+'">\
+                                <td id="td4'+last_num+'">\
                                     <input type="text" class="form-control money" id="po_customerdet_harga_satuan'+last_num+'" name="po_customerdet_harga_satuan[]" value="0" onchange="checkSubtotal()" required/>\
                                 </td>\
-                                <td id="td7'+last_num+'">\
+                                <td id="td5'+last_num+'">\
                                     <input type="text" class="form-control money" id="po_customerdet_harga_total'+last_num+'" name="po_customerdet_harga_total[]" value="0" required readonly/>\
                                 </td>\
-                                <td id="td8'+last_num+'">\
-                                    <textarea class="form-control" rows="3" id="po_customerdet_keterangan'+last_num+'" name="po_customerdet_keterangan[]"></textarea>\
+                                <td id="td6'+last_num+'">\
+                                    <textarea class="form-control" style="width:200px;" rows="3" id="po_customerdet_keterangan'+last_num+'" name="po_customerdet_keterangan[]"></textarea>\
                                 </td>\
-                                <td id="td9'+last_num+'">\
-                                    <button type="button" id="removeBtn'+last_num+'" class="btn red-thunderbird" onclick="removeBarang('+i+')">\
+                                <td id="td7'+last_num+'">\
+                                    <select class="form-control select2" style="width:200px;" id="po_customerdet_status'+last_num+'" name="po_customerdet_status[]" disabled>\
+                                        <option value="1" selected>Menunggu Persetujuan</option>\
+                                        <option value="2">Revisi</option>\
+                                        <option value="3">Cancel</option>\
+                                        <option value="4">Setuju</option>\
+                                    </select>\
+                                </td>\
+                                <td id="td8'+last_num+'">\
+                                    <button type="button" id="removeBtn'+last_num+'" class="btn red-thunderbird" onclick="removeBarang('+last_num+')">\
                                         <i class="icon-close"></i>\
                                     </button>\
                                 </td>\
                             </tr>\
                         ');
-                        $('.num2').number( true, 2, ',', '.' );
-                        $('.money').number( true, 2, ',', '.' );
-                    }
-                  }
-                });
+                        $('#po_customerdet_status').select2();
+                        $('.num2').number( true, 2, '.', ',' );
+                        $('.num2').css('text-align', 'right');
+                        $('.money').number( true, 2, '.', ',' );
+                        $('.money').css('text-align', 'right');
+                    // }
+                  // }
+                // });
             }
 
             function checkSubtotal() {
                 for (var i = 1; i <= last_num; i++) {
-                    qty   = parseInt(document.getElementById('po_customerdet_qty'+i).value.replace(/\./g, ""));
-                    harga = parseInt(document.getElementById('po_customerdet_harga_satuan'+i).value.replace(/\./g, ""));
+                    qty   = parseFloat(document.getElementById('po_customerdet_qty'+i).value.replace(/\,/g, ""));
+                    harga = parseFloat(document.getElementById('po_customerdet_harga_satuan'+i).value.replace(/\,/g, ""));
                     document.getElementById('po_customerdet_harga_total'+i).value = (qty * harga);
+                    $('.num2').number( true, 2, '.', ',' );
+                    $('.num2').css('text-align', 'right');
+                    $('.money').number( true, 2, '.', ',' );
+                    $('.money').css('text-align', 'right');
                 }
-                $('.num2').number( true, 2, ',', '.' );
-                $('.money').number( true, 2, ',', '.' );
+                
+            }
+
+            function setDetail() {
+                for(var i = 0; i < document.querySelectorAll("input[name^='po_customerdet_qty[']").length; i++)
+                {
+                    // document.getElementById("po_customerdet_qty2"+(i+1)).value = document.getElementById("po_customerdet_qty"+(i+1)).value;
+                    // document.getElementById("po_customerdet_harga_satuan2"+(i+1)).value = document.getElementById("po_customerdet_harga_satuan"+(i+1)).value;
+                    // document.getElementById("po_customerdet_harga_total2"+(i+1)).value = document.getElementById("po_customerdet_harga_total"+(i+1)).value;
+                    document.getElementById("po_customerdet_qty3"+(i+1)).value = document.getElementById("po_customerdet_qty"+(i+1)).value;
+                    document.getElementById("po_customerdet_harga_satuan3"+(i+1)).value = document.getElementById("po_customerdet_harga_satuan"+(i+1)).value;
+                    document.getElementById("po_customerdet_harga_total3"+(i+1)).value = document.getElementById("po_customerdet_harga_total"+(i+1)).value;
+                }
             }
 
             function checkItem() {
@@ -782,30 +937,55 @@
                             document.getElementById('lanjut').disabled = true;
                         }   
                     } else if (stepPosition == 2) {
-                        $("#simpandraft").addClass("hidden");
-                        $("#lanjut").addClass("hidden");
-                        $("#simpantidaksetuju").removeClass("hidden");
-                        $("#lanjut2").removeClass("hidden");
-                        $("#simpantidaksetuju2").addClass("hidden");
-                        $("#lanjut3").addClass("hidden");
-                        if (document.getElementById("statusStok").value == 0) {
-                            document.getElementById('simpantidaksetuju').disabled = false;
-                            document.getElementById('lanjut2').disabled = false;   
-                        } else {
-                            document.getElementById('simpantidaksetuju').disabled = true;
-                            document.getElementById('lanjut2').disabled = false;
-                        }
-                    } else if (stepPosition == 3) {
+                        // $("#simpandraft").addClass("hidden");
+                        // $("#lanjut").addClass("hidden");
+                        // $("#simpantidaksetuju").removeClass("hidden");
+                        // $("#lanjut2").removeClass("hidden");
+                        // $("#simpantidaksetuju2").addClass("hidden");
+                        // $("#lanjut3").addClass("hidden");
+                        // if (document.getElementById("statusStok").value == 0) {
+                        //     document.getElementById('simpantidaksetuju').disabled = false;
+                        //     document.getElementById('lanjut2').disabled = false;   
+                        // } else {
+                        //     document.getElementById('simpantidaksetuju').disabled = true;
+                        //     document.getElementById('lanjut2').disabled = false;
+                        // }
                         $("#simpandraft").addClass("hidden");
                         $("#lanjut").addClass("hidden");
                         $("#simpantidaksetuju").addClass("hidden");
                         $("#lanjut2").addClass("hidden");
                         $("#simpantidaksetuju2").removeClass("hidden");
                         $("#lanjut3").removeClass("hidden");
-                        if ($('#partner_limit_kredit4').val() > 0) {
-                            document.getElementById('simpantidaksetuju2').disabled = true;
+                        // if ($('#partner_limit_kredit4').val() > 0) {
+                        //     document.getElementById('simpantidaksetuju2').disabled = true;
+                        // } else {
+                        //     document.getElementById('simpantidaksetuju2').disabled = false;
+                        // }
+                    } else if (stepPosition == 3) {
+                        // $("#simpandraft").addClass("hidden");
+                        // $("#lanjut").addClass("hidden");
+                        // $("#simpantidaksetuju").addClass("hidden");
+                        // $("#lanjut2").addClass("hidden");
+                        // $("#simpantidaksetuju2").removeClass("hidden");
+                        // $("#lanjut3").removeClass("hidden");
+                        // if ($('#partner_limit_kredit4').val() > 0) {
+                        //     document.getElementById('simpantidaksetuju2').disabled = true;
+                        // } else {
+                        //     document.getElementById('simpantidaksetuju2').disabled = false;
+                        // }
+                        $("#simpandraft").addClass("hidden");
+                        $("#lanjut").addClass("hidden");
+                        $("#simpantidaksetuju").addClass("hidden");
+                        $("#lanjut2").addClass("hidden");
+                        $("#simpantidaksetuju2").addClass("hidden");
+                        $("#lanjut3").addClass("hidden");
+                        if (document.getElementById('po_customer_jasaangkut_jenis12').checked == true) {
+                            document.getElementsByName('po_customer_ekspedisi')[0].readOnly = false;
+                            $('#jasaangkut_bayar').removeClass('hidden');
                         } else {
-                            document.getElementById('simpantidaksetuju2').disabled = false;
+                            document.getElementsByName('po_customer_ekspedisi')[0].value = '';
+                            document.getElementsByName('po_customer_ekspedisi')[0].readOnly = true;
+                            $('#jasaangkut_bayar').addClass('hidden');
                         }
                     } else if (stepPosition == 4) {
                         $("#simpandraft").addClass("hidden");
@@ -859,13 +1039,25 @@
                 }
 
                 if (index == 1) {
-                    if (document.getElementsByName('po_customer_status')[0].value <= 1) {
-                        document.getElementsByName('po_customer_status')[0].value = 2;
+                    if (document.getElementsByName('po_customer_status')[0].value <= 5) {
+                        // for(var i = 0; i < document.querySelectorAll("select[name^='po_customerdet_status[']").length; i++)
+                        // {
+                        //     document.getElementById("po_customerdet_status"+(i+1)).disabled = false;
+                        // }
+                        document.getElementsByName('po_customer_status')[0].value = 3;
+                        var formData = new FormData($( "#formAdd" )[0]);
+                        $.each($("input[type='file']")[0].files, function(i, file) {
+                            formData.append('file', file);
+                        });
+                        alert("masuk");
+                        formData.append('step', index);
                         $.ajax({
                           type : "POST",
                           url  : $base_url+''+$("#url").val(),
-                          data : $( "#formAdd" ).serialize()+"&step="+index,
+                          data : formData,
                           dataType : "json",
+                          processData: false,
+                          contentType: false,
                           success:function(data){
                             if(data.status=='200'){
                                 document.getElementsByName("kode")[0].value = data.id;
@@ -889,13 +1081,35 @@
                                     document.getElementById("po_customerdet_harga_satuan"+i).readOnly = true;
                                     document.getElementById("po_customerdet_harga_total"+i).readOnly = true;
                                     document.getElementById("po_customerdet_keterangan"+i).readOnly = true;
-                                    document.getElementById("removeBtn"+i).disabled = true;
+                                    document.getElementById("po_customerdet_status"+i).disabled = true;
+                                    if(document.getElementsByName("kode")[0].value == null)
+                                    {
+                                        document.getElementById("removeBtn"+i).disabled = true;
+                                    }
+                                    else
+                                    {
+                                        if(document.getElementById("po_customerdet_status"+i).value < 4)
+                                        {
+                                            document.getElementById("po_customerdet_qty"+i).readOnly = false;
+                                            document.getElementById("po_customerdet_harga_satuan"+i).readOnly = false;
+                                            document.getElementById("po_customerdet_harga_total"+i).readOnly = true;
+                                            document.getElementById("po_customerdet_keterangan"+i).readOnly = false;
+                                            document.getElementById("po_customerdet_status"+i).disabled = true;
+                                        }
+                                    }
                                 }
-                                if (document.getElementById("statusStok").value == 0) {
-                                    getDetailStok(document.getElementsByName("kode")[0].value);
-                                }
+                                // if (document.getElementById("statusStok").value == 0) {
+                                //     getDetailStok(document.getElementsByName("kode")[0].value);
+                                // }
                                 getLimitKredit(document.getElementsByName("m_partner_id")[0].value);
-                                getDetailPersetujuan(document.getElementsByName("kode")[0].value);
+                                // if(document.getElementsByName("kode")[0].value.length > 0)
+                                // {
+                                    
+                                // }
+                                // else
+                                // {
+                                    getDetailPersetujuan(document.getElementsByName("kode")[0].value);
+                                // }
                             } else if (data.status=='204') {
                             }
                           }
@@ -903,28 +1117,33 @@
                         checkItem();   
                     }
                 } else if (index == 2) {
-                    if (document.getElementById("statusStok").value == 0) {
-                        document.getElementsByName('po_customer_status')[0].value = 3;
-                        $.ajax({
-                          type : "POST",
-                          url  : $base_url+''+$("#url").val(),
-                          data : $( "#formAdd" ).serialize()+"&step="+index,
-                          dataType : "json",
-                          success:function(data){
-                            // if(data.status=='200'){
-                            //     document.getElementById("statusstep2").innerHTML = '<span class="label bg-green-jungle bg-font-green-jungle"> Diterima </span>';
-                            //     document.getElementById('simpantidaksetuju').disabled = true;
-                            //     document.getElementById("statusStok").value = 1;
-                            //     document.getElementById("statusstep3").innerHTML = '<span class="label bg-yellow-lemon bg-font-yellow-lemon"> Menunggu Persetujuan </span>';
-                            // } else if (data.status=='204') {
-                            // }
-                          }
-                        });
-                        checkItem();
-                    }
-                } else if (index == 3) {
-                    if (document.getElementById("statusKredit").value == 0) {
-                        document.getElementsByName('po_customer_status')[0].value = 4;
+                    // if (document.getElementById("statusStok").value == 0) {
+                    //     if(document.getElementsByName('po_customer_status')[0].value <= 5)
+                    //     {
+                    //         document.getElementsByName('po_customer_status')[0].value = 3;
+                    //     }
+                    //     $.ajax({
+                    //       type : "POST",
+                    //       url  : $base_url+''+$("#url").val(),
+                    //       data : $( "#formAdd" ).serialize()+"&step="+index,
+                    //       dataType : "json",
+                    //       success:function(data){
+                    //         // if(data.status=='200'){
+                    //         //     document.getElementById("statusstep2").innerHTML = '<span class="label bg-green-jungle bg-font-green-jungle"> Diterima </span>';
+                    //         //     document.getElementById('simpantidaksetuju').disabled = true;
+                    //         //     document.getElementById("statusStok").value = 1;
+                    //         //     document.getElementById("statusstep3").innerHTML = '<span class="label bg-yellow-lemon bg-font-yellow-lemon"> Menunggu Persetujuan </span>';
+                    //         // } else if (data.status=='204') {
+                    //         // }
+                    //       }
+                    //     });
+                    //     checkItem();
+                    // }
+                    // if (document.getElementById("statusKredit").value == 0) {
+                        if(document.getElementsByName('po_customer_status')[0].value <= 5)
+                        {
+                            document.getElementsByName('po_customer_status')[0].value = 4;
+                        }
                         $.ajax({
                           type : "POST",
                           url  : $base_url+''+$("#url").val(),
@@ -932,16 +1151,49 @@
                           dataType : "json",
                           success:function(data){
                             if(data.status=='200'){
-                                document.getElementById("statusstep2").innerHTML = '<span class="label bg-green-jungle bg-font-green-jungle"> Diterima </span>';
-                                document.getElementById('simpantidaksetuju').disabled = true;
-                                document.getElementById("statusStok").value = 1;
-                                document.getElementById("statusstep3").innerHTML = '<span class="label bg-yellow-lemon bg-font-yellow-lemon"> Menunggu Persetujuan </span>';
+                                if(document.getElementsByName('po_customer_status')[0].value <= 5)
+                                {
+                                    // document.getElementById("statusstep2").innerHTML = '<span class="label bg-green-jungle bg-font-green-jungle"> Diterima </span>';
+                                    // document.getElementById('simpantidaksetuju').disabled = true;
+                                    // document.getElementById("statusStok").value = 1;
+                                    document.getElementById("statusstep3").innerHTML = '<span class="label bg-yellow-lemon bg-font-yellow-lemon"> Menunggu Persetujuan </span>';
+                                }
+                                
                             } else if (data.status=='204') {
                             }
                           }
                         });
                         checkItem();
-                    }
+                    // }
+                } else if (index == 3) {
+                    // if (document.getElementById("statusKredit").value == 0) {
+                    //     if(document.getElementsByName('po_customer_status')[0].value <= 5)
+                    //     {
+                    //         document.getElementsByName('po_customer_status')[0].value = 4;
+                    //     }
+                    //     $.ajax({
+                    //       type : "POST",
+                    //       url  : $base_url+''+$("#url").val(),
+                    //       data : $( "#formAdd" ).serialize()+"&step="+index,
+                    //       dataType : "json",
+                    //       success:function(data){
+                    //         if(data.status=='200'){
+                    //             if(document.getElementsByName('po_customer_status')[0].value <= 5)
+                    //             {
+                    //                 document.getElementById("statusstep2").innerHTML = '<span class="label bg-green-jungle bg-font-green-jungle"> Diterima </span>';
+                    //                 document.getElementById('simpantidaksetuju').disabled = true;
+                    //                 document.getElementById("statusStok").value = 1;
+                    //                 document.getElementById("statusstep3").innerHTML = '<span class="label bg-yellow-lemon bg-font-yellow-lemon"> Menunggu Persetujuan </span>';
+                    //             }
+                                
+                    //         } else if (data.status=='204') {
+                    //         }
+                    //       }
+                    //     });
+                    //     checkItem();
+                    // }
+                    alert_success_save();
+                    window.location.href = $base_url+''+$("#url_data").val();
                 } else if (index == 4) {
                     alert_success_save();
                     window.location.href = $base_url+''+$("#url_data").val();
@@ -950,10 +1202,16 @@
 
             function simpanDraft() {
                 document.getElementsByName('po_customer_status')[0].value = 1;
+                var formData = new FormData($( "#formAdd" )[0]);
+                $.each($("input[type='file']")[0].files, function(i, file) {
+                    formData.append('file', file);
+                });
+                alert("masuk");
+                formData.append('step', '1');
                 $.ajax({
                   type : "POST",
                   url  : $base_url+''+$("#url").val(),
-                  data : $( "#formAdd" ).serialize()+"&step=1",
+                  data : formData,
                   dataType : "json",
                   success:function(data){
                     if(data.status=='200'){
@@ -1026,51 +1284,61 @@
                 });
             }
 
-            function getDetailStok(id) {
-                $.ajax({
-                  type : "GET",
-                  url  : '<?php echo base_url();?>Marketing/Purchase-Order-Customer/loadDataWhere/',
-                  data : { id : id },
-                  dataType : "json",
-                  success:function(data){
-                    for(var i = 0; i < data.val2.length; i++){
-                        $("#default-table2 tbody").append('\
-                            <tr>\
-                                <td>\
-                                    '+(i+1)+'\
-                                </td>\
-                                <td>\
-                                    '+data.val2[i].barang_kode+'\
-                                </td>\
-                                <td>\
-                                    '+data.val2[i].barang_uraian+'\
-                                </td>\
-                                <td>\
-                                    <input type="text" class="form-control num2" value="'+data.val2[i].po_customerdet_qty+'" readonly/>\
-                                </td>\
-                                <td>\
-                                    <input type="text" class="form-control num2" value="'+data.val2[i].stok_gudang_qty+'" readonly/>\
-                                </td>\
-                                <td>\
-                                    '+data.val2[i].satuan_nama+'\
-                                </td>\
-                                <td>\
-                                    <input type="text" class="form-control money" value="'+data.val2[i].po_customerdet_harga_satuan+'" readonly/>\
-                                </td>\
-                                <td>\
-                                    <input type="text" class="form-control money" value="'+(data.val2[i].po_customerdet_qty * data.val2[i].po_customerdet_harga_satuan)+'" readonly/>\
-                                </td>\
-                                <td>\
-                                    <textarea class="form-control" rows="3" readonly>'+data.val2[i].satuan_nama+'</textarea>\
-                                </td>\
-                            </tr>\
-                        ');
-                        $('.num2').number( true, 2, ',', '.' );
-                        $('.money').number( true, 2, ',', '.' );
-                    }
-                  }
-                });
-            }
+            // function getDetailStok(id) {
+            //     $.ajax({
+            //       type : "GET",
+            //       url  : '<?php echo base_url();?>Marketing/Purchase-Order-Customer/loadDataWhere/',
+            //       data : { id : id },
+            //       dataType : "json",
+            //       success:function(data){
+            //         for(var i = 0; i < data.val2.length; i++){
+            //             $("#default-table2 tbody").append('\
+            //                 <tr>\
+            //                     <td>\
+            //                         '+(i+1)+'\
+            //                     </td>\
+            //                     <td>\
+            //                         '+data.val2[i].barang_kode+'\
+            //                     </td>\
+            //                     <td>\
+            //                         '+data.val2[i].barang_uraian+'\
+            //                     </td>\
+            //                     <td>\
+            //                         <input type="text" class="form-control num2" value="'+data.val2[i].po_customerdet_qty+'" readonly/>\
+            //                     </td>\
+            //                     <td>\
+            //                         <input type="text" class="form-control num2" value="'+data.val2[i].stok_gudang_qty+'" readonly/>\
+            //                     </td>\
+            //                     <td>\
+            //                         '+data.val2[i].satuan_nama+'\
+            //                     </td>\
+            //                     <td>\
+            //                         <input type="text" class="form-control money" value="'+data.val2[i].po_customerdet_harga_satuan+'" readonly/>\
+            //                     </td>\
+            //                     <td>\
+            //                         <input type="text" class="form-control money" value="'+(data.val2[i].po_customerdet_qty * data.val2[i].po_customerdet_harga_satuan)+'" readonly/>\
+            //                     </td>\
+            //                     <td>\
+            //                         <textarea class="form-control" rows="3" readonly>'+data.val2[i].satuan_nama+'</textarea>\
+            //                     </td>\
+            //                     <td>\
+            //                         <select class="form-control select2" style="width:200px;" id="po_customerdet_status'+last_num+'" name="po_customerdet_status[]" disabled>\
+            //                             <option value="1" selected>Menunggu Persetujuan</option>\
+            //                             <option value="2">Revisi</option>\
+            //                             <option value="3">Cancel</option>\
+            //                             <option value="4">Setuju</option>\
+            //                         </select>\
+            //                     </td>\
+            //                 </tr>\
+            //             ');
+            //             $('.num2').number( true, 2, '.', ',' );
+            //             $('.num2').css('text-align', 'right');
+            //             $('.money').number( true, 2, '.', ',' );
+            //             $('.money').css('text-align', 'right');
+            //         }
+            //       }
+            //     });
+            // }
 
             function getLimitKredit(id) {
                 $.ajax({
@@ -1087,13 +1355,55 @@
                             } else {
                                 document.getElementById("statusstep4").innerHTML = '<span class="label bg-red-thunderbird bg-font-red-thunderbird"> Kredit melebihi limit </span>';
                             }
-                            $('.money').number( true, 2, ',', '.' );
+                            $('.money').number( true, 2, '.', ',' );
+                            $('.money').css('text-align', 'right');
+                        }
+                    }
+                });
+                $("#default-table4 tbody").empty();
+                $("#default-table5 tbody").empty();
+                $.ajax({
+                    type : "GET",
+                    url  : '<?php echo base_url();?>Penjualan/Faktur-Penjualan/loadDataPembayaran2/',
+                    data : {idcus : id },
+                    dataType : "json",
+                    success:function(data){
+                        for(var j=0; j<data.items.length;j++){
+                            $("#default-table4 tbody").append('<tr>\
+                                    <td>'+(j+1)+'</td>\
+                                    <td><span>'+data.items[j].faktur_penjualan_nomor+'</span></td>\
+                                    <td>'+data.items[j].faktur_penjualan_jatuh_tempo+'</td>\
+                                    <td>'+data.items[j].faktur_penjualan_total+'</td>\
+                                    <td>'+data.items[j].faktur_penjualan_nominal_pembayaran+'</td>\
+                                </tr>');
+                        }
+                    }
+                });
+                itemBG = 0;
+                $.ajax({
+                    type : "GET",
+                    url  : '<?php echo base_url();?>Accounting/Bukti-BG-Cek/loadDataWhere2/',
+                    data : {id : id },
+                    dataType : "json",
+                    success:function(data){
+                        for(var j=0; j<data.val3.length;j++){
+                            if(data.val3[j].bukti_bgcek_girodet_status == '1')
+                            {
+                                itemBG++;
+                                $("#default-table5 tbody").append('<tr>\
+                                    <td>'+itemBG+'</td>\
+                                    <td><span>'+data.val3[j].bukti_bgcek_girodet_nomor+'</span></td>\
+                                    <td>'+data.val3[j].bukti_bgcek_girodet_jatuh_tempo+'</td>\
+                                    <td align="right">'+data.val3[j].bukti_bgcek_girodet_jumlah+'</td>\
+                                </tr>');
+                            }
                         }
                     }
                 });
             }
 
             function getDetailPersetujuan(id) {
+                $("#default-table3 tbody").empty();
                 $.ajax({
                   type : "GET",
                   url  : '<?php echo base_url();?>Marketing/Purchase-Order-Customer/loadDataWhere/',
@@ -1141,16 +1451,10 @@
                                     '+(i+1)+'\
                                 </td>\
                                 <td>\
-                                    '+data.val2[i].barang_kode+'\
-                                </td>\
-                                <td>\
-                                    '+data.val2[i].barang_uraian+'\
+                                   <input type="text" class="form-control" id="po_customerdet_barang_uraian'+(i+1)+'" name="po_customerdet_barang_uraian[]" value="'+data.val2[i].po_customerdet_barang_uraian+'" required/>\
                                 </td>\
                                 <td>\
                                     <input type="text" class="form-control num2" value="'+data.val2[i].po_customerdet_qty+'" readonly/>\
-                                </td>\
-                                <td>\
-                                    '+data.val2[i].satuan_nama+'\
                                 </td>\
                                 <td>\
                                     <input type="text" class="form-control money" value="'+data.val2[i].po_customerdet_harga_satuan+'" readonly/>\
@@ -1159,12 +1463,22 @@
                                     <input type="text" class="form-control money" value="'+(data.val2[i].po_customerdet_qty * data.val2[i].po_customerdet_harga_satuan)+'" readonly/>\
                                 </td>\
                                 <td>\
-                                    <textarea class="form-control" rows="3" readonly>'+data.val2[i].satuan_nama+'</textarea>\
+                                    <textarea class="form-control" rows="3" readonly>'+data.val2[i].po_customerdet_keterangan+'</textarea>\
+                                </td>\
+                                <td>\
+                                    <select class="form-control select2" style="width:200px;" id="po_customerdet_status'+last_num+'" name="po_customerdet_status[]" disabled>\
+                                        <option value="1" selected>Menunggu Persetujuan</option>\
+                                        <option value="2">Revisi</option>\
+                                        <option value="3">Cancel</option>\
+                                        <option value="4">Setuju</option>\
+                                    </select>\
                                 </td>\
                             </tr>\
                         ');
-                        $('.num2').number( true, 2, ',', '.' );
-                        $('.money').number( true, 2, ',', '.' );
+                        $('.num2').number( true, 2, '.', ',' );
+                        $('.num2').css('text-align', 'right');
+                        $('.money').number( true, 2, '.', ',' );
+                        $('.money').css('text-align', 'right');
                     }
                   }
                 });
@@ -1180,25 +1494,47 @@
                     for(var i = 0; i < data.val.length; i++){
                         $("#KodePO").attr('hidden', false);
                         // STEP 1
-                        document.getElementsByName('po_customer_status').value = data.val[i].po_customer_status;
+                        document.getElementsByName('po_customer_status')[0].value = data.val[i].po_customer_status;
                         if (data.val[i].po_customer_status > 2) {
-                            document.getElementById('simpan').disabled = true;
-                            document.getElementsByName('statusStok')[0].value = 1;
+                            // document.getElementById('simpan').disabled = true;
+                            // document.getElementsByName('statusStok')[0].value = 1;
                             document.getElementById('btnAddBarang').disabled = true;
-                            if (data.val[i].po_customer_status != 7) {
-                                document.getElementById("statusstep2").innerHTML = '<span class="label bg-green-jungle bg-font-green-jungle"> Diterima </span>';
-                            } else {
-                                document.getElementById("statusstep2").innerHTML = '<span class="label bg-red-thunderbird bg-font-red-thunderbird"> Tidak Diterima </span>';
-                            }
+                            // if (data.val[i].po_customer_status != 8) {
+                            //     document.getElementById("statusstep2").innerHTML = '<span class="label bg-green-jungle bg-font-green-jungle"> Diterima </span>';
+                            // } else {
+                            //     document.getElementById("statusstep2").innerHTML = '<span class="label bg-red-thunderbird bg-font-red-thunderbird"> Tidak Diterima </span>';
+                            // }
                             if (data.val[i].po_customer_status == 5) {
                                 document.getElementById("statusstep3").innerHTML = '<span class="label bg-yellow-lemon bg-font-yellow-lemon"> Menunggu Persetujuan </span>';
                             } else if (data.val[i].po_customer_status == 4) {
                                 document.getElementById("statusstep3").innerHTML = '<span class="label bg-green-jungle bg-font-green-jungle"> Diterima </span>';
+                            } else if (data.val[i].po_customer_status == 8) {
+                                document.getElementById("statusstep3").innerHTML = '<span class="label bg-red-thunderbird bg-font-red-thunderbird"> PO dicancel </span>';
                             }
                             if (data.val[i].po_customer_status >= 3 && data.val[i].po_customer_status <= 6) {
                                 document.getElementById("statusKredit").value = 1;
                             }
                         }
+                        if(data.val[i].po_customer_status > 5) {
+                            document.getElementById("m_partner_id").disabled = true;
+                            document.getElementsByName("po_customer_alamat_kirim")[0].disabled = true;
+                            document.getElementsByName("po_customer_kontak_person")[0].disabled = true;
+                            document.getElementsByName("po_customer_nama_pelanggan")[0].disabled = true;
+                            document.getElementById("po_customer_ppn1").disabled = true;
+                            document.getElementById("po_customer_ppn2").disabled = true;
+                            document.getElementById("po_customer_sejarah1").disabled = true;
+                            document.getElementById("po_customer_sejarah2").disabled = true;
+                            document.getElementById("m_karyawan_id").disabled = true;
+                            document.getElementById("po_customer_jasaangkut_jenis1").disabled = true;
+                            document.getElementById("po_customer_jasaangkut_jenis2").disabled = true;
+                            document.getElementById("po_customer_jasaangkut_bayar1").disabled = true;
+                            document.getElementById("po_customer_jasaangkut_bayar2").disabled = true;
+                            document.getElementsByName("po_customer_perjanjian_bayar")[0].disabled = true;
+                            document.getElementsByName("po_customer_catatan")[0].disabled = true;
+                        }
+                        document.getElementById('namafile').innerHTML = 'Nama File : <a href="<?php echo base_url();?>uploads/file_po_customer/'+ data.val[i].po_customer_file +'" download>' + data.val[i].po_customer_file + '</a>';
+                        document.getElementsByName("po_customer_file_lama")[0].value = data.val[i].po_customer_file;
+
                         document.getElementsByName("po_customer_nomor")[0].value = data.val[i].po_customer_nomor;
                         document.getElementsByName("po_customer_tanggal")[0].value = data.val[i].po_customer_tanggal;
                         document.getElementsByName("po_customer_tanggal")[0].disabled = true;
@@ -1209,42 +1545,48 @@
                             getLimitKredit(data.val[i].m_partner_id.val2[j].id);
                         }
                         $("#m_partner_id").select2();
-                        document.getElementById("m_partner_id").disabled = true;
+                        
                         document.getElementsByName("po_customer_kontak_person")[0].value = data.val[i].po_customer_kontak_person;
                         document.getElementsByName("po_customer_nama_pelanggan")[0].value = data.val[i].po_customer_nama_pelanggan;
                         document.getElementsByName("po_customer_alamat_kirim")[0].value = data.val[i].po_customer_alamat_kirim;
-                        document.getElementsByName("po_customer_alamat_kirim")[0].disabled = true;
-                        document.getElementsByName("po_customer_kontak_person")[0].disabled = true;
-                        document.getElementsByName("po_customer_nama_pelanggan")[0].disabled = true;
+                       
                         $("#m_karyawan_id").select2('destroy');
                         for(var j=0; j<data.val[i].m_karyawan_id.val2.length; j++){
                             $("#m_karyawan_id").append('<option value="'+data.val[i].m_karyawan_id.val2[j].id+'" selected>'+data.val[i].m_karyawan_id.val2[j].text+'</option>');
                             copyCustomer2(data.val[i].m_karyawan_id.val2[j].id);
                         }
                         $("#m_karyawan_id").select2();
-                        document.getElementById("m_karyawan_id").disabled = true;
+                        
                         if (data.val[i].po_customer_jasaangkut_jenis == 1) {
                             document.getElementById("po_customer_jasaangkut_jenis1").checked = true;
                             $('#jasaangkut_bayar').removeClass('hidden');
                         } else {
                             document.getElementById("po_customer_jasaangkut_jenis2").checked = true;
                             $('#jasaangkut_bayar').addClass('hidden');
+                            document.getElementsByName("po_customer_ekspedisi")[0].disabled = true;
                         }
-                        document.getElementById("po_customer_jasaangkut_jenis1").disabled = true;
-                        document.getElementById("po_customer_jasaangkut_jenis2").disabled = true;
+                        if (data.val[i].po_customer_sejarah == 1) {
+                            document.getElementById("po_customer_sejarah1").checked = true;
+                        } else {
+                            document.getElementById("po_customer_sejarah2").checked = true;
+                        }
+                        if (data.val[i].po_customer_ppn == 1) {
+                            document.getElementById("po_customer_ppn1").checked = true;
+                        } else {
+                            document.getElementById("po_customer_ppn2").checked = true;
+                        }
                         document.getElementsByName("po_customer_ekspedisi")[0].value = data.val[i].po_customer_ekspedisi;
-                        document.getElementsByName("po_customer_ekspedisi")[0].disabled = true;
+                        
                         if (data.val[i].po_customer_jasaangkut_bayar == 1) {
                             document.getElementById("po_customer_jasaangkut_bayar1").checked = true;
                         } else {
                             document.getElementById("po_customer_jasaangkut_bayar2").checked = true;
                         }
-                        document.getElementById("po_customer_jasaangkut_bayar1").disabled = true;
-                        document.getElementById("po_customer_jasaangkut_bayar2").disabled = true;
+                        
                         document.getElementsByName("po_customer_perjanjian_bayar")[0].value = data.val[i].po_customer_perjanjian_bayar;
-                        document.getElementsByName("po_customer_perjanjian_bayar")[0].disabled = true;
+                        
                         document.getElementsByName("po_customer_catatan")[0].value = data.val[i].po_customer_catatan;
-                        document.getElementsByName("po_customer_catatan")[0].disabled = true;
+                        
 
                         // STEP 3
                         document.getElementById("po_customer_nomor2").value = data.val[i].po_customer_nomor;
@@ -1276,113 +1618,82 @@
                         } else {
                             document.getElementById("po_customer_jasaangkut_bayar22").checked = true;
                         }
+                        if (data.val[i].po_customer_sejarah == 1) {
+                            document.getElementById("po_customer_sejarah12").checked = true;
+                        } else {
+                            document.getElementById("po_customer_sejarah22").checked = true;
+                        }
+                        if (data.val[i].po_customer_ppn == 1) {
+                            document.getElementById("po_customer_ppn12").checked = true;
+                        } else {
+                            document.getElementById("po_customer_ppn22").checked = true;
+                        }
                         document.getElementById("po_customer_perjanjian_bayar2").value = data.val[i].po_customer_perjanjian_bayar;
                         document.getElementById("po_customer_catatan2").value = data.val[i].po_customer_catatan;
                     }
 
                     itemBarang = data.val2.length;
+                    last_num = data.val2.length;
                     for(var i = 0; i < data.val2.length; i++){
-
+                        var read = '';
+                        if(data.val2[i].po_customerdet_status == 4)
+                        {
+                            read = 'readonly';
+                        }
+                        else
+                        {
+                            read = '';
+                        }
                         // STEP 1
                         $("#default-table tbody").append('\
-                            <tr>\
-                                <td>\
+                            <tr id="detail'+(i+1)+'">\
+                                <td id="td1'+(i+1)+'">\
                                     '+(i+1)+'\
                                 </td>\
-                                <td>\
-                                    '+data.val2[i].barang_kode+'\
+                                <td id="td2'+(i+1)+'">\
+                                    <input type="text" class="form-control" id="po_customerdet_barang_uraian'+(i+1)+'" name="po_customerdet_barang_uraian[]" value="'+data.val2[i].po_customerdet_barang_uraian+'" required/>\
                                 </td>\
-                                <td>\
-                                    '+data.val2[i].barang_uraian+'\
+                                <td id="td3'+(i+1)+'">\
+                                    <input type="hidden" class="form-control num2" name="po_customerdet_id[]" id="po_customerdet_id'+(i+1)+'" value="'+data.val2[i].po_customerdet_id+'"/>\
+                                    <input type="text" class="form-control num2" id="po_customerdet_qty'+(i+1)+'" name="po_customerdet_qty[]" onchange="checkSubtotal(), setDetail()" value="'+data.val2[i].po_customerdet_qty+'" '+read+'/>\
                                 </td>\
-                                <td>\
-                                    <input type="text" class="form-control num2" value="'+data.val2[i].po_customerdet_qty+'" readonly/>\
+                                <td id="td4'+(i+1)+'">\
+                                    <input type="text" class="form-control money" id="po_customerdet_harga_satuan'+(i+1)+'" name="po_customerdet_harga_satuan[]" onchange="checkSubtotal(), setDetail()" value="'+data.val2[i].po_customerdet_harga_satuan+'" '+read+'/>\
                                 </td>\
-                                <td>\
-                                    '+data.val2[i].satuan_nama+'\
+                                <td id="td5'+(i+1)+'">\
+                                    <input type="text" class="form-control money" id="po_customerdet_harga_total'+(i+1)+'" name="po_customerdet_harga_total[]" value="'+(data.val2[i].po_customerdet_qty * data.val2[i].po_customerdet_harga_satuan)+'" readonly/>\
                                 </td>\
-                                <td>\
-                                    <input type="text" class="form-control money" value="'+data.val2[i].po_customerdet_harga_satuan+'" readonly/>\
+                                <td id="td6'+(i+1)+'">\
+                                    <textarea class="form-control" id="po_customerdet_keterangan'+(i+1)+'" name="po_customerdet_keterangan[]    " style="width:200px;" rows="3" '+read+'>'+data.val2[i].po_customerdet_keterangan+'</textarea>\
                                 </td>\
-                                <td>\
-                                    <input type="text" class="form-control money" value="'+(data.val2[i].po_customerdet_qty * data.val2[i].po_customerdet_harga_satuan)+'" readonly/>\
+                                <td id="td7'+(i+1)+'">\
+                                    <select class="form-control select2" style="width:200px;" id="po_customerdet_status'+(i+1)+'" name="po_customerdet_status[]">\
+                                        <option value="1">Menunggu Persetujuan</option>\
+                                        <option value="2">Revisi</option>\
+                                        <option value="3">Cancel</option>\
+                                        <option value="4">Setuju</option>\
+                                    </select>\
                                 </td>\
-                                <td>\
-                                    <textarea class="form-control" rows="3" readonly>'+data.val2[i].satuan_nama+'</textarea>\
-                                </td>\
-                                <td>\
-                                    <button type="button" class="btn red-thunderbird" disabled>\
+                                <td id="td8'+(i+1)+'">\
+                                    <button type="button" class="btn red-thunderbird" disabled onclick="removeBarang('+(i+1)+')">\
                                         <i class="icon-close"></i>\
                                     </button>\
                                 </td>\
                             </tr>\
                         ');
-
-                        // STEP 2
-                        $("#default-table2 tbody").append('\
-                            <tr>\
-                                <td>\
-                                    '+(i+1)+'\
-                                </td>\
-                                <td>\
-                                    '+data.val2[i].barang_kode+'\
-                                </td>\
-                                <td>\
-                                    '+data.val2[i].barang_uraian+'\
-                                </td>\
-                                <td>\
-                                    <input type="text" class="form-control num2" value="'+data.val2[i].po_customerdet_qty+'" readonly/>\
-                                </td>\
-                                <td>\
-                                    <input type="text" class="form-control num2" value="'+data.val2[i].stok_gudang_qty+'" readonly/>\
-                                </td>\
-                                <td>\
-                                    '+data.val2[i].satuan_nama+'\
-                                </td>\
-                                <td>\
-                                    <input type="text" class="form-control money" value="'+data.val2[i].po_customerdet_harga_satuan+'" readonly/>\
-                                </td>\
-                                <td>\
-                                    <input type="text" class="form-control money" value="'+(data.val2[i].po_customerdet_qty * data.val2[i].po_customerdet_harga_satuan)+'" readonly/>\
-                                </td>\
-                                <td>\
-                                    <textarea class="form-control" rows="3" readonly>'+data.val2[i].satuan_nama+'</textarea>\
-                                </td>\
-                            </tr>\
-                        ');
-
-                        // STEP 3
-                        $("#default-table3 tbody").append('\
-                            <tr>\
-                                <td>\
-                                    '+(i+1)+'\
-                                </td>\
-                                <td>\
-                                    '+data.val2[i].barang_kode+'\
-                                </td>\
-                                <td>\
-                                    '+data.val2[i].barang_uraian+'\
-                                </td>\
-                                <td>\
-                                    <input type="text" class="form-control num2" value="'+data.val2[i].po_customerdet_qty+'" readonly/>\
-                                </td>\
-                                <td>\
-                                    '+data.val2[i].satuan_nama+'\
-                                </td>\
-                                <td>\
-                                    <input type="text" class="form-control money" value="'+data.val2[i].po_customerdet_harga_satuan+'" readonly/>\
-                                </td>\
-                                <td>\
-                                    <input type="text" class="form-control money" value="'+(data.val2[i].po_customerdet_qty * data.val2[i].po_customerdet_harga_satuan)+'" readonly/>\
-                                </td>\
-                                <td>\
-                                    <textarea class="form-control" rows="3" readonly>'+data.val2[i].satuan_nama+'</textarea>\
-                                </td>\
-                            </tr>\
-                        ');
-
-                        $('.num2').number( true, 2, ',', '.' );
-                        $('.money').number( true, 2, ',', '.' );
+                        $("#po_customerdet_status"+(i+1)).prop('disabled', false);
+                        $("#po_customerdet_status"+(i+1)).val(data.val2[i].po_customerdet_status);
+                        $("#po_customerdet_status"+(i+1)).prop('disabled', true);
+                        $("#po_customerdet_status2"+(i+1)).prop('disabled', false);
+                        $("#po_customerdet_status2"+(i+1)).val(data.val2[i].po_customerdet_status);
+                        $("#po_customerdet_status2"+(i+1)).prop('disabled', true);
+                        // $("#po_customerdet_status3"+(i+1)).prop('disabled', false);
+                        // $("#po_customerdet_status3"+(i+1)).val(data.val2[i].po_customerdet_status);
+                        // $("#po_customerdet_status3"+(i+1)).prop('disabled', true);
+                        $('.num2').number( true, 2, '.', ',' );
+                        $('.num2').css('text-align', 'right');
+                        $('.money').number( true, 2, '.', ',' );
+                        $('.money').css('text-align', 'right');
                     }
                     checkItem();
                   }

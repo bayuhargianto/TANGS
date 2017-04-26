@@ -1108,7 +1108,7 @@ function openFormPartner(id = null) {
         selectList_Kota('#partner_kota', 'Master-Data/Cabang/loadDataSelectKota');
         if (id) {
             setTimeout(function(){
-                $('#partner_kota').select2('destroy');
+                // $('#partner_kota').select2('destroy');
               editData(id);
               setTimeout(function(){
                 $('#partner_kota').select2();
@@ -1186,7 +1186,8 @@ function openFormJenisBarang(id = null) {
         selectList_jenisGudang();
         if (id) {
             setTimeout(function(){
-              $('#m_jenis_gudang_id').select2('destroy');
+
+              // $('#m_jenis_gudang_id').select2('destroy');
               editData(id);
               setTimeout(function(){
                 $('#m_jenis_gudang_id').select2();
@@ -1216,11 +1217,86 @@ function openFormCategory2(id = null) {
           }
           return false;
         });
+        $('#m_jenis_barang_id').css('width', '100%');
+        selectList_jenisBarang();
+        if (id) {
+            setTimeout(function(){
+                $('#m_jenis_barang_id').select2('destroy');
+              editData(id);
+              setTimeout(function(){
+                $('#m_jenis_barang_id').select2();
+                selectList_jenisBarang();
+              }, 800);
+            }, 200);
+        }
+      }
+    });
+}
+
+function openFormKonsinyasi(id = null) {
+    $.ajax({
+      type : 'GET',
+      url  : $base_url+'Master-Data/Konsinyasi/getForm/',
+      data : { id : id },
+      dataType : "html",
+      success:function(data){
+        $("#modaladd .modal-body").html();
+        $("#modaladd .modal-body").html(data);
+        $('#modaladd').modal('show');
+        MyFormValidation.init();
+        rules();
+        $("#formAdd").submit(function(event){
+          if ($("#formAdd").valid() == true) {
+            actionData();
+          }
+          return false;
+        });
+        $('#m_jenis_barang_id').css('width', '100%');
+        $('#m_category_2_id').css('width', '100%');
+        $('#m_barang_id').css('width', '100%');
+        selectList_barang();
+        selectList_jenisBarang();
+        select2List('#m_category_2_id', 'Master-Data/Master-Kategori/loadDataSelectWhere', 'Pilih Category 2');
+        select2List('#m_barang_id', 'Master-Data/Konsinyasi/loadDataSelectWhere', 'Pilih Barang Konsinyasi');
+        if (id) {
+            setTimeout(function(){
+                $('#m_barang_id').select2('destroy');
+                $('#m_jenis_barang_id').select2('destroy');
+                $('#m_category_2_id').select2('destroy');
+              editData(id);
+              setTimeout(function(){
+                $('#m_jenis_barang_id').select2();
+                selectList_jenisBarang();
+              }, 800);
+            }, 200);
+        }
+      }
+    });
+}
+
+function openFormBrand(id = null) {
+    $.ajax({
+      type : 'GET',
+      url  : $base_url+'Master-Data/Master-Brand/getForm/',
+      data : { id : id },
+      dataType : "html",
+      success:function(data){
+        $("#modaladd .modal-body").html();
+        $("#modaladd .modal-body").html(data);
+        $('#modaladd').modal('show');
+        MyFormValidation.init();
+        rules();
+        $("#formAdd").submit(function(event){
+          if ($("#formAdd").valid() == true) {
+            actionData();
+          }
+          return false;
+        });
         $('#m_jenis_gudang_id').css('width', '100%');
         selectList_jenisGudang();
         if (id) {
             setTimeout(function(){
-              $('#m_jenis_gudang_id').select2('destroy');
+              // $('#m_jenis_gudang_id').select2('destroy');
               editData(id);
               setTimeout(function(){
                 $('#m_jenis_gudang_id').select2();
@@ -1254,20 +1330,28 @@ function openFormBarang(id = null) {
         $('#m_satuan_id').css('width', '100%');
         $('#konversi_akhir_satuan').css('width', '100%');
         $('#m_brand_id').css('width', '100%');
+        $('#m_category_2_id').css('width', '100%');
         selectList_jenisBarang();
         selectList_Satuan('#m_satuan_id');
         selectList_Satuan('#konversi_akhir_satuan');
         select2List('#m_brand_id', 'Master-Data/Master-Brand/loadDataSelectWhere', 'Pilih Brand');
+        select2List('#m_category_2_id', 'Master-Data/Master-Kategori/loadDataSelectWhere', 'Pilih Category 2');
         if (id) {
             setTimeout(function(){
               $('#m_jenis_barang_id').select2('destroy');
+              $('#m_category_2_id').select2('destroy');
+              $('#m_brand_id').select2('destroy');
               $('#m_satuan_id').select2('destroy');
               editData(id);
               setTimeout(function(){
                 $('#m_jenis_barang_id').select2();
+                $('#m_category_2_id').select2();
+                $('#m_brand_id').select2();
                 $('#m_satuan_id').select2();
                 $('#konversi_akhir_satuan').select2();
                 selectList_jenisBarang();
+                // selectList_Satuan('#m_category_2_id');
+                // selectList_Satuan('#m_brand_id');
                 selectList_Satuan('#m_satuan_id');
                 selectList_Satuan('#konversi_akhir_satuan');
               }, 800);
@@ -1637,7 +1721,7 @@ function openFormSPP(type, id = null) {
           return false;
         });
         $('#m_barang_id').css('width', '100%');
-        $('#m_gudang_id_permintaan').css('width', '100%');
+        // $('#m_gudang_id_permintaan').css('width', '100%');
         selectList_barang();
         selectList_gudangCabangPermintaan();
         if (id) {
@@ -2259,7 +2343,7 @@ function selectList_jenisGudang() {
 
 function selectList_jenisBarang() {
   $('#m_jenis_barang_id').select2({
-    placeholder: 'Pilih Jenis Barang',
+    placeholder: 'Pilih Category 1',
     multiple: false,
     allowClear: true,
     ajax: {

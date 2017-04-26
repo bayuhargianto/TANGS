@@ -274,7 +274,9 @@
                         ');
 
                         $('.num2').number( true, 2, '.', ',' );
+                        $('.num2').css('text-align', 'right');
                         $('.money').number( true, 2, '.', ',' );
+                        $('.money').css('text-align', 'right');
                     }
 
                   }

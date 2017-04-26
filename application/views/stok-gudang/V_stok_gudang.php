@@ -167,8 +167,7 @@
                       {"name": "kartu_stok_keterangan","orderable": false},
                       {"name": "kartu_stok_masuk","orderable": false, "className": "text-right"},
                       {"name": "kartu_stok_keluar","orderable": false, "className": "text-right"},
-                      {"name": "kartu_stok_saldo","orderable": false, "className": "text-right"},
-                      {"name": "kartu_stok_nilai","orderable": false, "className": "text-right"}
+                      {"name": "kartu_stok_saldo","orderable": false, "className": "text-right"}
                     ],
                     // Internationalisation. For more info refer to http://datatables.net/manual/i18n
                     "language": {

@@ -15,13 +15,13 @@
   <table border="0" width="100%">
   		<tr>
   			<td>Nama Barang:</td>
-  			<td colspan="2"><?= $barang_nama ?></td>
+  			<td colspan="2"><?= @$barang_nama ?></td>
   			<td align="right">Kartu No</td>
   			<td colspan="2" class="gg" width="30%"></td>
   		</tr>
   		<tr>
   			<td>Satuan:</td>
-  			<td colspan="2"><?= $satuan ?></td>
+  			<td colspan="2"><?= @$satuan ?></td>
   			<td colspan="3"></td>
   			
   		</tr>

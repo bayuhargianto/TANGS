@@ -170,5 +170,33 @@ class MY_Model extends CI_Model {
     /* ====================================
         General Function
     ==================================== */
+    
+    public function create_config($table, $data)
+    {
+      $this->db->insert($table, $data);
+      return $this->db->insert_id();
+    }
+
+    function select_config($table, $where){
+      $query = $this->db->query("SELECT * FROM $table $where");
+      return $query;
+    }
+
+    function select_config_one($table, $val, $where){
+      $this->db->select($val);
+      $this->db->where($where);
+      $query = $this->db->get($table)->row();
+      return $query;
+    }
+
+    function update_config($table, $data, $where){
+      $this->db->where($where);
+      $this->db->update($table,$data);
+    }
+
+    function delete_config($table, $where){
+      $this->db->where($where);
+      $this->db->delete($table);
+    }
 
 }

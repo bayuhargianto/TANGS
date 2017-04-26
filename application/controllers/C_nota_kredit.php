@@ -132,6 +132,7 @@ class C_nota_kredit extends MY_Controller {
 	}
 
 	public function getForm1($id = null){
+		$this->check_session();
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Penjualan',
@@ -272,6 +273,99 @@ class C_nota_kredit extends MY_Controller {
 		echo json_encode($response);
 	}
 
+	public function loadData_pembayaran(){
+		$select = '*';
+		$where['data'][] = array(
+			'column' => 'nota_kredit_status_pembayaran',
+			'param'	 => 1
+		);
+		$order['data'][] = array(
+			'column' => 'nota_kredit_nomor',
+			'type'	 => 'ASC'
+		);
+		$query = $this->mod->select($select, 't_nota_kredit', NULL, $where, NULL, NULL, $order);
+		$response['val'] = array();
+		if ($query<>false) {
+			foreach ($query->result() as $val) {
+				if (@$join_dtl['data']) {
+					unset($join_dtl['data']);
+				}
+				if (@$where_dtl['data']) {
+					unset($where_dtl['data']);
+				}
+				if ($val->nota_kredit_jenis == 0) {
+					$select_dtl = 'a.*, b.*, c.*';
+					$join_dtl['data'][] = array(
+						'table' => 't_sj_retur b',
+						'join'	=> 'b.sj_retur_id = a.t_sj_retur_id',
+						'type'	=> 'left'
+					);
+					$join_dtl['data'][] = array(
+						'table' => 't_surat_jalan c',
+						'join'	=> 'c.surat_jalan_id = b.t_surat_jalan_id',
+						'type'	=> 'left'
+					);
+					$where_dtl['data'][] = array(
+						'column' => 'a.retur_penjualan_id',
+						'param'	 => $val->referensi_id
+					);
+					$where_dtl['data'][] = array(
+						'column' => 'c.m_partner_id',
+						'param'	 => $this->input->get('id')
+					);
+					$query_dtl = $this->mod->select($select_dtl, 't_retur_penjualan a', $join_dtl, $where_dtl);
+					if ($query_dtl) {
+						foreach ($query_dtl as $valdtl) {
+							$response['val'][] = array(
+								'id'		=> $val->nota_kredit_id,
+								'nomor'		=> $val->nota_kredit_nomor,
+								'jumlah'	=> floatval(floatval($val->nota_kredit_total) - floatval($val->nota_kredit_nominal_pembayaran))
+							);
+						}
+					}
+				} else if ($val->nota_kredit_jenis == 1) {
+					$select_dtl = 'a.*, b.*, c.*';
+					$join_dtl['data'][] = array(
+						'table' => 't_retur_penjualan b',
+						'join'	=> 'b.retur_penjualan_id = a.t_retur_penjualan_id',
+						'type'	=> 'left'
+					);
+					$join_dtl['data'][] = array(
+						'table' => 't_sj_retur c',
+						'join'	=> 'c.sj_retur_id = b.t_sj_retur_id',
+						'type'	=> 'left'
+					);
+					$join_dtl['data'][] = array(
+						'table' => 't_surat_jalan d',
+						'join'	=> 'd.surat_jalan_id = c.t_surat_jalan_id',
+						'type'	=> 'left'
+					);
+					$where_dtl['data'][] = array(
+						'column' => 'a.bpbr_id',
+						'param'	 => $val->referensi_id
+					);
+					$where_dtl['data'][] = array(
+						'column' => 'd.m_partner_id',
+						'param'	 => $this->input->get('id')
+					);
+					$query_dtl = $this->mod->select($select_dtl, 't_bpbr a', $join_dtl, $where_dtl);
+					if ($query_dtl) {
+						foreach ($query_dtl as $valdtl) {
+							$response['val'][] = array(
+								'id'		=> $val->nota_kredit_id,
+								'nomor'		=> $val->nota_kredit_nomor,
+								'jumlah'	=> floatval(floatval($val->nota_kredit_total) - floatval($val->nota_kredit_nominal_pembayaran))
+							);
+						}
+					}
+				}
+			}
+			$response['status'] = '200';
+		}
+
+		echo json_encode($response);
+	}
+
 	public function cetakPDF($id){
 		$this->load->library('pdf');
 		$name = '';
@@ -333,57 +427,60 @@ class C_nota_kredit extends MY_Controller {
 						'param'	 => $val->referensi_id
 					);
 					$query_socustomer = $this->mod->select('*','t_sj_retur',NULL,$where_socustomer);
-					foreach ($query_socustomer->result() as $val2) {
-						// CARI FAKTUR
-						$join_faktur['data'][] = array(
-							'table'	=> 't_surat_jalan b',
-							'join'	=> 'b.surat_jalan_id = a.t_surat_jalan_id',
-							'type'	=> 'left'	
-						);
-						$where_faktur['data'][] = array(
-							'column' => 'a.t_surat_jalan_id',
-							'param'	 => $val2->t_surat_jalan_id
-						);
-						$query_faktur = $this->mod->select('a.*, b.*','t_faktur_penjualan a',$join_faktur,$where_faktur);
-						if ($query_faktur) {
-							foreach ($query_faktur->result() as $val3) {
-								if(@$where_partner['data'])
-								{
-									unset($where_partner['data']);
-								}
-								$where_partner['data'][] = array(
-									'column' => 'partner_id',
-									'param'	 => $val3->m_partner_id
-								);
-								$query_partner = $this->mod->select('*', 'm_partner', null, $where_partner);
-								if($query_partner)
-								{
-									foreach ($query_partner->result() as $val4) {
-										$hasil3['val2'][] = array(
-											'id'		=> $val4->partner_id,
-											'text'		=> $val4->partner_nama,
-											'alamat'	=> $val4->partner_alamat,
-											'telp'		=> json_decode($val4->partner_telepon)
-											// KURANG KOTA!
-										);
+					if($query_socustomer){
+						foreach ($query_socustomer->result() as $val2) {
+							// CARI FAKTUR
+							$join_faktur['data'][] = array(
+								'table'	=> 't_surat_jalan b',
+								'join'	=> 'b.surat_jalan_id = a.t_surat_jalan_id',
+								'type'	=> 'left'	
+							);
+							$where_faktur['data'][] = array(
+								'column' => 'a.t_surat_jalan_id',
+								'param'	 => $val2->t_surat_jalan_id
+							);
+							$query_faktur = $this->mod->select('a.*, b.*','t_faktur_penjualan a',$join_faktur,$where_faktur);
+							if ($query_faktur) {
+								foreach ($query_faktur->result() as $val3) {
+									if(@$where_partner['data'])
+									{
+										unset($where_partner['data']);
 									}
+									$where_partner['data'][] = array(
+										'column' => 'partner_id',
+										'param'	 => $val3->m_partner_id
+									);
+									$query_partner = $this->mod->select('*', 'm_partner', null, $where_partner);
+									if($query_partner)
+									{
+										foreach ($query_partner->result() as $val4) {
+											$hasil3['val2'][] = array(
+												'id'		=> $val4->partner_id,
+												'text'		=> $val4->partner_nama,
+												'alamat'	=> $val4->partner_alamat,
+												'telp'		=> json_decode($val4->partner_telepon),
+												'npwp'		=> $val4->partner_nomor_npwp,	
+											);
+										}
+									}
+									$hasil2['val2'][] = array(
+										'id' 			=> $val3->faktur_penjualan_id,
+										'text' 			=> $val3->faktur_penjualan_nomor,
+										'tanggal'		=> date('d/m/Y', strtotime($val3->faktur_penjualan_tanggal)),
+										'ekspedisi'		=> $val3->surat_jalan_ekspedisi,
+										'm_partner_id'	=> $hasil3,
+									);
 								}
-								$hasil2['val2'][] = array(
-									'id' 			=> $val3->faktur_penjualan_id,
-									'text' 			=> $val3->faktur_penjualan_nomor,
-									'tanggal'		=> date('d/m/Y', strtotime($val3->faktur_penjualan_tanggal)),
-									'ekspedisi'		=> $val3->surat_jalan_ekspedisi,
-									'm_partner_id'	=> $hasil3,
-								);
 							}
+							// END CARI FAKTUR
+							$hasil['val2'][] = array(
+								'id' 		=> $val2->sj_retur_id,
+								'text' 		=> $val2->sj_retur_nomor,
+							);
 						}
-						// END CARI FAKTUR
-						$hasil['val2'][] = array(
-							'id' 		=> $val2->sj_retur_id,
-							'text' 		=> $val2->sj_retur_nomor,
-						);
+						// END CARI SJ
+						
 					}
-					// END CARI SJ
 				}
 				
 				// CARI CABANG
@@ -396,7 +493,7 @@ class C_nota_kredit extends MY_Controller {
 				if ($query_cabang) {
 					foreach ($query_cabang->result() as $val2) {
 						// CARI KOTA
-						$hasil7['val2'] = array();
+						$hasil7['val3'] = array();
 						$where_kota['data'][] = array(
 							'column' => 'id',
 							'param'	 => $val2->cabang_kota

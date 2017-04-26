@@ -46,7 +46,7 @@
       <td width="30%" valign="top"><?= $val[0]['permintaan_pembelian_tanggal'] ?></td>
     </tr>
   </table>
-  <h4 align="center">SURAT PERMINTAAN PEMBELIAN</h4>
+  <h4 align="center">PERMINTAAN PEMBELIAN BARANG</h4>
   <table width="100%">
     <tr>
       <td>Tanggal Dibutuhkan:</td>

@@ -405,69 +405,71 @@ class C_retur_penjualan extends MY_Controller {
 					'param'	 => $val->t_sj_retur_id
 				);
 				$query_sj = $this->mod->select('*','t_sj_retur',NULL,$where_sj);
-				foreach ($query_sj->result() as $val2) {
-					$where_suratJalan['data'][] = array(
-						'column'	=> 'surat_jalan_id',
-						'param'		=> $val2->t_surat_jalan_id
-					);
-					$query_suratJalan = $this->mod->select('*', 't_surat_jalan', null, $where_suratJalan);
-					if($query_suratJalan)
-					{
-						foreach ($query_suratJalan->result() as $val3) {
-							$hasil3['val2'] = array();
-							$where_partner['data'][] = array(
-								'column'	=> 'partner_id',
-								'param'		=> $val3->m_partner_id
-							);
-							$query_partner = $this->mod->select('*', 'm_partner', null, $where_partner);
-							if($query_partner)
-							{
-								foreach ($query_partner->result() as $val4) {
-									$hasil3['val2'][] = array(
-										'id'		=> $val4->partner_id,
-										'text'		=> $val4->partner_nama,
-										'alamat'	=> $val4->partner_alamat,
-										'telp'		=> json_decode($val4->partner_telepon),
-									);
-								}
-							}
-							$idRef = json_decode($val3->t_so_customer_id);
-							for($j = 0; $j < sizeof($idRef); $j++)
-							{
-								if(@$where_det['data'])
-								{
-									unset($where_det['data']);
-								}
-								$where_det['data'][] = array(
-									'column' => 'so_customer_id',
-									'param'	 => $idRef[$j]
+				if($query_sj){
+					foreach ($query_sj->result() as $val2) {
+						$where_suratJalan['data'][] = array(
+							'column'	=> 'surat_jalan_id',
+							'param'		=> $val2->t_surat_jalan_id
+						);
+						$query_suratJalan = $this->mod->select('*', 't_surat_jalan', null, $where_suratJalan);
+						if($query_suratJalan)
+						{
+							foreach ($query_suratJalan->result() as $val3) {
+								$hasil3['val2'] = array();
+								$where_partner['data'][] = array(
+									'column'	=> 'partner_id',
+									'param'		=> $val3->m_partner_id
 								);
-								$query_order = $this->mod->select('*','t_so_customer',null,$where_det);
-								if ($query_order) {
-									foreach ($query_order->result() as $val5) {
-										$hasil4['val2'][] = array(
-											'id' 		=> $val5->so_customer_id,
-											'text' 		=> $val5->so_customer_nomor,
-											'tanggal'	=> date('d/m/Y', strtotime($val5->so_customer_tanggal)),
+								$query_partner = $this->mod->select('*', 'm_partner', null, $where_partner);
+								if($query_partner)
+								{
+									foreach ($query_partner->result() as $val4) {
+										$hasil3['val2'][] = array(
+											'id'		=> $val4->partner_id,
+											'text'		=> $val4->partner_nama,
+											'alamat'	=> $val4->partner_alamat,
+											'telp'		=> json_decode($val4->partner_telepon),
 										);
 									}
 								}
+								$idRef = json_decode($val3->t_so_customer_id);
+								for($j = 0; $j < sizeof($idRef); $j++)
+								{
+									if(@$where_det['data'])
+									{
+										unset($where_det['data']);
+									}
+									$where_det['data'][] = array(
+										'column' => 'so_customer_id',
+										'param'	 => $idRef[$j]
+									);
+									$query_order = $this->mod->select('*','t_so_customer',null,$where_det);
+									if ($query_order) {
+										foreach ($query_order->result() as $val5) {
+											$hasil4['val2'][] = array(
+												'id' 		=> $val5->so_customer_id,
+												'text' 		=> $val5->so_customer_nomor,
+												'tanggal'	=> date('d/m/Y', strtotime($val5->so_customer_tanggal)),
+											);
+										}
+									}
+								}
+								$hasil2['val2'][] = array(
+									'id'				=> $val3->surat_jalan_id,
+									'text'				=> $val3->surat_jalan_nomor,
+									'tanggal'			=> date('d/m/Y', strtotime($val3->surat_jalan_tanggal)),
+									'so_customer_id'	=> $hasil4,
+									'm_partner_id'		=> $hasil3
+								);
 							}
-							$hasil2['val2'][] = array(
-								'id'				=> $val3->surat_jalan_id,
-								'text'				=> $val3->surat_jalan_nomor,
-								'tanggal'			=> date('d/m/Y', strtotime($val3->surat_jalan_tanggal)),
-								'so_customer_id'	=> $hasil4,
-								'm_partner_id'		=> $hasil3
-							);
 						}
+						$hasil['val2'][] = array(
+							'id' 	=> $val2->sj_retur_id,
+							'text' 	=> $val2->sj_retur_nomor
+						);
 					}
-					$hasil['val2'][] = array(
-						'id' 	=> $val2->sj_retur_id,
-						'text' 	=> $val2->sj_retur_nomor
-					);
+					// END CARI SJ
 				}
-				// END CARI SJ
 
 				// CARI CABANG
 				$hasil6['val2'] = array();

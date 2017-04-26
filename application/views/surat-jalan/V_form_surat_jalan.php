@@ -159,7 +159,7 @@
                                         <hr>
                                         <div class="form-group" id="tblDetail">
                                             <div class="col-md-12">
-                                                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="default-table">
+                                                <table class="table table-striped table-bordered table-hover table-checkable order-column table-scroll" id="default-table">
                                                     <thead>
                                                         <tr>
                                                             <th> No </th>
@@ -317,7 +317,7 @@
                                       '+data.val2[i].barang_nama+'\
                                   </td>\
                                   <td id="td3'+(i+1)+'">\
-                                      <input type="text" class="form-control" id="orderdet_qty'+(i+1)+'" name="orderdet_qty[]" value="'+data.val2[i].nota_debetdet_qty+'" required readonly/>\
+                                      <input type="text" class="form-control num2" id="orderdet_qty'+(i+1)+'" name="orderdet_qty[]" value="'+data.val2[i].nota_debetdet_qty+'" required readonly/>\
                                   </td>\
                                   <td id="td4'+(i+1)+'">\
                                       '+data.val2[i].satuan_nama+'\
@@ -327,6 +327,8 @@
                                   </td>\
                               </tr>\
                           ');
+                          $('.num2').number( true, 2, '.', ',' );
+                          $('.num2').css('text-align', 'right');
                       }
                     }
                   });
@@ -396,7 +398,7 @@
                                       '+data.val2[i].barang_nama+'\
                                   </td>\
                                   <td id="td3'+(i+1)+'">\
-                                      <input type="text" class="form-control" id="orderdet_qty'+(i+1)+'" name="orderdet_qty[]" value="'+data.val2[i].orderdet_qty+'" required readonly/>\
+                                      <input type="text" class="form-control num2" id="orderdet_qty'+(i+1)+'" name="orderdet_qty[]" value="'+data.val2[i].orderdet_qty+'" required readonly/>\
                                   </td>\
                                   <td id="td4'+(i+1)+'">\
                                       '+data.val2[i].satuan_nama+'\
@@ -406,6 +408,8 @@
                                   </td>\
                               </tr>\
                           ');
+                          $('.num2').number( true, 2, '.', ',' );
+                          $('.num2').css('text-align', 'right');
                       }
                     }
                   });
@@ -470,7 +474,11 @@
                   dataType : "json",
                   success:function(data){
                     for (var i = 0; i < data.val.length; i++) {
-                        document.getElementsByName('surat_jalan_ekspedisi')[0].value = data.val[i].po_customer_ekspedisi;
+                        if(document.getElementsByName('kode')[0].value.length <= 0)
+                        {
+                            document.getElementsByName('surat_jalan_ekspedisi')[0].value = data.val[i].po_customer_ekspedisi;
+                        }
+                        
                         $.ajax({
                           type : "GET",
                           url  : '<?php echo base_url();?>Master-Data/Partner/loadDataWhere/',
@@ -499,7 +507,7 @@
                                     '+data.val2[i].barang_nama+'\
                                 </td>\
                                 <td id="td3'+(i+1)+'">\
-                                    <input type="text" class="form-control" id="orderdet_qty'+(i+1)+'" name="orderdet_qty[]" value="'+data.val2[i].po_customerdet_qty+'" required readonly/>\
+                                    <input type="text" class="form-control num2" id="orderdet_qty'+(i+1)+'" name="orderdet_qty[]" value="'+data.val2[i].po_customerdet_qty+'" required readonly/>\
                                 </td>\
                                 <td id="td4'+(i+1)+'">\
                                     '+data.val2[i].satuan_nama+'\
@@ -510,7 +518,7 @@
                             </tr>\
                         ');
                         $('.num2').number( true, 2, '.', ',' );
-                        $('.money').number( true, 2, '.', ',' );
+                        $('.num2').css('text-align', 'right');
                     }
 
                   }

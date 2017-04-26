@@ -11,7 +11,7 @@ class C_surat_jalan extends MY_Controller {
 	}
 
 	public function index(){
-		$this->view();
+		// $this->view();
 	}
 
 	public function view($type){
@@ -100,6 +100,11 @@ class C_surat_jalan extends MY_Controller {
 					<button class="btn blue-ebonyclay" type="button" title="Lihat Surat Jalan">
 						<i class="icon-eye text-center"></i>
 					</button>
+					</a>
+					<a href="'.base_url().'Penjualan/Surat-Jalan/print-SJ/'.$val->surat_jalan_id.'">
+					<button class="btn green-jungle" type="button" title="Print Surat Jalan">
+						<i class="icon-printer text-center"></i>
+					</button>
 					</a>';
 					// if($val->order_status_nama == 'WO Disetujui')
 					// {
@@ -172,6 +177,7 @@ class C_surat_jalan extends MY_Controller {
 	}
 
 	public function getForm1($id = null){
+		$this->check_session();
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Gudang',
@@ -182,6 +188,7 @@ class C_surat_jalan extends MY_Controller {
 	}
 
 	public function getForm2($id = null){
+		$this->check_session();
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Penjualan',
@@ -256,6 +263,78 @@ class C_surat_jalan extends MY_Controller {
 					$idRef = json_decode($val->t_so_customer_id);
 					for($k = 0; $k < sizeof($idRef); $k++)
 					{
+						if(@$where_det['data'])
+						{
+							unset($where_det['data']);
+						}
+						if(@$join_det['data'])
+						{
+							unset($join_det['data']);
+						}
+						$join_det['data'][] = array(
+							'table' => 't_po_customerdet b',
+							'join'	=> 'b.po_customerdet_id = a.t_po_customerdet_id',
+							'type'	=> 'left'
+						);
+						$join_det['data'][] = array(
+							'table' => 'm_barang c',
+							'join'	=> 'c.barang_id = b.m_barang_id',
+							'type'	=> 'left'
+						);
+						$join_det['data'][] = array(
+							'table' => 'm_jenis_barang d',
+							'join'	=> 'd.jenis_barang_id = c.m_jenis_barang_id',
+							'type'	=> 'left'
+						);
+						$join_det['data'][] = array(
+							'table' => 'm_satuan e',
+							'join'	=> 'e.satuan_id = c.m_satuan_id',
+							'type'	=> 'left'
+						);
+						$join_det['data'][] = array(
+							'table' => 't_po_customer f',
+							'join'	=> 'f.po_customer_id = b.t_po_customer_id',
+							'type'	=> 'left'
+						);
+						$join_det['data'][] = array(
+							'table' => 't_so_customer g',
+							'join'	=> 'g.t_po_customer_id = f.po_customer_id',
+							'type'	=> 'left'
+						);
+						$join_det['data'][] = array(
+							'table' => 'm_konversi h',
+							'join'	=> 'h.barang_id = b.m_barang_id',
+							'type'	=> 'left'
+						);
+						$where_det['data'][] = array(
+							'column' => 'g.so_customer_id',
+							'param'	 => $idRef[$k]
+						);
+						$where_det['data'][] = array(
+							'column' => 'a.t_surat_jalan_id',
+							'param'	 => $val->surat_jalan_id
+						);
+						$queryDetail = $this->mod->select('*', 't_surat_jalandet a', $join_det, $where_det);
+						if($queryDetail)
+						{
+							foreach ($queryDetail->result() as $val2) {
+								$response['val2'][] = array(
+									'po_customerdet_id'					=> $val2->po_customerdet_id,
+									't_po_customer_id'					=> $val2->t_po_customer_id,
+									'm_barang_id'						=> $val2->m_barang_id,
+									'po_customerdet_qty'				=> $val2->po_customerdet_qty,
+									'surat_jalandet_qty_kirim'			=> $val2->surat_jalandet_qty_kirim,
+									'po_customerdet_harga_satuan'		=> $val2->po_customerdet_harga_satuan,
+									'po_customerdet_status'				=> $val2->po_customerdet_status,
+									'po_customerdet_keterangan'			=> $val2->po_customerdet_keterangan,
+									'barang_kode'						=> $val2->barang_kode,
+									'barang_nama'						=> $val2->barang_nama,
+									'barang_uraian'						=> $val2->barang_nama.' ('.$val2->barang_nomor.', '.$val2->jenis_barang_nama.')',
+									'satuan_nama'						=> $val2->satuan_nama
+								);
+							}
+						}
+					
 						if(@$where_order['data'])
 						{
 							unset($where_order['data']);
@@ -423,6 +502,11 @@ class C_surat_jalan extends MY_Controller {
 							unset($join_det['data']);
 						}
 						$join_det['data'][] = array(
+							'table' => 't_po_customerdet a',
+							'join'	=> 'a.po_customerdet_id = h.t_po_customerdet_id',
+							'type'	=> 'left'
+						);
+						$join_det['data'][] = array(
 							'table' => 'm_barang b',
 							'join'	=> 'b.barang_id = a.m_barang_id',
 							'type'	=> 'left'
@@ -447,25 +531,59 @@ class C_surat_jalan extends MY_Controller {
 							'join'	=> 'f.t_po_customer_id = e.po_customer_id',
 							'type'	=> 'left'
 						);
+						$join_det['data'][] = array(
+							'table' => 'm_konversi g',
+							'join'	=> 'g.barang_id = a.m_barang_id',
+							'type'	=> 'left'
+						);
 						$where_det['data'][] = array(
 							'column' => 'f.so_customer_id',
 							'param'	 => $idRef[$j]
 						);
-						$query_det = $this->mod->select('a.*, b.*, c.*, d.*, e.*, f.*','t_po_customerdet a',$join_det,$where_det);
+						$where_det['data'][] = array(
+							'column' => 'h.t_surat_jalan_id',
+							'param'	 => $val->surat_jalan_id
+						);
+						$query_det = $this->mod->select('a.*, b.*, c.*, d.*, e.*, f.*, g.*, h.*','t_surat_jalandet h',$join_det,$where_det);
 
 						if ($query_det) {
 							foreach ($query_det->result() as $val2) {
+								// CARI PENYETUJU
+								$hasil1['val2'] = array();
+								if(@$where_konversi['data'])
+								{
+									unset($where_konversi['data']);
+								}
+								$where_konversi['data'][] = array(
+									'column' => 'satuan_id',
+									'param'	 => $val2->konversi_akhirsatuan
+								);
+								$query_konversi = $this->mod->select('*','m_satuan',NULL,$where_konversi);
+								if ($query_konversi) {
+									foreach ($query_konversi->result() as $val3) {
+										$hasil1['val2'][] = array(
+											'id' 		=> $val3->satuan_id,
+											'text' 		=> $val3->satuan_nama,
+										);
+									}
+								}
+								// END CARI PENYETUJU
 								$response['val2'][] = array(
 									'po_customerdet_id'					=> $val2->po_customerdet_id,
 									'm_barang_id'						=> $val2->m_barang_id,
 									'po_customerdet_qty'				=> $val2->po_customerdet_qty,
+									'surat_jalandet_qty_kirim'			=> $val2->surat_jalandet_qty_kirim,
 									'po_customerdet_harga_satuan'		=> $val2->po_customerdet_harga_satuan,
 									'po_customerdet_keterangan'			=> $val2->po_customerdet_keterangan,
+									'so_customer_nomor'					=> $val2->so_customer_nomor,
+									'po_customer_nomor'					=> $val2->po_customer_nomor,
 									'barang_kode'						=> $val2->barang_kode,
 									'barang_nama'						=> $val2->barang_nama,
 									'jenis_barang_nama'					=> $val2->jenis_barang_nama,
 									'barang_uraian'						=> $val2->barang_nama.' ('.$val2->barang_nomor.', '.$val2->jenis_barang_nama.')',
 									'satuan_nama'						=> $val2->satuan_nama,
+									'konversi_akhir'					=> $val2->konversi_akhir,
+									'konversi_akhirsatuan'				=> $hasil1,
 								);
 							}
 						}
@@ -528,16 +646,48 @@ class C_surat_jalan extends MY_Controller {
 						{
 							unset($where_det['data']);
 						}
+						if(@$join_det['data'])
+						{
+							unset($join_det['data']);
+						}
 						$where_det['data'][] = array(
 							'column' => 'so_customer_id',
 							'param'	 => $idRef[$j]
 						);
-						$query_order = $this->mod->select('so_customer_id AS id_referensi, so_customer_nomor AS nomor_referensi','t_so_customer',null,$where_det);
+						$join_det['data'][] = array(
+							'table'	=> 't_po_customer b',
+							'join'	=> 'b.po_customer_id = a.t_po_customer_id',
+							'type'	=> 'left'
+						);
+						$query_order = $this->mod->select('a.*, b.*','t_so_customer a',$join_det,$where_det);
 						if ($query_order) {
 							foreach ($query_order->result() as $val2) {
+								// CARI SALES
+								$hasil5['val2'] = array();
+								if(@$where_sales['data'])
+								{
+									unset($where_sales['data']);
+								}
+								$where_sales['data'][] = array(
+									'column' => 'karyawan_id',
+									'param'	 => $val2->m_karyawan_id
+								);
+								$query_sales = $this->mod->select('*','m_karyawan',NULL,$where_sales);
+								if ($query_sales) {
+									foreach ($query_sales->result() as $val3) {
+										$hasil5['val2'][] = array(
+											'id' 		=> $val3->karyawan_id,
+											'text' 		=> $val3->karyawan_nama,
+										);
+									}
+								}
+								// END CARI SALES
 								$hasil2['val2'][] = array(
-									'id' 	=> $val2->id_referensi,
-									'text' 	=> $val2->nomor_referensi
+									'id' 	=> $val2->so_customer_id,
+									'text' 	=> $val2->so_customer_nomor,
+									'so_customer_nama_cetak' 	=> $val2->so_customer_nama_cetak,
+									'po_customer_alamat_kirim' 	=> $val2->po_customer_alamat_kirim,
+									'sales'	=> $hasil5,
 								);
 							}
 						}
@@ -554,7 +704,7 @@ class C_surat_jalan extends MY_Controller {
 				if ($query_cabang) {
 					foreach ($query_cabang->result() as $val2) {
 						// CARI kota
-						$hasil4['val2'] = array();
+						$hasil4['val3'] = array();
 						$where_kota['data'][] = array(
 							'column' => 'id',
 							'param'	 => $val2->cabang_kota
@@ -640,6 +790,7 @@ class C_surat_jalan extends MY_Controller {
 		);
 		$query = $this->mod->select($select, $this->tbl, NULL, $where, NULL, $where_like, $order);
 		$response['items'] = array();
+		$response['query'] = $query;
 		if ($query<>false) {
 			foreach ($query->result() as $val) {
 				$response['items'][] = array(
@@ -882,9 +1033,37 @@ class C_surat_jalan extends MY_Controller {
 		echo json_encode($response);
 	}
 
+	public function loadDataQtyKirimWhere()
+	{
+		$response['val'] = array();
+		$po_id = $this->input->get('id');
+		$sj_id = $this->input->get('sj_id');
+		$items = $this->input->get('items');
+		$where['data'][] = array(
+			'column' => 't_po_customerdet_id',
+			'param'	 => $po_id
+		);
+		// $where['data'][] = array(
+		// 	'column' => 't_surat_jalan_id',
+		// 	'param'	 => $sj_id
+		// );
+		$query = $this->mod->select('surat_jalandet_qty_kirim', 't_surat_jalandet', null, $where);
+		if($query)
+		{
+			foreach ($query->result() as $val) {
+				$response['val'][] = array(
+					'surat_jalandet_qty_kirim'	=> $val->surat_jalandet_qty_kirim,
+					'items'						=> $items,
+				);
+			}
+		}
+		echo json_encode($response);
+	}
+
 	// Function Insert & Update
 	public function postData($type){
 		$id = $this->input->post('kode');
+		$response['type'] = $type;
 		if (strlen($id)>0) {
 			//UPDATE
 			$data = $this->general_post_data(2, $id);
@@ -1078,123 +1257,148 @@ class C_surat_jalan extends MY_Controller {
 			//INSERT
 			$data = $this->general_post_data(4);
 			$response['data'] = $data;
-			$select = 'a.so_customer_id, a.so_customer_nomor, c.m_barang_id, c.po_customerdet_qty';
-			for($j = 0; $j < sizeof($this->input->post('id', TRUE)); $j++)
+			$insert = $this->mod->insert_data_table($this->tbl, NULL, $data);
+			for($i = 0; $i < sizeof($this->input->post('po_customerdet_id', TRUE)); $i++)
 			{
-				$response['i'][] = $j;
-				if (@$join['data']) {
-					unset($join['data']);
+				$dataqty = $this->general_post_data2(1, $i, $insert->output); // $insert->output
+				$response['surat_jalandet'][] = $dataqty;
+				$insertdet = $this->mod->insert_data_table('t_surat_jalandet', null, $dataqty);
+				$qty = $this->input->post('qty_kirim', TRUE)[$i];
+				$qty2 = $this->input->post('surat_jalandet_qty_kirim', TRUE)[$i];
+				$qty3 = $this->input->post('orderdet_qty', TRUE)[$i];
+				if($qty3 == ($qty+$qty2))
+				{
+					if(@$where_PODet['data'])
+					{
+						unset($where_PODet['data']);
+					}
+					$where_PODet['data'][] = array(
+						'column' => 'po_customerdet_id',
+						'param'	 => $this->input->post('po_customerdet_id', TRUE)[$i]
+					);
+					$queryPOdet = $this->mod->select('po_customerdet_status, po_customerdet_revised', 't_po_customerdet', null, $where_PODet);
+					if($queryPOdet)
+					{
+						foreach ($queryPOdet->result() as $val) {
+							$revised = $val->po_customerdet_revised + 1;
+							$data_POdet = array(
+								'po_customerdet_status'			=> 5,
+								'po_customerdet_revised'		=> $revised,
+								'po_customerdet_updated_date'	=> date('Y-m-d H:i:s'),
+								'po_customerdet_updated_by'		=> $this->session->userdata('user_username'),
+							);
+							$response['det'][] = $data_POdet;
+							$update_POdet = $this->mod->update_data_table('t_po_customerdet', $where_PODet, $data_POdet);
+						}
+					}
 				}
-				if (@$where['data']) {
-					unset($where['data']);
+				if(@$joinStatus['data'])
+				{
+					unset($joinStatus['data']);
 				}
-				$join['data'][] = array(
-					'table' => 't_po_customer b',
-					'join'	=> 'b.po_customer_id = a.t_po_customer_id',
+				if(@$whereStatus['data'])
+				{
+					unset($whereStatus['data']);
+				}
+				$joinStatus['data'][] = array(
+					'table' => 't_so_customer b',
+					'join'	=> 'b.t_po_customer_id = a.t_po_customer_id',
 					'type'	=> 'left'
 				);
-				$join['data'][] = array(
-					'table' => 't_po_customerdet c',
-					'join'	=> 'c.t_po_customer_id = b.po_customer_id',
-					'type'	=> 'left'
+				$whereStatus['data'][] = array(
+					'column' => 'so_customer_nomor',
+					'param'	 => $this->input->post('so_customer_nomor', TRUE)[$i]
 				);
-				$where['data'][] = array(
-					'column' => 'a.so_customer_id',
-					'param'  => $this->input->post('id', TRUE)[$j]
-				);
-				$query = $this->mod->select($select, 't_so_customer a', $join, $where);
-				$response['query'][] = $query;
-				if($query<>false)
-				{	
-					$no = 1;
-					foreach ($query->result() as $val) {
-						// UPDATE STATUS SO
+				$queryStatus = $this->mod->select('po_customerdet_status', 't_po_customerdet a', $joinStatus, $whereStatus);
+				if($queryStatus)
+				{
+					$dataStatus = array();
+					foreach ($queryStatus->result() as $val) {
+						array_push($dataStatus, $val->po_customerdet_status);
+					}
+					if(in_array('4', $dataStatus)){
+						$response['status_so'][] = $dataStatus;
+					}
+					else
+					{
+						$response['status_so'] = 'ganti';
 						$data_so = array(
 							'so_customer_status' => 3,
 						);
-						if (@$where_so['data']) {
-							unset($where_so['data']);
-						}
-						$where_so['data'][] = array(
-							'column' => 'so_customer_id',
-							'param'  => $val->so_customer_id
-						);
-						$update_so = $this->mod->update_data_table('t_so_customer', $where_so, $data_so);
-
-						// PENGURANGAN STOK GUDANG
-						if (@$join_gudang['data']) {
-							unset($join_gudang['data']);
-						}
-						if (@$where_gudang['data']) {
-							unset($where_gudang['data']);
-						}
-						// STOK
-						$join_gudang['data'][] = array(
-							'table' => 'm_gudang b',
-							'join'	=> 'b.gudang_id = a.m_gudang_id',
-							'type'	=> 'left'
-						);
-						$where_gudang['data'][] = array(
-							'column' => 'a.m_barang_id',
-							'param'	 => $val->m_barang_id
-						);
-						$where_gudang['data'][] = array(
-							'column' => 'b.m_jenis_gudang_id',
-							'param'	 => 1
-						);
-						$where_gudang['data'][] = array(
-							'column' => 'b.gudang_status_aktif',
-							'param'	 => 'y'
-						);
-						$query_gudang = $this->mod->select('a.*, b.*', 't_stok_gudang a', $join_gudang, $where_gudang);
-						if($query_gudang)
-						{
-							$i =0;
-							foreach ($query_gudang->result() as $rowStok) {
-								// PENGURANGAN KARTU STOK
-								$dataKStok = array(
-									'm_gudang_id' 				=> $rowStok->m_gudang_id,
-									'm_barang_id' 				=> $val->m_barang_id,
-									'kartu_stok_tanggal' 		=> date('Y-m-d H:i:s'),
-									'kartu_stok_referensi' 		=> $val->so_customer_nomor,
-									'kartu_stok_saldo' 			=> $rowStok->stok_gudang_jumlah,
-									'kartu_stok_masuk' 			=> 0,
-									'kartu_stok_keluar' 		=> $val->po_customerdet_qty,
-									'kartu_stok_penyesuaian'	=> 0,
-									'kartu_stok_keterangan' 	=> "SO Customer",
-									'kartu_stok_created_date'	=> date('Y-m-d H:i:s'),
-									'kartu_stok_created_by' 	=> $this->session->userdata('user_username'),
-									'kartu_stok_revised' 		=> 0,
-								);
-								// END PENGURANGAN KARTU STOK
-								$insertKStok = $this->mod->insert_data_table('t_kartu_stok', NULL, $dataKStok);
-								if (@$whereStok['data']) {
-									unset($whereStok['data']);
-								}
-								$whereStok['data'][] = array(
-									'column' => 'stok_gudang_id',
-									'param'	 => $rowStok->stok_gudang_id
-								);
-								$dataStok = array(
-									'stok_gudang_jumlah' 		=> $rowStok->stok_gudang_jumlah - $val->po_customerdet_qty,
-									'stok_gudang_update_date'	=> date('Y-m-d H:i:s'),
-									'stok_gudang_update_by'		=> $this->session->userdata('user_username'),
-									'stok_gudang_revised' 		=> $rowStok->stok_gudang_revised + 1,
-								);
-								$updateStok = $this->mod->update_data_table('t_stok_gudang', $whereStok, $dataStok);
-								$i++;
-								// END PENGURANGAN STOK GUDANG
-							}
-						}
-						
-					}
-					$insert = $this->mod->insert_data_table($this->tbl, NULL, $data);
-					if($insert->status) {
-						$response['status'] = '200';
-					} else {
-						$response['status'] = '204';
+						$update_so = $this->mod->update_data_table('t_so_customer', $whereStatus, $data_so);
 					}
 				}
+				// PENGURANGAN STOK GUDANG
+				if (@$join_gudang['data']) {
+					unset($join_gudang['data']);
+				}
+				if (@$where_gudang['data']) {
+					unset($where_gudang['data']);
+				}
+				// STOK
+				$join_gudang['data'][] = array(
+					'table' => 'm_gudang b',
+					'join'	=> 'b.gudang_id = a.m_gudang_id',
+					'type'	=> 'left'
+				);
+				$where_gudang['data'][] = array(
+					'column' => 'a.m_barang_id',
+					'param'	 => $this->input->post('m_barang_id', TRUE)[$i]
+				);
+				$where_gudang['data'][] = array(
+					'column' => 'b.m_jenis_gudang_id',
+					'param'	 => 1
+				);
+				$where_gudang['data'][] = array(
+					'column' => 'b.gudang_status_aktif',
+					'param'	 => 'y'
+				);
+				$query_gudang = $this->mod->select('a.*, b.*', 't_stok_gudang a', $join_gudang, $where_gudang);
+				$response['querygudang'] = $query_gudang;
+				if($query_gudang)
+				{
+					$i =0;
+					foreach ($query_gudang->result() as $rowStok) {
+						// PENGURANGAN KARTU STOK
+						$dataKStok = array(
+							'm_gudang_id' 				=> $rowStok->m_gudang_id,
+							'm_barang_id' 				=> $rowStok->m_barang_id,
+							'kartu_stok_tanggal' 		=> date('Y-m-d H:i:s'),
+							'kartu_stok_referensi' 		=> $this->input->post('so_customer_nomor', TRUE)[$i],
+							'kartu_stok_saldo' 			=> $rowStok->stok_gudang_jumlah,
+							'kartu_stok_masuk' 			=> 0,
+							'kartu_stok_keluar' 		=> $dataqty['surat_jalandet_qty_kirim'],
+							'kartu_stok_penyesuaian'	=> 0,
+							'kartu_stok_keterangan' 	=> "SO Customer",
+							'kartu_stok_created_date'	=> date('Y-m-d H:i:s'),
+							'kartu_stok_created_by' 	=> $this->session->userdata('user_username'),
+							'kartu_stok_revised' 		=> 0,
+						);
+						// END PENGURANGAN KARTU STOK
+						$insertKStok = $this->mod->insert_data_table('t_kartu_stok', NULL, $dataKStok);
+						if (@$whereStok['data']) {
+							unset($whereStok['data']);
+						}
+						$whereStok['data'][] = array(
+							'column' => 'stok_gudang_id',
+							'param'	 => $rowStok->stok_gudang_id
+						);
+						$dataStok = array(
+							'stok_gudang_jumlah' 		=> $rowStok->stok_gudang_jumlah - $dataqty['surat_jalandet_qty_kirim'],
+							'stok_gudang_update_date'	=> date('Y-m-d H:i:s'),
+							'stok_gudang_update_by'		=> $this->session->userdata('user_username'),
+							'stok_gudang_revised' 		=> $rowStok->stok_gudang_revised + 1,
+						);
+						$updateStok = $this->mod->update_data_table('t_stok_gudang', $whereStok, $dataStok);
+						$i++;
+						// END PENGURANGAN STOK GUDANG
+					}
+				}
+			}	
+			if($insert->status) {
+				$response['status'] = '200';
+			} else {
+				$response['status'] = '204';
 			}
 			
 		}
@@ -1269,7 +1473,7 @@ class C_surat_jalan extends MY_Controller {
 				'surat_jalan_revised' 		=> 0,
 			);
 		} else if ($type == 4) {
-			$surat_jalan_nomor = $this->get_kode_transaksi();
+			$surat_jalan_nomor = $this->get_kode_transaksi2();
 			$data = array(
 				'm_cabang_id' 				=> $this->session->userdata('cabang_id'),
 				'surat_jalan_nomor' 		=> $surat_jalan_nomor,
@@ -1285,6 +1489,22 @@ class C_surat_jalan extends MY_Controller {
 				'surat_jalan_update_date'	=> date('Y-m-d H:i:s'),
 				'surat_jalan_created_by'	=> $this->session->userdata('user_username'),
 				'surat_jalan_revised' 		=> 0,
+			);
+		}
+		return $data;
+	}
+
+	function general_post_data2($type, $seq, $idHdr)
+	{
+		if($type == 1)
+		{
+			$data = array(
+				't_surat_jalan_id'				=> $idHdr,
+				't_po_customerdet_id'			=> $this->input->post('po_customerdet_id', TRUE)[$seq],
+				'surat_jalandet_qty_kirim'		=> $this->input->post('surat_jalandet_qty_kirim',TRUE)[$seq],
+				'surat_jalandet_created_date'	=> date('Y-m-d H:i:s'),
+				'surat_jalandet_created_by'		=> $this->session->userdata('user_username'),
+				'surat_jalandet_revised'		=> 0,
 			);
 		}
 		return $data;
@@ -1308,6 +1528,30 @@ class C_surat_jalan extends MY_Controller {
 		);
 		$query = $this->mod->select($select, $this->tbl, NULL, $where, NULL, NULL, $order, $limit);
 		$kode_baru = $this->format_kode_transaksi('SJ',$query);
+		return $kode_baru;
+	}
+	function get_kode_transaksi2(){
+		$bln = date('m');
+		$thn = date('Y');
+		$select = 'MID(surat_jalan_nomor,11,5) as id';
+		// $where['data'][] = array(
+		// 	'column' => 'surat_jalan_jenis',
+		// 	'param'	 => 3
+		// );
+		$where['data'][] = array(
+			'column' => 'MID(surat_jalan_nomor,1,10)',
+			'param'	 => 'SJSO'.$thn.''.$bln
+		);
+		$order['data'][] = array(
+			'column' => 'surat_jalan_nomor',
+			'type'	 => 'DESC'
+		);
+		$limit = array(
+			'start'  => 0,
+			'finish' => 1
+		);
+		$query = $this->mod->select($select, $this->tbl, NULL, $where, NULL, NULL, $order, $limit);
+		$kode_baru = $this->format_kode_transaksi('SJSO',$query);
 		return $kode_baru;
 	}
 	/* end Function */

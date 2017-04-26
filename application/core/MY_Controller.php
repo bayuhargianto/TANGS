@@ -105,6 +105,11 @@ class MY_Controller extends CI_Controller {
 	}
 
 	// Merge content to header and footer
+	function open_page_app($file_name, $data=null){
+		$this->load->view('layout/V_header_app', $data);
+		$this->load->view($file_name);
+	}
+
 	function open_page($file_name, $data=null){
 		$select = 'a.*,b.*';
 		$tbl = 's_menu a';
@@ -213,6 +218,37 @@ class MY_Controller extends CI_Controller {
 		$number = str_replace(',', '', $value);
 		return $number;
 	}	
+
+	function generateFormatNumber($value){
+		$number = number_format($value, 2, ".", ",");
+		return $number;
+	}
+
+	function generateFormatDate($value){
+		$string = date("d/m/Y", strtotime($value));
+		return $string;
+	}
+
+	function terbilang($x)
+    {
+      $abil = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
+      if ($x < 12)
+      return " " . $abil[$x];
+      elseif ($x < 20)
+      return $this->terbilang($x - 10) . "belas";
+      elseif ($x < 100)
+      return $this->terbilang($x / 10) . " puluh" . $this->terbilang($x % 10);
+      elseif ($x < 200)
+      return " seratus" . $this->terbilang($x - 100);
+      elseif ($x < 1000)
+      return $this->terbilang($x / 100) . " ratus" . $this->terbilang($x % 100);
+      elseif ($x < 2000)
+      return " seribu" . $this->terbilang($x - 1000);
+      elseif ($x < 1000000)
+      return $this->terbilang($x / 1000) . " ribu" . $this->terbilang($x % 1000);
+      elseif ($x < 1000000000)
+      return $this->terbilang($x / 1000000) . " juta" . $this->terbilang($x % 1000000);
+    }	
 	
 	/* ====================================
 		End General Function
@@ -225,6 +261,88 @@ class MY_Controller extends CI_Controller {
 	/* ====================================
 		End Custom Function
 	==================================== */
+	
+function create_config($table, $data){
+    $id = $this->mod->create_config($table, $data);
+    return $id;
+  }
+
+  function select_config($table, $where){
+    $query = $this->mod->select_config($table, $where);
+    return $query;
+  }
+
+  function select_config_one($table, $obj, $where){
+    $query = $this->mod->select_config_one($table , $obj, $where);
+    return $query;
+  }
+
+  function update_config($table, $data, $where){
+    $query = $this->mod->update_config($table, $data,$where);
+  }
+
+  function delete_config($table, $where){
+    $query = $this->mod->delete_config($table,$where);
+  }
+
+  function get_header(){
+    $this->load->view('template/header');
+		// $this->load->view('template/topbar');
+    // $this->sidebar();
+  }
+
+  function get_footer(){
+    // $this->load->view('template/js');
+		$this->load->view('template/footer');
+  }
+
+  function sidebar()
+  {
+    $data['sidebar_lv1'] = $this->mod->sidebar_lv1()->result();
+    $data['controller']=$this;
+    error_reporting(0);
+    $this->load->view('template/sidebar', $data);
+  }
+
+  function sidebar_lv2($sidebar_lv1){
+    $user_type = $this->session->userdata('user_type');
+    $data = $this->mod->sidebar_lv2($sidebar_lv1, $user_type->user_type)->result();
+    return $data;
+  }
+
+  function get_page($data, $url){
+    $this->session->userdata('sidebar_id', 1);
+    $this->load->view('template/head');
+    $this->load->view('template/topbar');
+    $this->sidebar();
+    $this->load->view($url, $data);
+    $this->load->view('template/js');
+    $this->load->view('template/foot');
+  }
+
+  function do_upload($i_img, $path){
+
+    $config['upload_path'] = '../../assets/img/items/';
+    $config['allowed_types'] = 'gif|jpg|png';
+    $config['max_size']     = '100';
+    $config['max_width'] = '1024';
+    $config['max_height'] = '768';
+
+    $this->load->library('upload', $config);
+
+    if ( ! $this->upload->do_upload($i_img))
+             {
+               echo "string";
+                     $error = array('error' => $this->upload->display_errors());
+             }
+             else
+             {
+                     $data = array('upload_data' => $this->upload->data());
+             }
+
+  }
+
+
 }
 
 /* End of file home.php */

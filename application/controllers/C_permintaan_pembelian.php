@@ -22,7 +22,7 @@ class C_permintaan_pembelian extends MY_Controller {
 			$data = array(
 				'aplikasi'		=> $this->app_name,
 				'title_page' 	=> 'Gudang',
-				'title_page2' 	=> 'Surat Permintaan Pembelian',
+				'title_page2' 	=> 'Permintaan Pembelian Barang',
 				'priv_add'		=> $priv['create']
 				);
 			if($priv['read'] == 1)
@@ -38,7 +38,7 @@ class C_permintaan_pembelian extends MY_Controller {
 			$data = array(
 				'aplikasi'		=> $this->app_name,
 				'title_page' 	=> 'Pembelian',
-				'title_page2' 	=> 'Surat Permintaan Pembelian',
+				'title_page2' 	=> 'Permintaan Pembelian Barang',
 				);
 			if($priv['read'] == 1)
 			{
@@ -148,7 +148,7 @@ class C_permintaan_pembelian extends MY_Controller {
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Gudang',
-			'title_page2' 	=> 'Surat Permintaan Pembelian',
+			'title_page2' 	=> 'Permintaan Pembelian Barang',
 			'id'			=> $id
 		);
 		$this->open_page('permintaan-pembelian/V_form_surat_permintaan_pembelian', $data);
@@ -158,7 +158,7 @@ class C_permintaan_pembelian extends MY_Controller {
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Pembelian',
-			'title_page2' 	=> 'Surat Permintaan Pembelian',
+			'title_page2' 	=> 'Permintaan Pembelian Barang',
 			'id'			=> $id
 		);
 		$this->open_page('permintaan-pembelian/V_form_surat_permintaan_pembelian2', $data);
@@ -601,8 +601,8 @@ class C_permintaan_pembelian extends MY_Controller {
 		}
 		$response['title'][] = array(
 			'aplikasi'		=> $this->app_name,
-			'title_page' 	=> 'Surat Permintaan Pembelian',
-			'title_page2' 	=> 'Print Surat Permintaan Pembelian',
+			'title_page' 	=> 'Permintaan Pembelian Barang',
+			'title_page2' 	=> 'Print Permintaan Pembelian Barang',
 		);
 		
 		$this->pdf->load_view('print/P_spp', $response);
@@ -816,7 +816,7 @@ class C_permintaan_pembelian extends MY_Controller {
 				'permintaan_pembelian_jenis' 				=> $this->input->post('permintaan_pembelian_jenis', TRUE),
 				'm_gudang_id_permintaan' 					=> $this->input->post('m_gudang_id_permintaan', TRUE),
 				't_permintaan_jasa' 						=> $this->input->post('t_permintaan_jasa_id', TRUE),
-				'permintaan_pembelian_status' 				=> 1,
+				'permintaan_pembelian_status' 				=> $this->input->post('permintaan_pembelian_status', TRUE),
 				'permintaan_pembelian_status_date'			=> date('Y-m-d H:i:s'),
 				'permintaan_pembelian_pembuat'				=> $this->session->userdata('karyawan_id'),
 				'permintaan_pembelian_alasan' 				=> $this->input->post('permintaan_pembelian_alasan', TRUE),

@@ -144,6 +144,22 @@
                                                     <input type="text" class="form-control" name="karyawan_nama" readonly /> </div>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4">PPN
+                                            </label>
+                                            <div class="col-md-8">
+                                                <div class="input-icon right">
+                                                    <i class="fa"></i>
+                                                    <label class="mt-radio"> Ya
+                                                        <input type="radio" value="1" name="po_customer_ppn" id="po_customer_ppn1" readonly checked />
+                                                        <span></span>
+                                                    </label>
+                                                    <label class="mt-radio"> Tidak
+                                                        <input type="radio" value="2" name="po_customer_ppn" id="po_customer_ppn2" readonly />
+                                                        <span></span>
+                                                    </label> </div>
+                                            </div>
+                                        </div>
                                         <hr>
                                         <div class="form-group" id="tblInsert">
                                             <div class="col-md-12 table-scroll">
@@ -162,6 +178,22 @@
                                                     </thead>
                                                     <tbody>
                                                     </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th colspan="7" class="text-right"> Uang Muka Diterima </th>
+                                                            <th>
+                                                                <input type="text" class="form-control money" id="so_customer_dp" name="so_customer_dp" value="0" onchange="sumTotal()" required />
+                                                            </th>
+                                                            <th></th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th colspan="7" class="text-right"> Total </th>
+                                                            <th>
+                                                                <input type="text" class="form-control money" id="so_customer_total" name="so_customer_total" value="0" required readonly />
+                                                            </th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </tfoot>
                                                 </table>
                                             </div>
                                         </div>
@@ -184,7 +216,7 @@
                                                         <input type="radio" value="1" name="persetujuan" id="persetujuan1" onclick="checkPersetujuan(1)" />
                                                         <span></span>
                                                     </label>
-                                                    <label class="mt-radio"> Tidak Diterima
+                                                    <label class="mt-radio"> Direvisi
                                                         <input type="radio" value="2" name="persetujuan" id="persetujuan2" onclick="checkPersetujuan(2)" />
                                                         <span></span>
                                                     </label>
@@ -254,6 +286,43 @@
                         document.getElementsByName("partner_nama")[0].value = data.val[i].po_customer_nama_pelanggan;
                         document.getElementsByName("partner_alamat_kirim")[0].value = data.val[i].po_customer_alamat_kirim;
                         document.getElementsByName("karyawan_nama")[0].value = data.val[i].m_karyawan_id.val2[0].text;
+                        if(data.val[i].po_customer_ppn == 1)
+                        {
+                            document.getElementById('po_customer_ppn1').checked = true;
+                            $("#default-table thead").empty();
+                            $("#default-table thead").append('<tr>\
+                                <th rowspan="2" align="center"> No </th>\
+                                <th rowspan="2" align="center"> Kode Barang </th>\
+                                <th rowspan="2" align="center"> Uraian dan Spesifikasi Barang </th>\
+                                <th rowspan="2" align="center"> Qty PO Customer </th>\
+                                <th rowspan="2" align="center"> Satuan </th>\
+                                <th colspan="2" align="center"> Harga Barang Satuan </th>\
+                                <th rowspan="2" align="center"> Harga Barang Total </th>\
+                                <th rowspan="2" align="center"> Keterangan </th>\
+                            </tr>\
+                            <tr>\
+                                <th align="center">DPP</th>\
+                                <th align="center">PPN</th>\
+                                <th colspan="2"></th>\
+                            </tr>');
+                        }
+                        else
+                        {
+                            document.getElementById('po_customer_ppn2').checked = true;
+                            $("#default-table thead").empty();
+                            $("#default-table thead").append('<tr>\
+                                <th> No </th>\
+                                <th> Kode Barang </th>\
+                                <th> Uraian dan Spesifikasi Barang </th>\
+                                <th> Qty PO Customer </th>\
+                                <th> Satuan </th>\
+                                <th colspan="2"> Harga Barang Satuan </th>\
+                                <th> Harga Barang Total </th>\
+                                <th> Keterangan </th>\
+                            </tr>');
+                        }
+                        document.getElementById('po_customer_ppn1').disabled = true;
+                        document.getElementById('po_customer_ppn2').disabled = true;
                         $.ajax({
                           type : "GET",
                           url  : '<?php echo base_url();?>Master-Data/Partner/loadDataWhere/',
@@ -267,43 +336,103 @@
                           }
                         });
                     }
+                    itemBarang = data.val2.length;
                     for(var i = 0; i < data.val2.length; i++){
                         // STEP 1
-                        $("#default-table tbody").append('\
-                            <tr>\
-                                <td>\
-                                    '+(i+1)+'\
-                                </td>\
-                                <td>\
-                                    '+data.val2[i].barang_kode+'\
-                                </td>\
-                                <td>\
-                                    '+data.val2[i].barang_uraian+'\
-                                </td>\
-                                <td>\
-                                    <input type="text" class="form-control num2" value="'+data.val2[i].po_customerdet_qty+'" readonly/>\
-                                </td>\
-                                <td>\
-                                    '+data.val2[i].satuan_nama+'\
-                                </td>\
-                                <td>\
-                                    <input type="text" class="form-control money" value="'+data.val2[i].po_customerdet_harga_satuan+'" readonly/>\
-                                </td>\
-                                <td>\
-                                    <input type="text" class="form-control money" value="'+(data.val2[i].po_customerdet_qty * data.val2[i].po_customerdet_harga_satuan)+'" readonly/>\
-                                </td>\
-                                <td>\
-                                    <textarea class="form-control" rows="3" readonly>'+data.val2[i].po_customerdet_keterangan+'</textarea>\
-                                </td>\
-                            </tr>\
-                        ');
+                        if(document.getElementById('po_customer_ppn2').checked)
+                        {
+                            $("#default-table tbody").append('\
+                                <tr>\
+                                    <td>\
+                                        '+(i+1)+'\
+                                    </td>\
+                                    <td>\
+                                        '+data.val2[i].barang_kode+'\
+                                    </td>\
+                                    <td>\
+                                        '+data.val2[i].barang_uraian+'\
+                                    </td>\
+                                    <td>\
+                                        <input type="text" class="form-control num2" id="orderdet_qty'+(i+1)+'" value="'+data.val2[i].po_customerdet_qty+'" readonly/>\
+                                    </td>\
+                                    <td>\
+                                        '+data.val2[i].satuan_nama+'\
+                                    </td>\
+                                    <td colspan="2">\
+                                        <input type="text" class="form-control money" id="orderdet_harga_satuan'+(i+1)+'" value="'+data.val2[i].po_customerdet_harga_satuan+'" readonly/>\
+                                    </td>\
+                                    <td>\
+                                        <input type="text" class="form-control money" id="orderdet_total'+(i+1)+'" value="'+(data.val2[i].po_customerdet_qty * data.val2[i].po_customerdet_harga_satuan)+'" readonly/>\
+                                    </td>\
+                                    <td>\
+                                        <textarea style="width:300px;" class="form-control" rows="3" readonly>'+data.val2[i].po_customerdet_keterangan+'</textarea>\
+                                    </td>\
+                                </tr>\
+                            ');
+                        }
+                        else
+                        {
+                            var dpp = data.val2[i].po_customerdet_harga_satuan/1.1;
+                            var ppn = data.val2[i].po_customerdet_harga_satuan/1.1*10/100;
+                            $("#default-table tbody").append('\
+                                <tr>\
+                                    <td>\
+                                        '+(i+1)+'\
+                                    </td>\
+                                    <td>\
+                                        '+data.val2[i].barang_kode+'\
+                                    </td>\
+                                    <td>\
+                                        '+data.val2[i].barang_uraian+'\
+                                    </td>\
+                                    <td>\
+                                        <input type="text" class="form-control num2" id="orderdet_qty'+(i+1)+'" value="'+data.val2[i].po_customerdet_qty+'" readonly/>\
+                                    </td>\
+                                    <td>\
+                                        '+data.val2[i].satuan_nama+'\
+                                    </td>\
+                                    <td>\
+                                        <input type="text" class="form-control money" id="orderdet_dpp'+(i+1)+'" value="'+dpp+'" readonly/>\
+                                    </td>\
+                                    <td>\
+                                        <input type="text" class="form-control money" id="orderdet_ppn'+(i+1)+'" value="'+ppn+'" readonly/>\
+                                    </td>\
+                                    <td>\
+                                        <input type="text" class="form-control money" id="orderdet_total'+(i+1)+'" value="'+(data.val2[i].po_customerdet_qty * (dpp+ppn))+'" readonly/>\
+                                    </td>\
+                                    <td>\
+                                        <textarea style="width:300px;" class="form-control" rows="3" readonly>'+data.val2[i].po_customerdet_keterangan+'</textarea>\
+                                    </td>\
+                                </tr>\
+                            ');
+                        }
 
                         $('.num2').number( true, 2, '.', ',' );
+                        $('.num2').css('text-align', 'right');
+                        $('.num2').css('width', '150px');
                         $('.money').number( true, 2, '.', ',' );
+                        $('.money').css('text-align', 'right');
+                        $('.money').css('width', '150px');
+                        
                     }
-
+                    sumTotal();
                   }
                 });
+            }
+
+            function sumTotal() {
+                total = 0;
+                for (var i = 1; i <= itemBarang; i++) {
+                    subTotal = parseFloat(document.getElementById('orderdet_total'+i).value.replace(/\,/g, ""));
+                    // ppn = parseInt(document.getElementById('order_ppn').value.replace(/\,/g, ""));
+                    total = total + subTotal;
+                }
+                var dp = parseFloat(document.getElementById('so_customer_dp').value.replace(/\,/g, ""))
+                total = total - dp;
+                document.getElementById('so_customer_total').value = total;
+                $('.money').number( true, 2, '.', ',' );
+                $('.money').css('text-align', 'right');
+                $('.money').css('width', '150px');
             }
 
             function editData(id, edit = null) {
@@ -319,6 +448,8 @@
                         document.getElementsByName("so_customer_nomor")[0].value = data.val[i].so_customer_nomor;
                         document.getElementsByName("so_customer_tanggal")[0].value = data.val[i].so_customer_tanggal;
                         document.getElementsByName("so_customer_tanggal")[0].disabled = true;
+                        document.getElementsByName("so_customer_dp")[0].value = data.val[i].so_customer_dp;
+                        document.getElementsByName("so_customer_dp")[0].disabled = true;
                         $("#t_po_customer_id").select2('destroy');
                         for(var j=0; j<data.val[i].t_po_customer_id.val2.length; j++){
                             getDetailPOCustomer(data.val[i].t_po_customer_id.val2[j].id);
@@ -329,13 +460,13 @@
                         document.getElementsByName("so_customer_catatan")[0].value = data.val[i].so_customer_catatan;
                         document.getElementsByName("so_customer_catatan")[0].readOnly = true;
                         document.getElementsByName("so_customer_status")[0].value = data.val[i].so_customer_status;
-                        if (data.val[i].so_customer_status > 1) {
+                        if (data.val[i].so_customer_status != 4) {
+                            document.getElementById('persetujuan1').checked = true;
+                        } else {
+                            document.getElementById('persetujuan2').checked = true;
+                        }
+                        if ((data.val[i].so_customer_status > 1) && (data.val[i].so_customer_status != 4)) {
                             document.getElementById('submit').disabled = true;
-                            if (data.val[i].so_customer_status != 4) {
-                                document.getElementById('persetujuan1').checked = true;
-                            } else {
-                                document.getElementById('persetujuan2').checked = true;
-                            }
                             document.getElementById('persetujuan1').disabled = true;
                             document.getElementById('persetujuan2').disabled = true;
                         }

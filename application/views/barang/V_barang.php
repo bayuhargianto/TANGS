@@ -48,13 +48,14 @@
                                                   <?php
                                                     if($priv_add == 1)
                                                     {
-                                                      $this->session->flashdata('msg');
-                                                      
+                                                      // echo "<h3 align='center'>";
+                                                      // $this->session->flashdata('msg');
+                                                      // echo "</h3>";
                                                       echo '<button id="modalAdd-btn" class="btn sbold dark" data-toggle="modal" onclick="openFormBarang(),reset()"><i class="icon-plus"></i>&nbsp; Tambah Data
                                                       </button>';
                                                       echo '<button id="btn1" class="btn sbold dark" data-toggle="modal"><i class="icon-doc"></i>&nbsp; Import Data
                                                       </button><br><br>
-                                                      <form action="#" class="dropzone dropzone-file-area" id="contoh1" style="width: 1000px;">
+                                                      <form action="'.site_url('Master-Data/Barang/Import').'" class="dropzone dropzone-file-area" id="contoh1" style="width: 1000px;">
                                                         <h3 class="sbold">Drop files here or click to import excel files</h3>
                                                         <div class="fallback">
                                                           <input name="file" type="file" multiple />
@@ -71,10 +72,10 @@
                                         <thead>
                                             <tr>
                                                 <th> No </th>
-                                                <th> Barcode </th>
+                                                <th> Artikel </th>
                                                 <th> Description </th>
                                                 <th> Category 1 </th>
-                                                <th> Stok </th>
+                                                <th> Minimum Stok </th>
                                                 <th> Satuan Barang </th>
                                                 <th> Status </th>
                                                 <th> Action </th>
@@ -118,7 +119,7 @@
                     },
                     "columns": [
                       {"name": "no","orderable": false,"searchable": false,  "className": "text-center", "width": "5%"},
-                      {"name": "barang_kode"},
+                      {"name": "barang_nomor"},
                       {"name": "barang_nama"},
                       {"name": "jenis_barang_nama"},
                       {"name": "stok"},
@@ -184,14 +185,18 @@
                   success:function(data){
                     for(var i=0; i<data.val.length;i++){
                       document.getElementsByName("kode")[0].value = data.val[i].kode;
-                      document.getElementsByName("barang_kode")[0].value = data.val[i].barang_kode;
                       document.getElementsByName("barang_nomor")[0].value = data.val[i].barang_nomor;
+                      // document.getElementsByName("barang_nomor")[0].value = data.val[i].barang_nomor;
                       document.getElementsByName("barang_nama")[0].value = data.val[i].barang_nama;
-                      document.getElementsByName("barang_minimum_stok")[0].value = data.val[i].barang_minimum_stok;
-                      document.getElementsByName("harga_jual")[0].value = data.val[i].harga_jual;
+                      document.getElementsByName("stok")[0].value = data.val[i].stok;
                       document.getElementsByName("harga_beli")[0].value = data.val[i].harga_beli;
+                      document.getElementsByName("harga_jual")[0].value = data.val[i].harga_jual;
+                      document.getElementsByName("harga_jual_pajak")[0].value = data.val[i].harga_jual_pajak;
                       for(var j=0; j<data.val[i].m_jenis_barang_id.val2.length; j++){
                         $("#m_jenis_barang_id").append('<option value="'+data.val[i].m_jenis_barang_id.val2[j].id+'" selected>'+data.val[i].m_jenis_barang_id.val2[j].text+'</option>');
+                      }
+                      for(var j=0; j<data.val[i].m_category_2_id.val2.length; j++){
+                        $("#m_category_2_id").append('<option value="'+data.val[i].m_category_2_id.val2[j].id+'" selected>'+data.val[i].m_category_2_id.val2[j].text+'</option>');
                       }
                       for(var j=0; j<data.val[i].m_brand_id.val2.length; j++){
                         $("#m_brand_id").append('<option value="'+data.val[i].m_brand_id.val2[j].id+'" selected>'+data.val[i].m_brand_id.val2[j].text+'</option>');
@@ -204,6 +209,7 @@
                       } else if (data.val[i].barang_status_aktif == 'n') {
                         document.getElementById('nonaktif').selected = true;
                       }
+                      $('.num2').number(true, 2, ".", ",");
                     }
                   }
                 });
@@ -276,7 +282,7 @@
                   success:function(data){
                     for(var i=0; i<data.val.length;i++){
                       document.getElementsByName("kode")[0].value = data.val[i].kode;
-                      document.getElementsByName("barang_kode")[0].value = data.val[i].barang_kode;
+                      document.getElementsByName("barang_nomor")[0].value = data.val[i].barang_nomor;
                       document.getElementsByName("barang_nama")[0].value = data.val[i].barang_nama;
                       $("#m_jenis_barang_id").select2('destroy');
                       for(var j=0; j<data.val[i].m_jenis_barang_id.val2.length; j++){
@@ -288,7 +294,8 @@
                         $("#m_brand_id").append('<option value="'+data.val[i].m_brand_id.val2[j].id+'" selected>'+data.val[i].m_brand_id.val2[j].text+'</option>');
                         $("#m_brand_id").select2();
                       }
-                      document.getElementsByName("barang_minimum_stok")[0].value = data.val[i].barang_minimum_stok;
+                      console.log(data.val[i].m_brand_id.val2[j].text);
+                      document.getElementsByName("stok")[0].value = data.val[i].stok;
                       // for(var j=0; j<data.val[i].m_jenis_barang_id.val2.length; j++){
                       //   $("#m_jenis_barang_id").append('<option value="'+data.val[i].m_jenis_barang_id.val2[j].id+'" selected>'+data.val[i].m_jenis_barang_id.val2[j].text+'</option>');
                       // }

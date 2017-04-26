@@ -143,6 +143,7 @@ $route['Master-Data/Karyawan/checkNip']							= 'C_karyawan/checkNip';
 // Partner
 $route['Master-Data/Partner']									= 'C_partner';
 $route['Master-Data/Partner/getForm']							= 'C_partner/getForm';
+$route['Master-Data/Partner/getFormLogin']						= 'C_partner/getFormLogin';
 $route['Master-Data/Partner/loadData']							= 'C_partner/loadData';
 $route['Master-Data/Partner/postData']							= 'C_partner/postData';
 $route['Master-Data/Partner/deleteData']						= 'C_partner/deleteData';
@@ -177,14 +178,15 @@ $route['Master-Data/Jenis-Barang/loadDataWhere']				= 'C_jenis_barang/loadDataWh
 $route['Master-Data/Jenis-Barang/loadDataSelect']				= 'C_jenis_barang/loadData_select';
 // End Jenis Barang
 // Jenis Barang
-$route['Master-Data/Master-Kategori']								= 'C_kategori';
-$route['Master-Data/Master-Kategori/getForm']						= 'C_kategori/getForm';
-$route['Master-Data/Master-Kategori/loadData']						= 'C_kategori/loadData';
-$route['Master-Data/Master-Kategori/postData']						= 'C_kategori/postData';
-$route['Master-Data/Master-Kategori/deleteData']					= 'C_kategori/deleteData';
+$route['Master-Data/Master-Kategori']							= 'C_kategori';
+$route['Master-Data/Master-Kategori/getForm']					= 'C_kategori/getForm';
+$route['Master-Data/Master-Kategori/loadData']					= 'C_kategori/loadData';
+$route['Master-Data/Master-Kategori/postData']					= 'C_kategori/postData';
+$route['Master-Data/Master-Kategori/deleteData']				= 'C_kategori/deleteData';
 $route['Master-Data/Master-Kategori/aktifData']					= 'C_kategori/aktifData';
 $route['Master-Data/Master-Kategori/loadDataWhere']				= 'C_kategori/loadDataWhere';
-$route['Master-Data/Master-Kategori/loadDataSelect']				= 'C_kategori/loadData_select';
+$route['Master-Data/Master-Kategori/loadDataSelect']			= 'C_kategori/loadData_select';
+$route['Master-Data/Master-Kategori/loadDataSelectWhere']		= 'C_kategori/loadDataSelectWhere';
 // End Jenis Barang
 // Barang
 $route['Master-Data/Barang']									= 'C_barang';
@@ -198,6 +200,7 @@ $route['Master-Data/Barang/Import']								= 'C_barang/import';
 $route['Master-Data/Barang/loadDataSelect']						= 'C_barang/loadData_select';
 $route['Master-Data/Barang/loadDataSelectKode']					= 'C_barang/loadData_select2';
 $route['Master-Data/Barang/loadDataSelectUraian']				= 'C_barang/loadData_select3';
+$route['Master-Data/Barang/getLastId']							= 'C_barang/get_last_id';
 // End Barang
 // Atribut Barang
 $route['Master-Data/Atribut-Barang']							= 'C_atribut_barang';
@@ -255,6 +258,18 @@ $route['Master-Data/Bank/deleteData']					= 'C_bank/deleteData';
 $route['Master-Data/Bank/aktifData']					= 'C_bank/aktifData';
 $route['Master-Data/Bank/loadDataWhere']				= 'C_bank/loadDataWhere';
 $route['Master-Data/Bank/loadDataSelect']				= 'C_bank/loadData_select';
+// End BANK
+
+// BANK
+$route['Master-Data/Konsinyasi']								= 'C_konsinyasi';
+$route['Master-Data/Konsinyasi/getForm']						= 'C_konsinyasi/getForm';
+$route['Master-Data/Konsinyasi/loadData']						= 'C_konsinyasi/loadData';
+$route['Master-Data/Konsinyasi/postData']						= 'C_konsinyasi/postData';
+$route['Master-Data/Konsinyasi/deleteData']						= 'C_konsinyasi/deleteData';
+$route['Master-Data/Konsinyasi/aktifData']						= 'C_konsinyasi/aktifData';
+$route['Master-Data/Konsinyasi/loadDataWhere']					= 'C_konsinyasi/loadDataWhere';
+$route['Master-Data/Konsinyasi/loadDataSelect']					= 'C_konsinyasi/loadData_select';
+$route['Master-Data/Konsinyasi/loadDataSelectWhere']			= 'C_konsinyasi/loadDataSelectWhere';
 // End BANK
 // END ROUTE MASTER
 

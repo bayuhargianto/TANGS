@@ -212,6 +212,24 @@
                 }
             });
 
+            function cekQty(seq)
+            {
+                var qtyRetur = document.getElementById('sj_returdet_qty_retur'+seq);
+                var qty = document.getElementById('sj_returdet_qty'+seq);
+                if (parseFloat(qtyRetur.value.replace(/\,/g, "")) > parseFloat(qty.value.replace(/\,/g, ""))) {
+                    swal({
+                        title: "Alert!",
+                        text: "Jumlah retur melebihi jumlah kirim!",
+                        type: "error",
+                        confirmButtonClass: "btn-raised btn-danger",
+                        confirmButtonText: "OK",
+                    });
+                    qtyRetur.value = 0;
+                    $('.num2').number( true, 2, '.', ',' );
+                    $('.num2').css('text-align', 'right');
+                }
+            }
+
             function getDetail() {
                 $.ajax({
                     type : "GET",
@@ -219,10 +237,21 @@
                     data : "id="+document.getElementById('t_surat_jalan_id').value,
                     dataType : "json",
                     success:function(data){
-                        for(var i = 0; i < data.val[0].t_order_id.val2.length; i++)
-                        {
-                            getDetailSOCustomer(data.val[0].t_order_id.val2[i].id);
+                        // for(var i = 0; i < data.val[0].t_order_id.val2.length; i++)
+                        // {
+                        //     getDetailSOCustomer(data.val[0].t_order_id.val2[i].id);
+                        // }
+                        for (var i = 0; i < data.val.length; i++) {
+                            document.getElementsByName("partner_nama")[0].value = data.val[i].m_partner_id.val2[0].text;
                         }
+                        $("#m_barang_id").select2();
+                        $("#m_barang_id").select2('destroy');
+                        $("#m_barang_id").empty();
+                        for(var i = 0; i < data.val2.length; i++){
+                            datadetail.push(data.val2[i]);
+                            $("#m_barang_id").append('<option value="'+data.val2[i].po_customerdet_id+'">'+data.val2[i].barang_uraian+'</option>');
+                        }
+                        $("#m_barang_id").select2();
                     }
                 });
             }
@@ -293,10 +322,10 @@
                                             '+datadetail[i].barang_nama+'\
                                         </td>\
                                         <td>\
-                                            <input type="text" id="sj_returdet_qty'+itemBarang+'" name="sj_returdet_qty[]" class="form-control num2" value="'+datadetail[i].po_customerdet_qty+'" readonly/>\
+                                            <input type="text" id="sj_returdet_qty'+itemBarang+'" name="sj_returdet_qty[]" class="form-control num2" value="'+datadetail[i].surat_jalandet_qty_kirim+'" readonly/>\
                                         </td>\
                                         <td>\
-                                            <input type="text" id="sj_returdet_qty_retur'+itemBarang+'" name="sj_returdet_qty_retur[]" class="form-control num2" value="'+datadetail[i].po_customerdet_qty+'" required/>\
+                                            <input type="text" id="sj_returdet_qty_retur'+itemBarang+'" name="sj_returdet_qty_retur[]" class="form-control num2" value="'+datadetail[i].surat_jalandet_qty_kirim+'" onchange="cekQty('+itemBarang+')" required/>\
                                         </td>\
                                         <td>\
                                             '+datadetail[i].satuan_nama+'\
@@ -308,7 +337,9 @@
                                 ');
 
                                 $('.num2').number( true, 2, '.', ',' );
+                                $('.num2').css('text-align', 'right');
                                 $('.money').number( true, 2, '.', ',' );   
+                                $('.money').css('text-align', 'right');
                             }
                         }
                 }
@@ -371,7 +402,9 @@
                         ');
 
                         $('.num2').number( true, 2, '.', ',' );
+                        $('.num2').css('text-align', 'right');
                         $('.money').number( true, 2, '.', ',' );
+                        $('.money').css('text-align', 'right');
                     }
                   }
                 });

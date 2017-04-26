@@ -72,8 +72,8 @@
                             <td> 
                                 '.$row->barang_nama.'('.$row->barang_nomor.', '.$row->jenis_barang_nama.')'.' 
                             </td>
-                            <td> 
-                                '.number_format($row->penawaran_barang_qty,0,',','.').' 
+                            <td align="right"> 
+                                '.number_format($row->penawaran_barang_qty,2,'.',',').' 
                             </td>
                             <td> 
                                 '.$row->satuan_nama.' 
@@ -93,22 +93,26 @@
                                 <td>
                                     <select class="form-control" id="m_mata_uang" name="m_mata_uang[]" aria-required="true" aria-describedby="select-error" style="width: 100%">';
                                         foreach ($mata_uang->result() as $row3) {
-                                            echo '<option value="'.$row3->mata_uang_id.'"> '.$row3->mata_uang_nama.' </option>';
+                                            if($row3->mata_uang_status_aktif == 'y')
+                                            {
+                                                echo '<option value="'.$row3->mata_uang_id.'"> '.$row3->mata_uang_nama.' </option>';
+                                            }
+                                            
                                         }
                             echo '
                                     </select>
                                 </td>
                                 <td>
                                     <label class="mt-radio"> Exclude
-                                        <input type="radio" value="0" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" checked required />
+                                        <input type="radio" value="0" onchange="ppn(this)" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" id="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" checked required />
                                         <span></span>
                                     </label>
                                     <label class="mt-radio"> Include
-                                        <input type="radio" value="1" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" />
+                                        <input type="radio" value="1" onchange="ppn(this)" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" id="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" />
                                         <span></span>
                                     </label>
                                     <label class="mt-radio"> Tanpa
-                                        <input type="radio" value="2" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" />
+                                        <input type="radio" value="2" onchange="ppn(this)" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" id="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" />
                                         <span></span>
                                     </label>
                                 </td>
@@ -171,7 +175,9 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $('.money').number( true, 2, '.', ',' );
+        $('.money').css('text-align', 'right');
         $('.num2').number( true, 2, '.', ',' );
+        $('.num2').css('text-align', 'right');
         $('.datepicker').datepicker();
         $(".decimal").keydown(function(event) {
             // Allow: backspace, delete, tab, escape, enter and .
@@ -212,5 +218,23 @@
         {
             event.preventDefault();
         }
+    }
+    function ppn(element)
+    {
+        var id = element.id;
+        var no = id.charAt(id.length-1);
+        if(element.value == 0)
+        {
+            document.getElementById('penawaran_supplier_ppn'+no).disabled = false;
+        }
+        else if(element.value == 1)
+        {
+            document.getElementById('penawaran_supplier_ppn'+no).disabled = false;
+        }
+        else if(element.value == 2)
+        {
+            document.getElementById('penawaran_supplier_ppn'+no).disabled = true;
+        }
+        
     }
 </script>

@@ -17,13 +17,25 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="control-label col-md-4">Category 1
+                    <span class="required"> * </span>
+                </label>
+                <div class="col-md-8">
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        <select class="form-control" id="m_jenis_barang_id" name="m_jenis_barang_id" aria-required="true" aria-describedby="select-error" required>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="control-label col-md-4">Nama Category 2
                     <span class="required"> * </span>
                 </label>
                 <div class="col-md-8">
                     <div class="input-icon right">
                         <i class="fa"></i>
-                        <input type="text" class="form-control" name="category_2_nama" required /> </div>
+                        <input type="text" class="form-control" id="category_2_nama" name="category_2_nama" required /> </div>
                 </div>
             </div>
             

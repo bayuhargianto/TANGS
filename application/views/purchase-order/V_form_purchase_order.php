@@ -291,6 +291,7 @@
             $(document).ready(function(){
                 rules();
                 itemBarang = 0;
+                idBarang = [];
                 $("#formAdd").submit(function(event){
                   if ($("#formAdd").valid() == true) {
                     actionData2();
@@ -396,7 +397,9 @@
                                 </td>\
                             </tr>\
                         ');
+                        idBarang.push(data.step1[i].m_barang_id);
                         $('.num2').number( true, 2, '.', ',' );
+                        $('.num2').css('text-align', 'right');
                     }
 
                     for(var i = 0; i < data.step1.length; i++){
@@ -409,7 +412,9 @@
                                         document.getElementById('orderdet_qty'+data.step1[i].m_barang_id).value = data.step5[k].penawaran_harga_qty_ditawarkan;
                                         document.getElementById('orderdet_harga_satuan'+data.step1[i].m_barang_id).value = data.step5[k].penawaran_harga_nominal;
                                         $('.money').number( true, 2, '.', ',' );
+                                        $('.money').css('text-align', 'right');
                                         $('.num2').number( true, 2, '.', ',' );
+                                        $('.num2').css('text-align', 'right');
                                         sumSubTotal();
                                     }
                                 }
@@ -424,24 +429,27 @@
             function sumSubTotal() {
                 subTotal = 0;
                 for (var i = 1; i <= itemBarang; i++) {
-                    qty = document.getElementById('orderdet_qty'+i).value;
-                    hrg = parseInt(document.getElementById('orderdet_harga_satuan'+i).value.replace(/\./g, ""));
+                    qty = parseFloat(document.getElementById('orderdet_qty'+idBarang[i-1]).value.replace(/\,/g, ""));
+                    hrg = parseFloat(document.getElementById('orderdet_harga_satuan'+idBarang[i-1]).value.replace(/\,/g, ""));
                     document.getElementById('orderdet_total'+i).value = qty * hrg;
                     subTotal += qty * hrg;
                 }
                 document.getElementById('order_subtotal').value = subTotal;
                 $('.money').number( true, 2, '.', ',' );
+                $('.money').css('text-align', 'right');
                 sumTotal();
             }
 
             function sumTotal() {
-                subTotal = parseInt(document.getElementById('order_subtotal').value.replace(/\./g, ""));
-                ppn = parseInt(document.getElementById('order_ppn').value.replace(/\./g, ""));
+                subTotal = parseFloat(document.getElementById('order_subtotal').value.replace(/\,/g, ""));
+                ppn = parseFloat(document.getElementById('order_ppn').value.replace(/\,/g, ""));
                 document.getElementById('order_total').value = subTotal + (subTotal * ppn / 100);
                 $('.money').number( true, 2, '.', ',' );
+                $('.money').css('text-align', 'right');
             }
 
             function editData(id, edit = null) {
+                idBarang = [];
                 $.ajax({
                   type : "GET",
                   url  : '<?php echo base_url();?>Pembelian/Purchase-Order/loadDataWhere/',
@@ -472,6 +480,7 @@
                       $("#order_pembayaran").select2();
                       checkPembayaran();
                       document.getElementsByName("order_dp")[0].value = data.val[i].order_dp;
+                      document.getElementsByName("order_top")[0].value = data.val[i].order_top;
                       
                       $("#m_supplier_id").select2('destroy');
                       for(var j=0; j<data.val[i].m_supplier_id.val2.length; j++){
@@ -520,20 +529,22 @@
                                         '+data.val2[i].barang_uraian+'\
                                     </td>\
                                     <td id="td3'+(i+1)+'">\
-                                        <input type="text" class="form-control num2" id="orderdet_qty'+(i+1)+'" name="orderdet_qty[]" value="'+data.val2[i].orderdet_qty+'" required readonly/>\
+                                        <input type="text" class="form-control num2" id="orderdet_qty'+data.val2[i].m_barang_id+'" name="orderdet_qty[]" value="'+data.val2[i].orderdet_qty+'" required readonly/>\
                                     </td>\
                                     <td id="td4'+(i+1)+'">\
                                         '+data.val2[i].satuan_nama+'\
                                     </td>\
                                     <td id="td5'+(i+1)+'">\
-                                        <input type="text" class="form-control money" id="orderdet_harga_satuan'+(i+1)+'" name="orderdet_harga_satuan[]" value="'+data.val2[i].orderdet_harga_satuan+'" onchange="sumSubTotal()" required readonly/>\
+                                        <input type="text" class="form-control money" id="orderdet_harga_satuan'+data.val2[i].m_barang_id+'" name="orderdet_harga_satuan[]" value="'+data.val2[i].orderdet_harga_satuan+'" onchange="sumSubTotal()" required readonly/>\
                                     </td>\
                                     <td id="td6'+(i+1)+'">\
                                         <input type="text" class="form-control money" id="orderdet_total'+(i+1)+'" name="orderdet_total[]" value="'+data.val2[i].orderdet_total+'" required readonly/>\
                                     </td>\
                                 </tr>\
                             ');
+                            idBarang.push(data.val2[i].m_barang_id);
                             $('.num2').number( true, 2, '.', ',' );
+                            $('.num2').css('text-align', 'right');
                         }
                         else
                         {
@@ -551,22 +562,25 @@
                                         '+data.val2[i].barang_uraian+'\
                                     </td>\
                                     <td id="td3'+(i+1)+'">\
-                                        <input type="text" class="form-control num2" id="orderdet_qty'+(i+1)+'" name="orderdet_qty[]" value="'+data.val2[i].orderdet_qty+'" required readonly/>\
+                                        <input type="text" class="form-control num2" id="orderdet_qty'+data.val2[i].m_barang_id+'" name="orderdet_qty[]" value="'+data.val2[i].orderdet_qty+'" required readonly/>\
                                     </td>\
                                     <td id="td4'+(i+1)+'">\
                                         '+data.val2[i].satuan_nama+'\
                                     </td>\
                                     <td id="td5'+(i+1)+'">\
-                                        <input type="text" class="form-control money" id="orderdet_harga_satuan'+(i+1)+'" name="orderdet_harga_satuan[]" value="'+data.val2[i].orderdet_harga_satuan+'" onchange="sumSubTotal()" required/>\
+                                        <input type="text" class="form-control money" id="orderdet_harga_satuan'+data.val2[i].m_barang_id+'" name="orderdet_harga_satuan[]" value="'+data.val2[i].orderdet_harga_satuan+'" onchange="sumSubTotal()" required/>\
                                     </td>\
                                     <td id="td6'+(i+1)+'">\
                                         <input type="text" class="form-control money" id="orderdet_total'+(i+1)+'" name="orderdet_total[]" value="'+data.val2[i].orderdet_total+'" required readonly/>\
                                     </td>\
                                 </tr>\
                             ');
+                            idBarang.push(data.val2[i].m_barang_id);
                         }
                         $('.money').number( true, 2, '.', ',' );
+                        $('.money').css('text-align', 'right');
                         $('.num2').number( true, 2, '.', ',' );
+                        $('.num2').css('text-align', 'right');
                     }
                   }
                 });

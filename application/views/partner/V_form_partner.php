@@ -23,15 +23,15 @@
                 <div class="col-md-8">
                     <div class="mt-radio-inline">
                         <i class="fa"></i>
-                        <label class="mt-radio"> Supplier
+                        <label class="mt-radio"> Vendor
                             <input type="radio" value="1" name="partner_status" id="supplier" />
                             <span></span>
                         </label>
-                        <label class="mt-radio"> Customer
+                        <label class="mt-radio"> Member
                             <input type="radio" value="2" name="partner_status" id="customer" />
                             <span></span>
                         </label>
-                        <label class="mt-radio"> Supplier dan Customer
+                        <label class="mt-radio"> Vendor dan Member
                             <input type="radio" value="3" name="partner_status" id="supplier_customer" />
                             <span></span>
                         </label> </div>
@@ -92,6 +92,18 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="control-label col-md-4">Kota Partner
+                    <span class="required"> * </span>
+                </label>
+                <div class="col-md-8">
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        <select class="form-control select2" id="partner_kota" name="partner_kota" required />
+                            
+                        </select></div>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="control-label col-md-4">Telepon Partner
                     <span class="required"> * </span>
                 </label>
@@ -128,7 +140,6 @@
             </div>
             <div class="form-group">
                 <label class="control-label col-md-4">Fax Partner
-                    <span class="required"> * </span>
                 </label>
                 <input type="hidden" name="jml_itemOptionFax" id="jml_itemOptionFax" value="1" />
                 <div id="default_valueFax">
@@ -146,7 +157,6 @@
             </div>
             <div class="form-group">
                 <label class="control-label col-md-4">Fax Cetak Partner
-                    <span class="required"> * </span>
                 </label>
                 <input type="hidden" name="jml_itemOptionFaxCetak" id="jml_itemOptionFaxCetak" value="1" />
                 <div id="default_valueFaxCetak">
@@ -393,7 +403,7 @@
                 <div class="col-md-8">\
                     <div class="input-icon right">\
                         <i class="fa"></i>\
-                        <input type="text" class="form-control telp" name="partner_fax[]" id="partner_fax1" required />\
+                        <input type="text" class="form-control telp" name="partner_fax[]" id="partner_fax1" />\
                     </div>\
                 </div>\
             ');

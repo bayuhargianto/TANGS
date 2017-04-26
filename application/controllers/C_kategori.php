@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class C_kategori extends MY_Controller {
 	private $any_error = array();
 	// Define Main Table
-	public $tbl = 'm_category_2';
+	public $tbl = 'v_category_2';
 
 	public function __construct() {
         parent::__construct();
@@ -20,7 +20,8 @@ class C_kategori extends MY_Controller {
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Category 2',
-			'title_page2' 	=> 'Category 2',
+			'title_page2' 	=> 'Master Category 2',
+			
 			'priv_add'		=> $priv['create']
 			);
 		if($priv['read'] == 1)
@@ -43,7 +44,7 @@ class C_kategori extends MY_Controller {
 		);
 		//WHERE LIKE
 		$where_like['data'][] = array(
-			'column' => 'category_2_nama,category_2_status_aktif',
+			'column' => 'category_2_nama, jenis_barang_nama, category_2_status_aktif',
 			'param'	 => $this->input->get('search[value]')
 		);
 		//ORDER
@@ -55,7 +56,7 @@ class C_kategori extends MY_Controller {
 
 		$query_total = $this->mod->select($select, $this->tbl);
 		$query_filter = $this->mod->select($select, $this->tbl, NULL, NULL, NULL, $where_like, $order);
-		$query = $this->mod->select($select, $this->tbl, NULL, NULL, NULL, $where_like, $order, $limit);
+		$query = $this->mod->select($select, 'v_category_2', NULL, NULL, NULL, $where_like, $order, $limit);
 
 		$response['data'] = array();
 		if ($query<>false) {
@@ -66,7 +67,7 @@ class C_kategori extends MY_Controller {
 					$status = '<span class="label bg-green-jungle bg-font-green-jungle"> Aktif </span>';
 					if($priv['update'] == 1)
 					{
-						$button = $button.'<button class="btn blue-ebonyclay" type="button" onclick="openFormKategori('.$val->category_2_id.')" title="Edit" data-toggle="modal" href="#modaladd">
+						$button = $button.'<button class="btn blue-ebonyclay" type="button" onclick="openFormCategory2('.$val->category_2_id.')" title="Edit" data-toggle="modal" href="#modaladd">
 											<i class="icon-pencil text-center"></i>
 										</button>';
 					}
@@ -81,7 +82,7 @@ class C_kategori extends MY_Controller {
 					$status = '<span class="label bg-red-thunderbird bg-font-red-thunderbird"> Non Aktif </span>';
 					if($priv['update'] == 1)
 					{
-						$button = $button.'<button class="btn blue-ebonyclay" type="button" onclick="openFormKategori('.$val->category_2_id.')" title="Edit" data-toggle="modal" href="#modaladd" disabled>
+						$button = $button.'<button class="btn blue-ebonyclay" type="button" onclick="openFormCategory2('.$val->category_2_id.')" title="Edit" data-toggle="modal" href="#modaladd" disabled>
 											<i class="icon-pencil text-center"></i>
 										</button>';
 					}
@@ -93,9 +94,11 @@ class C_kategori extends MY_Controller {
 					}
 					
 				}
+				
 				$response['data'][] = array(
 					$no,
 					$val->category_2_nama,
+					$val->jenis_barang_nama,
 					$status,
 					$button
 				);
@@ -129,9 +132,23 @@ class C_kategori extends MY_Controller {
 		if ($query<>false) {
 
 			foreach ($query->result() as $val) {
+				// CARI JENIS BARANG
+				$hasil1['val2'] = array();
+				$where_type['data'][] = array(
+					'column' => 'jenis_barang_id',
+					'param'	 => $val->m_jenis_barang_id
+				);
+				$query_type = $this->mod->select('*','m_jenis_barang',NULL,$where_type);
+				foreach ($query_type->result() as $val2) {
+					$hasil1['val2'][] = array(
+						'id' 	=> $val2->jenis_barang_id,
+						'text' 	=> $val2->jenis_barang_nama
+					);
+				}
 				$response['val'][] = array(
-					'kode' 					=> $val->category_2_id,
+					'kode' 						=> $val->category_2_id,
 					'category_2_nama' 			=> $val->category_2_nama,
+					'm_jenis_barang_id' 		=> $hasil1,
 					'category_2_status_aktif' 	=> $val->category_2_status_aktif
 				);
 			}
@@ -161,6 +178,53 @@ class C_kategori extends MY_Controller {
 			'type'	 => 'ASC'
 		);
 		$query = $this->mod->select($select, $this->tbl, NULL, $where, NULL, $where_like, $order);
+		$response['items'] = array();
+		if ($query<>false) {
+			foreach ($query->result() as $val) {
+				$response['items'][] = array(
+					'id'	=> $val->category_2_id,
+					'text'	=> $val->category_2_nama
+				);
+			}
+			$response['status'] = '200';
+		}
+
+		echo json_encode($response);
+	}
+
+	public function loadDataSelectWhere(){
+		$param = $this->input->get('q');
+		if ($param!=NULL) {
+			$param = $this->input->get('q');
+		} else {
+			$param = "";
+		}
+		$param2 = $this->input->get('parameter');
+		if ($param2!=NULL) {
+			$where['data'][] = array(
+				'column' => 'b.m_barang_id',
+				'param'	 => $this->input->get('parameter')
+			);
+		}
+		$select = '*';
+		$join['data'][] = array(
+			'table' => 'm_konversi_satuan b',
+			'join'	=> 'b.m_satuan_id = a.satuan_id',
+			'type'	=> 'left'
+		);
+		$where['data'][] = array(
+			'column' => 'a.satuan_status_aktif',
+			'param'	 => 'y'
+		);
+		$where_like['data'][] = array(
+			'column' => 'category_2_nama',
+			'param'	 => $this->input->get('q')
+		);
+		$order['data'][] = array(
+			'column' => 'category_2_nama',
+			'type'	 => 'ASC'
+		);
+		$query = $this->mod->select($select, $this->tbl, null, null, NULL, $where_like, $order);
 		$response['items'] = array();
 		if ($query<>false) {
 			foreach ($query->result() as $val) {
@@ -230,7 +294,7 @@ class C_kategori extends MY_Controller {
 			'column' => 'category_2_id',
 			'param'	 => $id
 		);
-		$update = $this->mod->update_data_table($this->tbl, $where, $data);
+		$update = $this->mod->update_data_table('m_category_2', $where, $data);
 		$updateKaryawan = $this->nonaktif_karyawan($id);
 		if($update->status) {
 			if($updateKaryawan)
@@ -278,6 +342,7 @@ class C_kategori extends MY_Controller {
 		}
 		if ($type == 1) {
 			$data = array(
+				'm_jenis_barang_id' 		=> $this->input->post('m_jenis_barang_id', TRUE),
 				'category_2_nama' 			=> $this->input->post('category_2_nama', TRUE),
 				'category_2_status_aktif' 	=> $this->input->post('category_2_status_aktif', TRUE),
 				'category_2_create_date' 	=> date('Y-m-d H:i:s'),
@@ -287,6 +352,7 @@ class C_kategori extends MY_Controller {
 			);
 		} else if ($type == 2) {
 			$data = array(
+				'm_jenis_barang_id' 		=> $this->input->post('m_jenis_barang_id', TRUE),
 				'category_2_nama' 			=> $this->input->post('category_2_nama', TRUE),
 				'category_2_status_aktif' 	=> $this->input->post('category_2_status_aktif', TRUE),
 				'category_2_update_date' 	=> date('Y-m-d H:i:s'),

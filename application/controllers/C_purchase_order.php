@@ -89,7 +89,7 @@ class C_purchase_order extends MY_Controller {
 				if ($type == 1) {
 					if($privPembelian['update'] == 1)
 					{
-						if(($val->order_status_nama == 'PO Baru') || ($val->order_status_nama == 'PO Diterima ') || ($val->order_status_nama == 'PO Tidak Disetujui'))
+						if(($val->order_status_nama == 'PO Baru') || ($val->order_status_nama == 'PO Diterima ') || ($val->order_status_nama == 'PO Tidak Disetujui') || ($val->order_status_nama == 'PO Edited'))
 						{
 							$button = $button.'<a href="'.base_url().'Pembelian/Purchase-Order/EditForm/'.$val->order_id.'">
 							<button class="btn blue-ebonyclay" type="button" title="Edit PO">
@@ -157,6 +157,7 @@ class C_purchase_order extends MY_Controller {
 	}
 
 	public function getForm1($id = null){
+		$this->check_session();
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Pembelian',
@@ -167,6 +168,7 @@ class C_purchase_order extends MY_Controller {
 	}
 
 	public function getForm2($id = null){
+		$this->check_session();
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Persetujuan',
@@ -177,6 +179,7 @@ class C_purchase_order extends MY_Controller {
 	}
 
 	public function getForm3($id = null){
+		$this->check_session();
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Pembelian',
@@ -287,6 +290,11 @@ class C_purchase_order extends MY_Controller {
 					'order_total' 				=> $val->order_total,
 					'order_tanggal_kirim'		=> date("d/m/Y",strtotime($val->order_tanggal_kirim)),
 					'order_pembayaran'			=> $val->order_pembayaran,
+					// 'order_status_pembayaran'	=> $val->order_status_pembayaran,
+					// 'order_nominal_pembayaran'	=> $val->order_nominal_pembayaran,
+					// 'order_kekurangan'			=> floatval(floatval($val->order_total) - floatval($val->order_nominal_pembayaran)),
+					'order_dp'					=> $val->order_dp,
+					'order_top'					=> $val->order_top,
 				);
 			}
 
@@ -546,6 +554,57 @@ class C_purchase_order extends MY_Controller {
 		echo json_encode($response);
 	}
 
+	public function loadData_selectPembayaran(){
+		$param = $this->input->get('q');
+		if ($param!=NULL) {
+			$param = $this->input->get('q');
+		} else {
+			$param = "";
+		}
+		$select = '*';
+		$where['data'][] = array(
+			'column' => 'order_status >= ',
+			'param'	 => 3
+		);
+		$where['data'][] = array(
+			'column' => 'order_status <= ',
+			'param'	 => 5
+		);
+		$where['data'][] = array(
+			'column' => 'order_status_pembayaran',
+			'param'	 => 1
+		);
+		$where['data'][] = array(
+			'column' => 'm_supplier_id',
+			'param'	 => $this->input->get('idsup')
+		);
+		$where['data'][] = array(
+			'column' => 'order_type',
+			'param'	 => 0
+		);
+		$where_like['data'][] = array(
+			'column' => 'order_nomor',
+			'param'	 => $this->input->get('q')
+		);
+		$order['data'][] = array(
+			'column' => 'order_nomor',
+			'type'	 => 'ASC'
+		);
+		$query = $this->mod->select($select, $this->tbl, NULL, $where, NULL, $where_like, $order);
+		$response['items'] = array();
+		if ($query<>false) {
+			foreach ($query->result() as $val) {
+				$response['items'][] = array(
+					'id'	=> $val->order_id,
+					'text'	=> $val->order_nomor
+				);
+			}
+			$response['status'] = '200';
+		}
+
+		echo json_encode($response);
+	}
+
 	public function checkStatus(){
 		$id = $this->input->get('id');
 		$select = '*';
@@ -644,7 +703,7 @@ class C_purchase_order extends MY_Controller {
 				if ($query_po) {
 					foreach ($query_po->result() as $row) {
 						$data_log = array(
-							'referensi_id' 									=> $row->order_id,
+							'referensi_id' 					=> $row->order_id,
 							'orderlog_status_dari' 			=> $row->order_status,
 							'orderlog_status_ke' 			=> 3,
 							'orderlog_status_update_date' 	=> date('Y-m-d H:i:s'),
@@ -771,12 +830,13 @@ class C_purchase_order extends MY_Controller {
 				'order_nama_dikirim'		=> $this->input->post('order_nama_dikirim', TRUE),
 				'order_alamat_dikirim'		=> $this->input->post('order_alamat_dikirim', TRUE),
 				'order_hp_fax'				=> $this->input->post('order_hp_fax', TRUE),
-				'order_subtotal'			=> $this->input->post('order_subtotal', TRUE),
+				'order_subtotal'			=> $this->replaceFormatNumber($this->input->post('order_subtotal', TRUE)),
 				'order_ppn'					=> $this->input->post('order_ppn', TRUE),
-				'order_total'				=> $this->input->post('order_total', TRUE),
-				'order_tanggal_kirim'		=> date('Y-m-d', $this->input->post('order_tanggal_kirim', TRUE)),
+				'order_total'				=> $this->replaceFormatNumber($this->input->post('order_total', TRUE)),
 				'order_pembayaran'			=> $this->input->post('order_pembayaran', TRUE),
-				'order_status' 				=> 6,
+				'order_dp'					=> $this->input->post('order_dp', TRUE),
+				'order_top'					=> $this->input->post('order_top', TRUE),
+				'order_status' 				=> -2,
 				'order_status_date'			=> date('Y-m-d H:i:s'),
 				// 'order_created_date'		=> date('Y-m-d H:i:s'),
 				'order_update_date'			=> date('Y-m-d H:i:s'),
@@ -815,9 +875,9 @@ class C_purchase_order extends MY_Controller {
 			$data = array(
 				't_order_id' 			=> $idHdr,
 				'm_barang_id' 			=> $this->input->post('m_barang_id', TRUE)[$seq],
-				'orderdet_qty' 			=> $this->input->post('orderdet_qty', TRUE)[$seq],
-				'orderdet_harga_satuan'	=> $this->input->post('orderdet_harga_satuan', TRUE)[$seq],
-				'orderdet_total'		=> $this->input->post('orderdet_total', TRUE)[$seq],
+				'orderdet_qty' 			=> $this->replaceFormatNumber($this->input->post('orderdet_qty', TRUE)[$seq]),
+				'orderdet_harga_satuan'	=> $this->replaceFormatNumber($this->input->post('orderdet_harga_satuan', TRUE)[$seq]),
+				'orderdet_total'		=> $this->replaceFormatNumber($this->input->post('orderdet_total', TRUE)[$seq]),
 				'orderdet_created_date'	=> date('Y-m-d H:i:s'),
 				'orderdet_created_by'	=> $this->session->userdata('user_username'),
 				'orderdet_update_date'	=> date('Y-m-d H:i:s'),
@@ -844,9 +904,9 @@ class C_purchase_order extends MY_Controller {
 		} else if($type == 3) {
 			$data = array(
 				'm_barang_id' 			=> $this->input->post('m_barang_id', TRUE)[$seq],
-				'orderdet_qty' 			=> $this->input->post('orderdet_qty', TRUE)[$seq],
-				'orderdet_harga_satuan'	=> $this->input->post('orderdet_harga_satuan', TRUE)[$seq],
-				'orderdet_total'		=> $this->input->post('orderdet_total', TRUE)[$seq],
+				'orderdet_qty' 			=> $this->replaceFormatNumber($this->input->post('orderdet_qty', TRUE)[$seq]),
+				'orderdet_harga_satuan'	=> $this->replaceFormatNumber($this->input->post('orderdet_harga_satuan', TRUE)[$seq]),
+				'orderdet_total'		=> $this->replaceFormatNumber($this->input->post('orderdet_total', TRUE)[$seq]),
 				'orderdet_update_by'	=> $this->session->userdata('user_username'),
 				'orderdet_update_date'	=> date('Y-m-d H:i:s'),
 				'orderdet_revised' 		=> $rev,

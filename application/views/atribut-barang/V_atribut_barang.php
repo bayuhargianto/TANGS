@@ -211,7 +211,7 @@
                         check_defaultValue();
                         document.getElementsByName("atribut_default_value")[0].value = data.val[i].atribut_default_value;
                       }
-                      document.getElementsByName("atribut_satuan")[0].value = data.val[i].atribut_satuan;
+                      // document.getElementsByName("atribut_satuan")[0].value = data.val[i].atribut_satuan;
                       if (data.val[i].atribut_status_aktif == 'y') {
                         document.getElementById('aktif').selected = true;
                       } else if (data.val[i].atribut_status_aktif == 'n') {

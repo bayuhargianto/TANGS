@@ -103,7 +103,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <!-- <div class="form-group">
                                             <label class="control-label col-md-4">Tipe SPP
                                                 <span class="required"> * </span>
                                             </label>
@@ -150,7 +150,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="form-group">
                                             <label class="control-label col-md-4">Alasan Permintaan Pembelian
                                                 <span class="required"> * </span>
@@ -391,39 +391,39 @@
                       document.getElementsByName("permintaan_pembelian_status")[0].value = data.val[i].permintaan_pembelian_status;
                       document.getElementsByName("permintaan_pembelian_alasan")[0].value = data.val[i].permintaan_pembelian_alasan;
                       document.getElementsByName("permintaan_pembelian_catatan")[0].value = data.val[i].permintaan_pembelian_catatan;
-                      if (data.val[i].permintaan_pembelian_jenis == 1) {
-                        document.getElementById('permintaan_pembelian_jenis1').checked = true;
-                      } else if (data.val[i].permintaan_pembelian_jenis == 2) {
-                        document.getElementById('permintaan_pembelian_jenis2').checked = true;
-                      }
-                      if (data.val[i].permintaan_pembelian_type == 1) {
-                        document.getElementById('permintaan_pembelian_type1').checked = true;
-                        $("#pilihPJ").attr('hidden', true);
-                        $("#pilihBarang").attr('hidden', false);
-                      } else if (data.val[i].permintaan_pembelian_type == 2) {
-                        document.getElementById('permintaan_pembelian_type2').checked = true;
-                        $("#pilihPJ").attr('hidden', false);
-                        $("#pilihBarang").attr('hidden', true);
-                        $("#t_permintaan_jasa_id").select2('destroy');
-                        for(var j=0; j<data.val[i].t_permintaan_jasa.val2.length; j++){
-                        $("#t_permintaan_jasa_id").append('<option value="'+data.val[i].t_permintaan_jasa.val2[j].id+'" selected>'+data.val[i].t_permintaan_jasa.val2[j].text+'</option>');
-                        }
-                        $("#t_permintaan_jasa_id").select2();
-                      }
-                      $("#m_gudang_id_permintaan").select2('destroy');
-                      for(var j=0; j<data.val[i].m_gudang_id_permintaan.val2.length; j++){
-                        $("#m_gudang_id_permintaan").append('<option value="'+data.val[i].m_gudang_id_permintaan.val2[j].id+'" selected>'+data.val[i].m_gudang_id_permintaan.val2[j].text+'</option>');
-                      }
-                      $("#m_gudang_id_permintaan").select2();
+                      // if (data.val[i].permintaan_pembelian_jenis == 1) {
+                      //   document.getElementById('permintaan_pembelian_jenis1').checked = true;
+                      // } else if (data.val[i].permintaan_pembelian_jenis == 2) {
+                      //   document.getElementById('permintaan_pembelian_jenis2').checked = true;
+                      // }
+                      // if (data.val[i].permintaan_pembelian_type == 1) {
+                      //   document.getElementById('permintaan_pembelian_type1').checked = true;
+                      //   $("#pilihPJ").attr('hidden', true);
+                      //   $("#pilihBarang").attr('hidden', false);
+                      // } else if (data.val[i].permintaan_pembelian_type == 2) {
+                      //   document.getElementById('permintaan_pembelian_type2').checked = true;
+                      //   $("#pilihPJ").attr('hidden', false);
+                      //   $("#pilihBarang").attr('hidden', true);
+                      //   $("#t_permintaan_jasa_id").select2('destroy');
+                      //   for(var j=0; j<data.val[i].t_permintaan_jasa.val2.length; j++){
+                      //   $("#t_permintaan_jasa_id").append('<option value="'+data.val[i].t_permintaan_jasa.val2[j].id+'" selected>'+data.val[i].t_permintaan_jasa.val2[j].text+'</option>');
+                      //   }
+                      //   $("#t_permintaan_jasa_id").select2();
+                      // }
+                      // $("#m_gudang_id_permintaan").select2('destroy');
+                      // for(var j=0; j<data.val[i].m_gudang_id_permintaan.val2.length; j++){
+                      //   $("#m_gudang_id_permintaan").append('<option value="'+data.val[i].m_gudang_id_permintaan.val2[j].id+'" selected>'+data.val[i].m_gudang_id_permintaan.val2[j].text+'</option>');
+                      // }
+                      // $("#m_gudang_id_permintaan").select2();
 
                       // if (data.val[i].permintaan_pembelian_status > 2) {
                       //   document.getElementById('submit'). disabled = true;
                       // }
                       document.getElementById('submit'). disabled = true;
                       document.getElementById('t_permintaan_jasa_id').disabled = true;
-                      document.getElementById('permintaan_pembelian_jenis1').disabled = true;
-                      document.getElementById('permintaan_pembelian_jenis2').disabled = true;
-                      document.getElementsByName('m_gudang_id_permintaan')[0].disabled = true;
+                      // document.getElementById('permintaan_pembelian_jenis1').disabled = true;
+                      // document.getElementById('permintaan_pembelian_jenis2').disabled = true;
+                      // document.getElementsByName('m_gudang_id_permintaan')[0].disabled = true;
                       document.getElementById('btnAddBarang').disabled = true;
                     }
 

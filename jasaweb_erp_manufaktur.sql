@@ -10,7 +10,7 @@ Target Server Type    : MariaDB
 Target Server Version : 100109
 File Encoding         : 65001
 
-Date: 2017-04-04 14:47:59
+Date: 2017-04-26 09:29:23
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -7143,14 +7143,13 @@ CREATE TABLE `m_atribut_barang` (
   `atribut_update_by` varchar(255) DEFAULT NULL,
   `atribut_revised` int(11) DEFAULT NULL,
   PRIMARY KEY (`atribut_id`),
-  KEY `barang` (`m_barang_id`),
-  CONSTRAINT `barang` FOREIGN KEY (`m_barang_id`) REFERENCES `m_barang` (`barang_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+  KEY `barang` (`m_barang_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of m_atribut_barang
 -- ----------------------------
-INSERT INTO `m_atribut_barang` VALUES ('1', '1', '3', 'Dimensi Panjang', '1', '0', 'n', '2017-02-15 18:11:38', 'developer', '2017-03-06 13:26:42', 'developer', '14');
+INSERT INTO `m_atribut_barang` VALUES ('1', '14', '3', 'Dimensi Panjang', '2', '0', 'y', '2017-02-15 18:11:38', 'developer', '2017-04-18 10:32:27', 'developer', '17');
 INSERT INTO `m_atribut_barang` VALUES ('2', '1', '3', 'Dimensi Lebar', '1', '0', 'n', '2017-02-15 18:15:15', 'developer', '2017-03-06 13:26:49', 'developer', '14');
 INSERT INTO `m_atribut_barang` VALUES ('3', '1', '3', 'Dimensi Tinggi', '1', '0', 'n', '2017-02-15 18:15:44', 'developer', '2017-03-06 13:27:09', 'developer', '14');
 INSERT INTO `m_atribut_barang` VALUES ('4', '1', '3', 'Berat', '2', '0', 'n', '2017-02-15 18:16:10', 'developer', '2017-03-06 13:27:04', 'developer', '14');
@@ -7158,6 +7157,37 @@ INSERT INTO `m_atribut_barang` VALUES ('5', '1', '1', 'Warna', null, '[{\"id\":\
 INSERT INTO `m_atribut_barang` VALUES ('6', '1', '2', 'Keterangan Lain', null, '-', 'n', '2017-02-15 18:20:00', 'developer', '2017-03-06 13:26:54', 'developer', '15');
 INSERT INTO `m_atribut_barang` VALUES ('7', '1', '3', 'dimensi tinggi', '1', '0', 'y', '2017-03-06 13:50:01', 'developer', '2017-03-06 14:02:25', 'developer', '1');
 INSERT INTO `m_atribut_barang` VALUES ('8', '2', '3', 'berat', '2', '0', 'y', '2017-03-08 09:31:11', 'developer', '2017-03-08 09:31:11', null, '0');
+INSERT INTO `m_atribut_barang` VALUES ('9', '3183', '3', 'ATT1TEST', '738', 'test', 'y', '2017-04-17 12:32:16', 'developer', '2017-04-17 12:33:11', 'developer', '1');
+
+-- ----------------------------
+-- Table structure for m_bank
+-- ----------------------------
+DROP TABLE IF EXISTS `m_bank`;
+CREATE TABLE `m_bank` (
+  `bank_id` int(11) NOT NULL AUTO_INCREMENT,
+  `bank_cabang` varchar(255) DEFAULT NULL,
+  `bank_nama` varchar(255) DEFAULT NULL,
+  `bank_atas_nama` varchar(255) DEFAULT NULL,
+  `bank_no_rek` varchar(255) DEFAULT NULL,
+  `bank_status_aktif` char(1) DEFAULT NULL,
+  `bank_created_date` datetime DEFAULT NULL,
+  `bank_created_by` varchar(255) DEFAULT NULL,
+  `bank_update_date` datetime DEFAULT NULL,
+  `bank_update_by` varchar(255) DEFAULT NULL,
+  `bank_revised` int(11) DEFAULT NULL,
+  `m_cabang_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`bank_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of m_bank
+-- ----------------------------
+INSERT INTO `m_bank` VALUES ('1', 'Cabang 1', 'BCA', 'NIM', '376234589', 'y', '2017-03-21 15:03:11', 'developer', '2017-03-22 13:37:28', 'developer', '3', '1');
+INSERT INTO `m_bank` VALUES ('2', 'Cabang B', 'Bank A', 'ABC', '32415253', 'n', '2017-03-22 13:23:17', 'developer', '2017-03-29 11:01:01', 'developer', '2', '2');
+INSERT INTO `m_bank` VALUES ('3', 'Cabang 1', 'BRI', 'Metalindo', '132252', 'y', '2017-03-22 13:26:15', 'developer', '2017-03-22 13:37:09', 'developer', '4', '1');
+INSERT INTO `m_bank` VALUES ('4', 'BNI SURABAYA', 'BNI', 'tes', '2393488934894', 'y', '2017-03-29 11:00:48', 'developer', '2017-03-29 11:00:48', null, '0', '1');
+INSERT INTO `m_bank` VALUES ('5', 'asa', 'BCA', 'saya', '1212121', 'n', '2017-04-03 10:50:13', 'developer', '2017-04-03 10:50:22', 'developer', '1', '1');
+INSERT INTO `m_bank` VALUES ('6', 'Mulyosari', 'Bank BCA', 'Agun', '897368769321696', 'y', '2017-04-12 15:04:24', 'developer', '2017-04-12 15:05:50', 'developer', '2', '8');
 
 -- ----------------------------
 -- Table structure for m_barang
@@ -7165,51 +7195,3308 @@ INSERT INTO `m_atribut_barang` VALUES ('8', '2', '3', 'berat', '2', '0', 'y', '2
 DROP TABLE IF EXISTS `m_barang`;
 CREATE TABLE `m_barang` (
   `barang_id` int(11) NOT NULL AUTO_INCREMENT,
-  `brand_id` int(11) DEFAULT NULL,
-  `m_jenis_barang_id` int(11) NOT NULL,
-  `barang_kode` varchar(255) NOT NULL,
+  `m_jenis_barang_id` int(11) DEFAULT NULL,
+  `m_category_2_id` int(11) DEFAULT NULL,
+  `barang_kode` varchar(255) DEFAULT NULL,
   `barang_nomor` varchar(255) DEFAULT NULL,
-  `barang_nama` varchar(255) NOT NULL,
+  `barang_nama` varchar(255) DEFAULT NULL,
   `m_satuan_id` int(11) DEFAULT NULL,
-  `barang_minimum_stok` int(11) NOT NULL DEFAULT '0',
-  `barang_status_aktif` char(1) NOT NULL,
-  `barang_create_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `barang_create_by` varchar(255) NOT NULL,
+  `m_brand_id` int(11) DEFAULT NULL,
+  `harga_beli` int(11) DEFAULT NULL,
+  `harga_jual` int(11) DEFAULT NULL,
+  `harga_jual_pajak` int(11) DEFAULT NULL,
+  `stok` int(11) DEFAULT '0',
+  `barang_minimum_stok` int(11) DEFAULT NULL,
+  `stok_maks` int(11) DEFAULT NULL,
+  `barang_status_aktif` char(1) DEFAULT NULL,
+  `barang_create_date` datetime DEFAULT '0000-00-00 00:00:00',
+  `barang_create_by` varchar(255) DEFAULT NULL,
   `barang_update_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `barang_update_by` varchar(255) DEFAULT NULL,
   `barang_revised` int(11) DEFAULT NULL,
   PRIMARY KEY (`barang_id`),
-  KEY `jenis_barang` (`m_jenis_barang_id`),
-  CONSTRAINT `jenis_barang` FOREIGN KEY (`m_jenis_barang_id`) REFERENCES `m_jenis_barang` (`jenis_barang_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+  UNIQUE KEY `barang_kode` (`barang_nomor`),
+  KEY `jenis_barang` (`m_jenis_barang_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3178 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of m_barang
 -- ----------------------------
-INSERT INTO `m_barang` VALUES ('1', null, '1', 'KDBRG00001', '00001', 'Barang 00001', '1', '20', 'y', '2017-02-15 18:06:41', 'developer', '2017-03-06 13:25:28', 'developer', '17');
-INSERT INTO `m_barang` VALUES ('2', null, '1', 'KDBRG00002', '00002', 'Barang 00002', '1', '20', 'y', '2017-02-16 03:44:01', 'developer', '2017-03-06 13:25:34', 'developer', '2');
-INSERT INTO `m_barang` VALUES ('3', null, '1', 'KDBRG00003', '00003', 'Barang 00003', '1', '20', 'n', '2017-02-21 00:10:10', 'developer', '2017-02-21 00:13:57', 'developer', '6');
-INSERT INTO `m_barang` VALUES ('4', null, '1', 'KDBRG004', '004', 'Barang 004', '2', '30', 'y', '2017-02-23 14:24:35', 'developer', '2017-02-23 14:24:35', null, '0');
-INSERT INTO `m_barang` VALUES ('5', null, '1', 'KDBHN00001', 'BHN00001', 'Coil Galvalum 0.15 bmt x 914', '2', '20000', 'y', '2017-03-04 00:47:17', 'developer', '2017-03-06 16:11:00', 'gudangbahan', '5');
-INSERT INTO `m_barang` VALUES ('6', null, '1', 'KDBHN00002', 'BHN00002', 'Coil Galvalum 0.20 bmt x 1219 ', '2', '100000', 'y', '2017-03-04 00:47:47', 'developer', '2017-03-06 16:11:10', 'gudangbahan', '4');
-INSERT INTO `m_barang` VALUES ('7', null, '1', 'KDBRG1111', '23256', 'Barang 00011', '1', '10', 'y', '2017-03-06 13:43:28', 'developer', '2017-03-06 13:47:08', 'developer', '2');
-INSERT INTO `m_barang` VALUES ('8', null, '3', '342432', '4238236', 'garpu', '2', '100', 'n', '2017-04-04 10:55:33', 'developer', '2017-04-04 11:10:21', 'developer', '1');
-INSERT INTO `m_barang` VALUES ('9', null, '2', '342432', '4238236', 'piring', '2', '100', 'y', '2017-04-04 10:58:02', 'developer', '2017-04-04 14:39:41', 'developer', '13');
-INSERT INTO `m_barang` VALUES ('10', null, '2', '342432', '0000009', 'garpu', '2', '5', 'y', '2017-04-04 11:01:30', 'developer', '2017-04-04 11:01:30', null, '0');
-INSERT INTO `m_barang` VALUES ('11', null, '2', '342432', '0000009', 'garpu', '2', '5', 'y', '2017-04-04 11:03:59', 'developer', '2017-04-04 11:03:59', null, '0');
+INSERT INTO `m_barang` VALUES ('1', '1', '1', '', '1', 'MESIN DRILL 10MM 6411 MAKITA.', '1', '1', '348637', '528182', '581000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2', '1', '1', '', '2', 'MESIN DRILL 10MM 6412 MAKITA.', '1', '1', '430909', '600000', '660000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3', '1', '1', '', '3', 'MESIN DRILL 13MM 6013BR/DS4011 MAKITA', '1', '1', '2000000', '3283636', '3612000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('4', '1', '1', '', '4', 'MESIN DRILL 13MM 6301 MAKITA', '1', '1', '2137500', '2324545', '2557000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('5', '1', '1', '', '5', 'MESIN DRILL 10MM MT602/MT605 MAKTEC.', '1', '2', '274956', '431818', '475000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('6', '1', '1', '', '6', 'MESIN DRILL 10MM MT603/MT606 MAKTEC.', '1', '2', '403426', '490909', '540000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('7', '1', '1', '', '7', 'MESIN DRILL 6,5MM MT650/MT652 MAKTEC.', '1', '2', '314266', '408182', '449000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('8', '1', '1', '', '8', 'MESIN IMPACT DRILL 13MM MT80B MAKTEC.', '1', '2', '388529', '522727', '575000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('9', '1', '1', '', '9', 'MESIN DRILL 10MM RE J1Z-FF-10A DCA', '1', '3', '235227', '305455', '336000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('10', '1', '1', '', '10', 'MESIN DRILL 10MM RE J1Z-FF04-10A DCA', '1', '3', '301602', '470000', '517000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('11', '1', '1', '', '11', 'MESIN DRILL 10MM RE J1Z-FF05-10A DCA', '1', '3', '232331', '356364', '392000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('12', '1', '1', '', '12', 'MESIN DRILL 13MM RE J1Z-FF02-13 DCA', '1', '3', '321666', '584545', '643000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('13', '1', '1', '', '13', 'MESIN DRILL 16MM J1Z-FF-16A DCA', '1', '3', '367619', '597273', '657000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('14', '1', '1', '', '14', 'MESIN DRILL 6,5MM RE JIZ-FF02-6A DCA', '1', '3', '207114', '312727', '344000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('15', '1', '1', '', '15', 'MESIN IMPACT DRILL 13MM Z1J-FF-13 DCA', '1', '3', '354154', '513636', '565000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('16', '1', '1', '', '16', 'MESIN IMPACT DRILL 13MM Z1J-FF02-13 DCA', '1', '3', '305694', '435000', '478500', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('17', '1', '1', '', '17', 'MESIN ROTARY HAMMER 20MM Z1C-FF02-20 DCA', '1', '3', '656250', '1074091', '1181500', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('18', '1', '1', '', '18', 'MESIN ROTARY HAMMER 26MM Z1C-FF-26 DCA', '1', '3', '675500', '1305909', '1436500', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('19', '1', '1', '', '19', 'MESIN ROTARY HAMMER 38MM Z1C-FF-38 DCA', '1', '3', '1643071', '3321818', '3654000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('20', '1', '1', '', '20', 'DEMOLITION HAMMER HEX17 Z1G-FF-6 DCA', '1', '3', '1260000', '2613636', '2875000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('21', '1', '1', '', '21', 'DEMOLITION HAMMER HEX30  Z1G-FF-15 DCA', '1', '3', '2362500', '3973636', '4371000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('22', '1', '1', '', '22', 'DEMOLITION HAMMER SDS MAX Z1G-FF-10 DCA', '1', '3', '0', '4294545', '4724000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('23', '1', '2', '', '23', 'MESIN GERINDA 4\'\' GA 4030 MAKITA.', '1', '1', '430909', '599091', '659000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('24', '1', '2', '', '24', 'MESIN GERINDA 4\'\' N 9500N MAKITA', '1', '1', '1092500', '1213636', '1335000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('25', '1', '2', '', '25', 'MESIN CUT OFF 14\'\' MT240/MT241 MAKTEC.', '1', '2', '1248727', '1489091', '1638000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('26', '1', '2', '', '26', 'MESIN GERINDA 4\'\' GWS 5-100 BOSCH', '1', '4', '290110', '468182', '515000', '0', '0', '0', 'y', '2017-04-24 21:55:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('27', '1', '2', '', '27', 'MESIN JIG SAW 85MM M1Q-FF-85 DCA', '1', '3', '601304', '1007273', '1108000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('28', '1', '2', '', '28', 'MESIN MARBLE CUTTER 110MM Z1E-FF-110 DCA', '1', '3', '374412', '580909', '639000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('29', '1', '2', '', '29', 'MESIN MARBLE CUTTER 180MM Z1E-FF-180 DCA', '1', '3', '712500', '1669091', '1836000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('30', '1', '2', '', '30', 'MESIN CUT OFF 14\'\' J1G-FF02-355 DCA', '1', '3', '1081503', '1526364', '1679000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('31', '1', '2', '', '31', 'MESIN CIRCULAR SAW 7\'\' M1Y-FF-185 DCA', '1', '3', '590308', '863636', '950000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('32', '1', '2', '', '32', 'MESIN CIRCULAR SAW 9\'\' M1Y-FF-235 DCA', '1', '3', '0', '1486364', '1635000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('33', '1', '2', '', '33', 'MESIN MITER SAW 10\'\' J1X-FF-255 DCA', '1', '3', '1785000', '2698182', '2968000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('34', '1', '2', '', '34', 'MESIN GERINDA 4\'\' S1M-FF-100A DCA', '1', '3', '261954', '339545', '373500', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('35', '1', '2', '', '35', 'MESIN GERINDA 4\'\' S1M-FF02-100A DCA', '1', '3', '242612', '370909', '408000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('36', '1', '2', '', '36', 'MESIN GERINDA 4\'\' S1M-FF03-100A DCA', '1', '3', '245226', '338636', '372500', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('37', '1', '2', '', '37', 'MESIN GERINDA 4\'\' S1M-FF10-100 DCA', '1', '3', '453550', '670909', '738000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('38', '1', '2', '', '38', 'MESIN GERINDA 5\'\' S1M-FF-125A DCA', '1', '3', '0', '480909', '529000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('39', '1', '2', '', '39', 'MESIN GERINDA 7\'\' S1M-FF-180A DCA', '1', '3', '770070', '1090000', '1199000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('40', '1', '3', '', '40', 'MESIN ROUTER 1/2\" M1R-FF-12 DCA', '1', '3', '696217', '1157273', '1273000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('41', '1', '3', '', '41', 'MESIN ORBITAL SANDER S1B-FF-110X100 DCA', '1', '3', '223146', '359091', '395000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('42', '1', '3', '', '42', 'MESIN ORBITAL SANDER S1B-FF-93X185 DCA', '1', '3', '250900', '398182', '438000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('43', '1', '3', '', '43', 'MESIN BLOWER 680W Q1F-FF-28/32 DCA', '1', '3', '315000', '502727', '553000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('44', '1', '3', '', '44', 'HOT GUN 1600W Q1B-FF02-1600 DCA', '1', '3', '212738', '333636', '367000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('45', '1', '3', '', '45', 'HOT GUN 2000W Q1B-FF-2000 DCA', '1', '3', '236250', '379091', '417000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('46', '1', '3', '', '46', 'MESIN IMPACT WRENCH 1/2\'\' P1B-FF-20C DCA', '1', '3', '0', '1120000', '1232000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('47', '1', '3', '', '47', 'POWER MIXER 160MM Q1U-FF-160 DCA', '1', '3', '435904', '898182', '988000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('48', '2', '4', '', '48', 'KLEM C HD 10\'\' ORANGE 356-105 JASON', '1', '5', '81818', '126818', '139500', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('49', '2', '4', '', '49', 'KLEM C HD 12\'\' ORANGE 356-106 JASON', '1', '5', '105056', '140909', '155000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('50', '2', '4', '', '50', 'KLEM C HD 4\'\' ORANGE 356-101 JASON', '1', '5', '36591', '52273', '57500', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('51', '2', '4', '', '51', 'KLEM C HD 5\'\' ORANGE 356-102 JASON', '1', '5', '44546', '63636', '70000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('52', '2', '4', '', '52', 'KLEM C HD 6\'\' ORANGE 356-103 JASON', '1', '5', '51137', '81818', '90000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('53', '2', '4', '', '53', 'KLEM C HD 8\'\' ORANGE 356-104 JASON', '1', '5', '67954', '109091', '120000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('54', '2', '4', '', '54', 'CATOK MEJA 60MM 356-071 JASON', '1', '5', '95455', '142273', '156500', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('55', '2', '4', '', '55', 'CATOK PARON 3\'\' 356-011 JASON', '1', '5', '292728', '463636', '510000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('56', '2', '4', '', '56', 'CATOK PARON 4\'\' 356-012 JASON', '1', '5', '368182', '606818', '667500', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('57', '2', '4', '', '57', 'CATOK PARON 5\'\' 356-013 JASON', '1', '5', '496591', '894545', '984000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('58', '2', '4', '', '58', 'CATOK PARON 6\'\' 356-014 JASON', '1', '5', '738636', '1286818', '1415500', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('59', '2', '4', '', '59', 'CATOK PARON 8\'\' 356-015 JASON', '1', '5', '909091', '2368182', '2605000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('60', '2', '5', '', '60', 'PALU BATU HDL FB 10LBX400MM 354-006JASON', '1', '5', '0', '379091', '417000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('61', '2', '5', '', '61', 'PALU BATU HDL FB 12LBX900MM 354-007JASON', '1', '5', '214318', '431364', '474500', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('62', '2', '5', '', '62', 'PALU BATU HDL FB 14LBX900MM 354-008JASON', '1', '5', '0', '479091', '527000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('63', '2', '5', '', '63', 'PALU BATU HDL FB 2LBX300MM 354-001 JASON', '1', '5', '52159', '100000', '110000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('64', '2', '5', '', '64', 'PALU BATU HDL FB 3LBX350MM 354-002 JASON', '1', '5', '68181', '120000', '132000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('65', '2', '5', '', '65', 'PALU BATU HDL FB 4LBX400MM 354-003 JASON', '1', '5', '90909', '159545', '175500', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('66', '2', '5', '', '66', 'PALU BATU HDL FB 6LBX900MM 354-004 JASON', '1', '5', '157454', '280455', '308500', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('67', '2', '5', '', '67', 'PALU BATU HDL FB 8LBX900MM 354-005 JASON', '1', '5', '184091', '322727', '355000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('68', '2', '5', '', '68', 'PALU BATU HDL KY 2LBX350MM 354-090 JASON', '1', '5', '44034', '70909', '78000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('69', '2', '5', '', '69', 'PALU BATU HDL KY 3LBX380MM 354-091 JASON', '1', '5', '56819', '86818', '95500', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('70', '2', '5', '', '70', 'PALU BATU HDL KY 4LBX400MM 354-092 JASON', '1', '5', '60114', '103182', '113500', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('71', '2', '5', '', '71', 'PALU FINIL ORANGE 1,5LB 354-102 JASON', '1', '5', '63637', '152727', '168000', '0', '0', '0', 'y', '2017-04-24 21:55:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('72', '2', '5', '', '72', 'PALU FINIL ORANGE 1LB 354-101 JASON', '1', '5', '51515', '123182', '135500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('73', '2', '5', '', '73', 'PALU FINIL ORANGE 2LB 354-103 JASON', '1', '5', '114546', '173636', '191000', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('74', '2', '5', '', '74', 'PALU KAMBING FB 13OZ  354-022 JASON', '1', '5', '38182', '76364', '84000', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('75', '2', '5', '', '75', 'PALU KAMBING FB 16OZ 354-023 JASON', '1', '5', '41364', '83182', '91500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('76', '2', '5', '', '76', 'PALU KAMBING FB 8OZ 354-021 JASON', '1', '5', '28637', '50455', '55500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('77', '2', '5', '', '77', 'PALU KAMBING HDL BESI 16OZ 354-083 JASON', '1', '5', '68182', '151364', '166500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('78', '2', '5', '', '78', 'PALU KAMBING HDL KY 16OZ 354-033 JASON', '1', '5', '39773', '82727', '91000', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('79', '2', '5', '', '79', 'PALU KAMBING HDL KY 8OZ 354-031 JASON', '1', '5', '31818', '50909', '56000', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('80', '2', '5', '', '80', 'PALU KAMBING MINI 8OZ 354-084 JASON', '1', '5', '28409', '52273', '57500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('81', '2', '5', '', '81', 'PALU KETOK KARAT FBR 0,3KG 354-063 JASON', '1', '5', '31250', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('82', '2', '5', '', '82', 'PALU KETOK KARAT FBR 0,5KG 354-065 JASON', '1', '5', '42954', '75000', '82500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('83', '2', '5', '', '83', 'PALU KONDE FBR 16OZ 354-013 JASON', '1', '5', '44546', '65000', '71500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('84', '2', '5', '', '84', 'PALU KONDE FBR 24OZ 354-014 JASON', '1', '5', '50909', '76364', '84000', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('85', '2', '5', '', '85', 'PALU KONDE FBR 32OZ 354-015 JASON', '1', '5', '62499', '114091', '125500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('86', '2', '5', '', '86', 'PALU KONDE FBR 8OZ 354-011 JASON', '1', '5', '31818', '48636', '53500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('87', '2', '5', '', '87', 'PALU KONDE KY 12OZ 354-042 JASON', '1', '5', '33465', '56364', '62000', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('88', '2', '5', '', '88', 'PALU KONDE KY 16OZ 354-043 JASON', '1', '5', '37910', '64091', '70500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('89', '2', '5', '', '89', 'PALU KONDE KY 24OZ 354-044 JASON', '1', '5', '44546', '74091', '81500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('90', '2', '5', '', '90', 'PALU KONDE KY 32OZ 354-045 JASON', '1', '5', '50909', '110909', '122000', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('91', '2', '5', '', '91', 'PALU KONDE KY 8OZ 354-041 JASON', '1', '5', '31575', '48636', '53500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('92', '2', '5', '', '92', 'PALU TUKANG FBR 0,14KG 354-071 JASON', '1', '5', '28000', '44545', '49000', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('93', '2', '5', '', '93', 'PALU TUKANG FBR 0,21KG 354-072 JASON', '1', '5', '31818', '50455', '55500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('94', '2', '5', '', '94', 'PALU TUKANG FBR 0,24KG 354-073 JASON', '1', '5', '35000', '55455', '61000', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('95', '2', '5', '', '95', 'PALU TUKANG FBR 0,52KG 354-074 JASON', '1', '5', '46022', '75000', '82500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('96', '2', '5', '', '96', 'PALU KARET FBR 12OZ 354-052 JASON', '1', '5', '24183', '37273', '41000', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('97', '2', '5', '', '97', 'PALU KARET FBR 16OZ 354-053 JASON', '1', '5', '30069', '46818', '51500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('98', '2', '5', '', '98', 'PALU KARET FBR 24OZ 354-054 JASON', '1', '5', '37546', '56364', '62000', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('99', '2', '5', '', '99', 'PALU KARET FBR 8OZ 354-051 JASON', '1', '5', '20865', '35455', '39000', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('100', '2', '6', '', '100', 'TANG KOMBINASI ADJ 8\'\' 347-004 JASON', '1', '5', '72672', '149545', '164500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('101', '2', '6', '', '101', 'TANG KOMBINASI CHR 6\'\' 347-007 JASON', '1', '5', '26091', '41818', '46000', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('102', '2', '6', '', '102', 'TANG KOMBINASI CHR 7\'\' 347-008 JASON', '1', '5', '29273', '46818', '51500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('103', '2', '6', '', '103', 'TANG KOMBINASI CHR 8\'\' 347-009 JASON', '1', '5', '33091', '52273', '57500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('104', '2', '6', '', '104', 'TANG KOMBINASI MINI 4.5\'\' 347-000 JASON', '1', '5', '14000', '23636', '26000', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('105', '2', '6', '', '105', 'TANG KOMBINASI STN 6\'\' 347-001 JASON', '1', '5', '28637', '46818', '51500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('106', '2', '6', '', '106', 'TANG KOMBINASI STN 7\'\' 347-002 JASON', '1', '5', '31818', '50455', '55500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('107', '2', '6', '', '107', 'TANG KOMBINASI STN 8\'\' 347-003 JASON', '1', '5', '38182', '56364', '62000', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('108', '2', '6', '', '108', 'TANG MINI STN 5PCS 347-100 JASON', '1', '5', '89091', '125000', '137500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('109', '2', '6', '', '109', 'TANG KUPAS KABEL 6\'\' 347-066 JASON', '1', '5', '39886', '61364', '67500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('110', '2', '6', '', '110', 'TANG KUPAS KABEL AUTO  BS 347-068 JASON', '1', '5', '35000', '67273', '74000', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('111', '2', '6', '', '111', 'TANG KUPAS KABEL AUTO 7\'\' 347-067 JASON', '1', '5', '38183', '57273', '63000', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('112', '2', '6', '', '112', 'TANG POTONG CHR 6\'\' 347-022 JASON', '1', '5', '23011', '38182', '42000', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('113', '2', '6', '', '113', 'TANG POTONG HD 7.5\'\' 347-020 JASON', '1', '5', '72727', '175000', '192500', '0', '0', '0', 'y', '2017-04-24 21:55:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('114', '2', '6', '', '114', 'TANG POTONG KABEL 10\'\' 362-090 JASON', '1', '5', '70000', '115909', '127500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('115', '2', '6', '', '115', 'TANG POTONG MINI 4.5\'\' 347-006 JASON', '1', '5', '14000', '23636', '26000', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('116', '2', '6', '', '116', 'TANG POTONG MINI CRV 347-101 JASON', '1', '5', '24546', '48182', '53000', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('117', '2', '6', '', '117', 'TANG POTONG STN 6\'\' 347-021 JASON', '1', '5', '26727', '41818', '46000', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('118', '2', '6', '', '118', 'TANG LANCIP BKK MINI 4.5\'\' 347-071 JASON', '1', '5', '14000', '23636', '26000', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('119', '2', '6', '', '119', 'TANG LANCIP CHR 6\'\' 347-012 JASON', '1', '5', '23864', '39091', '43000', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('120', '2', '6', '', '120', 'TANG LANCIP HD 8\'\' 347-010 JASON', '1', '5', '72727', '175000', '192500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('121', '2', '6', '', '121', 'TANG LANCIP MINI 4.5\'\' 347-016 JASON', '1', '5', '14000', '23636', '26000', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('122', '2', '6', '', '122', 'TANG LANCIP STN 6\'\' 347-011 JASON', '1', '5', '26728', '41818', '46000', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('123', '2', '6', '', '123', 'TANG BUAYA BULAT 10\'\' 347-033 JASON', '1', '5', '36909', '57727', '63500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('124', '2', '6', '', '124', 'TANG BUAYA BULAT 5\'\' 347-028 JASON', '1', '5', '0', '65000', '71500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('125', '2', '6', '', '125', 'TANG BUAYA FLAT 10\'\' 347-032 JASON', '1', '5', '36910', '57727', '63500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('126', '2', '6', '', '126', 'TANG BUAYA FLAT 5\'\' 347-034 JASON', '1', '5', '0', '65000', '71500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('127', '2', '6', '', '127', 'TANG BUAYA OVAL 10\'\' 347-031 JASON', '1', '5', '36909', '57727', '63500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('128', '2', '6', '', '128', 'TANG BUAYA OVAL 5\'\' 347-037 JASON', '1', '5', '0', '65000', '71500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('129', '2', '6', '', '129', 'TANG SNAPRING B.EXT 7\'\' 347-051 JASON', '1', '5', '23864', '44091', '48500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('130', '2', '6', '', '130', 'TANG SNAPRING B.INT 7\'\' 347-053 JASON', '1', '5', '23863', '44091', '48500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('131', '2', '6', '', '131', 'TANG SNAPRING L.EXT 7\'\' 347-052 JASON', '1', '5', '23864', '44091', '48500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('132', '2', '6', '', '132', 'TANG SNAPRING L.INT 7\'\' 347-054 JASON', '1', '5', '23863', '44091', '48500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('133', '2', '6', '', '133', 'TANG CRIMPING 7.5\'\' SK7202B 347-112JASON', '1', '5', '75859', '118182', '130000', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('134', '2', '6', '', '134', 'TANG CRIMPING 7\'\' SK7041 347-111 JASON', '1', '5', '63000', '85909', '94500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('135', '2', '6', '', '135', 'TANG CRIMPING 8\'\' 347-069 JASON', '1', '5', '80959', '132727', '146000', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('136', '2', '6', '', '136', 'TANG TERMINAL 26PCS 347-065 JASON', '1', '5', '106655', '167727', '184500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('137', '2', '6', '', '137', 'TANG RIVET CHR 347-042 JASON', '1', '5', '63637', '116818', '128500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('138', '2', '6', '', '138', 'TANG RIVET HD JAPAN TYPE 347-043 JASON', '1', '5', '101819', '187273', '206000', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('139', '2', '6', '', '139', 'TANG RIVET HTM 347-041 JASON', '1', '5', '60015', '113182', '124500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('140', '2', '6', '', '140', 'TANG RIVET PUTAR 360° 347-044 JASON', '1', '5', '124091', '225000', '247500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('141', '2', '6', '', '141', 'TANG PLONG KULIT 10\'\' 347-200 JASON', '1', '5', '40924', '99545', '109500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('142', '2', '6', '', '142', '*TANG KAKAKTUA MINI CRV 347-103 JASON', '1', '5', '21197', '48182', '53000', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('143', '2', '6', '', '143', 'TANG KAKAKTUA 10\'\' 347-095 JASON', '1', '5', '47728', '71364', '78500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('144', '2', '6', '', '144', 'TANG KAKAKTUA 7\'\' 347-077 JASON', '1', '5', '31818', '48636', '53500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('145', '2', '6', '', '145', 'TANG KAKAKTUA 8\'\' 347-078 JASON', '1', '5', '38183', '57273', '63000', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('146', '2', '6', '', '146', 'TANG KAKAKTUA 9\'\' 347-094 JASON', '1', '5', '44546', '65000', '71500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('147', '2', '6', '', '147', 'TANG KAKAKTUA MINI 4.5\'\' 347-026 JASON', '1', '5', '14000', '23636', '26000', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('148', '2', '6', '', '148', 'TANG GROOVE JOINT 10\'\' 347-084 JASON', '1', '5', '27272', '59091', '65000', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('149', '2', '6', '', '149', 'TANG GROOVE JOINT 12\'\' 347-085 JASON', '1', '5', '0', '75455', '83000', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('150', '2', '6', '', '150', 'TANG SIWALAN GERGAJI 347-401 JASON', '1', '5', '50910', '75455', '83000', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('151', '2', '6', '', '151', 'TANG SLIP JOINT 6\'\' 347-046 JASON', '1', '5', '22886', '37273', '41000', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('152', '2', '6', '', '152', 'TANG SLIP JOINT 8\'\' 347-047 JASON', '1', '5', '28637', '44545', '49000', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('153', '2', '7', '', '153', 'OBENG (-) C_LINE 3X3MM 348-542 JASON', '1', '5', '2605', '5909', '6500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('154', '2', '7', '', '154', 'OBENG (-) C_LINE 5X3MM 348-046 JASON', '1', '5', '3712', '6818', '7500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('155', '2', '7', '', '155', 'OBENG (-) C_LINE 6X100MM 348-024 JASON', '1', '5', '13249', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('156', '2', '7', '', '156', 'OBENG (-) C_LINE 6X125MM 348-026 JASON', '1', '5', '14053', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('157', '2', '7', '', '157', 'OBENG (-) C_LINE 6X150MM 348-028 JASON', '1', '5', '14574', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('158', '2', '7', '', '158', 'OBENG (-) C_LINE 6X200MM 348-030 JASON', '1', '5', '16175', '29091', '32000', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('159', '2', '7', '', '159', 'OBENG (-) C_LINE 6X3MM 348-048 JASON', '1', '5', '4242', '7727', '8500', '0', '0', '0', 'y', '2017-04-24 21:55:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('160', '2', '7', '', '160', 'OBENG (-) C_LINE 6X75MM 348-022 JASON', '1', '5', '11871', '19545', '21500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('161', '2', '7', '', '161', 'OBENG (-) C_LINE 8X3MM 348-050 JASON', '1', '5', '4025', '8636', '9500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('162', '2', '7', '', '162', 'OBENG (-) MINI 1,5X6MM 348-082 JASON', '1', '5', '9280', '14545', '16000', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('163', '2', '7', '', '163', 'OBENG (-)LISTRIK 4X100MM 348-091 JASON', '1', '5', '10042', '29091', '32000', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('164', '2', '7', '', '164', 'OBENG (-)LISTRIK 5,5X125MM 348-092 JASON', '1', '5', '12632', '38636', '42500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('165', '2', '7', '', '165', 'OBENG (-)LISTRIK 6,5X150MM 348-093 JASON', '1', '5', '14489', '39545', '43500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('166', '2', '7', '', '166', 'OBENG (+) C_LINE 3X3MM 348-541 JASON', '1', '5', '2595', '5909', '6500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('167', '2', '7', '', '167', 'OBENG (+) C_LINE 4X3MM 348-543 JASON', '1', '5', '3447', '6364', '7000', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('168', '2', '7', '', '168', 'OBENG (+) C_LINE 5X3MM 348-045 JASON', '1', '5', '3579', '6818', '7500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('169', '2', '7', '', '169', 'OBENG (+) C_LINE 6X100MM 348-023 JASON', '1', '5', '13258', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('170', '2', '7', '', '170', 'OBENG (+) C_LINE 6X125MM 348-025 JASON', '1', '5', '11837', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('171', '2', '7', '', '171', 'OBENG (+) C_LINE 6X150MM 348-027 JASON', '1', '5', '14583', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('172', '2', '7', '', '172', 'OBENG (+) C_LINE 6X200MM 348-029 JASON', '1', '5', '16174', '29091', '32000', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('173', '2', '7', '', '173', 'OBENG (+) C_LINE 6X3MM 348-047 JASON', '1', '5', '4243', '7727', '8500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('174', '2', '7', '', '174', 'OBENG (+) C_LINE 6X75MM 348-021 JASON', '1', '5', '11932', '19545', '21500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('175', '2', '7', '', '175', 'OBENG (+) C_LINE 8X3MM 348-049 JASON', '1', '5', '3900', '8636', '9500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('176', '2', '7', '', '176', 'OBENG (+) MINI 1,5X6MM 348-081 JASON', '1', '5', '8485', '13182', '14500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('177', '2', '7', '', '177', 'OBENG (+)LISTRIK PH0X60MM 348-094 JASON', '1', '5', '10948', '26364', '29000', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('178', '2', '7', '', '178', 'OBENG (+)LISTRIK PH1X80MM 348-095 JASON', '1', '5', '15105', '35455', '39000', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('179', '2', '7', '', '179', 'OBENG BOLAKBALIK MULTIFUNGSI348-212JASON', '1', '5', '27614', '46818', '51500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('180', '2', '7', '', '180', 'OBENG FARADIC TESTER 348-116 JASON', '1', '5', '14000', '22273', '24500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('181', '2', '7', '', '181', 'OBENG TESPEN 2 WAY 348-114 JASON', '1', '5', '18236', '37273', '41000', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('182', '2', '7', '', '182', 'OBENG TESPEN 7,5\'\' 348-112 JASON', '1', '5', '16546', '20909', '23000', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('183', '2', '7', '', '183', 'OBENG TESPEN 7\'\' 348-111 JASON', '1', '5', '6873', '12727', '14000', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('184', '2', '7', '', '184', 'OBENG(-)TEMBUS G.BIRU 3X5MM 348-131JASON', '1', '5', '12728', '19091', '21000', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('185', '2', '7', '', '185', 'OBENG(-)TEMBUS G.BIRU 4X6MM 348-133JASON', '1', '5', '9849', '21364', '23500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('186', '2', '7', '', '186', 'OBENG(-)TEMBUS G.BIRU 5X6MM 348-135JASON', '1', '5', '14848', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('187', '2', '7', '', '187', 'OBENG(-)TEMBUS G.BIRU 6X6MM 348-137JASON', '1', '5', '15909', '24091', '26500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('188', '2', '7', '', '188', 'OBENG(-)TEMBUS G.BIRU 8X6MM 348-139JASON', '1', '5', '22273', '33182', '36500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('189', '2', '7', '', '189', 'OBENG(+)TEMBUS G.BIRU 3X5MM 348-130JASON', '1', '5', '12728', '19091', '21000', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('190', '2', '7', '', '190', 'OBENG(+)TEMBUS G.BIRU 4X6MM 348-132JASON', '1', '5', '13789', '21364', '23500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('191', '2', '7', '', '191', 'OBENG(+)TEMBUS G.BIRU 5X6MM 348-134JASON', '1', '5', '14848', '22273', '24500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('192', '2', '7', '', '192', 'OBENG(+)TEMBUS G.BIRU 6X6MM 348-136JASON', '1', '5', '15909', '24091', '26500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('193', '2', '7', '', '193', 'OBENG(+)TEMBUS G.BIRU 8X6MM 348-138JASON', '1', '5', '22273', '33182', '36500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('194', '2', '7', '', '194', 'OBENG  10 IN 1 CRV 348-215 JASON', '1', '5', '50909', '83182', '91500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('195', '2', '7', '', '195', 'OBENG 2 PCS 38MMX6MM 348-083 JASON', '1', '5', '17183', '30000', '33000', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('196', '2', '7', '', '196', 'OBENG 30 IN 1 CRV 348-214 JASON', '1', '5', '27272', '55455', '61000', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('197', '2', '7', '', '197', 'OBENG ELECTRIC 5PCS 348-101 JASON', '1', '5', '54016', '99545', '109500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('198', '2', '7', '', '198', 'OBENG ELEKTRONIK CRV 31PCS 348-500 JASON', '1', '5', '27940', '60000', '66000', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('199', '2', '7', '', '199', 'OBENG KACAMATA SET 12 IN 1 391-022 JASON', '1', '5', '79546', '125000', '137500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('200', '2', '7', '', '200', 'OBENG KACAMATA SET 6 PCS 1 348-121 JASON', '1', '5', '11454', '17273', '19000', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('201', '2', '7', '', '201', 'OBENG MULTI FUNGSI 17PC 348-213 JASON', '1', '5', '49697', '90455', '99500', '0', '0', '0', 'y', '2017-04-24 21:55:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('202', '2', '7', '', '202', 'OBENG SET 6 IN 1 348-201 JASON', '1', '5', '54092', '85455', '94000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('203', '2', '7', '', '203', 'OBENG SET 6PC GG KRISTAL 348-052 JASON', '1', '5', '0', '95455', '105000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('204', '2', '7', '', '204', 'OBENG SET 7PC CRV 2  348-015 JASON', '1', '5', '101819', '149545', '164500', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('205', '2', '7', '', '205', 'OBENG SET 7PC GG KRT  348-051 JASON', '1', '5', '50000', '104091', '114500', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('206', '2', '7', '', '206', 'OBENG SET 8 IN 1 348-202 JASON', '1', '5', '50000', '105455', '116000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('207', '2', '7', '', '207', 'OBENG SET CR-V 4 PC 348-054 JASON', '1', '5', '55228', '84091', '92500', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('208', '2', '7', '', '208', 'MATA OBENG SET 65MM 348-170 10 PC JASON', '1', '5', '0', '72273', '79500', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('209', '2', '7', '', '209', 'MATA OBENG KETOK PH2 348-156/151 JASON', '1', '5', '7640', '11364', '12500', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('210', '2', '7', '', '210', 'MATA OBENG KETOK PH3 348-157/152 JASON', '1', '5', '0', '11364', '12500', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('211', '2', '7', '', '211', 'MATA OBENG PH1X50MM 348-166 1PC JASON', '1', '5', '0', '65909', '72500', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('212', '2', '7', '', '212', 'MATA OBENG PH2X110MM 348-169 1PC JASON', '1', '5', '0', '9545', '10500', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('213', '2', '7', '', '213', 'MATA OBENG PH2X50MM 348-167 1PC JASON', '1', '5', '4119', '6364', '7000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('214', '2', '7', '', '214', 'MATA OBENG PH2X65MM 348-168 1PC JASON', '1', '5', '0', '6364', '7000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('215', '2', '7', '', '215', 'OBENG KETOK 12 PCS 348-163 JASON', '1', '5', '130000', '254545', '280000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('216', '2', '7', '', '216', 'OBENG KETOK 5PCS 348-161 JASON', '1', '5', '126142', '188182', '207000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('217', '2', '7', '', '217', 'OBENG KETOK 7PCS 348-162 JASON', '1', '5', '83523', '151818', '167000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('218', '2', '7', '', '218', 'OBENG KETOK HD 13 PCS 348-164 JASON', '1', '5', '119319', '212273', '233500', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('219', '2', '7', '', '219', 'OBENG (-) 5X100 RSS4 BL0150027 BULLOCK', '1', '6', '28035', '44091', '48500', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('220', '2', '7', '', '220', 'OBENG (-) 6X150 RSS6 BL0150028 BULLOCK', '1', '6', '39558', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('221', '2', '7', '', '221', 'OBENG (-) TEMBUS 6X100 MS04 BULLOCK', '1', '6', '19336', '30455', '33500', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('222', '2', '7', '', '222', 'OBENG (-)MINI 6X38 TS38BL0151003 BULLOCK', '1', '6', '23167', '39091', '43000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('223', '2', '7', '', '223', 'OBENG (+) TEMBUS #2 6X100 MP04 BULLOCK', '1', '6', '19336', '30455', '33500', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('224', '2', '7', '', '224', 'OBENG (+)#1 5X100 RSP4 BL0150030BULLOCK', '1', '6', '28034', '44091', '48500', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('225', '2', '7', '', '225', 'OBENG (+)#2 6X150 RSP6 BL0150031 BULLOCK', '1', '6', '39558', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('226', '2', '7', '', '226', 'OBENG2WAY6X100 USAFLAG BL0151001 BULLOCK', '1', '6', '44432', '98636', '108500', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('227', '2', '7', '', '227', 'OBENG SET 7 PCS BL0151000 BULLOCK', '1', '6', '93075', '165909', '182500', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('228', '2', '8', '', '228', 'SOCK 1/2 DR 12P 10MM 346-662 JASON', '1', '5', '7637', '13636', '15000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('229', '2', '8', '', '229', 'SOCK 1/2 DR 12P 12MM 346-664 JASON', '1', '5', '7637', '14545', '16000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('230', '2', '8', '', '230', 'SOCK 1/2 DR 12P 13MM 346-665 JASON', '1', '5', '6272', '15000', '16500', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('231', '2', '8', '', '231', 'SOCK 1/2 DR 12P 14MM 346-666 JASON', '1', '5', '8591', '16364', '18000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('232', '2', '8', '', '232', 'SOCK 1/2 DR 12P 15MM 346-667 JASON', '1', '5', '6997', '17273', '19000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('233', '2', '8', '', '233', 'SOCK 1/2 DR 12P 17MM 346-669 JASON', '1', '5', '9546', '19545', '21500', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('234', '2', '8', '', '234', 'SOCK 1/2 DR 12P 18MM 346-670 JASON', '1', '5', '9863', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('235', '2', '8', '', '235', 'SOCK 1/2 DR 12P 19MM 346-671 JASON', '1', '5', '10182', '23636', '26000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('236', '2', '8', '', '236', 'SOCK 1/2 DR 12P 20MM 346-672 JASON', '1', '5', '7273', '24091', '26500', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('237', '2', '8', '', '237', 'SOCK 1/2 DR 12P 21MM 346-673 JASON', '1', '5', '10818', '25909', '28500', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('238', '2', '8', '', '238', 'SOCK 1/2 DR 12P 22MM 346-674 JASON', '1', '5', '12091', '28182', '31000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('239', '2', '8', '', '239', 'SOCK 1/2 DR 12P 23MM 346-675 JASON', '1', '5', '12727', '29091', '32000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('240', '2', '8', '', '240', 'SOCK 1/2 DR 12P 24MM 346-676 JASON', '1', '5', '13364', '30000', '33000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('241', '2', '8', '', '241', 'SOCK 1/2 DR 12P 27MM 346-677 JASON', '1', '5', '18455', '39091', '43000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('242', '2', '8', '', '242', 'SOCK 1/2 DR 12P 30MM 346-678 JASON', '1', '5', '23546', '44545', '49000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('243', '2', '8', '', '243', 'SOCK 1/2 DR 12P 32MM 346-679 JASON', '1', '5', '24183', '50909', '56000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('244', '2', '8', '', '244', 'SOCK 1/2 DR 12P 8MM 346-660 JASON', '1', '5', '7637', '13182', '14500', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('245', '2', '8', '', '245', 'SOCK 1/2 DR 6P 10MM 346-454 JASON', '1', '5', '8592', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:55:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('246', '2', '8', '', '246', 'SOCK 1/2 DR 6P 11MM 346-455 JASON', '1', '5', '8591', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('247', '2', '8', '', '247', 'SOCK 1/2 DR 6P 12MM 346-456 JASON', '1', '5', '8591', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('248', '2', '8', '', '248', 'SOCK 1/2 DR 6P 13MM 346-457 JASON', '1', '5', '8591', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('249', '2', '8', '', '249', 'SOCK 1/2 DR 6P 14MM 346-458 JASON', '1', '5', '9227', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('250', '2', '8', '', '250', 'SOCK 1/2 DR 6P 15MM 346-459 JASON', '1', '5', '9227', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('251', '2', '8', '', '251', 'SOCK 1/2 DR 6P 16MM 346-460 JASON', '1', '5', '7579', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('252', '2', '8', '', '252', 'SOCK 1/2 DR 6P 17MM 346-461 JASON', '1', '5', '10182', '18636', '20500', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('253', '2', '8', '', '253', 'SOCK 1/2 DR 6P 18MM 346-462 JASON', '1', '5', '10182', '19545', '21500', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('254', '2', '8', '', '254', 'SOCK 1/2 DR 6P 19MM 346-463 JASON', '1', '5', '10500', '19545', '21500', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('255', '2', '8', '', '255', 'SOCK 1/2 DR 6P 20MM 346-464 JASON', '1', '5', '7968', '25455', '28000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('256', '2', '8', '', '256', 'SOCK 1/2 DR 6P 21MM 346-465 JASON', '1', '5', '12727', '26364', '29000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('257', '2', '8', '', '257', 'SOCK 1/2 DR 6P 22MM 346-466 JASON', '1', '5', '12579', '27727', '30500', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('258', '2', '8', '', '258', 'SOCK 1/2 DR 6P 23MM 346-467 JASON', '1', '5', '9221', '32727', '36000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('259', '2', '8', '', '259', 'SOCK 1/2 DR 6P 24MM 346-468 JASON', '1', '5', '18925', '33636', '37000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('260', '2', '8', '', '260', 'SOCK 1/2 DR 6P 27MM 346-469 JASON', '1', '5', '17773', '38182', '42000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('261', '2', '8', '', '261', 'SOCK 1/2 DR 6P 30MM 346-470 JASON', '1', '5', '23673', '49545', '54500', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('262', '2', '8', '', '262', 'SOCK 1/2 DR 6P 32MM  346-471 JASON', '1', '5', '26704', '61818', '68000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('263', '2', '8', '', '263', 'SOCK 1/2 DR 6P 8MM 346-452 JASON', '1', '5', '8591', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('264', '2', '8', '', '264', 'SOCK 1/2 DR 6P 9MM  346-453 JASON', '1', '5', '8591', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('265', '2', '8', '', '265', 'SOCK SET 1/2DR 6P9PC 10-22 346-401JASON', '1', '5', '184546', '288182', '317000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('266', '2', '8', '', '266', 'SOCK SET RATCHET3/8 6P 7PC 346-404JASON', '1', '5', '109091', '263182', '289500', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('267', '2', '8', '', '267', 'SOCKSET 1/2DR 6P 10PC 10-24 346-402JASON', '1', '5', '203637', '325909', '358500', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('268', '2', '8', '', '268', 'SOCKSET 1/2DR 6P 25PC 10-32 346-403JASON', '1', '5', '604546', '872273', '959500', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('269', '2', '8', '', '269', 'EXTENSION BAR 1/2DR 10\'\' 346-306 JASON', '1', '5', '41363', '68182', '75000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('270', '2', '8', '', '270', 'EXTENSION BAR 1/2DR 3\'\' 346-304 JASON', '1', '5', '22273', '35909', '39500', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('271', '2', '8', '', '271', 'EXTENSION BAR 1/2DR 5\'\' 346-305 JASON', '1', '5', '28637', '46818', '51500', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('272', '2', '8', '', '272', 'KUNCI BUSI SOCK 16MM 346-198 JASON', '1', '5', '22909', '46364', '51000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('273', '2', '8', '', '273', 'KUNCI BUSI SOCK 21MM 346-199 JASON', '1', '5', '22909', '46364', '51000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('274', '2', '8', '', '274', 'L HANDLE 1/2DR 10\'\' 346-302 JASON', '1', '5', '38183', '86818', '95500', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('275', '2', '8', '', '275', 'MAGNETIC NUTSTTR 8X65MM 348-173 4PCJASON', '1', '5', '30682', '57273', '63000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('276', '2', '8', '', '276', 'RACHET 1/2DR 346-308 JASON', '1', '5', '98637', '155455', '171000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('277', '2', '8', '', '277', 'SOCK L 17MM 346-100 JASON', '1', '5', '0', '57273', '63000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('278', '2', '8', '', '278', 'SOCK L 19MM 346-101 JASON', '1', '5', '0', '61364', '67500', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('279', '2', '8', '', '279', 'SOCK L 21MM 346-102 JASON', '1', '5', '0', '65000', '71500', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('280', '2', '8', '', '280', 'UNIVERSAL JOINT 1/2DR 3\'\' 346-307 JASON', '1', '5', '47728', '76818', '84500', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('281', '2', '8', '', '281', 'KUNCI SOCK T HDL KARET 10MM 346-281JASON', '1', '5', '17613', '31818', '35000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('282', '2', '8', '', '282', 'KUNCI SOCK T HDL KARET 11MM 346-282JASON', '1', '5', '20250', '33636', '37000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('283', '2', '8', '', '283', 'KUNCI SOCK T HDL KARET 12MM 346-283JASON', '1', '5', '19978', '33636', '37000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('284', '2', '8', '', '284', 'KUNCI SOCK T HDL KARET 13MM 346-284JASON', '1', '5', '21000', '33636', '37000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('285', '2', '8', '', '285', 'KUNCI SOCK T HDL KARET 8MM 346-280 JASON', '1', '5', '17614', '31818', '35000', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('286', '2', '8', '', '286', 'KUNCI SOCK T ROTARY 10MM 346-147 JASON', '1', '5', '27364', '44091', '48500', '0', '0', '0', 'y', '2017-04-24 21:55:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('287', '2', '8', '', '287', 'KUNCI SOCK T ROTARY 12MM 346-148 JASON', '1', '5', '27364', '44091', '48500', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('288', '2', '8', '', '288', 'KUNCI SOCK T ROTARY 8MM 346-146 JASON', '1', '5', '27364', '44091', '48500', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('289', '2', '8', '', '289', 'KUNCI SOCK T SLIDING 10MM 346-122 JASON', '1', '5', '25455', '40000', '44000', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('290', '2', '8', '', '290', 'KUNCI SOCK T SLIDING 12MM 346-124 JASON', '1', '5', '25455', '40000', '44000', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('291', '2', '8', '', '291', 'KUNCI SOCK T SLIDING 14MM 346-126 JASON', '1', '5', '25455', '40000', '44000', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('292', '2', '8', '', '292', 'KUNCI SOCK T SLIDING 17MM 346-127 JASON', '1', '5', '25455', '40000', '44000', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('293', '2', '8', '', '293', 'KUNCI SOCK T SLIDING 8MM 346-121 JASON', '1', '5', '25455', '40000', '44000', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('294', '2', '8', '', '294', 'OBENG T ROTARY PH 2 348-109 JASON', '1', '5', '22909', '49545', '54500', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('295', '2', '8', '', '295', 'OBENG T ROTARY PH 3 348-110 JASON', '1', '5', '21955', '49545', '54500', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('296', '2', '8', '', '296', 'SLIDING T HANDLE 1/2DR 10\'\' 346-303JASON', '1', '5', '35000', '80000', '88000', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('297', '2', '8', '', '297', 'SOCK T 3IN1 10X11X13MM 346-108 JASON', '1', '5', '39886', '59091', '65000', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('298', '2', '8', '', '298', 'SOCK T 3IN1 10X12X14MM 346-109 JASON', '1', '5', '29766', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('299', '2', '8', '', '299', 'SOCK T 3IN1 12X14X17MM 346-110 JASON', '1', '5', '34682', '69545', '76500', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('300', '2', '8', '', '300', 'SOCK T 3IN1 8X10X12MM 346-107 JASON', '1', '5', '30909', '59091', '65000', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('301', '2', '8', '', '301', 'SOCK T 3IN1 8X9X10MM 346-106 JASON', '1', '5', '39886', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('302', '2', '8', '', '302', 'SOCK Y CH  8X10X12 346-142 JASON', '1', '5', '13364', '24545', '27000', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('303', '2', '8', '', '303', 'SOCK Y CH 10X11X13 346-143 JASON', '1', '5', '13364', '24545', '27000', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('304', '2', '8', '', '304', 'SOCK Y CH 10X12X14 346-144 JASON', '1', '5', '13364', '24545', '27000', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('305', '2', '8', '', '305', 'SOCK Y CH 12X14X17 346-145 JASON', '1', '5', '15592', '27727', '30500', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('306', '2', '8', '', '306', 'SOCK Y CH 8X9X10 346-141 JASON', '1', '5', '12887', '24545', '27000', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('307', '2', '8', '', '307', 'SOCK 1/2DR 12P 10MM BL0115102 BULLOCK', '1', '6', '16065', '25909', '28500', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('308', '2', '8', '', '308', 'SOCK 1/2DR 12P 12MM BL0115104 BULLOCK', '1', '6', '16065', '25909', '28500', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('309', '2', '8', '', '309', 'SOCK 1/2DR 12P 14MM BL0115106 BULLOCK', '1', '6', '17395', '26818', '29500', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('310', '2', '8', '', '310', 'SOCK 1/2DR 12P 17MM BL0115109 BULLOCK', '1', '6', '15840', '28182', '31000', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('311', '2', '8', '', '311', 'SOCK 1/2DR 12P 19MM BL0115111 BULLOCK', '1', '6', '19168', '29091', '32000', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('312', '2', '8', '', '312', 'SOCK 1/2DR 12P 21MM BL0115113 BULLOCK', '1', '6', '20133', '35455', '39000', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('313', '2', '8', '', '313', 'SOCK 1/2DR 12P 22MM BL0115114 BULLOCK', '1', '6', '19599', '39091', '43000', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('314', '2', '8', '', '314', 'SOCK 1/2DR 12P 24MM BL0115116 BULLOCK', '1', '6', '21705', '42727', '47000', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('315', '2', '8', '', '315', 'SOCK 1/2DR 12P 8MM BL0115100 BULLOCK', '1', '6', '16065', '25909', '28500', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('316', '2', '8', '', '316', 'SOCK DEEP 1/2DR 6P 10MM BL0115701BULLOCK', '1', '6', '27431', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('317', '2', '8', '', '317', 'SOCK DEEP 1/2DR 6P 8MM BL0115700 BULLOCK', '1', '6', '26493', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('318', '2', '8', '', '318', 'SOCK DEEP 1/2DR 6P12MM BL0115702 BULLOCK', '1', '6', '34348', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:55:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('319', '2', '8', '', '319', 'SOCK DEEP 1/2DR 6P14MM BL0115703 BULLOCK', '1', '6', '34348', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('320', '2', '8', '', '320', 'SOCK DEEP 1/2DR 6P17MM BL0115704 BULLOCK', '1', '6', '37673', '57727', '63500', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('321', '2', '8', '', '321', 'SOCK DEEP 1/2DR 6P19MM BL0115705 BULLOCK', '1', '6', '38782', '60000', '66000', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('322', '2', '8', '', '322', 'SOCK DEEP 1/2DR 6P21MM BL0115706 BULLOCK', '1', '6', '44322', '68182', '75000', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('323', '2', '9', '', '323', 'KUNCI INGGRIS 10\'\' 346-206 JASON', '1', '5', '44545', '80000', '88000', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('324', '2', '9', '', '324', 'KUNCI INGGRIS 12\'\' 346-207 JASON', '1', '5', '60455', '109091', '120000', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('325', '2', '9', '', '325', 'KUNCI INGGRIS 15\'\' 346-208 JASON', '1', '5', '133636', '207273', '228000', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('326', '2', '9', '', '326', 'KUNCI INGGRIS 8\'\' 346-205 JASON', '1', '5', '35000', '56818', '62500', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('327', '2', '9', '', '327', 'KUNCI PIPA HD 10\'\' 346-251 JASON', '1', '5', '41364', '63182', '69500', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('328', '2', '9', '', '328', 'KUNCI PIPA HD 12\'\' 346-252 JASON', '1', '5', '50909', '76364', '84000', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('329', '2', '9', '', '329', 'KUNCI PIPA HD 14\'\' 346-253 JASON', '1', '5', '63637', '99545', '109500', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('330', '2', '9', '', '330', 'KUNCI PIPA HD 18\'\' 346-254 JASON', '1', '5', '70871', '140909', '155000', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('331', '2', '9', '', '331', 'KUNCI PIPA HD 24\'\' 346-255 JASON', '1', '5', '110796', '193182', '212500', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('332', '2', '9', '', '332', 'KUNCI PIPA HD 36\'\' 346-256 JASON', '1', '5', '215909', '356364', '392000', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('333', '2', '9', '', '333', 'KUNCI NEPEL SATIN CRV-4PC 346-715 JASON', '1', '5', '78409', '165000', '181500', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('334', '2', '9', '', '334', 'KUNCI RING PAS CHROM 11MM 346-745 JASON', '1', '5', '13014', '25909', '28500', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('335', '2', '9', '', '335', 'KUNCI RING PAS CHROM 16MM 346-750 JASON', '1', '5', '16890', '34091', '37500', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('336', '2', '9', '', '336', 'KUNCI RING PAS CHROM 20MM 346-753 JASON', '1', '5', '21954', '49545', '54500', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('337', '2', '9', '', '337', 'KUNCI RING PAS CHROM 21MM 346-754 JASON', '1', '5', '24045', '51818', '57000', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('338', '2', '9', '', '338', 'KUNCI RING PAS CHROM 22MM 346-755 JASON', '1', '5', '31049', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('339', '2', '9', '', '339', 'KUNCI RING PAS CHROM 27MM 346-758 JASON', '1', '5', '50273', '95000', '104500', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('340', '2', '9', '', '340', 'KUNCI RING PAS CHROM 28MM 346-759 JASON', '1', '5', '52819', '104545', '115000', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('341', '2', '9', '', '341', 'KUNCI RING PAS CHROM 30MM 346-760 JASON', '1', '5', '57849', '143636', '158000', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('342', '2', '9', '', '342', 'KUNCI RING PAS CHROM 32MM 346-761 JASON', '1', '5', '62155', '157273', '173000', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('343', '2', '9', '', '343', 'KUNCI RING PAS CHROM 9MM 346-743 JASON', '1', '5', '10455', '23636', '26000', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('344', '2', '9', '', '344', 'KUNCI RINGPAS STN 14PC 8-24 346-095JASON', '1', '5', '279797', '529545', '582500', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('345', '2', '9', '', '345', 'KUNCI RINGPAS STN 14PC 8-32 346-096JASON', '1', '5', '306818', '602727', '663000', '0', '0', '0', 'y', '2017-04-24 21:55:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('346', '2', '9', '', '346', 'KUNCI RINGPASCHROM11PC8-24MM346-767JASON', '1', '5', '186667', '364091', '400500', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('347', '2', '9', '', '347', 'KUNCI RINGPASCHROM14PC8-24MM346-768JASON', '1', '5', '256767', '469091', '516000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('348', '2', '9', '', '348', 'KUNCI RINGPASCHROM14PC8-32MM346-769JASON', '1', '5', '335199', '602727', '663000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('349', '2', '9', '', '349', 'KUNCI RING CHROM 16X17 346-780 JASON', '1', '5', '34459', '61364', '67500', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('350', '2', '9', '', '350', 'KUNCI RING CHROM 17X19 346-781 JASON', '1', '5', '34224', '64091', '70500', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('351', '2', '9', '', '351', 'KUNCI RING CHROM 18X19 346-782 JASON', '1', '5', '37546', '64091', '70500', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('352', '2', '9', '', '352', 'KUNCI RING CHROM 20X22 346-783 JASON', '1', '5', '41296', '85455', '94000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('353', '2', '9', '', '353', 'KUNCI RING CHROM 21X23 346-784 JASON', '1', '5', '0', '96818', '106500', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('354', '2', '9', '', '354', 'KUNCI RING CHROM 24X27 346-785 JASON', '1', '5', '63000', '119091', '131000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('355', '2', '9', '', '355', 'KUNCI RING CHROM 25X28 346-786 JASON', '1', '5', '0', '124545', '137000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('356', '2', '9', '', '356', 'KUNCI RING CHROM 30X32 346-787 JASON', '1', '5', '73181', '150455', '165500', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('357', '2', '9', '', '357', 'KUNCI RING CHROM 8PC 6-24MM 346-789JASON', '1', '5', '219546', '386364', '425000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('358', '2', '9', '', '358', 'KUNCI RING CHROM 8X10 346-773 JASON', '1', '5', '16836', '31818', '35000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('359', '2', '9', '', '359', 'KUNCI RING CHROM 8X9 346-772 JASON', '1', '5', '16477', '31818', '35000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('360', '2', '9', '', '360', 'KUNCI RING SATIN 8PC 6-22 346-082 JASON', '1', '5', '136994', '280909', '309000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('361', '2', '9', '', '361', 'KUNCI RING STN 12PC 6-32 346-083 JASON', '1', '5', '335227', '659091', '725000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('362', '2', '9', '', '362', 'KUNCI RINGBULAN SATIN 10X12 346-076JASON', '1', '5', '0', '55455', '61000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('363', '2', '9', '', '363', 'KUNCI RINGBULAN SATIN 11X13 346-077JASON', '1', '5', '0', '71364', '78500', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('364', '2', '9', '', '364', 'KUNCI RINGBULAN SATIN 14X17 346-078JASON', '1', '5', '0', '88182', '97000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('365', '2', '9', '', '365', 'KUNCI RINGBULAN SATIN 16X18 346-079JASON', '1', '5', '0', '96818', '106500', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('366', '2', '9', '', '366', 'KUNCI PAS CHROM 12X14 346-727 JASON', '1', '5', '13068', '27273', '30000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('367', '2', '9', '', '367', 'KUNCI PAS CHROM 14X17 346-729 JASON', '1', '5', '16568', '29091', '32000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('368', '2', '9', '', '368', 'KUNCI PAS CHROM 17X19 346-731 JASON', '1', '5', '21086', '38182', '42000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('369', '2', '9', '', '369', 'KUNCI PAS CHROM 18X19 346-732 JASON', '1', '5', '24055', '45909', '50500', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('370', '2', '9', '', '370', 'KUNCI PAS CHROM 20X22 346-733 JASON', '1', '5', '0', '54545', '60000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('371', '2', '9', '', '371', 'KUNCI PAS CHROM 21X23 346-734 JASON', '1', '5', '0', '59091', '65000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('372', '2', '9', '', '372', 'KUNCI PAS CHROM 24X27 346-735 JASON', '1', '5', '0', '66364', '73000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('373', '2', '9', '', '373', 'KUNCI PAS CHROM 25X28 346-736 JASON', '1', '5', '0', '85455', '94000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('374', '2', '9', '', '374', 'KUNCI PAS CHROM 30X32 346-737 JASON', '1', '5', '0', '103636', '114000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('375', '2', '9', '', '375', 'KUNCI PAS CHROM 8PC 6-24MM 346-738 JASON', '1', '5', '146363', '267727', '294500', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('376', '2', '9', '', '376', 'KUNCI PAS CHROM 8X10 346-723 JASON', '1', '5', '11498', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('377', '2', '9', '', '377', 'KUNCI PAS CHROM 8X9 346-722 JASON', '1', '5', '11363', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('378', '2', '9', '', '378', 'KUNCI PAS SET SATIN 12PC 346-073 JASON', '1', '5', '186818', '420455', '462500', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('379', '2', '9', '', '379', 'KUNCI PAS SET SATIN 8PC 346-072 JASON', '1', '5', '105255', '240455', '264500', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('380', '2', '9', '', '380', 'KUNCI NEPEL 10X12 346-712 JASON', '1', '5', '15681', '27727', '30500', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('381', '2', '9', '', '381', 'KUNCI NEPEL 12X14 346-713 JASON', '1', '5', '19620', '36364', '40000', '0', '0', '0', 'y', '2017-04-24 21:55:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('382', '2', '9', '', '382', 'KUNCI NEPEL 14X17 346-714 JASON', '1', '5', '21525', '40909', '45000', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('383', '2', '9', '', '383', 'KUNCI NEPEL 8X10 346-711 JASON', '1', '5', '11364', '24091', '26500', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('384', '2', '9', '', '384', 'KUNCI RINGPAS 10MM BL0111434CHROMBULLOCK', '1', '6', '12338', '29545', '32500', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('385', '2', '9', '', '385', 'KUNCI RINGPAS 12MM BL0111436CHROMBULLOCK', '1', '6', '14265', '34545', '38000', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('386', '2', '9', '', '386', 'KUNCI RINGPAS 14MM BL0111438CHROMBULLOCK', '1', '6', '20049', '37727', '41500', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('387', '2', '9', '', '387', 'KUNCI RINGPAS 14PC BL0111456 CRM BULLOCK', '1', '6', '520483', '775909', '853500', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('388', '2', '9', '', '388', 'KUNCI RINGPAS 17MM BL0111441CHROMBULLOCK', '1', '6', '26988', '52273', '57500', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('389', '2', '9', '', '389', 'KUNCI RINGPAS 19MM BL0111443CHROMBULLOCK', '1', '6', '32385', '63182', '69500', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('390', '2', '9', '', '390', 'KUNCI RINGPAS 8-24 BL0111457 CRM BULLOCK', '1', '6', '293012', '437727', '481500', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('391', '2', '9', '', '391', 'KUNCI RINGPAS 8MM BL0111432CHROM BULLOCK', '1', '6', '9815', '25455', '28000', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('392', '2', '10', '', '392', 'KUNCI L CR-V BINTANG T40 346-156 JASON', '1', '5', '13500', '22273', '24500', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('393', '2', '10', '', '393', 'KUNCI L CR-V BINTANG T45 346-157 JASON', '1', '5', '15274', '25455', '28000', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('394', '2', '10', '', '394', 'KUNCI L CR-V BINTANG T50 346-158 JASON', '1', '5', '16545', '26818', '29500', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('395', '2', '10', '', '395', 'KUNCI L TX  XL 3PC T40-T50 346-180 JASON', '1', '5', '59079', '122273', '134500', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('396', '2', '10', '', '396', 'KUNCI L BP SET 9PC1,5-10MM 346-173 JASON', '1', '5', '57274', '84091', '92500', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('397', '2', '10', '', '397', 'KUNCI L BPSETXLS2 9PC1,5-10 346-176JASON', '1', '5', '120909', '184091', '202500', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('398', '2', '10', '', '398', 'KUNCI L PJG&BINTANG20PC 346-190SET JASON', '1', '5', '3769', '245455', '270000', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('399', '2', '10', '', '399', 'KUNCI L SATIN CR-V 1,5MM 346-330 JASON', '1', '5', '1400', '5455', '6000', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('400', '2', '10', '', '400', 'KUNCI L SATIN CR-V 10MM 346-338 JASON', '1', '5', '9091', '17273', '19000', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('401', '2', '10', '', '401', 'KUNCI L SATIN CR-V 12MM 346-339 JASON', '1', '5', '19636', '32727', '36000', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('402', '2', '10', '', '402', 'KUNCI L SATIN CR-V 14MM 346-340 JASON', '1', '5', '28637', '45909', '50500', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('403', '2', '10', '', '403', 'KUNCI L SATIN CR-V 2,5MM 346-332 JASON', '1', '5', '1592', '5455', '6000', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('404', '2', '10', '', '404', 'KUNCI L SATIN CR-V 2MM 346-331 JASON', '1', '5', '1463', '5455', '6000', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('405', '2', '10', '', '405', 'KUNCI L SATIN CR-V 3MM 346-333 JASON', '1', '5', '1907', '5455', '6000', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('406', '2', '10', '', '406', 'KUNCI L SATIN CR-V 4MM 346-334 JASON', '1', '5', '2419', '6364', '7000', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('407', '2', '10', '', '407', 'KUNCI L SATIN CR-V 5MM 346-335 JASON', '1', '5', '3183', '6818', '7500', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('408', '2', '10', '', '408', 'KUNCI L SATIN CR-V 6MM 346-336 JASON', '1', '5', '4137', '8182', '9000', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('409', '2', '10', '', '409', 'KUNCI L SATIN CR-V 8MM 346-337 JASON', '1', '5', '6364', '11364', '12500', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('410', '2', '10', '', '410', 'KUNCI L SET 10PC 1.5-10MM 346-171 JASON', '1', '5', '38183', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('411', '2', '10', '', '411', 'KUNCI L SET 10PC 1.5-10MM 346-182 JASON', '1', '5', '11454', '17273', '19000', '0', '0', '0', 'y', '2017-04-24 21:55:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('412', '2', '10', '', '412', 'KUNCI L SET 10PC 1/16-3/8 346-172 JASON', '1', '5', '41364', '61364', '67500', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('413', '2', '10', '', '413', 'KUNCI L SET 3PC 4-6MM 346-186 JASON', '1', '5', '9546', '13636', '15000', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('414', '2', '10', '', '414', 'KUNCI L TORX SET8PC T9-T40 346-175 JASON', '1', '5', '35625', '57273', '63000', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('415', '2', '10', '', '415', 'KUNCI L TX XL 9PCT10-T50 346-181JASON', '1', '5', '82728', '175000', '192500', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('416', '2', '10', '', '416', 'KUNCI L  XLONG TX T40 BL0117311 BULLOCK', '1', '6', '16177', '25909', '28500', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('417', '2', '10', '', '417', 'KUNCI L SHORT 12MM BL0117011 BULLOCK', '1', '6', '23164', '42273', '46500', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('418', '2', '10', '', '418', 'KUNCI L SHORT 2.5MM BL0117002 BULLOCK', '1', '6', '1163', '6364', '7000', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('419', '2', '10', '', '419', 'KUNCI L SHORT 2MM BL0117001 BULLOCK', '1', '6', '784', '5909', '6500', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('420', '2', '10', '', '420', 'KUNCI L SHORT 3MM BL0117003 BULLOCK', '1', '6', '1864', '6818', '7500', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('421', '2', '10', '', '421', 'KUNCI L SHORT 4MM BL0117004 BULLOCK', '1', '6', '3045', '7273', '8000', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('422', '2', '10', '', '422', 'KUNCI L SHORT 5MM BL0117005 BULLOCK', '1', '6', '3946', '9091', '10000', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('423', '2', '10', '', '423', 'KUNCI L SHORT 6MM BL0117007 BULLOCK', '1', '6', '4598', '9091', '10000', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('424', '2', '10', '', '424', 'KUNCI L SHORT 8MM BL0117009 BULLOCK', '1', '6', '7746', '16364', '18000', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('425', '2', '10', '', '425', 'KUNCI L SHORT TX T30 BL0117206 BULLOCK', '1', '6', '8460', '15000', '16500', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('426', '2', '10', '', '426', 'KUNCI L SHORT TX T40 BL0117207 BULLOCK', '1', '6', '11635', '18182', '20000', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('427', '2', '10', '', '427', 'KUNCI L SHORT TX T45 BL0117208 BULLOCK', '1', '6', '14737', '23182', '25500', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('428', '2', '10', '', '428', 'KUNCI L SHORT TX T50 BL0117209 BULLOCK', '1', '6', '18283', '28182', '31000', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('429', '2', '10', '', '429', 'KUNCI L EXTLONGBP10PC1/16\'\'-3/8\'\'BULLOCK', '1', '6', '161331', '248636', '273500', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('430', '2', '10', '', '430', 'KUNCI L EXTRALONG BP10PC1,5-10MM BULLOCK', '1', '6', '161331', '248636', '273500', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('431', '2', '10', '', '431', 'KUNCI L LONG TX SET 9PC T10-T50 BULLOCK', '1', '6', '203145', '318182', '350000', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('432', '2', '10', '', '432', 'KUNCI L SET 8PC LIPAT 2-10MM BULLOCK', '1', '6', '77342', '118636', '130500', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('433', '2', '10', '', '433', 'KUNCI L SHORT SET 10PC 1,5-10MM BULLOCK', '1', '6', '73020', '111818', '123000', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('434', '2', '10', '', '434', 'KUNCI L SHORT TX SET 9PC T10-T50 BULLOCK', '1', '6', '109364', '168636', '185500', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('435', '2', '10', '', '435', 'KUNCI L XLONG SET 10PCS 1,5-10MM BULLOCK', '1', '6', '132633', '204545', '225000', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('436', '2', '11', '', '436', 'GUNTING BETON HD 18\'\' 362-001 JASON', '1', '5', '111363', '150909', '166000', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('437', '2', '11', '', '437', 'GUNTING BETON HD 24\'\' 362-002 JASON', '1', '5', '152728', '206364', '227000', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('438', '2', '11', '', '438', 'GUNTING BETON HD 30\'\' 362-003 JASON', '1', '5', '190909', '264091', '290500', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('439', '2', '11', '', '439', 'GUNTING BETON HD 36\'\'  362-004 JASON', '1', '5', '251363', '340455', '374500', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('440', '2', '11', '', '440', 'GUNTING BETON HD 42\'\' 362-005 JASON', '1', '5', '439091', '609091', '670000', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('441', '2', '11', '', '441', 'CUTTER 5 BLADE 362-061 JASON', '1', '5', '28637', '42727', '47000', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('442', '2', '11', '', '442', 'CUTTER SET 2 PC 362-062 JASON', '1', '5', '33091', '48182', '53000', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('443', '2', '11', '', '443', 'PISAU LIPAT 12 IN 1 362-065 JASON', '1', '5', '27615', '46818', '51500', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('444', '2', '11', '', '444', 'ALAT POTONG KACA TC-90 362-042 JASON', '1', '5', '47728', '82273', '90500', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('445', '2', '11', '', '445', 'GERGAJI HDL KY 18\'\' 363-021 JASON', '1', '5', '43272', '63182', '69500', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('446', '2', '11', '', '446', 'GERGAJI HDL KY 20\'\' 363-022 JASON', '1', '5', '45409', '68182', '75000', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('447', '2', '11', '', '447', 'GERGAJI KAYU 18\'\' 363-011 JASON', '1', '5', '27575', '40455', '44500', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('448', '2', '11', '', '448', 'GERGAJI KAYU 20\'\' 363-012 JASON', '1', '5', '27575', '44545', '49000', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('449', '2', '11', '', '449', 'GERGAJI KAYU HDL KRT18\'\' 363-031 JASON', '1', '5', '41364', '61364', '67500', '0', '0', '0', 'y', '2017-04-24 21:55:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('450', '2', '11', '', '450', 'GERGAJI KAYU HDL KRT20\'\' 363-032 JASON', '1', '5', '43908', '64091', '70500', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('451', '2', '11', '', '451', 'STANG GERGAJI 12\'\' 2IN1 364-001 JASON', '1', '5', '71331', '119091', '131000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('452', '2', '11', '', '452', 'STANG GERGAJI 12\'\' 2IN1 364-003 JASON', '1', '5', '47348', '67273', '74000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('453', '2', '11', '', '453', 'STANG GERGAJI 12\'\' 364-010 JASON', '1', '5', '24181', '33182', '36500', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('454', '2', '11', '', '454', 'STANG GERGAJI CRM 8\'\'-12\'\' 364-004 JASON', '1', '5', '20000', '40455', '44500', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('455', '2', '11', '', '455', 'STANG GERGAJI PROF 12\'\' 364-002 JASON', '1', '5', '47728', '62273', '68500', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('456', '2', '11', '', '456', 'GUNTING SENG HD 10\'\' 362-022 JASON', '1', '5', '50909', '65909', '72500', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('457', '2', '11', '', '457', 'GUNTING SENG HD 12\'\' 362-023 JASON', '1', '5', '57272', '80000', '88000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('458', '2', '11', '', '458', 'GUNTING SENG HD 8\'\' 362-021 JASON', '1', '5', '38181', '51818', '57000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('459', '2', '11', '', '459', 'GUNTING SENG LURUS 10\'\'362-112 JASON', '1', '5', '52159', '105455', '116000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('460', '2', '11', '', '460', 'ALAT POTONG KERAMIK400MM3IN1365-001JASON', '1', '5', '334091', '515000', '566500', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('461', '2', '11', '', '461', 'ALAT POTONG KERAMIK600MM3IN1365-003JASON', '1', '5', '426364', '610000', '671000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('462', '2', '11', '', '462', 'FLARING TOOL 6-15MM 362-051 JASON', '1', '5', '66819', '103636', '114000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('463', '2', '11', '', '463', 'UNCEK SET 3,4,5,6MM 350-024 JASON', '1', '5', '9090', '19091', '21000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('464', '2', '11', '', '464', 'GERGAJI BLOK CITICON', '1', '7', '33000', '44545', '49000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('465', '2', '12', '', '465', 'KAPI 1.5\'\' 377-036 JASON', '1', '5', '6363', '10000', '11000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('466', '2', '12', '', '466', 'KAPI 2.5\'\' 377-038 JASON', '1', '5', '7954', '11364', '12500', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('467', '2', '12', '', '467', 'KAPI 2\'\' 377-037 JASON', '1', '5', '6894', '10455', '11500', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('468', '2', '12', '', '468', 'KAPI 3\'\' 377-039 JASON', '1', '5', '9016', '12273', '13500', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('469', '2', '12', '', '469', 'KAPI 4\'\' 377-040 JASON', '1', '5', '11137', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('470', '2', '12', '', '470', 'KAPI SET 4PC 377-031 JASON', '1', '5', '10795', '19545', '21500', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('471', '2', '12', '', '471', 'KAPI SS HDL KAYU  1.5\'\' 377-042 JASON', '1', '5', '6439', '14545', '16000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('472', '2', '12', '', '472', 'KAPI SS HDL KAYU  2.5\'\' 377-044 JASON', '1', '5', '8404', '14545', '16000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('473', '2', '12', '', '473', 'KAPI SS HDL KAYU  2\'\' 377-043 JASON', '1', '5', '8063', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('474', '2', '12', '', '474', 'KAPI SS HDL KAYU  3\'\' 377-045 JASON', '1', '5', '9540', '17273', '19000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('475', '2', '12', '', '475', 'KAPI SS HDL KAYU  4\'\' 377-046 JASON', '1', '5', '9849', '20909', '23000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('476', '2', '12', '', '476', 'KAPI WALLPAPER 280MM 377-047 JASON', '1', '5', '22159', '37273', '41000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('477', '2', '12', '', '477', 'GUN TACKER 3IN1 4-14MM 358-002 JASON', '1', '5', '79545', '125000', '137500', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('478', '2', '12', '', '478', 'GUN TACKER 4-8MM 358-001 JASON', '1', '5', '49091', '80909', '89000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('479', '2', '12', '', '479', 'GUN TACKER 4IN1 4-14MM 358-021 JASON', '1', '5', '155901', '232727', '256000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('480', '2', '12', '', '480', 'CAULKING GUN 9\'\' 360-001 JASON', '1', '5', '38183', '52727', '58000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('481', '2', '12', '', '481', 'CAULKING GUN 9\'\' NYLON 360-002 JASON', '1', '5', '35860', '50455', '55500', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('482', '2', '12', '', '482', 'ALAT BUKA PAKU 12\'\'X12MM 347-501 JASON', '1', '5', '36909', '60000', '66000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('483', '2', '12', '', '483', 'ALAT BUKA PAKU 18\'\'X16MM 347-502 JASON', '1', '5', '47438', '98636', '108500', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('484', '2', '12', '', '484', 'ALAT BUKA PAKU 24\'\'X16MM 347-503 JASON', '1', '5', '71023', '128182', '141000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('485', '2', '12', '', '485', 'KOP KACA 5\'\' 3 KAKI 362-044 JASON', '1', '5', '178182', '415455', '457000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('486', '2', '12', '', '486', 'PAHAT KAYU HDL KAYU 1\'\' 371-227 JASON', '1', '5', '9584', '15909', '17500', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('487', '2', '12', '', '487', 'PAHAT KAYU HDL KAYU 1/2\'\' 371-224 JASON', '1', '5', '6439', '12727', '14000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('488', '2', '12', '', '488', 'PAHAT KAYU HDL KAYU ¼\'\' 371-221 JASON', '1', '5', '6326', '10000', '11000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('489', '2', '12', '', '489', 'PAHAT KAYU HDL KAYU 3/8\'\' 371-223 JASON', '1', '5', '6137', '11818', '13000', '0', '0', '0', 'y', '2017-04-24 21:55:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('490', '2', '12', '', '490', 'PAHAT KAYU HDL KAYU ¾\'\' 371-226 JASON', '1', '5', '8710', '13636', '15000', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('491', '2', '12', '', '491', 'PAHAT KAYU HDL KAYU 5/16\'\' 371-222 JASON', '1', '5', '5757', '10455', '11500', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('492', '2', '12', '', '492', 'TROWEL GERIGI 100MM CITICON', '1', '7', '30250', '40909', '45000', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('493', '2', '12', '', '493', 'TROWEL GERIGI 75MM CITICON', '1', '7', '30250', '40909', '45000', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('494', '2', '12', '', '494', 'TROWEL BULAT BIRU 6\'\' 377-068 JASON', '1', '5', '10606', '28182', '31000', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('495', '2', '12', '', '495', 'TROWEL BULAT BIRU 7\'\' 377-069 JASON', '1', '5', '13258', '31364', '34500', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('496', '2', '12', '', '496', 'TROWEL BULAT BIRU 8\'\' 377-070 JASON', '1', '5', '21477', '34091', '37500', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('497', '2', '12', '', '497', 'TROWEL OVAL BIRU 6\'\' 377-071 JASON', '1', '5', '12064', '28182', '31000', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('498', '2', '12', '', '498', 'TROWEL OVAL BIRU 7\'\' 377-072 JASON', '1', '5', '12121', '31364', '34500', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('499', '2', '12', '', '499', 'TROWEL OVAL BIRU 8\'\' 377-073 JASON', '1', '5', '22273', '34091', '37500', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('500', '2', '12', '', '500', 'KUAS CAT HTM 1.5 \'\' 377-012 JASON', '1', '5', '5170', '8182', '9000', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('501', '2', '12', '', '501', 'KUAS CAT HTM 1\'\' 377-011 JASON', '1', '5', '3658', '7727', '8500', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('502', '2', '12', '', '502', 'KUAS CAT HTM 2,5\'\' 377-014 JASON', '1', '5', '8653', '17273', '19000', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('503', '2', '12', '', '503', 'KUAS CAT HTM 2\'\' 377-013 JASON', '1', '5', '7955', '14091', '15500', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('504', '2', '12', '', '504', 'KUAS CAT HTM 3\'\' 377-015 JASON', '1', '5', '12991', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('505', '2', '12', '', '505', 'KUAS CAT HTM 4\'\' 377-016 JASON', '1', '5', '18030', '30909', '34000', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('506', '2', '12', '', '506', 'KUAS CAT PTH 1.5\'\' 377-002 JASON', '1', '5', '3053', '6818', '7500', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('507', '2', '12', '', '507', 'KUAS CAT PTH 1\'\' 377-001 JASON', '1', '5', '2254', '5455', '6000', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('508', '2', '12', '', '508', 'KUAS CAT PTH 2,5\'\' 377-004 JASON', '1', '5', '6359', '12727', '14000', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('509', '2', '12', '', '509', 'KUAS CAT PTH 2\'\' 377-003 JASON', '1', '5', '4304', '9545', '10500', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('510', '2', '12', '', '510', 'KUAS CAT PTH 3\'\' 377-005 JASON', '1', '5', '7686', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('511', '2', '12', '', '511', 'KUAS CAT PTH 4\'\' 377-006 JASON', '1', '5', '12462', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('512', '2', '12', '', '512', '*KUAS ROL 7\' ALUM 377-026 JASON', '1', '5', '59091', '109545', '120500', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('513', '2', '12', '', '513', 'KUAS ROL 9\'\' 377-009 JASON', '1', '5', '23863', '33636', '37000', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('514', '2', '12', '', '514', 'KUAS ROLL KAPAL 4\'\'X24\'\' 377-010 JASON', '1', '5', '10341', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('515', '2', '12', '', '515', 'REFILL KUAS ROL KAPAL 4\'\' 377-019 JASON', '1', '5', '4293', '6818', '7500', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('516', '2', '13', '', '516', 'TOOL BOX DCA', '1', '3', '55000', '68182', '75000', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('517', '2', '13', '', '517', 'TOOL BOX 2 SUSUN 50X20X24 391-016 JASON', '1', '5', '330910', '460455', '506500', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('518', '2', '13', '', '518', 'TOOL BOX 3 SUSUN 50X20X29 391-017 JASON', '1', '5', '338150', '520000', '572000', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('519', '2', '13', '', '519', 'TOOL BOX BESI 2SSN KNG15\'\' 391-005 JASON', '1', '5', '154205', '308182', '339000', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('520', '2', '13', '', '520', 'TOOL BOX BESI 2SSN KNG20\'\' 391-006 JASON', '1', '5', '196023', '470455', '517500', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('521', '2', '13', '', '521', 'TOOL BOX BM T171 2315 MASPION', '1', '8', '12526', '19091', '21000', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('522', '2', '13', '', '522', 'TOOL BOX BM T172 2823 MASPION', '1', '8', '24355', '32273', '35500', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('523', '2', '13', '', '523', 'TOOL BOX BM T173 3531 MASPION', '1', '8', '38403', '47727', '52500', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('524', '2', '14', '', '524', 'METERAN FIBER 100M 368-003 JASON', '1', '5', '136819', '196364', '216000', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('525', '2', '14', '', '525', 'METERAN FIBER 30M 368-001 JASON', '1', '5', '47728', '69091', '76000', '0', '0', '0', 'y', '2017-04-24 21:55:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('526', '2', '14', '', '526', 'METERAN FIBER 50M 368-002 JASON', '1', '5', '63637', '90455', '99500', '0', '0', '0', 'y', '2017-04-24 21:55:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('527', '2', '14', '', '527', 'METERAN HONGSUI 5MX19MM 368-007 JASON', '1', '5', '11455', '18182', '20000', '0', '0', '0', 'y', '2017-04-24 21:55:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('528', '2', '14', '', '528', 'METERAN HONGSUI 7,5MX25MM 368-008 JASON', '1', '5', '20864', '31818', '35000', '0', '0', '0', 'y', '2017-04-24 21:55:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('529', '2', '14', '', '529', 'METERAN JALAN W/RODA 368-041 JASON', '1', '5', '572728', '819091', '901000', '0', '0', '0', 'y', '2017-04-24 21:55:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('530', '2', '14', '', '530', 'METERAN PLAT BESI 100M JASON', '1', '5', '0', '289091', '318000', '0', '0', '0', 'y', '2017-04-24 21:55:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('531', '2', '14', '', '531', 'METERAN PLAT BESI 30M 368-031 JASON', '1', '5', '152727', '216818', '238500', '0', '0', '0', 'y', '2017-04-24 21:55:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('532', '2', '14', '', '532', 'METERAN PLAT BESI 50M 368-032 JASON', '1', '5', '187727', '289091', '318000', '0', '0', '0', 'y', '2017-04-24 21:55:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('533', '2', '14', '', '533', 'METERAN ROL KNG 3M 368-021 JASON', '1', '5', '15273', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:55:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('534', '2', '14', '', '534', 'METERAN ROL KNG 5M 368-022 JASON', '1', '5', '22272', '32273', '35500', '0', '0', '0', 'y', '2017-04-24 21:55:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('535', '2', '14', '', '535', 'METERAN ROL KNG 7.5M 368-023 JASON', '1', '5', '36909', '52727', '58000', '0', '0', '0', 'y', '2017-04-24 21:55:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('536', '2', '14', '', '536', 'METERAN ROL KNG BODI KRT 3M 368-026JASON', '1', '5', '18455', '29091', '32000', '0', '0', '0', 'y', '2017-04-24 21:55:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('537', '2', '14', '', '537', 'METERAN ROL KNG BODI KRT 5M 368-027JASON', '1', '5', '29272', '42727', '47000', '0', '0', '0', 'y', '2017-04-24 21:55:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('538', '2', '14', '', '538', 'METERAN ROL KNG KRT 7,5M 368-028 JASON', '1', '5', '46454', '66364', '73000', '0', '0', '0', 'y', '2017-04-24 21:55:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('539', '2', '14', '', '539', 'METERAN ROL MAGNIT 3M 368-056 JASON', '1', '5', '19588', '36364', '40000', '0', '0', '0', 'y', '2017-04-24 21:55:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('540', '2', '14', '', '540', 'METERAN ROL MAGNIT 5M 368-057 JASON', '1', '5', '30546', '44091', '48500', '0', '0', '0', 'y', '2017-04-24 21:55:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('541', '2', '14', '', '541', 'METERAN ROL MAGNIT 7,5M 368-058 JASON', '1', '5', '47728', '68182', '75000', '0', '0', '0', 'y', '2017-04-24 21:55:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('542', '2', '14', '', '542', 'METERAN ROL TRANSPARANT 2M 368-061 JASON', '1', '5', '6363', '14545', '16000', '0', '0', '0', 'y', '2017-04-24 21:55:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('543', '2', '14', '', '543', 'METERAN ROL TRANSPARANT 3M 368-062 JASON', '1', '5', '11965', '18636', '20500', '0', '0', '0', 'y', '2017-04-24 21:55:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('544', '2', '14', '', '544', 'METERAN ROL TRANSPARANT 5M 368-063 JASON', '1', '5', '18410', '27273', '30000', '0', '0', '0', 'y', '2017-04-24 21:55:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('545', '2', '14', '', '545', 'PENGGARIS BENANG + KAPUR 368-211 JASON', '1', '5', '26516', '41818', '46000', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('546', '2', '14', '', '546', 'PENGGARIS BNG+KPR+WTRPS 30M 368-210JASON', '1', '5', '24818', '35909', '39500', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('547', '2', '14', '', '547', 'PENGGARIS SS 6\'\' 368-201 JASON', '1', '5', '3940', '9091', '10000', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('548', '2', '14', '', '548', 'PENGGARIS/MISTAR PLAT 8\'\' 368-202 JASON', '1', '5', '6668', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('549', '2', '14', '', '549', 'SIKU TUKANG ALUMINIUM 10\'\' 377-222 JASON', '1', '5', '22273', '33636', '37000', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('550', '2', '14', '', '550', 'SIKU TUKANG ALUMINIUM 12\'\' 377-223 JASON', '1', '5', '25137', '39545', '43500', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('551', '2', '14', '', '551', 'SIKU TUKANG MULTIGUNA 12\'\' 377-211 JASON', '1', '5', '44538', '64091', '70500', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('552', '2', '14', '', '552', 'SKETMAT 6\'\' DIGITAL 367-003 JASON', '1', '5', '229091', '327727', '360500', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('553', '2', '14', '', '553', 'SKETMAT 8\'\' DIGITAL 367-005 JASON', '1', '5', '0', '547273', '602000', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('554', '2', '14', '', '554', 'SKETMAT BESI 12\'\' 367-006 JASON', '1', '5', '188125', '364091', '400500', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('555', '2', '14', '', '555', 'SKETMAT BESI 6\'\' 367-001 JASON', '1', '5', '85908', '123182', '135500', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('556', '2', '14', '', '556', 'SKETMAT BESI 8\'\' 367-002 JASON', '1', '5', '136622', '196818', '216500', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('557', '2', '14', '', '557', 'SKETMAT DIAL 6\'\' X 0.02MM 367-007 JASON', '1', '5', '171428', '290909', '320000', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('558', '2', '14', '', '558', 'FULLER 13 BLADES 4\'\' 367-106 JASON', '1', '5', '22273', '32727', '36000', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('559', '2', '14', '', '559', 'FULLER 20 BLADES 4\'\' 367-107 JASON', '1', '5', '35000', '50000', '55000', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('560', '2', '14', '', '560', 'WATERPASS ALM 18\'\' 367-011 JASON', '1', '5', '57272', '82273', '90500', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('561', '2', '14', '', '561', 'WATERPASS ALM 24\'\' 367-012 JASON', '1', '5', '70000', '100909', '111000', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('562', '2', '14', '', '562', 'WATERPASS ALUMINIUM KNG18\'\'367-015 JASON', '1', '5', '35000', '50455', '55500', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('563', '2', '14', '', '563', 'WATERPASS ALUMINIUM KNG24\'\'367-016 JASON', '1', '5', '44546', '63636', '70000', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('564', '2', '14', '', '564', 'WATERPASS ALUMINIUM KNG36\'\'367-017 JASON', '1', '5', '61364', '91364', '100500', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('565', '2', '14', '', '565', 'WATERPASS ALUMINIUM KNG48\'\'367-018 JASON', '1', '5', '79545', '114091', '125500', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('566', '2', '14', '', '566', 'WATERPASS MAGNET 18\'\' 367-021 JASON', '1', '5', '57272', '82727', '91000', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('567', '2', '14', '', '567', 'WATERPASS MAGNET 24\'\' 367-022 JASON', '1', '5', '73636', '109091', '120000', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('568', '2', '14', '', '568', 'WATERPASS TORPEDO 9\'\' 367-041 JASON', '1', '5', '20681', '35000', '38500', '0', '0', '0', 'y', '2017-04-24 21:55:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('569', '2', '14', '', '569', 'MANOMETER 2 1/2 X 100KG 374-007 JASON', '1', '5', '38182', '54545', '60000', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('570', '2', '14', '', '570', 'MANOMETER 2 1/2 X 10KG 374-003 JASON', '1', '5', '28636', '43636', '48000', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('571', '2', '14', '', '571', 'MANOMETER 2 1/2 X 16KG 374-004 JASON', '1', '5', '28636', '43636', '48000', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('572', '2', '14', '', '572', 'MANOMETER 2 1/2 X 200KG374-008 JASON', '1', '5', '38150', '54545', '60000', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('573', '2', '14', '', '573', 'MANOMETER 2 1/2 X 25KG 374-006 JASON', '1', '5', '28636', '43636', '48000', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('574', '2', '14', '', '574', 'MANOMETER 2 1/2 X 4KG 374-001 JASON', '1', '5', '23000', '43636', '48000', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('575', '2', '14', '', '575', 'MANOMETER 4\'\' X 100KG 374-016 JASON', '1', '5', '0', '95455', '105000', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('576', '2', '14', '', '576', 'MANOMETER 4\'\' X 150KG 374-017 JASON', '1', '5', '0', '95455', '105000', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('577', '2', '14', '', '577', 'MANOMETER 4\'\' X 300KG 374-018 JASON', '1', '5', '0', '100455', '110500', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('578', '2', '14', '', '578', 'METERAN ROL 3M MELZER', '1', '9', '12480', '19091', '21000', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('579', '2', '14', '', '579', 'METERAN ROL 5M MELZER', '1', '9', '19680', '30000', '33000', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('580', '2', '14', '', '580', 'METERAN ROL 7,5M MELZER', '1', '9', '38400', '59091', '65000', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('581', '2', '14', '', '581', 'SKETMAT 6\'\' DIAL 505-683/685 MITUTOYO', '1', '10', '775000', '1508636', '1659500', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('582', '2', '14', '', '582', 'SKETMAT 6\'\' DIGITAL  500-196 MITUTOYO', '1', '10', '1250000', '2287273', '2516000', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('583', '2', '14', '', '583', 'SKETMAT 6\'\' VERN 530-104 MITUTOYO', '1', '10', '410000', '711818', '783000', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('584', '2', '14', '', '584', 'SKETMAT 8\'\' DIAL 505-634/684 MITUTOYO', '1', '10', '560769', '2052273', '2257500', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('585', '2', '14', '', '585', 'SKETMAT 8\'\' DIGITAL 500-197 MITUTOYO', '1', '10', '1932000', '2682727', '2951000', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('586', '2', '14', '', '586', 'SKETMAT 8\'\' VERN 530-114 MITUTOYO', '1', '10', '590625', '809091', '890000', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('587', '2', '14', '', '587', 'ANALOG MULTIMETER AM-47 I CONSTANT', '1', '11', '283181', '436364', '480000', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('588', '2', '14', '', '588', 'DIGITAL CLAMP METER 600A AC600 CONSTANT', '1', '11', '255500', '590909', '650000', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('589', '2', '14', '', '589', 'DIGITAL CLAMP METER AC-1000 CONSTANT', '1', '11', '278800', '863636', '950000', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('590', '2', '14', '', '590', 'DIGITAL CLAMP METER ADC 1000 CONSTANT', '1', '11', '938000', '2074545', '2282000', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('591', '2', '14', '', '591', 'DIGITAL INSULATION TESTER1000V CONSTANT', '1', '11', '0', '3227273', '3550000', '0', '0', '0', 'y', '2017-04-24 21:55:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('592', '2', '14', '', '592', 'DIGITAL INSULATION/MEGER 5KV CONSTANT', '1', '11', '0', '6915455', '7607000', '0', '0', '0', 'y', '2017-04-24 21:55:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('593', '2', '14', '', '593', 'DIGITAL MULTIMETER 50 CONSTANT', '1', '11', '98000', '215455', '237000', '0', '0', '0', 'y', '2017-04-24 21:55:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('594', '2', '14', '', '594', 'DIGITAL MULTIMETER AUTO RNG90F CONSTANT', '1', '11', '0', '866818', '953500', '0', '0', '0', 'y', '2017-04-24 21:55:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('595', '2', '14', '', '595', 'DIGITAL MULTIMETER DMM 600IV CONSTANT', '1', '11', '0', '2191818', '2411000', '0', '0', '0', 'y', '2017-04-24 21:55:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('596', '2', '14', '', '596', 'DIGITAL MULTIMETER DMM89 CONSTANT', '1', '11', '283181', '436364', '480000', '0', '0', '0', 'y', '2017-04-24 21:55:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('597', '2', '14', '', '597', 'DIGITAL MULTIMETER POCKET PD10CONSTANT', '1', '11', '0', '340909', '375000', '0', '0', '0', 'y', '2017-04-24 21:55:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('598', '2', '14', '', '598', 'DIGITAL MULTIMETER WITH LCR 95ICONSTANT', '1', '11', '588636', '969091', '1066000', '0', '0', '0', 'y', '2017-04-24 21:55:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('599', '2', '14', '', '599', 'DIGITAL POWER CLAMP METER 260W CONSTANT', '1', '11', '0', '7031364', '7734500', '0', '0', '0', 'y', '2017-04-24 21:55:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('600', '2', '14', '', '600', 'PEN TESTER TDS19 CONSTANT', '1', '11', '0', '1181818', '1300000', '0', '0', '0', 'y', '2017-04-24 21:55:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('601', '2', '14', '', '601', 'TEST LEAD TL-03 CONSTANT', '1', '11', '0', '68636', '75500', '0', '0', '0', 'y', '2017-04-24 21:55:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('602', '2', '14', '', '602', 'TRUE RMS CLAMP METER ADC 600 CONSTANT', '1', '11', '610909', '1510000', '1661000', '0', '0', '0', 'y', '2017-04-24 21:55:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('603', '2', '14', '', '603', '*THERMOMETER W/BEAD PROBE 20TC CONSTANT', '1', '11', '0', '1090909', '1200000', '0', '0', '0', 'y', '2017-04-24 21:55:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('604', '2', '14', '', '604', 'SCOTLIGHT U/ TACHOMETER RPM78 CONSTANT', '1', '11', '0', '118182', '130000', '0', '0', '0', 'y', '2017-04-24 21:55:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('605', '2', '14', '', '605', 'THERMO HYGROMETER 50/70° HT100 CONSTANT', '1', '11', '262500', '381818', '420000', '0', '0', '0', 'y', '2017-04-24 21:55:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('606', '2', '14', '', '606', 'THERMOMETER W/ PROBE 20T CONSTANT', '1', '11', '0', '1607273', '1768000', '0', '0', '0', 'y', '2017-04-24 21:55:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('607', '2', '14', '', '607', 'THERMOMETER W/DUAL PROBE TC12 CONSTANT', '1', '11', '0', '754545', '830000', '0', '0', '0', 'y', '2017-04-24 21:55:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('608', '2', '14', '', '608', '*LASER DISTANCE METER 50 CONSTANT', '1', '11', '0', '1318182', '1450000', '0', '0', '0', 'y', '2017-04-24 21:55:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('609', '2', '14', '', '609', 'LASER DISTANCE METER 60 CONSTANT', '1', '11', '1193182', '1590909', '1750000', '0', '0', '0', 'y', '2017-04-24 21:55:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('610', '2', '14', '', '610', 'COATING THICKNESS GAUGE CT-40 CONSTANT', '1', '11', '5625000', '8669091', '9536000', '0', '0', '0', 'y', '2017-04-24 21:55:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('611', '2', '14', '', '611', 'CONCRETE MOISTURE METER MC 100 CONSTANT', '1', '11', '0', '2681818', '2950000', '0', '0', '0', 'y', '2017-04-24 21:55:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('612', '2', '14', '', '612', 'DIGITAL DEPTH GAUGE DG-250 CONSTANT', '1', '11', '0', '286364', '315000', '0', '0', '0', 'y', '2017-04-24 21:55:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('613', '2', '14', '', '613', 'DIGITAL THICKNESS GAUGE TG-120CONSTANT', '1', '11', '0', '245455', '270000', '0', '0', '0', 'y', '2017-04-24 21:55:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('614', '2', '14', '', '614', 'PH PEN TESTER PH47 CONSTANT', '1', '11', '0', '954545', '1050000', '0', '0', '0', 'y', '2017-04-24 21:55:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('615', '2', '14', '', '615', 'WOOD MOISTURE METER PRO 100 CONSTANT', '1', '11', '0', '2775909', '3053500', '0', '0', '0', 'y', '2017-04-24 21:55:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('616', '3', '15', '', '616', 'MATA BOR SDS PLUS 10X160 D00175 MAKITA', '1', '1', '12795', '22727', '25000', '0', '0', '0', 'y', '2017-04-24 21:55:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('617', '3', '15', '', '617', 'MATA BOR SDS PLUS 10X210 D00181 MAKITA', '1', '1', '14041', '27273', '30000', '0', '0', '0', 'y', '2017-04-24 21:55:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('618', '3', '15', '', '618', 'MATA BOR SDS PLUS 12X160 D00228 MAKITA', '1', '1', '15182', '25909', '28500', '0', '0', '0', 'y', '2017-04-24 21:55:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('619', '3', '15', '', '619', 'MATA BOR SDS PLUS 12X210 D00234 MAKITA', '1', '1', '9000', '30455', '33500', '0', '0', '0', 'y', '2017-04-24 21:55:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('620', '3', '15', '', '620', 'MATA BOR SDS PLUS 14X160 D00262 MAKITA', '1', '1', '0', '31364', '34500', '0', '0', '0', 'y', '2017-04-24 21:55:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('621', '3', '15', '', '621', 'MATA BOR SDS PLUS 16X210 D00290 MAKITA', '1', '1', '30000', '50455', '55500', '0', '0', '0', 'y', '2017-04-24 21:55:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('622', '3', '15', '', '622', 'MATA BOR SDS PLUS 6X110 D00050 MAKITA', '1', '1', '9148', '18182', '20000', '0', '0', '0', 'y', '2017-04-24 21:55:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('623', '3', '15', '', '623', 'MATA BOR SDS PLUS 6X160 D00066 MAKITA', '1', '1', '10400', '19091', '21000', '0', '0', '0', 'y', '2017-04-24 21:55:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('624', '3', '15', '', '624', 'MATA BOR SDS PLUS 6X210 D00072 MAKITA', '1', '1', '13600', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:55:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('625', '3', '15', '', '625', 'MATA BOR SDS PLUS 8X110 D00125 MAKITA', '1', '1', '11200', '20455', '22500', '0', '0', '0', 'y', '2017-04-24 21:55:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('626', '3', '15', '', '626', 'MATA BOR SDS PLUS 8X160 D00131 MAKITA', '1', '1', '6387', '20455', '22500', '0', '0', '0', 'y', '2017-04-24 21:55:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('627', '3', '15', '', '627', 'MATA BOR SDS PLUS 8X210 D00147 MAKITA', '1', '1', '14400', '25909', '28500', '0', '0', '0', 'y', '2017-04-24 21:55:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('628', '3', '15', '', '628', 'MATA BOR SDS4 PLUS 6X110MM P-29256MAKITA', '1', '1', '0', '43636', '48000', '0', '0', '0', 'y', '2017-04-24 21:55:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('629', '3', '15', '', '629', 'MATA BOR SDS4 PLUS 6X160MM P-29262MAKITA', '1', '1', '0', '49545', '54500', '0', '0', '0', 'y', '2017-04-24 21:55:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('630', '3', '15', '', '630', 'MATA BOR SDS4 PLUS 6X210MM P-29278MAKITA', '1', '1', '0', '67727', '74500', '0', '0', '0', 'y', '2017-04-24 21:55:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('631', '3', '15', '', '631', 'MATA BOR SDS4 PLUS 8X110MM P-29343MAKITA', '1', '1', '0', '47273', '52000', '0', '0', '0', 'y', '2017-04-24 21:55:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('632', '3', '15', '', '632', 'MATA BOR SDS4 PLUS 8X160MM P-29359MAKITA', '1', '1', '0', '50000', '55000', '0', '0', '0', 'y', '2017-04-24 21:55:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('633', '3', '15', '', '633', 'MATA BOR SDS4 PLUS 8X210MM P-29365MAKITA', '1', '1', '0', '67727', '74500', '0', '0', '0', 'y', '2017-04-24 21:55:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('634', '3', '15', '', '634', 'MATA BOR SDS4PLUS 10X160MM P-29424MAKITA', '1', '1', '0', '59545', '65500', '0', '0', '0', 'y', '2017-04-24 21:55:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('635', '3', '15', '', '635', 'MATA BOR SDS4PLUS 10X210MM P-29430MAKITA', '1', '1', '0', '85455', '94000', '0', '0', '0', 'y', '2017-04-24 21:55:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('636', '3', '15', '', '636', 'MATA BOR SDS4PLUS 12X160MM P-29480MAKITA', '1', '1', '0', '78182', '86000', '0', '0', '0', 'y', '2017-04-24 21:55:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('637', '3', '15', '', '637', 'MATA BOR SDS4PLUS 12X210MM P-29496MAKITA', '1', '1', '0', '99091', '109000', '0', '0', '0', 'y', '2017-04-24 21:55:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('638', '3', '15', '', '638', 'MATA BOR SDS4PLUS 14X160MM P-29555MAKITA', '1', '1', '0', '109545', '120500', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('639', '3', '15', '', '639', 'MATA BOR SDS4PLUS 16X210MM P-29620MAKITA', '1', '1', '0', '166364', '183000', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('640', '3', '15', '', '640', 'MATA BOR BETON 5X85MM D-05240 MAKITA', '1', '1', '7000', '11818', '13000', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('641', '3', '15', '', '641', 'MATA BOR BETON 6X100MM D-05256 MAKITA', '1', '1', '7000', '11818', '13000', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('642', '3', '15', '', '642', 'MATA BOR BETON 7X150MM D-05284 MAKITA', '1', '1', '8000', '13636', '15000', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('643', '3', '15', '', '643', 'MATA BOR BETON 8X110MM D-05290 MAKITA', '1', '1', '8000', '13636', '15000', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('644', '3', '15', '', '644', 'MATA BOR BETON 8X150MM D-05309 MAKITA', '1', '1', '8000', '13636', '15000', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('645', '3', '15', '', '645', 'MATA BOR BETON SET 5PC D-36712 MAKITA', '1', '1', '0', '62727', '69000', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('646', '3', '15', '', '646', 'MATA BOR BETON PENDEK 10MM 353-015 JASON', '1', '5', '14773', '25455', '28000', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('647', '3', '15', '', '647', 'MATA BOR BETON PENDEK 12MM 353-017 JASON', '1', '5', '22272', '35000', '38500', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('648', '3', '15', '', '648', 'MATA BOR BETON PENDEK 14MM 353-019 JASON', '1', '5', '18182', '40455', '44500', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('649', '3', '15', '', '649', 'MATA BOR BETON PENDEK 16MM 353-020 JASON', '1', '5', '31818', '50000', '55000', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('650', '3', '15', '', '650', 'MATA BOR BETON PENDEK 4MM 353-011 JASON', '1', '5', '7000', '11364', '12500', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('651', '3', '15', '', '651', 'MATA BOR BETON PENDEK 5MM 353-012 JASON', '1', '5', '8272', '13182', '14500', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('652', '3', '15', '', '652', 'MATA BOR BETON PENDEK 6MM 353-013 JASON', '1', '5', '10181', '17273', '19000', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('653', '3', '15', '', '653', 'MATA BOR BETON PENDEK 8MM 353-014 JASON', '1', '5', '11931', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('654', '3', '15', '', '654', 'MATA BOR KAYU 5/16\'\'X200MM 371-101 JASON', '1', '5', '12409', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('655', '3', '15', '', '655', 'MATA BOR KAYU CHISEL ½\'\' 353-342 JASON', '1', '5', '62500', '102727', '113000', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('656', '3', '15', '', '656', 'MATA BOR KAYU CHISEL 3/8\'\' 353-341 JASON', '1', '5', '50909', '95455', '105000', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('657', '3', '15', '', '657', 'MATA BOR KAYU 3/8\'\'X200MM  371-103 JASON', '1', '5', '14636', '27273', '30000', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('658', '3', '15', '', '658', 'MATA BOR KAYU KIPAS 6PCS 353-005 JASON', '1', '5', '36592', '48182', '53000', '0', '0', '0', 'y', '2017-04-24 21:55:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('659', '3', '15', '', '659', 'MATA BOR KAYU 1/2\'\'X200MM  371-105 JASON', '1', '5', '15909', '33182', '36500', '0', '0', '0', 'y', '2017-04-24 21:55:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('660', '3', '15', '', '660', 'MATA BOR KAYU 5/8\'\'X200MM 371-107 JASON', '1', '5', '25455', '45455', '50000', '0', '0', '0', 'y', '2017-04-24 21:55:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('661', '3', '15', '', '661', 'HOLE DRILLS  ADJ 371-123 JASON', '1', '5', '56761', '101818', '112000', '0', '0', '0', 'y', '2017-04-24 21:55:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('662', '3', '15', '', '662', 'MATA BOR HSS TINCOATED 1.0MM NICHOLSON', '1', '12', '15840', '12727', '14000', '0', '0', '0', 'y', '2017-04-24 21:55:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('663', '3', '15', '', '663', 'MATA BOR HSS TINCOATED 1.5MM NICHOLSON', '1', '12', '7920', '12727', '14000', '0', '0', '0', 'y', '2017-04-24 21:55:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('664', '3', '15', '', '664', 'MATA BOR HSS TINCOATED 10.0MM NICHOLSON', '1', '12', '44000', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:55:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('665', '3', '15', '', '665', 'MATA BOR HSS TINCOATED 11.0MM NICHOLSON', '1', '12', '72767', '77273', '85000', '0', '0', '0', 'y', '2017-04-24 21:55:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('666', '3', '15', '', '666', 'MATA BOR HSS TINCOATED 12.0MM NICHOLSON', '1', '12', '64800', '94545', '104000', '0', '0', '0', 'y', '2017-04-24 21:55:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('667', '3', '15', '', '667', 'MATA BOR HSS TINCOATED 13.0MM NICHOLSON', '1', '12', '85500', '124545', '137000', '0', '0', '0', 'y', '2017-04-24 21:55:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('668', '3', '15', '', '668', 'MATA BOR HSS TINCOATED 2.0MM NICHOLSON', '1', '12', '8800', '12727', '14000', '0', '0', '0', 'y', '2017-04-24 21:55:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('669', '3', '15', '', '669', 'MATA BOR HSS TINCOATED 2.5MM NICHOLSON', '1', '12', '9200', '12727', '14000', '0', '0', '0', 'y', '2017-04-24 21:55:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('670', '3', '15', '', '670', 'MATA BOR HSS TINCOATED 3.0MM NICHOLSON', '1', '12', '9500', '13636', '15000', '0', '0', '0', 'y', '2017-04-24 21:55:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('671', '3', '15', '', '671', 'MATA BOR HSS TINCOATED 3.5MM NICHOLSON', '1', '12', '10500', '14545', '16000', '0', '0', '0', 'y', '2017-04-24 21:55:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('672', '3', '15', '', '672', 'MATA BOR HSS TINCOATED 4.0MM NICHOLSON', '1', '12', '11500', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:55:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('673', '3', '15', '', '673', 'MATA BOR HSS TINCOATED 4.5MM NICHOLSON', '1', '12', '12004', '16364', '18000', '0', '0', '0', 'y', '2017-04-24 21:55:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('674', '3', '15', '', '674', 'MATA BOR HSS TINCOATED 5.0MM NICHOLSON', '1', '12', '13000', '17273', '19000', '0', '0', '0', 'y', '2017-04-24 21:55:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('675', '3', '15', '', '675', 'MATA BOR HSS TINCOATED 5.5MM NICHOLSON', '1', '12', '14400', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:55:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('676', '3', '15', '', '676', 'MATA BOR HSS TINCOATED 6.0MM NICHOLSON', '1', '12', '18000', '24545', '27000', '0', '0', '0', 'y', '2017-04-24 21:55:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('677', '3', '15', '', '677', 'MATA BOR HSS TINCOATED 6.5MM NICHOLSON', '1', '12', '18000', '26364', '29000', '0', '0', '0', 'y', '2017-04-24 21:55:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('678', '3', '15', '', '678', 'MATA BOR HSS TINCOATED 7.0MM NICHOLSON', '1', '12', '19800', '30000', '33000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('679', '3', '15', '', '679', 'MATA BOR HSS TINCOATED 7.5MM NICHOLSON', '1', '12', '44100', '32727', '36000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('680', '3', '15', '', '680', 'MATA BOR HSS TINCOATED 8.0MM NICHOLSON', '1', '12', '28000', '37273', '41000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('681', '3', '15', '', '681', 'MATA BOR HSS TINCOATED 8.5MM NICHOLSON', '1', '12', '54000', '46364', '51000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('682', '3', '15', '', '682', 'MATA BOR HSS TINCOATED 9.0MM NICHOLSON', '1', '12', '32400', '48182', '53000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('683', '3', '15', '', '683', 'MATA BOR SDS PLUS 6X160 219007 NICHOLSON', '1', '12', '21000', '30909', '34000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('684', '3', '15', '', '684', 'MATA BOR SDS PLUS 8X160 219014 NICHOLSON', '1', '12', '19800', '31818', '35000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('685', '3', '15', '', '685', 'MATA BOR SDS PLUS10X160 219025 NICHOLSON', '1', '12', '24000', '34545', '38000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('686', '3', '15', '', '686', 'MATA BOR SDS PLUS10X210 219026 NICHOLSON', '1', '12', '27000', '44545', '49000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('687', '3', '15', '', '687', 'MATA BOR SDS PLUS10X350 219028 NICHOLSON', '1', '12', '40500', '64545', '71000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('688', '3', '15', '', '688', 'MATA BOR SDS PLUS12X160 219033 NICHOLSON', '1', '12', '22212', '34545', '38000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('689', '3', '15', '', '689', 'MATA BOR SDS PLUS12X210 219034 NICHOLSON', '1', '12', '27900', '44545', '49000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('690', '3', '15', '', '690', 'MATA BOR SDS PLUS12X350 219036 NICHOLSON', '1', '12', '40500', '64545', '71000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('691', '3', '15', '', '691', 'MATA BOR SDS PLUS14X210 219053 NICHOLSON', '1', '12', '0', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('692', '3', '15', '', '692', 'MATA BOR SDS PLUS16X160 219065 NICHOLSON', '1', '12', '38700', '61818', '68000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('693', '3', '15', '', '693', 'MATA BOR SDS PLUS16X210 219066 NICHOLSON', '1', '12', '44100', '70000', '77000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('694', '3', '15', '', '694', 'MATA BOR SDS PLUS16X350 219068 NICHOLSON', '1', '12', '126000', '100000', '110000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('695', '3', '15', '', '695', 'MATA BOR SDS PLUS18X350 219076 NICHOLSON', '1', '12', '75600', '120909', '133000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('696', '3', '15', '', '696', 'MATA BOR SDS PLUS20X210 219082 NICHOLSON', '1', '12', '75600', '120909', '133000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('697', '3', '15', '', '697', 'MATA BOR SDS PLUS20X350 219084 NICHOLSON', '1', '12', '99000', '160000', '176000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('698', '3', '15', '', '698', 'MATA BOR SDS PLUS22X260 219086 NICHOLSON', '1', '12', '94500', '148182', '163000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('699', '3', '15', '', '699', 'MATA BOR SDS PLUS22X350 219088 NICHOLSON', '1', '12', '104297', '180000', '198000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('700', '3', '15', '', '700', 'MATA BOR SDS PLUS25X260 219090 NICHOLSON', '1', '12', '112500', '177273', '195000', '0', '0', '0', 'y', '2017-04-24 21:55:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('701', '3', '15', '', '701', 'MATA BOR SDS PLUS25X350 219092 NICHOLSON', '1', '12', '130500', '210000', '231000', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('702', '3', '15', '', '702', 'MATA BOR SDS PLUS6X110 219006 NICHOLSON', '1', '12', '18000', '30000', '33000', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('703', '3', '15', '', '703', 'MATA BOR BETON 10X140MM 218015 NICHOLSON', '1', '12', '12600', '19091', '21000', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('704', '3', '15', '', '704', 'MATA BOR BETON 12X160MM 218017 NICHOLSON', '1', '12', '14850', '22727', '25000', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('705', '3', '15', '', '705', 'MATA BOR BETON 5X90MM 218005 NICHOLSON', '1', '12', '0', '12727', '14000', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('706', '3', '15', '', '706', 'MATA BOR BETON 6X100MM 218007 NICHOLSON', '1', '12', '8550', '13636', '15000', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('707', '3', '15', '', '707', 'MATA BOR BETON 8X120MM 218011 NICHOLSON', '1', '12', '0', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('708', '3', '15', '', '708', 'MATA BOR HSS 1.0 MM NACHI', '1', '13', '5992', '10000', '11000', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('709', '3', '15', '', '709', 'MATA BOR HSS 1.5 MM NACHI', '1', '13', '5992', '10000', '11000', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('710', '3', '15', '', '710', 'MATA BOR HSS 10.0 MM NACHI', '1', '13', '44173', '82273', '90500', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('711', '3', '15', '', '711', 'MATA BOR HSS 10.5MM NACHI', '1', '13', '48700', '72727', '80000', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('712', '3', '15', '', '712', 'MATA BOR HSS 11.0MM NACHI', '1', '13', '50991', '75455', '83000', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('713', '3', '15', '', '713', 'MATA BOR HSS 12.0 MM NACHI', '1', '13', '57008', '121818', '134000', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('714', '3', '15', '', '714', 'MATA BOR HSS 13.0 MM NACHI', '1', '13', '68360', '108636', '119500', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('715', '3', '15', '', '715', 'MATA BOR HSS 14.0 MM NACHI', '1', '13', '128130', '199545', '219500', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('716', '3', '15', '', '716', 'MATA BOR HSS 15.0 MM NACHI', '1', '13', '149123', '229545', '252500', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('717', '3', '15', '', '717', 'MATA BOR HSS 2.0MM NACHI', '1', '13', '8101', '11818', '13000', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('718', '3', '15', '', '718', 'MATA BOR HSS 2.5 MM NACHI', '1', '13', '8124', '11818', '13000', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('719', '3', '15', '', '719', 'MATA BOR HSS 3.0 MM NACHI', '1', '13', '7537', '10000', '11000', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('720', '3', '15', '', '720', 'MATA BOR HSS 3.5 MM NACHI', '1', '13', '8498', '11364', '12500', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('721', '3', '15', '', '721', 'MATA BOR HSS 4.0MM NACHI', '1', '13', '9817', '17273', '19000', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('722', '3', '15', '', '722', 'MATA BOR HSS 4.5 MM NACHI', '1', '13', '12769', '16364', '18000', '0', '0', '0', 'y', '2017-04-24 21:55:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('723', '3', '15', '', '723', 'MATA BOR HSS 5.0 MM NACHI', '1', '13', '13901', '24545', '27000', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('724', '3', '15', '', '724', 'MATA BOR HSS 5.5MM NACHI', '1', '13', '12867', '20909', '23000', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('725', '3', '15', '', '725', 'MATA BOR HSS 6.0MM NACHI', '1', '13', '18079', '31364', '34500', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('726', '3', '15', '', '726', 'MATA BOR HSS 6.5 MM NACHI', '1', '13', '17705', '26818', '29500', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('727', '3', '15', '', '727', 'MATA BOR HSS 7.0 MM NACHI', '1', '13', '22860', '30000', '33000', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('728', '3', '15', '', '728', 'MATA BOR HSS 7.5MM NACHI', '1', '13', '21859', '35000', '38500', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('729', '3', '15', '', '729', 'MATA BOR HSS 8.0 MM NACHI', '1', '13', '28609', '50455', '55500', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('730', '3', '15', '', '730', 'MATA BOR HSS 8.5MM NACHI', '1', '13', '28045', '44091', '48500', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('731', '3', '15', '', '731', 'MATA BOR HSS 9.0MM NACHI', '1', '13', '30401', '48182', '53000', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('732', '3', '15', '', '732', 'MATA BOR HSS 9.5MM NACHI', '1', '13', '35940', '57273', '63000', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('733', '3', '16', '', '733', 'MATA JIGSAW A85656 B-13 ( WOOD ) MAKITA', '1', '1', '40000', '54545', '60000', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('734', '3', '16', '', '734', 'MATA JIGSAW A85737 B-22 ( STEEL ) MAKITA', '1', '1', '48000', '63636', '70000', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('735', '3', '16', '', '735', 'MATA JIGSAW NO.1 A-85802 MAKITA', '1', '1', '47861', '67727', '74500', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('736', '3', '16', '', '736', 'MATA JIGSAW NO.10 A-85818 MAKITA', '1', '1', '56000', '78182', '86000', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('737', '3', '16', '', '737', 'MATA JIGSAW NO.3 A-85868 MAKITA', '1', '1', '40000', '57273', '63000', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('738', '3', '16', '', '738', 'CIRCULAR SAW ALM 250X100T 60103001 DCA', '1', '3', '147400', '315455', '347000', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('739', '3', '16', '', '739', 'CIRCULAR SAW ALM 250X120T 60103002 DCA', '1', '3', '170500', '362727', '399000', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('740', '3', '16', '', '740', 'CIRCULAR SAW WOOD 180X40T 60101002 DCA', '1', '3', '43000', '80909', '89000', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('741', '3', '16', '', '741', 'CIRCULAR SAW WOOD 180X60T 60101003 DCA', '1', '3', '64900', '110000', '121000', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('742', '3', '16', '', '742', 'MULTI CUTTER 105X40T 60106001 DCA', '1', '3', '28557', '57273', '63000', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('743', '3', '16', '', '743', 'FLAT CHISEL 30X400MM 60204006 DCA', '1', '3', '86900', '166364', '183000', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('744', '3', '16', '', '744', 'FLAT CHISEL HEX 17X280MM 60204002 DCA', '1', '3', '22000', '50909', '56000', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('745', '3', '16', '', '745', 'FLAT CHISEL HEX 17X400MM 60204010 DCA', '1', '3', '30250', '70000', '77000', '0', '0', '0', 'y', '2017-04-24 21:55:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('746', '3', '16', '', '746', 'POINT CHISEL 30X400MM 60204005 DCA', '1', '3', '86900', '197273', '217000', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('747', '3', '16', '', '747', 'POINT CHISEL HEX 17X280MM 60204001 DCA', '1', '3', '22000', '50909', '56000', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('748', '3', '16', '', '748', 'POINT CHISEL HEX 17X400MM 60204009 DCA', '1', '3', '30250', '70000', '77000', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('749', '3', '16', '', '749', 'HOLE SAW 13PCS (19-64MM) 371-126 JASON', '1', '5', '355281', '578182', '636000', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('750', '3', '16', '', '750', 'HOLE SAW 7BLADE  HD 25MM 371-121 JASON', '1', '5', '23000', '38636', '42500', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('751', '3', '16', '', '751', 'HOLE SAW 7BLD HD 50MM 371-122 JASON', '1', '5', '29546', '53636', '59000', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('752', '3', '16', '', '752', 'HOLE SAW HSS 19MM 371-132 JASON', '1', '5', '29403', '44545', '49000', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('753', '3', '16', '', '753', 'HOLE SAW HSS 20MM 371-133 JASON', '1', '5', '30843', '46818', '51500', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('754', '3', '16', '', '754', 'HOLE SAW HSS 22MM 371-134 JASON', '1', '5', '33750', '50909', '56000', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('755', '3', '16', '', '755', 'HOLE SAW HSS 24MM 371-135 JASON', '1', '5', '38181', '55455', '61000', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('756', '3', '16', '', '756', 'HOLE SAW HSS 25MM 371-136 JASON', '1', '5', '39772', '59091', '65000', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('757', '3', '16', '', '757', 'HOLE SAW HSS 30MM 371-138 JASON', '1', '5', '46022', '70000', '77000', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('758', '3', '16', '', '758', 'HOLE SAW HSS 32MM 371-139 JASON', '1', '5', '49142', '74091', '81500', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('759', '3', '16', '', '759', 'HOLE SAWKAYU 11BLD 19-64MM 371-125 JASON', '1', '5', '51136', '83182', '91500', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('760', '3', '16', '', '760', 'GERGAJI 5 IN 1 363-003 JASON', '1', '5', '47728', '63182', '69500', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('761', '3', '16', '', '761', 'DIAMOND WHEEL DRY 4\'\' 366-012 JASON', '1', '5', '35000', '70909', '78000', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('762', '3', '16', '', '762', 'DIAMOND WHEEL DRY 7\" 366-021 JASON', '1', '5', '79773', '108636', '119500', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('763', '3', '16', '', '763', 'DIAMOND WHEEL WET 4\'\' 366-011 JASON', '1', '5', '31818', '64091', '70500', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('764', '3', '16', '', '764', 'PLONG 5PC 3/16-1/2\'\' 362-201 JASON', '1', '5', '41364', '53636', '59000', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('765', '3', '16', '', '765', 'PLONG KULIT 12PC 1/8-3/4\'\' 362-202 JASON', '1', '5', '98182', '122727', '135000', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('766', '3', '16', '', '766', 'PISAU POTONG KERAMIK 16MM 365-101 JASON', '1', '5', '24182', '38636', '42500', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('767', '3', '16', '', '767', 'CT WHEEL 14\'\'X3MMX25MM NICHOLSON', '1', '12', '32500', '50000', '55000', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('768', '3', '16', '', '768', 'CT WHEEL 4\'\'X1.2MMX16MM NICHOLSON', '1', '12', '6500', '10000', '11000', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('769', '3', '16', '', '769', 'DIAMOND WHEEL DRY 4\'\' SEGMENTD NICHOLSON', '1', '12', '34650', '80000', '88000', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('770', '3', '16', '', '770', 'DIAMOND WHEEL WET 4\'\' TURBO NICHOLSON', '1', '12', '60000', '77273', '85000', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('771', '3', '17', '', '771', 'HURUF KETOK 27PCS 3 MM 393-103 JASON', '1', '5', '59659', '111364', '122500', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('772', '3', '17', '', '772', 'HURUF KETOK 27PCS 4 MM 393-104 JASON', '1', '5', '60114', '122727', '135000', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('773', '3', '17', '', '773', 'HURUF KETOK 27PCS 5 MM 393-105 JASON', '1', '5', '78977', '135909', '149500', '0', '0', '0', 'y', '2017-04-24 21:55:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('774', '3', '17', '', '774', 'HURUF KETOK 27PCS 6 MM 393-106 JASON', '1', '5', '91545', '155455', '171000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('775', '3', '17', '', '775', 'HURUF KETOK 27PCS 8 MM 393-107 JASON', '1', '5', '120852', '239545', '263500', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('776', '3', '17', '', '776', 'NOMOR KETOK SET 9PCS 3MM 393-003 JASON', '1', '5', '15909', '29091', '32000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('777', '3', '17', '', '777', 'NOMOR KETOK SET 9PCS 4MM 393-004 JASON', '1', '5', '17727', '36818', '40500', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('778', '3', '17', '', '778', 'NOMOR KETOK SET 9PCS 5MM 393-005 JASON', '1', '5', '22727', '42727', '47000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('779', '3', '17', '', '779', 'NOMOR KETOK SET 9PCS 6MM 393-006 JASON', '1', '5', '36363', '59545', '65500', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('780', '3', '17', '', '780', 'NOMOR KETOK SET 9PCS 8MM 393-007 JASON', '1', '5', '44432', '99091', '109000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('781', '3', '17', '', '781', 'BETEL 10\'\' 349-002 JASON', '1', '5', '30604', '50000', '55000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('782', '3', '17', '', '782', 'BETEL 12\'\' 349-003 JASON', '1', '5', '35000', '59545', '65500', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('783', '3', '17', '', '783', 'BETEL 8\'\' 349-001 JASON', '1', '5', '25772', '43636', '48000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('784', '3', '17', '', '784', 'ROUTER STRAIGHT 1/4\'\'X3MM 371-021 JASON', '1', '5', '18750', '30000', '33000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('785', '3', '17', '', '785', 'ROUTER STRAIGHT 1/4\'\'X4MM 371-022 JASON', '1', '5', '16567', '30000', '33000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('786', '3', '17', '', '786', 'ROUTER STRAIGHT 1/4\'\'X5MM 371-023 JASON', '1', '5', '17250', '30000', '33000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('787', '3', '17', '', '787', 'ROUTER STRAIGHT 1/4\'\'X6MM 371-024 JASON', '1', '5', '6650', '30000', '33000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('788', '3', '17', '', '788', 'ROUTER STRAIGHT 1/4\'\'X8MM 371-025 JASON', '1', '5', '6650', '30000', '33000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('789', '3', '18', '', '789', 'HANDTAPS 1/2\'\' X 12 399-056 JASON', '1', '5', '34780', '51818', '57000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('790', '3', '18', '', '790', 'HANDTAPS 1/4\'\' X 20 399-053 JASON', '1', '5', '19091', '28182', '31000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('791', '3', '18', '', '791', 'HANDTAPS 3/8\'\' X 16 399-055 JASON', '1', '5', '29909', '43636', '48000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('792', '3', '18', '', '792', 'HANDTAPS 5/16\'\' X 18 399-054 JASON', '1', '5', '22909', '34091', '37500', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('793', '3', '18', '', '793', 'HANDTAPS M.10 X 1.25 399-019 JASON', '1', '5', '28840', '43636', '48000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('794', '3', '18', '', '794', 'HANDTAPS M.10 X 1.5 399-020 JASON', '1', '5', '29909', '43636', '48000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('795', '3', '18', '', '795', 'HANDTAPS M.12 X 1.5 399-022 JASON', '1', '5', '35636', '55455', '61000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('796', '3', '18', '', '796', 'HANDTAPS M.12 X 1.75 399-023 JASON', '1', '5', '35636', '55455', '61000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('797', '3', '18', '', '797', 'HANDTAPS M.3 X 0.5 399-011 JASON', '1', '5', '14727', '22727', '25000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('798', '3', '18', '', '798', 'HANDTAPS M.4 X 0.7 399-012 JASON', '1', '5', '16864', '25455', '28000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('799', '3', '18', '', '799', 'HANDTAPS M.5 X 0.8 399-013 JASON', '1', '5', '17500', '26364', '29000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('800', '3', '18', '', '800', 'HANDTAPS M.6 X 1.0 399-014 JASON', '1', '5', '18455', '27273', '30000', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('801', '3', '18', '', '801', 'HANDTAPS M.7 X 1.0 399-015 JASON', '1', '5', '21636', '31364', '34500', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('802', '3', '18', '', '802', 'HANDTAPS M.8 X 1.25 399-017 JASON', '1', '5', '22090', '34091', '37500', '0', '0', '0', 'y', '2017-04-24 21:55:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('803', '3', '18', '', '803', 'HANDTAPS 1/2\'\' X 12 SKC', '1', '14', '35340', '50909', '56000', '0', '0', '0', 'y', '2017-04-24 21:55:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('804', '3', '18', '', '804', 'HANDTAPS 1/4\'\' X 20 SKC', '1', '14', '12776', '18636', '20500', '0', '0', '0', 'y', '2017-04-24 21:55:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('805', '3', '18', '', '805', 'HANDTAPS 3/8\'\' X 16 SKC', '1', '14', '19530', '35909', '39500', '0', '0', '0', 'y', '2017-04-24 21:55:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('806', '3', '18', '', '806', 'HANDTAPS 5/16\'\' X 18 SKC', '1', '14', '15066', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:55:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('807', '3', '18', '', '807', 'HANDTAPS M.10 X 1.25 SKC', '1', '14', '20460', '32727', '36000', '0', '0', '0', 'y', '2017-04-24 21:55:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('808', '3', '18', '', '808', 'HANDTAPS M.10 X 1.5 SKC', '1', '14', '20460', '32727', '36000', '0', '0', '0', 'y', '2017-04-24 21:55:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('809', '3', '18', '', '809', 'HANDTAPS M.12 X 1.25 SKC', '1', '14', '26970', '43182', '47500', '0', '0', '0', 'y', '2017-04-24 21:55:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('810', '3', '18', '', '810', 'HANDTAPS M.12 X 1.5 SKC', '1', '14', '26970', '43182', '47500', '0', '0', '0', 'y', '2017-04-24 21:55:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('811', '3', '18', '', '811', 'HANDTAPS M.3 X 0.5 SKC', '1', '14', '10974', '17727', '19500', '0', '0', '0', 'y', '2017-04-24 21:55:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('812', '3', '18', '', '812', 'HANDTAPS M.4 X 0.7 SKC', '1', '14', '11160', '18182', '20000', '0', '0', '0', 'y', '2017-04-24 21:55:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('813', '3', '18', '', '813', 'HANDTAPS M.5 X 0.8 SKC', '1', '14', '11532', '18636', '20500', '0', '0', '0', 'y', '2017-04-24 21:55:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('814', '3', '18', '', '814', 'HANDTAPS M.6 X 1.0 SKC', '1', '14', '12090', '19545', '21500', '0', '0', '0', 'y', '2017-04-24 21:55:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('815', '3', '18', '', '815', 'HANDTAPS M.7 X 1.0 SKC', '1', '14', '13677', '24091', '26500', '0', '0', '0', 'y', '2017-04-24 21:55:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('816', '3', '18', '', '816', 'HANDTAPS M.8 X 1.25 SKC', '1', '14', '15624', '22727', '25000', '0', '0', '0', 'y', '2017-04-24 21:55:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('817', '3', '18', '', '817', 'SNEI BLOCK 1/2\'\' X 12 SKC', '1', '14', '18600', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:55:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('818', '3', '18', '', '818', 'SNEI BLOCK 1/4\'\' X 20 SKC', '1', '14', '16423', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:55:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('819', '3', '18', '', '819', 'SNEI BLOCK 3/8\'\' X 16 SKC', '1', '14', '16794', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:55:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('820', '3', '18', '', '820', 'SNEI BLOCK 5/16\'\' X 18 SKC', '1', '14', '16704', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:55:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('821', '3', '18', '', '821', 'SNEI BLOCK M.10 X 1.25 SKC', '1', '14', '17499', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:55:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('822', '3', '18', '', '822', 'SNEI BLOCK M.10 X 1.5 SKC', '1', '14', '18018', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:55:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('823', '3', '18', '', '823', 'SNEI BLOCK M.3 X 0.5 SKC', '1', '14', '15884', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:55:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('824', '3', '18', '', '824', 'SNEI BLOCK M.4 X 0.7 SKC', '1', '14', '16211', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:55:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('825', '3', '18', '', '825', 'SNEI BLOCK M.5 X 0.8 SKC', '1', '14', '16218', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:55:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('826', '3', '18', '', '826', 'SNEI BLOCK M.6 X 1.0 SKC', '1', '14', '17802', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:55:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('827', '3', '18', '', '827', 'SNEI BLOCK M.7 X 1.0 SKC', '1', '14', '15702', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:55:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('828', '3', '18', '', '828', 'SNEI BLOCK M.8 X 1.25 SKC', '1', '14', '17795', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:55:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('829', '3', '19', '', '829', 'AMPLAS KERTAS #100 369-111 5PC JASON', '1', '5', '2291', '16364', '18000', '0', '0', '0', 'y', '2017-04-24 21:55:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('830', '3', '19', '', '830', 'AMPLAS KERTAS #1000 369-124 5PC JASON', '1', '5', '2209', '16364', '18000', '0', '0', '0', 'y', '2017-04-24 21:55:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('831', '3', '19', '', '831', 'AMPLAS KERTAS #120 369-112 5PC JASON', '1', '5', '2291', '16364', '18000', '0', '0', '0', 'y', '2017-04-24 21:55:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('832', '3', '19', '', '832', 'AMPLAS KERTAS #150 369-113 5PC JASON', '1', '5', '2291', '16364', '18000', '0', '0', '0', 'y', '2017-04-24 21:55:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('833', '3', '19', '', '833', 'AMPLAS KERTAS #180 369-114 5PC JASON', '1', '5', '2209', '16364', '18000', '0', '0', '0', 'y', '2017-04-24 21:55:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('834', '3', '19', '', '834', 'AMPLAS KERTAS #220 369-115 5PC JASON', '1', '5', '2292', '16364', '18000', '0', '0', '0', 'y', '2017-04-24 21:55:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('835', '3', '19', '', '835', 'AMPLAS KERTAS #240 369-116 5PC JASON', '1', '5', '2210', '16364', '18000', '0', '0', '0', 'y', '2017-04-24 21:55:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('836', '3', '19', '', '836', 'AMPLAS KERTAS #280 369-117 5PC JASON', '1', '5', '2292', '16364', '18000', '0', '0', '0', 'y', '2017-04-24 21:55:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('837', '3', '19', '', '837', 'AMPLAS KERTAS #320 369-118 5PC JASON', '1', '5', '2292', '16364', '18000', '0', '0', '0', 'y', '2017-04-24 21:55:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('838', '3', '19', '', '838', 'AMPLAS KERTAS #360 369-119 5PC JASON', '1', '5', '2292', '16364', '18000', '0', '0', '0', 'y', '2017-04-24 21:55:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('839', '3', '19', '', '839', 'AMPLAS KERTAS #400 369-120 5PC JASON', '1', '5', '2292', '16364', '18000', '0', '0', '0', 'y', '2017-04-24 21:55:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('840', '3', '19', '', '840', 'AMPLAS KERTAS #600 369-122 5PC JASON', '1', '5', '2292', '16364', '18000', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('841', '3', '19', '', '841', 'AMPLAS KERTAS #800 369-123 5PC JASON', '1', '5', '2292', '16364', '18000', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('842', '3', '19', '', '842', 'BATU ASAH ABUABU HQ 6\'\' 369-013 JASON', '1', '5', '10500', '15000', '16500', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('843', '3', '19', '', '843', 'BATU ASAH ABUABU HQ 8\'\' 369-014 JASON', '1', '5', '12091', '17273', '19000', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('844', '3', '19', '', '844', 'BATU ASAH MERAH 6\'\' 369-011 JASON', '1', '5', '8272', '17273', '19000', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('845', '3', '19', '', '845', 'BATU ASAH MERAH 8\'\' 369-012 JASON', '1', '5', '7954', '18182', '20000', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('846', '3', '19', '', '846', 'CUP BRUSH  SS 3\'\'X1,5 361-011 JASON', '1', '5', '44546', '60455', '66500', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('847', '3', '19', '', '847', 'CUP BRUSH 3\'\'X1,5 361-013 JASON', '1', '5', '20863', '29091', '32000', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('848', '3', '19', '', '848', 'CUP BRUSH KEPANG 3\'\'X1,5 361-015 JASON', '1', '5', '23865', '35000', '38500', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('849', '3', '19', '', '849', 'KIKIR FLAT BSTD 10\'\' 352-007 JASON', '1', '5', '41364', '64091', '70500', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('850', '3', '19', '', '850', 'KIKIR FLAT BSTD 12\'\' 352-008 JASON', '1', '5', '50909', '87727', '96500', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('851', '3', '19', '', '851', 'KIKIR FLAT BSTD 8\'\' 352-006 JASON', '1', '5', '31818', '50000', '55000', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('852', '3', '19', '', '852', 'KIKIR SEGITIGA BSTD 3\'\' 352-012 JASON', '1', '5', '8220', '13182', '14500', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('853', '3', '19', '', '853', 'KIKIR DIAMOND SET 5PCS 70MM 352-039JASON', '1', '5', '22727', '36818', '40500', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('854', '3', '19', '', '854', 'KIKIR DIAMOND SET 6PCS 70MM 352-038JASON', '1', '5', '30546', '44545', '49000', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('855', '3', '19', '', '855', 'KIKIR EMAS SET 10PC 352-001 JASON', '1', '5', '52159', '77273', '85000', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('856', '3', '19', '', '856', 'KIKIR SET 7PC 352-002 JASON', '1', '5', '75477', '119091', '131000', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('857', '3', '19', '', '857', 'FLAP DISC 4\'\' P 100 369-195 JASON', '1', '5', '9814', '17273', '19000', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('858', '3', '19', '', '858', 'FLAP DISC 4\'\' P 120 369-196 JASON', '1', '5', '9818', '17273', '19000', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('859', '3', '19', '', '859', 'FLAP DISC 4\'\' P 60 369-193 JASON', '1', '5', '9763', '17273', '19000', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('860', '3', '19', '', '860', 'FLAP DISC 4\'\' P 80 369-194 JASON', '1', '5', '9817', '16364', '18000', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('861', '3', '19', '', '861', 'MOUNTED STONE 10 PCS 369-002 JASON', '1', '5', '19727', '29091', '32000', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('862', '3', '19', '', '862', 'MOUNTED STONE 5 PCS 369-001 JASON', '1', '5', '10181', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('863', '3', '19', '', '863', 'AMPLAS SPONGE G100 369-185 JASON', '1', '5', '15847', '22727', '25000', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('864', '3', '19', '', '864', 'AMPLAS SPONGE G120 369-186 JASON', '1', '5', '15954', '22727', '25000', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('865', '3', '19', '', '865', 'AMPLAS SPONGE G60 369-183 JASON', '1', '5', '15232', '22727', '25000', '0', '0', '0', 'y', '2017-04-24 21:55:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('866', '3', '19', '', '866', 'AMPLAS SPONGE G80 369-184 JASON', '1', '5', '15409', '22727', '25000', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('867', '4', '20', '', '867', 'GENERATOR 2.5KW LC3500/4800A/F LONCIN', '1', '15', '2929105', '4527273', '4980000', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('868', '4', '20', '', '868', 'GENERATOR 2KW LC3000/3800A/F LONCIN', '1', '15', '2045135', '4145455', '4560000', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('869', '4', '20', '', '869', 'GENERATOR 6,5KW LC8800DDC/DF-1 3PHLONCIN', '1', '15', '0', '14545455', '16000000', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('870', '4', '20', '', '870', 'GENERATOR 6,5KW LC8800DF/DDC+BTRYLONCIN', '1', '15', '7327909', '11709091', '12880000', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('871', '4', '20', '', '871', 'GENERATOR 9KW LC12000/12800 1PH LONCIN', '1', '15', '0', '32545455', '35800000', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('872', '4', '21', '', '872', 'GASOLINE ENGINE GX160 5,5HPHONDA JIALING', '1', '16', '1983273', '2479091', '2727000', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('873', '4', '21', '', '873', 'GASOLINE ENGINE GX200 6,5HP HONDAJIALING', '1', '16', '2258727', '2823636', '3106000', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('874', '4', '22', '', '874', 'POMPA KURAS SAWAH WB30XN/XH HONDAJIALING', '1', '16', '2919818', '4113636', '4525000', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('875', '4', '22', '', '875', 'POMPAKURAS SAWAH WB20XN/XH2 HONDAJIALING', '1', '16', '2639773', '3458182', '3804000', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('876', '4', '22', '', '876', 'POMPA KURAS SAWAH 3\'\' YH WB30 YOKOHAMA', '1', '17', '1423182', '1898182', '2088000', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('877', '4', '2', '', '877', 'MESIN POTONG RUMPUT (G) 328 YOKOHAMA', '1', '17', '619773', '1131818', '1245000', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('878', '4', '2', '', '878', 'MSN POTONG RUMPUT (G)338 YOKOHAMA/DYTOMO', '1', '17', '918197', '1309091', '1440000', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('879', '4', '23', '', '879', 'HAND BAG SEALER 20CM 900-156 IWARA', '1', '18', '267273', '356818', '392500', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('880', '4', '23', '', '880', 'HAND BAG SEALER 30CM 900-157 IWARA', '1', '18', '381818', '510455', '561500', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('881', '4', '24', '', '881', 'BLOWER KEONG 2,5\'\' 901-002 IWARA', '1', '18', '359375', '523182', '575500', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('882', '4', '24', '', '882', 'BLOWER KEONG 2\'\' 901-001 IWARA', '1', '18', '267273', '487273', '536000', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('883', '4', '24', '', '883', 'BLOWER KEONG 3\'\' 901-003 IWARA', '1', '18', '595000', '854091', '939500', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('884', '4', '25', '', '884', 'HP CLEANER 135BAR DAYTONA 100 LAKONI', '1', '19', '886421', '1144545', '1259000', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('885', '4', '25', '', '885', 'VAC CLEANER DRY 2LT 300W SC-E880 SANYO', '1', '20', '556500', '655455', '721000', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('886', '4', '25', '', '886', 'VAC CLEANER DRY 2LT 400W SC-E620 H SANYO', '1', '20', '612150', '720909', '793000', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('887', '4', '25', '', '887', 'VAC CLEANER DRY 400W SC-H24 SANYO', '1', '20', '258121', '281364', '309500', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('888', '4', '25', '', '888', 'VAC CLEANER W&D19LT 480W BSC-WDB48 SANYO', '1', '20', '1356136', '1753636', '1929000', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('889', '4', '26', '', '889', 'MULTIPURPOSE LUBRICANTML-11/360MLLOCTITE', '1', '21', '26239', '41818', '46000', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('890', '5', '27', '', '890', 'KOMPRESOR 3/4HP 15L BKC15 DALTON', '1', '22', '685637', '945455', '1040000', '0', '0', '0', 'y', '2017-04-24 21:55:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('891', '5', '27', '', '891', 'KOMPRESOR 1.5HP 12L IMOLA-150 LAKONI', '1', '19', '805513', '1500000', '1650000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('892', '5', '27', '', '892', 'KOMPRESOR 1HP 25L IMOLA-125 LAKONI', '1', '19', '876101', '1454545', '1600000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('893', '5', '27', '', '893', 'KOMPRESOR 2HP 25L IMOLA-225 LAKONI', '1', '19', '1032955', '1672727', '1840000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('894', '5', '27', '', '894', 'KOMPRESOR 3/4HP 10L IMOLA-75 LAKONI', '1', '19', '670273', '1103636', '1214000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('895', '5', '28', '', '895', 'AIR DUSTER 3 IN 1 372-001 JASON', '1', '5', '50909', '72727', '80000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('896', '5', '28', '', '896', 'AIR DUSTER DG-10-1 372-006 JASON', '1', '5', '26181', '44091', '48500', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('897', '5', '28', '', '897', 'AIR DUSTER DG-10-2 372-007 JASON', '1', '5', '27747', '45455', '50000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('898', '5', '28', '', '898', 'AIR DUSTER DG-10-3 372-008 JASON', '1', '5', '35000', '50000', '55000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('899', '5', '28', '', '899', 'SELANG KOMPRESOR SPIRAL 12M 395-003JASON', '1', '5', '67500', '100000', '110000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('900', '5', '28', '', '900', 'SELANG KOMPRESOR SPIRAL 6M 395-001 JASON', '1', '5', '39771', '64091', '70500', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('901', '5', '28', '', '901', 'SELANG KOMPRESOR SPIRAL 9M 395-002 JASON', '1', '5', '51136', '82273', '90500', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('902', '5', '28', '', '902', 'AIR DIE GRINDER MINI 1/4\'\' KMJ-325MELZER', '1', '9', '121590', '208182', '229000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('903', '5', '28', '', '903', 'AIR DIE GRINDER SET 1/4\'\' KMJ-328 MELZER', '1', '9', '144750', '262727', '289000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('904', '5', '28', '', '904', 'SPRAYGUN 472 MELZER', '1', '9', '101223', '182727', '201000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('905', '5', '28', '', '905', 'SPRAYGUN F100-G TA MELZER', '1', '9', '177054', '279091', '307000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('906', '5', '28', '', '906', 'SPRAYGUN F100-S TB MELZER', '1', '9', '177319', '279091', '307000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('907', '5', '28', '', '907', 'SPRAYGUN K-3A MELZER', '1', '9', '116524', '180909', '199000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('908', '5', '28', '', '908', 'SPRAYGUN LUKIS ABS-1 MELZER', '1', '9', '69962', '133636', '147000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('909', '5', '28', '', '909', 'SPRAYGUN LUKIS ABS-130 MELZER', '1', '9', '163194', '255455', '281000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('910', '5', '28', '', '910', 'SPRAY HOSE 5/16\'\' 10M RRT', '1', '23', '82696', '118182', '130000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('911', '5', '28', '', '911', 'SPRAY HOSE 5/16\'\' 15M RRT', '1', '23', '105596', '150909', '166000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('912', '5', '28', '', '912', 'QUICK COUPLING CABANG 2 RRT', '1', '23', '17675', '40909', '45000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('913', '5', '28', '', '913', 'QUICK COUPLING CABANG 3 RRT', '1', '23', '20705', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('914', '5', '28', '', '914', 'QUICK COUPLING PF-20 RRT', '1', '23', '2295', '6364', '7000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('915', '5', '28', '', '915', 'QUICK COUPLING PF-30 RRT', '1', '23', '2901', '6364', '7000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('916', '5', '28', '', '916', 'QUICK COUPLING PF-40 RRT', '1', '23', '3226', '9091', '10000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('917', '5', '28', '', '917', 'QUICK COUPLING PH-20 RRT', '1', '23', '2295', '5455', '6000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('918', '5', '28', '', '918', 'QUICK COUPLING PH-30 RRT', '1', '23', '3673', '6364', '7000', '0', '0', '0', 'y', '2017-04-24 21:55:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('919', '5', '28', '', '919', 'QUICK COUPLING PM-20 RRT', '1', '23', '2294', '5455', '6000', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('920', '5', '28', '', '920', 'QUICK COUPLING PM-30 RRT', '1', '23', '2778', '6364', '7000', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('921', '5', '28', '', '921', 'QUICK COUPLING PM-40 RRT', '1', '23', '5509', '13636', '15000', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('922', '5', '28', '', '922', 'QUICK COUPLING PP-20 RRT', '1', '23', '2018', '5909', '6500', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('923', '5', '28', '', '923', 'QUICK COUPLING SF-20 RRT', '1', '23', '7345', '11818', '13000', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('924', '5', '28', '', '924', 'QUICK COUPLING SF-30 RRT', '1', '23', '6296', '15000', '16500', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('925', '5', '28', '', '925', 'QUICK COUPLING SH-20 RRT', '1', '23', '7345', '13636', '15000', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('926', '5', '28', '', '926', 'QUICK COUPLING SH-30 RRT', '1', '23', '8447', '15909', '17500', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('927', '5', '28', '', '927', 'QUICK COUPLING SM-20 RRT', '1', '23', '7345', '13636', '15000', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('928', '5', '28', '', '928', 'QUICK COUPLING SM-30  RRT', '1', '23', '6500', '13182', '14500', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('929', '5', '28', '', '929', 'QUICK COUPLING SM-40 RRT', '1', '23', '10100', '18182', '20000', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('930', '5', '28', '', '930', 'QUICK COUPLING SP-20 RRT', '1', '23', '8282', '16818', '18500', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('931', '5', '28', '', '931', 'AIR NAILER F-30 RRT', '1', '23', '192130', '336364', '370000', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('932', '5', '28', '', '932', 'AIR STAPLER 1022J RRT', '1', '23', '192130', '354091', '389500', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('933', '5', '28', '', '933', 'SPRAY GUN 472 RRT', '1', '23', '154943', '206818', '227500', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('934', '5', '28', '', '934', 'SPRAY GUN F-100-G RRT', '1', '23', '216920', '330909', '364000', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('935', '5', '28', '', '935', 'SPRAY GUN K-3A/3B RRT', '1', '23', '99164', '134545', '148000', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('936', '5', '28', '', '936', 'SPRAYGUN F-100-S RRT', '1', '23', '216920', '379091', '417000', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('937', '6', '29', '', '937', 'TRAVO LAS INVERTER MMA 125A PANERISE', '1', '24', '991535', '1154091', '1269500', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('938', '6', '29', '', '938', 'TRAVO LAS INVERTER MMA 160A PANERISE', '1', '24', '1075200', '1527273', '1680000', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('939', '6', '29', '', '939', 'TRAVO LAS INVERTER MMA 200A PANERISE', '1', '24', '1333334', '1772727', '1950000', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('940', '6', '29', '', '940', 'TRAVO LAS INVERTER MMA 315A PANERISE', '1', '24', '0', '3409091', '3750000', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('941', '6', '29', '', '941', 'TRAVO LAS INVERTER FALCON 120E LAKONI', '1', '19', '780474', '1090909', '1200000', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('942', '6', '29', '', '942', 'TRAVO LAS INVERTER FALCON 160E LAKONI', '1', '19', '1216591', '1909091', '2100000', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('943', '6', '29', '', '943', 'TRAVO LAS INVERTER FALCON 205E LAKONI', '1', '19', '1515000', '2322727', '2555000', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('944', '6', '30', '', '944', 'TANG LAS GERMANY 600A 900-111 IWARA', '1', '18', '55681', '83182', '91500', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('945', '6', '30', '', '945', 'TANG LAS GERMANY 800A 900-112 IWARA', '1', '18', '73181', '104545', '115000', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('946', '6', '30', '', '946', 'KABEL KONEKTOR 50-70MM 900-208 IWARA', '1', '18', '50325', '118182', '130000', '0', '0', '0', 'y', '2017-04-24 21:55:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('947', '6', '30', '', '947', 'KABEL KONEKTOR 70-95MM 900-209 IWARA', '1', '18', '79545', '133182', '146500', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('948', '6', '30', '', '948', 'KABEL LAS 50MM BIRU 900-211 IWARA MTR', '1', '18', '30049', '60455', '66500', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('949', '6', '30', '', '949', 'KABEL LAS 70MM BIRU 900-212 IWARA MTR', '1', '18', '39787', '80000', '88000', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('950', '6', '30', '', '950', 'SELANG LAS DOUBLE PVC 900-102 IWARA', '1', '18', '25999', '48182', '53000', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('951', '6', '30', '', '951', 'SELANG LAS PVC BIRU 1/4\'\' 900-104 IWARA', '1', '18', '17694', '35000', '38500', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('952', '6', '30', '', '952', 'SELANG LAS PVC MERAH 3/8\'\' 900-103 IWARA', '1', '18', '16946', '35000', '38500', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('953', '6', '30', '', '953', 'SELANG LAS RBBR BIRU 1/4\'\' 900-304 IWARA', '1', '18', '8615', '17273', '19000', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('954', '6', '30', '', '954', 'REGULATOR LAS ACETYLENE 900-030 IWARA', '1', '18', '154204', '269545', '296500', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('955', '6', '30', '', '955', 'REGULATOR LAS LPG 900-031 IWARA', '1', '18', '171229', '269545', '296500', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('956', '6', '30', '', '956', 'REGULATOR LAS OXYGEN 900-032 IWARA', '1', '18', '187727', '269545', '296500', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('957', '6', '30', '', '957', 'BLANDER LAS W 100 MELZER', '1', '9', '226775', '352727', '388000', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('958', '6', '30', '', '958', 'BLANDER PEMANAS H 300 MELZER', '1', '9', '139925', '232727', '256000', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('959', '6', '30', '', '959', 'BLANDER POTONG M-LPG (SET) MELZER', '1', '9', '222915', '340909', '375000', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('960', '6', '30', '', '960', 'BLANDER POTONG MZ-088 MELZER', '1', '9', '271222', '561818', '618000', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('961', '6', '30', '', '961', 'BLANDER POTONG MZ-099 MELZER', '1', '9', '336000', '720909', '793000', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('962', '6', '30', '', '962', 'REGULATOR LAS ACETHYLENE MELZER', '1', '9', '138675', '340909', '375000', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('963', '6', '30', '', '963', 'REGULATOR LAS ARGON MELZER', '1', '9', '202650', '425455', '468000', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('964', '6', '30', '', '964', 'REGULATOR LAS CO 2 MELZER', '1', '9', '174666', '425455', '468000', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('965', '6', '30', '', '965', 'REGULATOR LAS LPG MELZER', '1', '9', '122527', '340909', '375000', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('966', '6', '30', '', '966', 'REGULATOR LAS LPG PRO MELZER', '1', '9', '172800', '449091', '494000', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('967', '6', '30', '', '967', 'REGULATOR LAS OXYGEN MELZER', '1', '9', '121602', '340909', '375000', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('968', '6', '30', '', '968', 'REGULATOR LAS OXYGEN PRO MELZER', '1', '9', '186894', '449091', '494000', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('969', '6', '30', '', '969', 'CUTTING TIP F-099/P35 LPG NO 1 MELZER', '1', '9', '41012', '82727', '91000', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('970', '6', '30', '', '970', 'CUTTING TIP F-099/P35 LPG NO 2 MELZER', '1', '9', '38130', '82727', '91000', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('971', '6', '30', '', '971', 'CUTTING TIP F-099/P35 LPG NO 3 MELZER', '1', '9', '36632', '82727', '91000', '0', '0', '0', 'y', '2017-04-24 21:55:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('972', '6', '30', '', '972', 'CUTTING TIP TYPE M NO.1 LPG MELZER', '1', '9', '16887', '34545', '38000', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('973', '6', '30', '', '973', 'CUTTING TIP TYPE M NO.2 LPG MELZER', '1', '9', '18988', '34545', '38000', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('974', '6', '30', '', '974', 'CUTTING TIP TYPE M NO.3 LPG MELZER', '1', '9', '16887', '34545', '38000', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('975', '6', '30', '', '975', 'CUTTING TIP F-088/P8 LPG NO 1 MELZER', '1', '9', '30081', '66364', '73000', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('976', '6', '30', '', '976', 'CUTTING TIP F-088/P8 LPG NO 2 MELZER', '1', '9', '31362', '66364', '73000', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('977', '6', '30', '', '977', 'CUTTING TIP F-088/P8 LPG NO 3 MELZER', '1', '9', '30488', '66364', '73000', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('978', '6', '31', '', '978', 'KAWAT LAS KUNINGAN 3.0MM KG 1', '1', '25', '105591', '131818', '145000', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('979', '6', '31', '', '979', 'KAWAT LAS LB 52 M.4.0 PTH DOS 5KG', '1', '25', '30389', '169545', '186500', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('980', '6', '31', '', '980', 'KAWAT LAS LB 52 M2.6 PTH DOS 5KG', '1', '25', '31295', '171364', '188500', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('981', '6', '31', '', '981', 'KAWAT LAS LB 52 M3.2 PTH DOS 5KG', '1', '25', '30409', '166818', '183500', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('982', '6', '31', '', '982', 'KAWAT LAS LB 52-18 M3.2 PTH DOS 5KG', '1', '25', '0', '165909', '182500', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('983', '6', '31', '', '983', 'KAWAT LAS LB 52U M2.6 PTH DOS 5KG', '1', '25', '36163', '200909', '221000', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('984', '6', '31', '', '984', 'KAWAT LAS LB 52U M3.2 PTH DOS 5KG', '1', '25', '35393', '196364', '216000', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('985', '6', '31', '', '985', 'KAWAT LAS LB 52U M4.0 PTH DOS 5KG', '1', '25', '33961', '196364', '216000', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('986', '6', '31', '', '986', 'KAWAT LAS RB 26 M2.6 PTH DOS 5KG', '1', '25', '23636', '131818', '145000', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('987', '6', '31', '', '987', 'KAWAT LAS RB 26 M3.2 PTH DOS 5KG', '1', '25', '21909', '125455', '138000', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('988', '6', '31', '', '988', 'KAWAT LAS RB 26 M4.0 PTH DOS 5KG', '1', '25', '21909', '121818', '134000', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('989', '6', '31', '', '989', 'KAWAT LAS RD260 M2.0 DOS 2KG NIKKO', '1', '25', '24932', '59091', '65000', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('990', '6', '31', '', '990', 'KAWAT LAS RD460 M2.6 PTH DOS 5KG NIKKO', '1', '25', '18182', '103636', '114000', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('991', '6', '31', '', '991', 'KAWAT LAS RD460 M3.2 PTH DOS 5KG NIKKO', '1', '25', '17614', '100455', '110500', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('992', '6', '31', '', '992', 'KAWAT LAS RD460 M4.0 PTH DOS 5KG NIKKO', '1', '25', '17614', '100455', '110500', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('993', '6', '31', '', '993', 'KAWAT LAS SS WELL308 M.3.2 DOS 5KG', '1', '25', '95000', '595455', '655000', '0', '0', '0', 'y', '2017-04-24 21:55:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('994', '6', '31', '', '994', 'KAWAT LAS SS WELL308 M2.6 DOS 4KG', '1', '25', '100000', '500000', '550000', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('995', '7', '32', '', '995', 'HELM PROYEK BIRU SP PLASTIK MALSANA', '1', '26', '13500', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('996', '7', '32', '', '996', 'HELM PROYEK BIRU SP PLASTIK ROTASI MALSA', '1', '26', '17000', '24545', '27000', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('997', '7', '32', '', '997', 'HELM PROYEK HIJAU SP PLASTIK MALSANA', '1', '26', '13499', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('998', '7', '32', '', '998', 'HELM PROYEK KNG SP PLASTIK MALSANA', '1', '26', '13500', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('999', '7', '32', '', '999', 'HELM PROYEK KNG SP PLASTIK ROTASI MALSA', '1', '26', '17000', '24545', '27000', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1000', '7', '32', '', '1000', 'HELM PROYEK MERAH SP PLASTIK MALSANA', '1', '26', '13500', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1001', '7', '32', '', '1001', 'HELM PROYEK ORNGE SP NYLON MPH PRO', '1', '26', '13300', '24545', '27000', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1002', '7', '32', '', '1002', 'HELM PROYEK ORNGE SP PLASTIK MALSANA', '1', '26', '13500', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1003', '7', '32', '', '1003', 'HELM PROYEK PUTIH SP PLASTIK BOSCH', '1', '26', '0', '31818', '35000', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1004', '7', '32', '', '1004', 'HELM PROYEK PUTIH SP PLASTIK MALSANA', '1', '26', '13500', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1005', '7', '32', '', '1005', 'HELMPROYEK HIJAU SP PLASTIK ROTASI MALSA', '1', '26', '17000', '24545', '27000', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1006', '7', '32', '', '1006', 'HELMPROYEK MERAH SP PLASTIK ROTASI MALSA', '1', '26', '17000', '24545', '27000', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1007', '7', '32', '', '1007', 'HELMPROYEK ORNGE SP PLASTIK ROTASI MALSA', '1', '26', '17000', '24545', '27000', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1008', '7', '32', '', '1008', 'HELMPROYEK PUTIH SP PLASTIK ROTASI MALSA', '1', '26', '17000', '24545', '27000', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1009', '7', '32', '', '1009', 'EAR PLUG SILICONE 383-062 JASON', '1', '5', '6364', '10455', '11500', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1010', '7', '32', '', '1010', 'TUTUP TELINGA EARMUFF 383-063 JASON', '1', '5', '34990', '52273', '57500', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1011', '7', '32', '', '1011', 'KACAMATA LAS PERSEGI 383-021 JASON', '1', '5', '28636', '41818', '46000', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1012', '7', '32', '', '1012', 'KACAMATA SAFETY CLEAR 383-073 JASON', '1', '5', '16727', '31818', '35000', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1013', '7', '32', '', '1013', 'KACAMATA SAFETY CLEAR 383-077 JASON', '1', '5', '0', '56364', '62000', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1014', '7', '32', '', '1014', 'KACAMATA SAFETY COLOUR 383-076 JASON', '1', '5', '0', '66364', '73000', '0', '0', '0', 'y', '2017-04-24 21:55:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1015', '7', '32', '', '1015', 'MASKER BIRU 383-001 JASON', '1', '5', '5726', '11364', '12500', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1016', '7', '32', '', '1016', 'MASKER CARBON (DEBU) 383-011 JASON', '1', '5', '9818', '14545', '16000', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1017', '7', '32', '', '1017', 'MASKER KERTAS 10PCS 383-006 JASON', '1', '5', '8897', '18636', '20500', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1018', '7', '32', '', '1018', 'MASKER NP-305 SINGLE FILTER 383-012JASON', '1', '5', '20908', '40909', '45000', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1019', '7', '32', '', '1019', 'MASKER NP-306 DOUBLE FILTER 383-013JASON', '1', '5', '35000', '61818', '68000', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1020', '7', '32', '', '1020', 'SARUNG TANGAN KARET L 384-007 PSG JASON', '1', '5', '12728', '20455', '22500', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1021', '7', '32', '', '1021', 'SARUNG TANGAN KARET M 384-006 JASON', '1', '5', '12728', '18636', '20500', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1022', '7', '32', '', '1022', 'SARUNG TGN KOMBINASI 10,5\'\' 384-011JASON', '1', '5', '16970', '25455', '28000', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1023', '7', '32', '', '1023', 'SARUNG TGN LAS KULIT  16\'\' 384-003 JASON', '1', '5', '50379', '67273', '74000', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1024', '7', '32', '', '1024', 'SARUNG TGN LAS KULIT BIRU 384-002JASON', '1', '5', '41894', '65455', '72000', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1025', '7', '32', '', '1025', 'SARUNG TGN LAS KULIT MERAH 384-001JASON', '1', '5', '41893', '65455', '72000', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1026', '7', '32', '', '1026', 'SARUNGTGN LAS KULIT BIRU18\'\'384-008JASON', '1', '5', '60985', '96364', '106000', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1027', '7', '32', '', '1027', 'SRNG TGN BINTIK ORANGE 10\'\' 384-016JASON', '1', '5', '0', '10455', '11500', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1028', '7', '32', '', '1028', 'JAS HUJAN BAJUCELANA KUNING 344-001JASON', '1', '5', '69262', '121364', '133500', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1029', '7', '32', '', '1029', 'JAS HUJAN TERUSAN KUNING 344-002 JASON', '1', '5', '59830', '89545', '98500', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1030', '7', '32', '', '1030', 'ROMPI JARING ORANGE XL 344-010 JASON', '1', '5', '12727', '26818', '29500', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1031', '7', '32', '', '1031', 'LIFT SLING 2T X 3MTR HIJAU 385-085 JASON', '1', '5', '0', '168182', '185000', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1032', '7', '32', '', '1032', 'LIFT SLING 2T X 4MTR HIJAU 385-086 JASON', '1', '5', '0', '218182', '240000', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1033', '7', '32', '', '1033', 'LIFT SLING 2T X 5MTR HIJAU 385-087 JASON', '1', '5', '0', '285455', '314000', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1034', '7', '32', '', '1034', 'LIFT SLING 2T X 6MTR HIJAU 385-088 JASON', '1', '5', '0', '318636', '350500', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1035', '7', '32', '', '1035', 'LIFT SLING 3T X 4MTR KNG 385-090 JASON', '1', '5', '0', '335455', '369000', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1036', '7', '32', '', '1036', 'LIFT SLING 3T X 5MTR KNG 385-091 JASON', '1', '5', '0', '402727', '443000', '0', '0', '0', 'y', '2017-04-24 21:56:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1037', '7', '32', '', '1037', 'LIFT SLING 3T X 6MTR KNG 385-092 JASON', '1', '5', '356364', '469545', '516500', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1038', '7', '32', '', '1038', 'LIFT SLING 4T X 4MTR ABU2 385-094 JASON', '1', '5', '0', '452273', '497500', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1039', '7', '32', '', '1039', 'LIFT SLING 4T X 5MTR ABU2 385-095 JASON', '1', '5', '0', '553182', '608500', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1040', '7', '32', '', '1040', 'LIFT SLING 4T X 6MTR ABU2 385-096 JASON', '1', '5', '0', '604091', '664500', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1041', '7', '32', '', '1041', 'LIFT SLING 5T X 4MTR MERAH 385-097 JASON', '1', '5', '0', '569545', '626500', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1042', '7', '32', '', '1042', 'LIFT SLING 5T X 6MTR MERAH 385-098 JASON', '1', '5', '636364', '838182', '922000', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1043', '7', '32', '', '1043', 'LIFT SLING 6T X 4MTR COKLAT 385-099JASON', '1', '5', '0', '702727', '773000', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1044', '7', '32', '', '1044', 'LIFT SLING 6T X 6MTR COKLAT 385-100JASON', '1', '5', '0', '1005000', '1105500', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1045', '7', '32', '', '1045', 'SABUK PENGAMAN 385-101 JASON', '1', '5', '102274', '150909', '166000', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1046', '7', '32', '', '1046', 'SABUK PENGAMAN DUDUK TW 385-102 JASON', '1', '5', '368182', '495000', '544500', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1047', '7', '32', '', '1047', 'TALI PENARIK MOBIL 16 X 4M 345-210 JASON', '1', '5', '67500', '100455', '110500', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1048', '7', '32', '', '1048', '*MASKER 2343-001 NP-305 SINGLE FILTER', '1', '27', '19250', '38636', '42500', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1049', '7', '32', '', '1049', 'MASKER 3 LAPIS (12 PCS) HIJAU/BIRU PAK', '1', '27', '4128', '7273', '8000', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1050', '7', '32', '', '1050', 'MASKER 3 LAPIS (50 PCS) HIJAU/BIRU PAK', '1', '27', '17164', '30000', '33000', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1051', '7', '32', '', '1051', 'MASKER 3R / SONATA', '1', '27', '1450', '7727', '8500', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1052', '7', '32', '', '1052', 'MASKER BIRU 383-001 JASON', '1', '27', '5726', '11364', '12500', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1053', '7', '32', '', '1053', 'MASKER CARBON (DEBU) 383-011 JASON', '1', '27', '9818', '14545', '16000', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1054', '7', '32', '', '1054', 'MASKER KAIN KARBON AKTIF PANJANG MARTIN', '1', '27', '14426', '22727', '25000', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1055', '7', '32', '', '1055', 'MASKER KAIN KARBON AKTIF PENDEK MARTIN', '1', '27', '12057', '18636', '20500', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1056', '7', '32', '', '1056', 'MASKER KAIN TALI KARET LSN 1', '1', '27', '3766', '8182', '9000', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1057', '7', '32', '', '1057', 'MASKER KERTAS 10PCS 383-006 JASON', '1', '27', '8897', '18636', '20500', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1058', '7', '32', '', '1058', 'MASKER MH-305 SINGLE FILTER MPH PRO', '1', '27', '12000', '21364', '23500', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1059', '7', '32', '', '1059', 'MASKER NP-305 SINGLE FILTER 383-012JASON', '1', '27', '20908', '40909', '45000', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1060', '7', '32', '', '1060', 'MASKER NP-305 SINGLE FILTER BLUE EAGLE', '1', '27', '22406', '55455', '61000', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1061', '7', '32', '', '1061', 'MASKER NP-306 DOUBLE FILTER 383-013JASON', '1', '27', '35000', '61818', '68000', '0', '0', '0', 'y', '2017-04-24 21:56:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1062', '7', '32', '', '1062', 'MASKER NP-306 DOUBLE FILTER BLUE EAGLE', '1', '27', '22844', '53636', '59000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1063', '7', '32', '', '1063', 'SEPATU BOOT701 HIJAU PNDK 25 PANFIX', '1', '28', '0', '59091', '65000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1064', '7', '32', '', '1064', 'SEPATU BOOT701 HIJAU PNDK 26 PANFIX', '1', '28', '0', '59091', '65000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1065', '7', '32', '', '1065', 'SEPATU BOOT701 HIJAU PNDK 27 PANFIX', '1', '28', '0', '59091', '65000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1066', '7', '32', '', '1066', 'SEPATU BOOT701 HTM PNDK  25 PANFIX', '1', '28', '0', '50000', '55000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1067', '7', '32', '', '1067', 'SEPATU BOOT701 HTM PNDK  26 PANFIX', '1', '28', '0', '45909', '50500', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1068', '7', '32', '', '1068', 'SEPATU BOOT701 HTM PNDK  27 PANFIX', '1', '28', '0', '46364', '51000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1069', '7', '32', '', '1069', 'SEPATU BOOT701 HTM PNDK POLOS 25 PANFIX', '1', '28', '0', '46364', '51000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1070', '7', '32', '', '1070', 'SEPATU BOOT701 HTM PNDK POLOS 26 PANFIX', '1', '28', '0', '46364', '51000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1071', '7', '32', '', '1071', 'SEPATU BOOT701 HTM PNDK POLOS 27 PANFIX', '1', '28', '0', '46364', '51000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1072', '7', '32', '', '1072', 'SEPATU BOOT801 HIJAU PNJG 39 PANFIX', '1', '28', '43568', '85455', '94000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1073', '7', '32', '', '1073', 'SEPATU BOOT801 HIJAU PNJG 40 PANFIX', '1', '28', '43753', '85455', '94000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1074', '7', '32', '', '1074', 'SEPATU BOOT801 HIJAU PNJG 41 PANFIX', '1', '28', '43841', '85455', '94000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1075', '7', '32', '', '1075', 'SEPATU BOOT801 HIJAU PNJG 42 PANFIX', '1', '28', '47000', '85455', '94000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1076', '7', '32', '', '1076', 'SEPATU BOOT801 HTM PNJG  39 PANFIX', '1', '28', '40695', '74545', '82000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1077', '7', '32', '', '1077', 'SEPATU BOOT801 HTM PNJG  40 PANFIX', '1', '28', '40334', '74545', '82000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1078', '7', '32', '', '1078', 'SEPATU BOOT801 HTM PNJG  41 PANFIX', '1', '28', '41000', '74545', '82000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1079', '7', '32', '', '1079', 'SEPATU BOOT801 HTM PNJG  42 PANFIX', '1', '28', '40429', '74545', '82000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1080', '7', '32', '', '1080', 'SEPATU BOOT801 HTM PNJG POLOS 38 PANFIX', '1', '28', '0', '66364', '73000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1081', '7', '32', '', '1081', 'SEPATU BOOT801 HTM PNJG POLOS 39 PANFIX', '1', '28', '36000', '66364', '73000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1082', '7', '32', '', '1082', 'SEPATU BOOT801 HTM PNJG POLOS 40 PANFIX', '1', '28', '35998', '66364', '73000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1083', '7', '32', '', '1083', 'SEPATU BOOT801 HTM PNJG POLOS 41 PANFIX', '1', '28', '36000', '66364', '73000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1084', '7', '32', '', '1084', 'SEPATU BOOT801 HTM PNJG POLOS 42 PANFIX', '1', '28', '36000', '66364', '73000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1085', '7', '32', '', '1085', 'KACA LAS 11FW2DIN 900-012 IWARA', '1', '18', '1749', '6364', '7000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1086', '7', '32', '', '1086', 'TOPENG LAS BIRU 900-005 IWARA', '1', '18', '57260', '90455', '99500', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1087', '7', '32', '', '1087', 'SARUNG TGN KOMBINASI 10,5\'\' 900-022IWARA', '1', '18', '20946', '30000', '33000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1088', '7', '32', '', '1088', 'SARUNGTGN LAS KULIT KUNING 900-008 IWARA', '1', '18', '42425', '80909', '89000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1089', '7', '32', '', '1089', 'SARUNG TGN ARGON KULIT', '1', '29', '18000', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:56:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1090', '7', '32', '', '1090', 'SARUNG TGN B-2 KUNING T-450 LSN HERON', '1', '29', '13985', '23636', '26000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1091', '7', '32', '', '1091', 'SARUNG TGN B-3 HIJAU T-312 PANGESTU', '1', '29', '13870', '24545', '27000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1092', '7', '32', '', '1092', 'SARUNG TGN B-6 MERAH T-612 PANGESTU', '1', '29', '19889', '35455', '39000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1093', '7', '32', '', '1093', 'SARUNG TGN KOMBINASI 10,5\'\' 384-011JASON', '1', '29', '16970', '25455', '28000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1094', '7', '32', '', '1094', 'SARUNG TGN KOMBINASI 10,5\'\' 900-022IWARA', '1', '29', '20946', '30000', '33000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1095', '7', '32', '', '1095', 'SARUNG TGN LARGE 5 LATEX OTORY', '1', '29', '10971', '16364', '18000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1096', '7', '32', '', '1096', 'SARUNG TGN LARGE 7 LATEX OTORY', '1', '29', '12238', '18636', '20500', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1097', '7', '32', '', '1097', 'SARUNG TGN LAS KULIT  16\'\' 384-003 JASON', '1', '29', '50379', '67273', '74000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1098', '7', '32', '', '1098', 'SARUNG TGN LAS KULIT BIRU 384-002JASON', '1', '29', '41894', '65455', '72000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1099', '7', '32', '', '1099', 'SARUNG TGN LAS KULIT HIJAU RRT', '1', '29', '27841', '45000', '49500', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1100', '7', '32', '', '1100', 'SARUNG TGN LAS KULIT MERAH 384-001JASON', '1', '29', '41893', '65455', '72000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1101', '7', '32', '', '1101', 'SARUNG TGN LAS KULIT MERAH RRT', '1', '29', '17424', '45000', '49500', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1102', '7', '32', '', '1102', 'SEPATU BOOT AP BLACK (1) HITAM 26 AP', '1', '30', '27858', '40909', '45000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1103', '7', '32', '', '1103', 'SEPATU BOOT MOTO HITAM/MERAH 43 AP', '1', '30', '52167', '67273', '74000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1104', '7', '32', '', '1104', 'SEPATU BOOT SAFETY S3/S5 YELLOW 39AP', '1', '30', '138181', '184545', '203000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1105', '7', '32', '', '1105', 'SEPATU BOOT AP BLACK (1) HITAM 28 AP', '1', '30', '27582', '40909', '45000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1106', '7', '32', '', '1106', 'SEPATU BOOT MOTO HITAM/MERAH 42 AP', '1', '30', '51978', '72727', '80000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1107', '7', '32', '', '1107', 'SEPATU BOOT SAFETY S3/S5 YELLOW 41AP', '1', '30', '136799', '184545', '203000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1108', '7', '32', '', '1108', 'SEPATU BOOT 2003 GR HIJAU 42 AP', '1', '30', '59564', '81818', '90000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1109', '7', '32', '', '1109', 'SEPATU BOOT MOTTO HITAM/MERAH 39 AP', '1', '30', '0', '72727', '80000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1110', '7', '32', '', '1110', 'SEPATU BOOT MOTO HITAM/MERAH 40 AP', '1', '30', '51918', '72727', '80000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1111', '7', '32', '', '1111', 'SEPATU BOOT 2003 GR HIJAU 41 AP', '1', '30', '59281', '81818', '90000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1112', '7', '32', '', '1112', 'SEPATU BOOT 2003 GR HIJAU 40 AP', '1', '30', '59637', '81818', '90000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1113', '7', '32', '', '1113', 'SEPATU BOOT 9305 / 9905 HITAM 42AP', '1', '30', '45420', '63636', '70000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1114', '7', '32', '', '1114', 'SEPATU BOOT 9305 / 9905 HITAM 41AP', '1', '30', '44422', '63636', '70000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1115', '7', '32', '', '1115', 'SEPATU BOOT SAFETY S3/S5 YELLOW 40AP', '1', '30', '136800', '184545', '203000', '0', '0', '0', 'y', '2017-04-24 21:56:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1116', '7', '32', '', '1116', 'SEPATU BOOT AP BLACK (1) HITAM 27 AP', '1', '30', '27582', '40909', '45000', '0', '0', '0', 'y', '2017-04-24 21:56:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1117', '7', '32', '', '1117', 'SEPATU BOOT MOTO HITAM/MERAH 41 AP', '1', '30', '52169', '72727', '80000', '0', '0', '0', 'y', '2017-04-24 21:56:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1118', '7', '32', '', '1118', 'SEPATU BOOT SAFETY S3/S5 YELLOW 42AP', '1', '30', '136800', '184545', '203000', '0', '0', '0', 'y', '2017-04-24 21:56:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1119', '7', '32', '', '1119', 'SEPATU BOOT SAFETY S3/S5 YELLOW 43AP', '1', '30', '137836', '184545', '203000', '0', '0', '0', 'y', '2017-04-24 21:56:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1120', '7', '32', '', '1120', 'SEPATU BOOT 9305 / 9905 HITAM 40 AP', '1', '30', '44334', '63636', '70000', '0', '0', '0', 'y', '2017-04-24 21:56:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1121', '7', '33', '', '1121', 'ALAT PEMADAM API 1KG YAN FIRE', '1', '31', '152727', '218182', '240000', '0', '0', '0', 'y', '2017-04-24 21:56:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1122', '7', '33', '', '1122', 'ALAT PEMADAM API 25KG YAN FIRE', '1', '31', '0', '4550909', '5006000', '0', '0', '0', 'y', '2017-04-24 21:56:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1123', '7', '33', '', '1123', 'ALAT PEMADAM API 3KG YAN FIRE', '1', '31', '345454', '493636', '543000', '0', '0', '0', 'y', '2017-04-24 21:56:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1124', '7', '33', '', '1124', 'ALAT PEMADAM API 4,5KG CO2 YAN FIRE', '1', '31', '0', '710909', '782000', '0', '0', '0', 'y', '2017-04-24 21:56:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1125', '7', '33', '', '1125', 'ALAT PEMADAM API 6KG YAN FIRE', '1', '31', '498182', '711818', '783000', '0', '0', '0', 'y', '2017-04-24 21:56:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1126', '7', '33', '', '1126', 'ALAT PEMADAM API 9KG YAN FIRE', '1', '31', '516364', '883636', '972000', '0', '0', '0', 'y', '2017-04-24 21:56:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1127', '7', '33', '', '1127', 'REFILL PEMADAM API 1KG YAN FIRE', '1', '31', '47273', '67727', '74500', '0', '0', '0', 'y', '2017-04-24 21:56:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1128', '7', '33', '', '1128', 'REFILL PEMADAM API 3KG YAN FIRE', '1', '31', '94546', '135455', '149000', '0', '0', '0', 'y', '2017-04-24 21:56:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1129', '7', '33', '', '1129', 'REFILL PEMADAM API 4,5KG YAN FIRE', '1', '31', '0', '109091', '120000', '0', '0', '0', 'y', '2017-04-24 21:56:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1130', '7', '33', '', '1130', 'REFILL PEMADAM API 6KG YAN FIRE', '1', '31', '149091', '213182', '234500', '0', '0', '0', 'y', '2017-04-24 21:56:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1131', '7', '33', '', '1131', 'REFILL PEMADAM API 9KG YAN FIRE', '1', '31', '0', '275455', '303000', '0', '0', '0', 'y', '2017-04-24 21:56:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1132', '8', '34', '', '1132', 'RODA CASTOR BAUT TT50 3/8\'\'TOKIWA 4PC M', '1', '32', '18135', '28182', '31000', '0', '0', '0', 'y', '2017-04-24 21:56:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1133', '8', '34', '', '1133', 'RODA CASTOR SOCKET TW 50 TOKIWA SET M', '1', '32', '18133', '28182', '31000', '0', '0', '0', 'y', '2017-04-24 21:56:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1134', '8', '34', '', '1134', 'RODA GEROBAK PASIR ARTCO', '1', '32', '82636', '111818', '123000', '0', '0', '0', 'y', '2017-04-24 21:56:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1135', '8', '34', '', '1135', 'RODA GEROBAK PASIR MATI ARTCO', '1', '32', '0', '140909', '155000', '0', '0', '0', 'y', '2017-04-24 21:56:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1136', '8', '34', '', '1136', 'RODA HANDPALLET NYLON 180MMX70MM+BEARING', '1', '32', '0', '155909', '171500', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1137', '8', '34', '', '1137', 'RODA HANDPALLET NYLON 80MMX70MM+BEARING', '1', '32', '0', '90909', '100000', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1138', '8', '34', '', '1138', 'RODA HANDPALLET PU 180MMX70MM+BEARING', '1', '32', '109091', '155909', '171500', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1139', '8', '34', '', '1139', 'RODA HANDPALLET PU 80MMX60MM+BEARING', '1', '32', '0', '115909', '127500', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1140', '8', '34', '', '1140', 'RODA HANDPALLET PU 80MMX70MM+BEARING', '1', '32', '63636', '90909', '100000', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1141', '8', '34', '', '1141', 'RODA KARET 3\'\' HIDUP STAR ROLLAND', '1', '32', '40909', '72727', '80000', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1142', '8', '34', '', '1142', 'RODA KARET 3\'\' HIDUP+REM STAR ROLLAND', '1', '32', '59318', '109091', '120000', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1143', '8', '34', '', '1143', 'RODA KARET 3\'\' MATI STAR ROLLAND', '1', '32', '34772', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1144', '8', '34', '', '1144', 'RODA KARET 4\'\' HIDUP STAR ROLLAND', '1', '32', '45000', '76364', '84000', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1145', '8', '34', '', '1145', 'RODA KARET 4\'\' HIDUP+REM STAR ROLLAND', '1', '32', '61364', '119091', '131000', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1146', '8', '34', '', '1146', 'RODA KARET 4\'\' MATI STAR ROLLAND', '1', '32', '36819', '57273', '63000', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1147', '8', '34', '', '1147', 'RODA KARET 5,5\'\' HIDUP CASTROMAN', '1', '32', '0', '287273', '316000', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1148', '8', '34', '', '1148', 'RODA KARET 5,5\'\' MATI CASTROMAN', '1', '32', '0', '258636', '284500', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1149', '8', '34', '', '1149', 'RODA KARET 5,5\'\' NO BRACKET CASTROMAN', '1', '32', '0', '212727', '234000', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1150', '8', '34', '', '1150', 'RODA KARET 5\'\' HIDUP STAR ROLLAND', '1', '32', '48682', '107273', '118000', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1151', '8', '34', '', '1151', 'RODA KARET 5\'\' HIDUP+REM STAR ROLLAND', '1', '32', '0', '167273', '184000', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1152', '8', '34', '', '1152', 'RODA KARET 5\'\' MATI STAR ROLLAND', '1', '32', '40910', '97273', '107000', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1153', '8', '34', '', '1153', 'RODA KARET 6\'\' HIDUP STAR ROLLAND', '1', '32', '102273', '213182', '234500', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1154', '8', '34', '', '1154', 'RODA KARET 6\'\' MATI STAR ROLLAND', '1', '32', '89062', '151818', '167000', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1155', '8', '34', '', '1155', 'RODA KARET 8\'\' HIDUP STAR ROLLAND', '1', '32', '112500', '222273', '244500', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1156', '8', '34', '', '1156', 'RODA KARET 8\'\' MATI STAR ROLLAND', '1', '32', '102273', '199091', '219000', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1157', '8', '34', '', '1157', 'RODA KARET ONLY LORI 10\'\' M', '1', '32', '116964', '181818', '200000', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1158', '8', '34', '', '1158', 'RODA KARET ONLY LORI 6\'\' M', '1', '32', '57948', '89091', '98000', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1159', '8', '34', '', '1159', 'RODA KARET ONLY LORI 8\'\' M', '1', '32', '76520', '118182', '130000', '0', '0', '0', 'y', '2017-04-24 21:56:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1160', '8', '34', '', '1160', 'RODA KARET TUSUK  5\'\' X 5/8\'\' MD HIDUP M', '1', '32', '39525', '80909', '89000', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1161', '8', '34', '', '1161', 'RODA KARET TUSUK  5\'\' X 5/8\'\' MD REM M', '1', '32', '53165', '100000', '110000', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1162', '8', '34', '', '1162', 'RODA KARET TUSUK  6\'\' HD REM M', '1', '32', '114773', '238182', '262000', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1163', '8', '34', '', '1163', 'RODA NYLON 2.5\'\' HIDUP SHENPAI', '1', '32', '12476', '41818', '46000', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1164', '8', '34', '', '1164', 'RODA NYLON 2.5\'\' MATI SHENPAI', '1', '32', '9818', '35455', '39000', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1165', '8', '34', '', '1165', 'RODA NYLON 2\'\' HIDUP SHENPAI', '1', '32', '7696', '26818', '29500', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1166', '8', '34', '', '1166', 'RODA NYLON 2\'\' MATI SHENPAI', '1', '32', '6136', '22727', '25000', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1167', '8', '34', '', '1167', 'RODA NYLON 3\'\' HIDUP SHENPAI', '1', '32', '13296', '44545', '49000', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1168', '8', '34', '', '1168', 'RODA NYLON 3\'\' MATI SHENPAI', '1', '32', '11250', '39545', '43500', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1169', '8', '34', '', '1169', 'RODA NYLON 4\'\' HIDUP SHENPAI', '1', '32', '0', '177727', '195500', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1170', '8', '34', '', '1170', 'RODA NYLON 4\'\' MATI SHENPAI', '1', '32', '0', '160000', '176000', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1171', '8', '34', '', '1171', 'RODA NYLON 5\'\' HIDUP SHENPAI', '1', '32', '0', '193182', '212500', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1172', '8', '34', '', '1172', 'RODA NYLON 5\'\' MATI SHENPAI', '1', '32', '0', '173182', '190500', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1173', '8', '34', '', '1173', 'RODA NYLON 6\'\' MATI SHENPAI', '1', '32', '0', '201818', '222000', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1174', '8', '34', '', '1174', 'RODA NYLON 8\'\' HIDUP SHENPAI', '1', '32', '0', '252727', '278000', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1175', '8', '34', '', '1175', 'RODA NYLON 8\'\' MATI SHENPAI', '1', '32', '0', '239091', '263000', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1176', '8', '34', '', '1176', 'RODA PLASTIK 3\'\' HIDUP TOKIWA M', '1', '32', '24618', '38182', '42000', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1177', '8', '34', '', '1177', 'RODA PLASTIK 3\'\' MATI TOKIWA M', '1', '32', '19310', '32727', '36000', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1178', '8', '34', '', '1178', 'RODA PLASTIK 3\'\'X2 BAUT 4PC TOKIWA M', '1', '32', '0', '142727', '157000', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1179', '8', '34', '', '1179', 'RODA PLASTIK 3\'\'X2 REM 4PC TOKIWA M', '1', '32', '0', '172273', '189500', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1180', '8', '34', '', '1180', 'RODA PLASTIK MATI 2\'\' PTH MP-316TOKIWA M', '1', '32', '37922', '58636', '64500', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1181', '8', '34', '', '1181', 'RODA PLASTIK PLAT 2\'\' HTM HK-505TOKIWA M', '1', '32', '23994', '37273', '41000', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1182', '8', '34', '', '1182', 'RODA PLASTIK PLAT 2\'\' HTM HT-508TOKIWA M', '1', '32', '32352', '50000', '55000', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1183', '8', '34', '', '1183', 'RODA PLASTIK PLAT 2\'\' PTH PK-808TOKIWA M', '1', '32', '37247', '57273', '63000', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1184', '8', '34', '', '1184', 'RODA PLASTIK TUSUK 2\'\'HTM KS-503TOKIWA M', '1', '32', '38373', '59091', '65000', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1185', '8', '34', '', '1185', 'RODA PLASTIK TUSUK 2\'\'PTH TS-803TOKIWA M', '1', '32', '34884', '59091', '65000', '0', '0', '0', 'y', '2017-04-24 21:56:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1186', '8', '34', '', '1186', 'RODA PLASTIK TUSUKREM 2\'\' SP-707TOKIWA M', '1', '32', '0', '98636', '108500', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1187', '8', '34', '', '1187', 'RODA PLAT KECIL HITAM U-302 SET UCHIWA M', '1', '32', '18135', '28182', '31000', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1188', '8', '34', '', '1188', 'RODA PNEUMATIC 10\'\' BAN DALAM RRT', '1', '32', '27273', '39091', '43000', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1189', '8', '34', '', '1189', 'RODA PNEUMATIC 10\'\' HIDUP RRT', '1', '32', '148701', '211364', '232500', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1190', '8', '34', '', '1190', 'RODA PNEUMATIC 10\'\' MATI RRT', '1', '32', '100000', '146364', '161000', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1191', '8', '34', '', '1191', 'RODA PNEUMATIC 8\'\' BAN DALAM RRT', '1', '32', '18132', '32727', '36000', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1192', '8', '34', '', '1192', 'RODA PNEUMATIC 8\'\' HIDUP RRT', '1', '32', '136364', '195000', '214500', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1193', '8', '34', '', '1193', 'RODA PNEUMATIC 8\'\' MATI RRT', '1', '32', '89350', '130000', '143000', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1194', '8', '34', '', '1194', 'RODA PU 3\'\' HIDUP STAR ROLLAND', '1', '32', '48682', '85909', '94500', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1195', '8', '34', '', '1195', 'RODA PU 3\'\' HIDUP+REM STAR ROLLAND', '1', '32', '71591', '126818', '139500', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1196', '8', '34', '', '1196', 'RODA PU 3\'\' MATI STAR ROLLAND', '1', '32', '40974', '77727', '85500', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1197', '8', '34', '', '1197', 'RODA PU 4\'\' HIDUP STAR ROLLAND', '1', '32', '58295', '103636', '114000', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1198', '8', '34', '', '1198', 'RODA PU 4\'\' HIDUP+REM STAR ROLLAND', '1', '32', '79772', '138636', '152500', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1199', '8', '34', '', '1199', 'RODA PU 4\'\' MATI STAR ROLLAND', '1', '32', '47045', '81364', '89500', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1200', '8', '35', '', '1200', 'DONGKRAK BOTOL 10T 387-004 JASON', '1', '5', '248181', '338182', '372000', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1201', '8', '35', '', '1201', 'DONGKRAK BOTOL 20T 387-006 JASON', '1', '5', '413633', '551818', '607000', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1202', '8', '35', '', '1202', 'DONGKRAK BOTOL 2T 387-001 JASON', '1', '5', '105000', '150455', '165500', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1203', '8', '35', '', '1203', 'DONGKRAK BOTOL 30T 387-007 JASON', '1', '5', '890909', '1120909', '1233000', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1204', '8', '35', '', '1204', 'DONGKRAK BOTOL 4T 387-002 JASON', '1', '5', '136819', '196364', '216000', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1205', '8', '35', '', '1205', 'DONGKRAK BOTOL 6T 387-003 JASON', '1', '5', '178181', '254545', '280000', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1206', '8', '35', '', '1206', 'DONGKRAK BUAYA 2T 387-010 JASON', '1', '5', '299091', '373636', '411000', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1207', '8', '35', '', '1207', 'GANJALAN DONGKRAK 3 TON 387-052 JASON', '1', '5', '122314', '175455', '193000', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1208', '8', '35', '', '1208', 'DONGKRAK BOTOL 10T T91004 MELZER', '1', '9', '299932', '440000', '484000', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1209', '8', '35', '', '1209', 'DONGKRAK BOTOL 15T T91504 MELZER', '1', '9', '377217', '534545', '588000', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1210', '8', '35', '', '1210', 'DONGKRAK BOTOL 20T T92004 MELZER', '1', '9', '600000', '527273', '580000', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1211', '8', '35', '', '1211', 'DONGKRAK BOTOL 2T T90204 MELZER', '1', '9', '144795', '196364', '216000', '0', '0', '0', 'y', '2017-04-24 21:56:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1212', '8', '35', '', '1212', 'DONGKRAK BOTOL 32T T93204 MELZER', '1', '9', '956914', '1714545', '1886000', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1213', '8', '35', '', '1213', 'DONGKRAK BOTOL 3T T90304 MELZER', '1', '9', '175823', '215455', '237000', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1214', '8', '36', '', '1214', 'CHAINHOIST ELECTRIC 1TX12M 387-222 JASON', '1', '5', '3579545', '5367727', '5904500', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1215', '8', '36', '', '1215', 'CHAINHOISTELECTRIC 0,5TX12M 387-221JASON', '1', '5', '1654545', '2207273', '2428000', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1216', '8', '36', '', '1216', 'CHAINBLOCK 10TX10M MELZER', '1', '9', '0', '12761818', '14038000', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1217', '8', '36', '', '1217', 'CHAINBLOCK 10TX5M MELZER', '1', '9', '3680818', '6948182', '7643000', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1218', '8', '36', '', '1218', 'CHAINBLOCK 1TX3M MELZER', '1', '9', '742350', '1420000', '1562000', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1219', '8', '36', '', '1219', 'CHAINBLOCK 1TX5M MELZER', '1', '9', '956681', '1413636', '1555000', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1220', '8', '36', '', '1220', 'CHAINBLOCK 2TX3M MELZER', '1', '9', '1060500', '1979091', '2177000', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1221', '8', '36', '', '1221', 'CHAINBLOCK 2TX5M MELZER', '1', '9', '1236406', '1991818', '2191000', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1222', '8', '36', '', '1222', 'CHAINBLOCK 3TX10M MELZER', '1', '9', '0', '3255455', '3581000', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1223', '8', '36', '', '1223', 'CHAINBLOCK 3TX3M MELZER', '1', '9', '1424100', '2712727', '2984000', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1224', '8', '36', '', '1224', 'CHAINBLOCK 3TX5M MELZER', '1', '9', '1654975', '2719091', '2991000', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1225', '8', '36', '', '1225', 'CHAINBLOCK 5TX10M MELZER', '1', '9', '0', '6613636', '7275000', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1226', '8', '36', '', '1226', 'CHAINBLOCK 5TX3M MELZER', '1', '9', '2020000', '3807273', '4188000', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1227', '8', '36', '', '1227', 'CHAINBLOCK 5TX5M MELZER', '1', '9', '2256000', '3781818', '4160000', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1228', '8', '37', '', '1228', 'CARGO HOOK 1TON 387-203 JASON', '1', '5', '25455', '30909', '34000', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1229', '8', '37', '', '1229', 'CARGO HOOK 2TON 387-204 JASON', '1', '5', '50909', '65000', '71500', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1230', '8', '37', '', '1230', 'CARGO HOOK 3TON 387-205 JASON', '1', '5', '76364', '113182', '124500', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1231', '8', '37', '', '1231', 'CARGO HOOK 500KG 387-201 JASON', '1', '5', '17500', '23636', '26000', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1232', '8', '37', '', '1232', 'TALIPENGIKAT BAK TRUK 2\"X6M 385-080JASON', '1', '5', '135298', '212273', '233500', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1233', '8', '37', '', '1233', 'TALIPENGIKAT BAK TRUK 2\"X8M 385-081JASON', '1', '5', '159091', '246364', '271000', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1234', '8', '37', '', '1234', 'TALIPENGIKAT BAKTRUK 2\"X10M 385-082JASON', '1', '5', '184546', '285455', '314000', '0', '0', '0', 'y', '2017-04-24 21:56:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1235', '8', '37', '', '1235', 'TALIPENGIKAT BAKTRUK 2\"X12M 385-083JASON', '1', '5', '203636', '315000', '346500', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1236', '8', '37', '', '1236', 'RANTAI PUTIH 1/2 \'\' M12 MODEL LONG', '1', '33', '32753', '86364', '95000', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1237', '8', '37', '', '1237', 'RANTAI PUTIH 1/4\" M6 MODEL LONG', '1', '33', '9739', '28182', '31000', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1238', '8', '37', '', '1238', 'RANTAI PUTIH 1/8\" M3 MODEL LONG', '1', '33', '2961', '12273', '13500', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1239', '8', '37', '', '1239', 'RANTAI PUTIH 3/16\" M5 MODEL LONG', '1', '33', '7285', '19545', '21500', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1240', '8', '37', '', '1240', 'RANTAI PUTIH 3/4 \'\' M19 MODEL LONG', '1', '33', '94795', '241818', '266000', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1241', '8', '37', '', '1241', 'RANTAI PUTIH 3/8\" M10 MODEL LONG', '1', '33', '20454', '61818', '68000', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1242', '8', '37', '', '1242', 'RANTAI PUTIH 5/16\" M8 MODEL LONG', '1', '33', '17181', '45455', '50000', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1243', '8', '37', '', '1243', 'KAWAT SELING 12MM 6X37IWRC METER 1', '1', '34', '4100', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1244', '8', '37', '', '1244', 'KAWAT SELING 2MM 6X7 HC MTR', '1', '34', '441', '1364', '1500', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1245', '8', '37', '', '1245', 'KAWAT SELING 3MM 6X7 HC MTR', '1', '34', '828', '2273', '2500', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1246', '8', '37', '', '1246', 'KAWAT SELING 4MM 6X12HC MTR', '1', '34', '1376', '3182', '3500', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1247', '8', '37', '', '1247', 'KAWAT SELING 5MM 6X12HC METER 1', '1', '34', '1446', '4091', '4500', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1248', '8', '37', '', '1248', 'KAWAT SELING 6MM 6X12HC MTR', '1', '34', '1699', '5909', '6500', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1249', '8', '37', '', '1249', 'KAWAT SELING 6MM 6X37 IWRC METER 1', '1', '34', '2776', '13636', '15000', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1250', '8', '37', '', '1250', 'KAWAT SELING 8MM 6X12HC METER 1', '1', '34', '2846', '7727', '8500', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1251', '8', '37', '', '1251', 'KAWAT SELING 9MM 6X37 IWRC METER 1', '1', '34', '6335', '17727', '19500', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1252', '8', '37', '', '1252', 'KAWAT SELING PVC 2 X 3MM MTR', '1', '34', '801', '2273', '2500', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1253', '8', '37', '', '1253', 'KAWAT SELING PVC 3 X 5MM MTR', '1', '34', '1561', '4091', '4500', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1254', '8', '37', '', '1254', 'KAWAT SELING PVC 4 X 6 MM MTR', '1', '34', '2204', '5909', '6500', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1255', '9', '38', '', '1255', 'LAMPU LED BULB 10.5-85W/E-27 CDL PHL', '1', '35', '41984', '129091', '142000', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1256', '9', '38', '', '1256', 'LAMPU LED BULB 3-25W/E-27 CDL PHL', '1', '35', '20163', '57273', '63000', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1257', '9', '38', '', '1257', 'LAMPU LED BULB 3-25W/E-27 WW PHL', '1', '35', '20163', '57273', '63000', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1258', '9', '38', '', '1258', 'LAMPU LED BULB 4-40W/E-27 CDL PHL', '1', '35', '23481', '47727', '52500', '0', '0', '0', 'y', '2017-04-24 21:56:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1259', '9', '38', '', '1259', 'LAMPU LED BULB 4-40W/E-27 WW PHL', '1', '35', '24102', '57273', '63000', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1260', '9', '38', '', '1260', 'LAMPU LED BULB 7-60W/E-27 CDL PHL', '1', '35', '35704', '68182', '75000', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1261', '9', '38', '', '1261', 'LAMPU LED BULB 7.5-60W/E-27 WW PHL', '1', '35', '37089', '77727', '85500', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1262', '9', '38', '', '1262', 'LAMPU LED BULB 9-70W/E-27 CDL PHL', '1', '35', '28941', '94545', '104000', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1263', '9', '38', '', '1263', 'LAMPU LED BULB 9.5-70W/E-27 WW PHL', '1', '35', '54005', '98636', '108500', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1264', '9', '39', '', '1264', 'FITTING 2 PCS 210 L BROCO', '1', '36', '2174', '5000', '5500', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1265', '9', '39', '', '1265', 'FITTING PLAFON 1210 BROCO', '1', '36', '6936', '8182', '9000', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1266', '9', '39', '', '1266', 'FITTING PLAFON 1211 BROCO', '1', '36', '8890', '10455', '11500', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1267', '9', '39', '', '1267', 'FITTING PLAFON LUX GRACIO 12101 BROCO', '1', '36', '17992', '21364', '23500', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1268', '9', '39', '', '1268', 'MCB C 10A 17310C BROCO', '1', '36', '20141', '22273', '24500', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1269', '9', '39', '', '1269', 'MCB C 16A 17316C BROCO', '1', '36', '19845', '22273', '24500', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1270', '9', '39', '', '1270', 'MCB C 20A 17320C BROCO', '1', '36', '0', '22273', '24500', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1271', '9', '39', '', '1271', 'MCB C 6A 17306C BROCO', '1', '36', '19549', '22273', '24500', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1272', '9', '39', '', '1272', 'DOWNLIGHT 2,5\" 66661 NICKEL 1X5W PHL', '1', '35', '17117', '27273', '30000', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1273', '9', '39', '', '1273', 'DOWNLIGHT 2,5\" 66661 WHITE 1X5W PHL', '1', '35', '17112', '27273', '30000', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1274', '9', '39', '', '1274', 'DOWNLIGHT 2XPL-C/2P13W WH FBH031 PHL', '1', '35', '0', '98182', '108000', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1275', '9', '39', '', '1275', 'DOWNLIGHT 3,5\'\' 66663 NICKEL 1X11W PHL', '1', '35', '28132', '44545', '49000', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1276', '9', '39', '', '1276', 'DOWNLIGHT 3,5\'\' 66663 WHITE 1X11W PHL', '1', '35', '27336', '42727', '47000', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1277', '9', '39', '', '1277', 'DOWNLIGHT 3\'\' GLASS 13802 NCKEL 1X9W PHL', '1', '35', '34143', '59545', '65500', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1278', '9', '39', '', '1278', 'DOWNLIGHT 3\'\' GLASS 13802 WHITE 1X9W PHL', '1', '35', '34362', '59545', '65500', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1279', '9', '39', '', '1279', 'DOWNLIGHT 3\" 66662 NICKEL 1X9W PHL', '1', '35', '22762', '33636', '37000', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1280', '9', '39', '', '1280', 'DOWNLIGHT 3\" 66662 WHITE 1X9W PHL', '1', '35', '22519', '32727', '36000', '0', '0', '0', 'y', '2017-04-24 21:56:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1281', '9', '39', '', '1281', 'DOWNLIGHT 4\' GLASS 13804 NCKEL 1X18W PHL', '1', '35', '43291', '67727', '74500', '0', '0', '0', 'y', '2017-04-24 21:56:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1282', '9', '39', '', '1282', 'DOWNLIGHT 4\' GLASS 13804 WHITE 1X18W PHL', '1', '35', '43257', '67727', '74500', '0', '0', '0', 'y', '2017-04-24 21:56:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1283', '9', '39', '', '1283', 'DOWNLIGHT 4\'\' 66664 NICKEL 1X18W PHL', '1', '35', '34142', '53636', '59000', '0', '0', '0', 'y', '2017-04-24 21:56:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1284', '9', '39', '', '1284', 'DOWNLIGHT 4\'\' 66664 WHITE 1X18W PHL', '1', '35', '34129', '53636', '59000', '0', '0', '0', 'y', '2017-04-24 21:56:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1285', '9', '39', '', '1285', 'DOWNLIGHT3,5\' GLASS13803 NCKEL 1X11W PHL', '1', '35', '34418', '53636', '59000', '0', '0', '0', 'y', '2017-04-24 21:56:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1286', '9', '39', '', '1286', 'DOWNLIGHT3,5\' GLASS13803 WHITE 1X11W PHL', '1', '35', '34130', '53636', '59000', '0', '0', '0', 'y', '2017-04-24 21:56:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1287', '9', '40', '', '1287', 'BATTERY 1012 AAA-BP4 MERAH EVEREADY', '1', '37', '5021', '6818', '7500', '0', '0', '0', 'y', '2017-04-24 21:56:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1288', '9', '40', '', '1288', 'BATTERY 1015 AA-4 MRH EVEREADY', '1', '37', '4633', '8182', '9000', '0', '0', '0', 'y', '2017-04-24 21:56:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1289', '9', '40', '', '1289', 'BATTERY 1212 AAA-BP4 HITAM EVEREADY', '1', '37', '6162', '10455', '11500', '0', '0', '0', 'y', '2017-04-24 21:56:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1290', '9', '40', '', '1290', 'BATTERY 1215 AA-12 HTM EVEREADY', '1', '37', '18343', '25909', '28500', '0', '0', '0', 'y', '2017-04-24 21:56:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1291', '9', '40', '', '1291', 'BATTERY 1215 AA-4 HTM EVEREADY', '1', '37', '6114', '9545', '10500', '0', '0', '0', 'y', '2017-04-24 21:56:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1292', '9', '41', '', '1292', 'KABEL NYA 1X1.5MM HITAM ETERNA MTR', '1', '38', '1473', '2727', '3000', '0', '0', '0', 'y', '2017-04-24 21:56:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1293', '9', '41', '', '1293', 'KABEL NYA 1X2.5MM HITAM ETERNA MTR', '1', '38', '2094', '3636', '4000', '0', '0', '0', 'y', '2017-04-24 21:56:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1294', '9', '41', '', '1294', 'KABEL NYM 2X1.5MM ETERNA MTR', '1', '38', '4854', '6818', '7500', '0', '0', '0', 'y', '2017-04-24 21:56:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1295', '9', '41', '', '1295', 'KABEL NYM 2X2.5MM ETERNA MTR', '1', '38', '6478', '8182', '9000', '0', '0', '0', 'y', '2017-04-24 21:56:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1296', '9', '41', '', '1296', 'KABEL NYM 3X1.5MM ETERNA MTR', '1', '38', '5820', '7727', '8500', '0', '0', '0', 'y', '2017-04-24 21:56:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1297', '9', '41', '', '1297', 'KABEL NYM 3X2.5MM ETERNA MTR', '1', '38', '8543', '10909', '12000', '0', '0', '0', 'y', '2017-04-24 21:56:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1298', '9', '41', '', '1298', 'KABEL NYY 2X1.5MM ETERNA MTR', '1', '38', '6960', '8182', '9000', '0', '0', '0', 'y', '2017-04-24 21:56:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1299', '9', '41', '', '1299', 'KABEL NYY 2X2.5MM ETERNA MTR', '1', '38', '8915', '11364', '12500', '0', '0', '0', 'y', '2017-04-24 21:56:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1300', '9', '41', '', '1300', 'KABEL NYY 3X1.5MM ETERNA MTR', '1', '38', '8580', '10455', '11500', '0', '0', '0', 'y', '2017-04-24 21:56:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1301', '9', '41', '', '1301', 'KABEL NYY 3X2.5 ETERNA MTR', '1', '38', '10870', '13636', '15000', '0', '0', '0', 'y', '2017-04-24 21:56:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1302', '9', '41', '', '1302', 'KABEL NYYHY/NYMHYO 2X0.75MM ETERNA MTR', '1', '38', '3215', '4545', '5000', '0', '0', '0', 'y', '2017-04-24 21:56:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1303', '9', '41', '', '1303', 'KABEL NYYHY/NYMHYO 2X1.5MM ETERNA MTR', '1', '38', '5510', '6818', '7500', '0', '0', '0', 'y', '2017-04-24 21:56:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1304', '9', '41', '', '1304', 'KABEL NYYHY/NYMHYO 3X0.75MM ETERNA MTR', '1', '38', '5170', '6818', '7500', '0', '0', '0', 'y', '2017-04-24 21:56:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1305', '9', '41', '', '1305', 'KABEL NYYHY/NYMHYO 3X1.5MM ETERNA MTR', '1', '38', '7605', '9545', '10500', '0', '0', '0', 'y', '2017-04-24 21:56:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1306', '9', '41', '', '1306', 'KABEL ROL 10M+LAMP CR-2810 UTICON', '1', '39', '106200', '178182', '196000', '0', '0', '0', 'y', '2017-04-24 21:56:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1307', '9', '41', '', '1307', 'KABEL ROL 15M+LAMP CR-2815 UTICON', '1', '39', '132960', '222273', '244500', '0', '0', '0', 'y', '2017-04-24 21:56:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1308', '9', '42', '', '1308', 'SAKLAR SIMPLY 1G 2WAY SWITCH WHT PHL', '1', '35', '13962', '25455', '28000', '0', '0', '0', 'y', '2017-04-24 21:56:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1309', '9', '42', '', '1309', 'SAKLAR SIMPLY 1G SWITCH WHT (BL) PHL', '1', '35', '12441', '19545', '21500', '0', '0', '0', 'y', '2017-04-24 21:56:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1310', '9', '42', '', '1310', 'SAKLAR SIMPLY 1G SWITCH WHT PHL', '1', '35', '11119', '16818', '18500', '0', '0', '0', 'y', '2017-04-24 21:56:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1311', '9', '42', '', '1311', 'SAKLAR SIMPLY 1G2WAY SWITCH WHT (BL) PHL', '1', '35', '17706', '26818', '29500', '0', '0', '0', 'y', '2017-04-24 21:56:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1312', '9', '42', '', '1312', 'SAKLAR SIMPLY 2G SWITCH WHT (BL) PHL', '1', '35', '19890', '30000', '33000', '0', '0', '0', 'y', '2017-04-24 21:56:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1313', '9', '42', '', '1313', 'SAKLAR SIMPLY 2G SWITCH WHT PHL', '1', '35', '17952', '27273', '30000', '0', '0', '0', 'y', '2017-04-24 21:56:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1314', '9', '42', '', '1314', 'SAKLAR ENGKEL CATANIA8161-117G/CRM BROCO', '1', '36', '0', '37273', '41000', '0', '0', '0', 'y', '2017-04-24 21:56:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1315', '9', '42', '', '1315', 'SAKLAR ENGKEL CATANIA8161-559S/WHT BROCO', '1', '36', '0', '25909', '28500', '0', '0', '0', 'y', '2017-04-24 21:56:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1316', '9', '42', '', '1316', 'SAKLAR ENGKEL GALLEO G161-52 PINK BROCO', '1', '36', '11360', '13636', '15000', '0', '0', '0', 'y', '2017-04-24 21:56:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1317', '9', '42', '', '1317', 'SAKLAR ENGKEL GALLEO G161-54 BLUE BROCO', '1', '36', '11359', '13636', '15000', '0', '0', '0', 'y', '2017-04-24 21:56:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1318', '9', '42', '', '1318', 'SAKLAR ENGKEL GALLEO G161-55S WHT BROCO', '1', '36', '8787', '10000', '11000', '0', '0', '0', 'y', '2017-04-24 21:56:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1319', '9', '42', '', '1319', 'SAKLAR ENGKEL GRACIO 4161-11 CRM BROCO', '1', '36', '8531', '10000', '11000', '0', '0', '0', 'y', '2017-04-24 21:56:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1320', '9', '42', '', '1320', 'SAKLAR SERI CATANIA 8162-117 G/CRM BROCO', '1', '36', '0', '39091', '43000', '0', '0', '0', 'y', '2017-04-24 21:56:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1321', '9', '42', '', '1321', 'SAKLAR SERI CATANIA 8162-559 S/WHT BROCO', '1', '36', '0', '27727', '30500', '0', '0', '0', 'y', '2017-04-24 21:56:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1322', '9', '42', '', '1322', 'SAKLAR SERI GALLEO G162-54 BLUE BROCO', '1', '36', '15579', '18182', '20000', '0', '0', '0', 'y', '2017-04-24 21:56:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1323', '9', '42', '', '1323', 'SAKLAR SERI GALLEO G162-55S WHT BROCO', '1', '36', '12475', '14545', '16000', '0', '0', '0', 'y', '2017-04-24 21:56:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1324', '9', '42', '', '1324', 'SAKLAR SERI GALLEO G162-56 PRPL BROCO', '1', '36', '15128', '18182', '20000', '0', '0', '0', 'y', '2017-04-24 21:56:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1325', '9', '42', '', '1325', 'SAKLAR SERI GRACIO 4162-11 CRM BROCO', '1', '36', '12298', '14545', '16000', '0', '0', '0', 'y', '2017-04-24 21:56:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1326', '9', '42', '', '1326', 'SAKLAR SERI GRACIO 4162-55 WHT BROCO', '1', '36', '12668', '14545', '16000', '0', '0', '0', 'y', '2017-04-24 21:56:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1327', '9', '42', '', '1327', 'SAKLAR SERI HT PLANO E164-55S WHT BROCO', '1', '36', '0', '30455', '33500', '0', '0', '0', 'y', '2017-04-24 21:56:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1328', '9', '42', '', '1328', 'SAKLAR SERI PLANO E162-55S WHT BROCO', '1', '36', '18717', '20909', '23000', '0', '0', '0', 'y', '2017-04-24 21:56:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1329', '9', '42', '', '1329', 'SAKLAR TRIPLE PLANO E16N-55S WHT BROCO', '1', '36', '36222', '40909', '45000', '0', '0', '0', 'y', '2017-04-24 21:56:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1330', '9', '42', '', '1330', 'STOP KONTAK CATANIA 8151-117 G/CRM BROCO', '1', '36', '24340', '29545', '32500', '0', '0', '0', 'y', '2017-04-24 21:56:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1331', '9', '42', '', '1331', 'STOP KONTAK CATANIA8151-559 S/WHT BROCO', '1', '36', '18250', '20909', '23000', '0', '0', '0', 'y', '2017-04-24 21:56:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1332', '9', '42', '', '1332', 'STOP KONTAK CP CATA 8154-117 G/CRM BROCO', '1', '36', '48471', '41818', '46000', '0', '0', '0', 'y', '2017-04-24 21:56:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1333', '9', '42', '', '1333', 'STOP KONTAK CP GALLEO G154-52 PINK BROCO', '1', '36', '0', '18182', '20000', '0', '0', '0', 'y', '2017-04-24 21:56:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1334', '9', '42', '', '1334', 'STOP KONTAK CP GALLEO G154-54 BLUE BROCO', '1', '36', '16240', '18182', '20000', '0', '0', '0', 'y', '2017-04-24 21:56:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1335', '9', '42', '', '1335', 'STOP KONTAK CP GALLEO G154-55S WHT BROCO', '1', '36', '13322', '15909', '17500', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1336', '9', '42', '', '1336', 'STOP KONTAK CP GRACIO 4154-11 CRM BROCO', '1', '36', '12933', '15000', '16500', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1337', '9', '42', '', '1337', 'STOP KONTAK CP GRACIO 4154-55 WHT BROCO', '1', '36', '12933', '15000', '16500', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1338', '9', '42', '', '1338', 'STOP KONTAK DBL GRACIO 15320-11CRM BROCO', '1', '36', '18083', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1339', '9', '42', '', '1339', 'STOP KONTAK DBL GRACIO 15320-55WHT BROCO', '1', '36', '18627', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1340', '9', '42', '', '1340', 'STOP KONTAK GALLEO G151-52 PINK BROCO', '1', '36', '11886', '13636', '15000', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1341', '9', '42', '', '1341', 'STOP KONTAK GALLEO G151-54 BLUE BROCO', '1', '36', '12244', '13636', '15000', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1342', '9', '42', '', '1342', 'STOP KONTAK GALLEO G151-55S WHT BROCO', '1', '36', '9197', '10455', '11500', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1343', '9', '42', '', '1343', 'STOP KONTAK ARDE 1,5M ST1482 UTICON', '1', '39', '0', '63636', '70000', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1344', '9', '42', '', '1344', 'STOP KONTAK ARDE 1,5M ST1582 UTICON', '1', '39', '48300', '69091', '76000', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1345', '9', '42', '', '1345', 'STOP KONTAK ARDE 1,5M ST1682 UTICON', '1', '39', '52010', '75000', '82500', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1346', '9', '42', '', '1346', 'STOP KONTAK ARDE 3LB ST1382 UTICON', '1', '39', '40670', '58636', '64500', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1347', '9', '42', '', '1347', 'STOP KONTAK ARDE SW 4LB ST1468 UTICON', '1', '39', '48300', '69545', '76500', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1348', '9', '42', '', '1348', 'STOP KONTAK ARDE SW 6LB ST1668 UTICON', '1', '39', '56000', '80909', '89000', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1349', '9', '42', '', '1349', 'STOP KONTAK MULTI EXT 4M 148CR UTICON', '1', '39', '61600', '88636', '97500', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1350', '9', '42', '', '1350', 'STOP KONTAK SW 3LB ST1382SW UTICON', '1', '39', '64400', '92727', '102000', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1351', '9', '42', '', '1351', 'STOP KONTAK SW 4LB ST1482SW UTICON', '1', '39', '75670', '108636', '119500', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1352', '9', '42', '', '1352', 'STOP KONTAK SW 5LB ST1582SW UTICON', '1', '39', '88200', '126818', '139500', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1353', '9', '42', '', '1353', 'STOP KONTAK SW 6LB ST1682SW UTICON', '1', '39', '100240', '144091', '158500', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1354', '9', '42', '', '1354', 'STEKER ARDE 2PCS S28BL UTICON', '1', '39', '13005', '19091', '21000', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1355', '9', '42', '', '1355', 'STEKER T ARDE SC38BL UTICON', '1', '39', '15683', '24091', '26500', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1356', '9', '42', '', '1356', 'STOP KONTAK ARDE 2LB ST128BL UTICON', '1', '39', '9180', '14091', '15500', '0', '0', '0', 'y', '2017-04-24 21:56:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1357', '9', '42', '', '1357', 'STOP KONTAK ARDE 3LB ST138BL UTICON', '1', '39', '13005', '19091', '21000', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1358', '9', '42', '', '1358', 'STOP KONTAK ARDE 4LB ST148/PL UTICON', '1', '39', '16406', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1359', '9', '42', '', '1359', 'STOP KONTAK ARDE 5LB ST158BL UTICON', '1', '39', '19890', '30000', '33000', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1360', '9', '37', '', '1360', 'KABEL TIE 100MM HIJAU 386-075 100PCJASON', '1', '5', '4455', '6818', '7500', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1361', '9', '37', '', '1361', 'KABEL TIE 100MM KNG 386-070 100PC JASON', '1', '5', '4454', '6818', '7500', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1362', '9', '37', '', '1362', 'KABEL TIE 100MM MERAH 386-065 100PCJASON', '1', '5', '4454', '6818', '7500', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1363', '9', '37', '', '1363', 'KABEL TIE 100MM PUTIH 386-035 100PCJASON', '1', '5', '4455', '6818', '7500', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1364', '9', '37', '', '1364', 'KABEL TIE 10CM WARNA WARNI 386-031 JASON', '1', '5', '12408', '20000', '22000', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1365', '9', '37', '', '1365', 'KABEL TIE 150MM 5WRN 386-032 250PC JASON', '1', '5', '21937', '38636', '42500', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1366', '9', '37', '', '1366', 'KABEL TIE 150MM HIJAU 386-076 100PCJASON', '1', '5', '6681', '10455', '11500', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1367', '9', '37', '', '1367', 'KABEL TIE 150MM KNG 386-071 100PC JASON', '1', '5', '6681', '10455', '11500', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1368', '9', '37', '', '1368', 'KABEL TIE 150MM MERAH 386-066 100PCJASON', '1', '5', '6683', '10455', '11500', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1369', '9', '37', '', '1369', 'KABEL TIE 150MM PUTIH 386-061 100PCJASON', '1', '5', '6443', '10455', '11500', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1370', '9', '37', '', '1370', 'KABEL TIE 200MM 5WRN 386-033 100PC JASON', '1', '5', '19886', '34545', '38000', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1371', '9', '37', '', '1371', 'KABEL TIE 200MM HIJAU 386-077 100PCJASON', '1', '5', '14000', '20909', '23000', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1372', '9', '37', '', '1372', 'KABEL TIE 200MM KNG 386-072 100PC JASON', '1', '5', '14000', '20909', '23000', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1373', '9', '37', '', '1373', 'KABEL TIE 200MM MERAH 386-067 100PCJASON', '1', '5', '14000', '20909', '23000', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1374', '9', '37', '', '1374', 'KABEL TIE 200MM PUTIH 386-062 100PCJASON', '1', '5', '14000', '20909', '23000', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1375', '9', '37', '', '1375', 'KABEL TIE 250MM 5WRN 386-034 50PC JASON', '1', '5', '18181', '30909', '34000', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1376', '9', '37', '', '1376', 'KABEL TIE 250MM HIJAU 386-078 100PCJASON', '1', '5', '24181', '35455', '39000', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1377', '9', '37', '', '1377', 'KABEL TIE 250MM KNG 386-073 100PC JASON', '1', '5', '24181', '35455', '39000', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1378', '9', '37', '', '1378', 'KABEL TIE 250MM MERAH 386-068 100PCJASON', '1', '5', '24182', '35455', '39000', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1379', '9', '37', '', '1379', 'KABEL TIE 250MM PUTIH 386-063 100PCJASON', '1', '5', '24182', '35455', '39000', '0', '0', '0', 'y', '2017-04-24 21:56:15', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1380', '9', '37', '', '1380', 'KABEL TIE 300MM HIJAU 386-079 100PCJASON', '1', '5', '27364', '40000', '44000', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1381', '9', '37', '', '1381', 'KABEL TIE 300MM KNG 386-074 100PC JASON', '1', '5', '27364', '40000', '44000', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1382', '9', '37', '', '1382', 'KABEL TIE 300MM MERAH 386-069 100PCJASON', '1', '5', '27364', '40000', '44000', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1383', '9', '37', '', '1383', 'KABEL TIE 300MM PUTIH 386-064 100PCJASON', '1', '5', '27364', '40000', '44000', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1384', '9', '37', '', '1384', 'ISOLASI LISTRIK HITAM 18M 394-020 JASON', '1', '5', '5408', '8636', '9500', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1385', '9', '37', '', '1385', 'KLEM KABEL 10MM 100 PCS IMUNDEX', '1', '40', '98', '14091', '15500', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1386', '9', '37', '', '1386', 'KLEM KABEL 12MM 100 PCS IMUNDEX', '1', '40', '96', '25909', '28500', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1387', '9', '37', '', '1387', 'KLEM KABEL 14MM 100 PCS IMUNDEX', '1', '40', '120', '34091', '37500', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1388', '9', '37', '', '1388', 'KLEM KABEL 22MM 100 PCS IMUNDEX', '1', '40', '276', '40909', '45000', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1389', '9', '37', '', '1389', 'KLEM KABEL 3MM 100 PCS IMUNDEX', '1', '40', '35', '7273', '8000', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1390', '9', '37', '', '1390', 'KLEM KABEL 4MM 100 PCS IMUNDEX', '1', '40', '46', '8182', '9000', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1391', '9', '37', '', '1391', 'KLEM KABEL 5MM 100 PCS IMUNDEX', '1', '40', '52', '8182', '9000', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1392', '9', '37', '', '1392', 'KLEM KABEL 6MM 100 PCS IMUNDEX', '1', '40', '56', '8636', '9500', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1393', '9', '37', '', '1393', 'KLEM KABEL 7MM 100 PCS IMUNDEX', '1', '40', '61', '9091', '10000', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1394', '9', '37', '', '1394', 'KLEM KABEL 8MM 100 PCS IMUNDEX', '1', '40', '82', '12273', '13500', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1395', '9', '37', '', '1395', 'KLEM KABEL 9MM 100 PCS IMUNDEX', '1', '40', '87', '12727', '14000', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1396', '10', '43', '', '1396', '*TILE 30X30 FORSA CREAM A ASIA', '1', '41', '35281', '40545', '44600', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1397', '10', '43', '', '1397', '*TILE 30X30 FORSA GREEN A ASIA', '1', '41', '35644', '40545', '44600', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1398', '10', '43', '', '1398', '*TILE 30X30 HALCON CREAM ASIA', '1', '41', '36590', '41545', '45700', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1399', '10', '43', '', '1399', '*TILE 30X30 RAMOS CREAM A ASIA', '1', '41', '25355', '40545', '44600', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1400', '10', '43', '', '1400', '*TILE 30X30 RAMOS GREY A ASIA', '1', '41', '36106', '40545', '44600', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1401', '10', '43', '', '1401', '*TILE 30X30 WINSTON CREAM ASIA', '1', '41', '34889', '40545', '44600', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1402', '10', '43', '', '1402', '*TILE 30X30 WINSTON GREY ASIA', '1', '41', '36093', '40545', '44600', '0', '0', '0', 'y', '2017-04-24 21:56:16', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1403', '10', '43', '', '1403', '*TILE 40X40 GALILEO CREAM A ASIA', '1', '41', '41740', '46545', '51200', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1404', '10', '43', '', '1404', '*TILE 40X40 GALILEO GREEN A ASIA', '1', '41', '0', '46545', '51200', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1405', '10', '43', '', '1405', '*TILE 40X40 GALILEO GREY A ASIA', '1', '41', '41943', '46545', '51200', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1406', '10', '43', '', '1406', '*TILE 40X40 WOOD BROWN ASIA', '1', '41', '36506', '50091', '55100', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1407', '10', '43', '', '1407', '*TILE 40X40 WOOD LATTE A ASIA', '1', '41', '37851', '50091', '55100', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1408', '10', '43', '', '1408', 'TILE 20X20 ALPHA BLACK A ASIA', '1', '41', '37198', '42455', '46700', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1409', '10', '43', '', '1409', 'TILE 20X20 ALPHA BLUE A ASIA', '1', '41', '38688', '45000', '49500', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1410', '10', '43', '', '1410', 'TILE 20X20 ALPHA CREAM A ASIA', '1', '41', '37513', '42455', '46700', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1411', '10', '43', '', '1411', 'TILE 20X20 ALPHA GREEN A ASIA', '1', '41', '40682', '45000', '49500', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1412', '10', '43', '', '1412', 'TILE 20X20 ALPHA GREY A ASIA', '1', '41', '37908', '42455', '46700', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1413', '10', '43', '', '1413', 'TILE 20X20 ALPHA WHITE A ASIA', '1', '41', '36591', '42455', '46700', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1414', '10', '43', '', '1414', 'TILE 20X20 BUBBLE BLUE A ASIA', '1', '41', '38227', '45000', '49500', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1415', '10', '43', '', '1415', 'TILE 20X20 BUBBLE CREAM A ASIA', '1', '41', '36997', '45000', '49500', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1416', '10', '43', '', '1416', 'TILE 20X20 BUBBLE GREEN A ASIA', '1', '41', '36194', '45000', '49500', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1417', '10', '43', '', '1417', 'TILE 20X20 BUBBLE PURPLE A ASIA', '1', '41', '38658', '45000', '49500', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1418', '10', '43', '', '1418', 'TILE 20X20 GALAXY BLACK A ASIA', '1', '41', '33864', '42455', '46700', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1419', '10', '43', '', '1419', 'TILE 20X20 GALAXY BROWN ASIA', '1', '41', '36321', '42455', '46700', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1420', '10', '43', '', '1420', 'TILE 20X20 GALAXY CREAM A ASIA', '1', '41', '36136', '42455', '46700', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1421', '10', '43', '', '1421', 'TILE 20X20 ROXY BLACK A ASIA', '1', '41', '38409', '42455', '46700', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1422', '10', '43', '', '1422', 'TILE 20X20 ROXY BLUE A ASIA', '1', '41', '34903', '42455', '46700', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1423', '10', '43', '', '1423', 'TILE 20X20 ROXY BROWN A ASIA', '1', '41', '38282', '42455', '46700', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1424', '10', '43', '', '1424', 'TILE 20X20 ROXY GREEN A ASIA', '1', '41', '38290', '42455', '46700', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1425', '10', '43', '', '1425', 'TILE 20X20 ROXY GREY A ASIA', '1', '41', '33864', '42455', '46700', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1426', '10', '43', '', '1426', 'TILE 20X20 ROXY RED A ASIA', '1', '41', '37724', '42455', '46700', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1427', '10', '43', '', '1427', 'TILE 20X20 WELCO BLUE A ASIA', '1', '41', '38409', '42455', '46700', '0', '0', '0', 'y', '2017-04-24 21:56:17', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1428', '10', '43', '', '1428', 'TILE 20X20 WELCO BROWN A ASIA', '1', '41', '35682', '42455', '46700', '0', '0', '0', 'y', '2017-04-24 21:56:18', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1429', '10', '43', '', '1429', 'TILE 20X20 WELCO GREEN A ASIA', '1', '41', '34999', '42455', '46700', '0', '0', '0', 'y', '2017-04-24 21:56:18', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1430', '10', '43', '', '1430', 'TILE 20X25 CORNELLO BROWN A ASIA', '1', '41', '37045', '46000', '50600', '0', '0', '0', 'y', '2017-04-24 21:56:18', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1431', '10', '43', '', '1431', 'TILE 20X25 CORNELLO DARK BROWN A ASIA', '1', '41', '38409', '47455', '52200', '0', '0', '0', 'y', '2017-04-24 21:56:18', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1432', '10', '43', '', '1432', 'TILE 20X25 CORNELLO DARK GREEN A ASIA', '1', '41', '38409', '47455', '52200', '0', '0', '0', 'y', '2017-04-24 21:56:18', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1433', '10', '43', '', '1433', 'TILE 20X25 CORNELLO GREEN A ASIA', '1', '41', '39263', '46000', '50600', '0', '0', '0', 'y', '2017-04-24 21:56:18', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1434', '10', '43', '', '1434', 'TILE 20X25 EXCEL WHITE A ASIA', '1', '41', '38509', '47000', '51700', '0', '0', '0', 'y', '2017-04-24 21:56:18', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1435', '10', '43', '', '1435', 'TILE 20X25 HALCON CREAM A ASIA', '1', '41', '40491', '46000', '50600', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1436', '10', '43', '', '1436', 'TILE 20X25 METRO BASIC A ASIA', '1', '41', '34772', '45455', '50000', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1437', '10', '43', '', '1437', 'TILE 20X25 METRO DARK BLUE A ASIA', '1', '41', '40218', '46000', '50600', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1438', '10', '43', '', '1438', 'TILE 20X25 METRO DARK GREEN A ASIA', '1', '41', '41582', '46000', '50600', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1439', '10', '43', '', '1439', 'TILE 20X25 MONTANA BASIC A ASIA', '1', '41', '34906', '45455', '50000', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1440', '10', '43', '', '1440', 'TILE 20X25 MONTANA DARK RED A ASIA', '1', '41', '35227', '46000', '50600', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1441', '10', '43', '', '1441', 'TILE 20X25 MONTANA DARKBLUE A ASIA', '1', '41', '35227', '46000', '50600', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1442', '10', '43', '', '1442', 'TILE 20X25 MONTANA DARKBROWN A ASIA', '1', '41', '35227', '46000', '50600', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1443', '10', '43', '', '1443', 'TILE 20X25 MONTANA DARKGREEN A ASIA', '1', '41', '35227', '46000', '50600', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1444', '10', '43', '', '1444', 'TILE 20X25 OLGA BLUE A ASIA', '1', '41', '39318', '43636', '48000', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1445', '10', '43', '', '1445', 'TILE 20X25 OLGA BLUE BASIC A ASIA', '1', '41', '39318', '43636', '48000', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1446', '10', '43', '', '1446', 'TILE 20X25 OLGA RED A ASIA', '1', '41', '39318', '43636', '48000', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1447', '10', '43', '', '1447', 'TILE 20X25 OLGA RED BASIC A ASIA', '1', '41', '39318', '43636', '48000', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1448', '10', '43', '', '1448', 'TILE 20X25 OLIVIA BASIC A ASIA', '1', '41', '36591', '45455', '50000', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1449', '10', '43', '', '1449', 'TILE 20X25 OLIVIA DARK BROWN A ASIA', '1', '41', '37045', '46000', '50600', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1450', '10', '43', '', '1450', 'TILE 20X25 OLIVIA DARK GREEN A ASIA', '1', '41', '40029', '46000', '50600', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1451', '10', '43', '', '1451', 'TILE 20X25 OLIVIA DARK RED A ASIA', '1', '41', '37495', '46000', '50600', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1452', '10', '43', '', '1452', 'TILE 25X25 ALPHA BROWN A ASIA', '1', '41', '42954', '47727', '52500', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1453', '10', '43', '', '1453', 'TILE 25X25 ALPHA WHITE A ASIA', '1', '41', '42943', '47727', '52500', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1454', '10', '43', '', '1454', 'TILE 30X30 ALPHA BLACK A ASIA', '1', '41', '41384', '47091', '51800', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1455', '10', '43', '', '1455', 'TILE 30X30 ALPHA GREY A ASIA', '1', '41', '42501', '47091', '51800', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1456', '10', '43', '', '1456', 'TILE 30X30 ALPHA WHITE A ASIA', '1', '41', '42501', '47091', '51800', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1457', '10', '43', '', '1457', 'TILE 30X30 ETNA CREAM A ASIA', '1', '41', '35305', '40091', '44100', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1458', '10', '43', '', '1458', 'TILE 30X30 ETNA GREY A ASIA', '1', '41', '35339', '40091', '44100', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1459', '10', '43', '', '1459', 'TILE 30X30 MURANO A ASIA', '1', '41', '27273', '32727', '36000', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1460', '10', '43', '', '1460', 'TILE 30X30 NEWTON BROWN ASIA', '1', '41', '36932', '41545', '45700', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1461', '10', '43', '', '1461', 'TILE 30X30 NEWTON GREEN ASIA', '1', '41', '36616', '41545', '45700', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1462', '10', '43', '', '1462', 'TILE 30X30 NIRWANA CREAM A ASIA', '1', '41', '31587', '35000', '38500', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1463', '10', '43', '', '1463', 'TILE 30X30 NIRWANA GREY A ASIA', '1', '41', '29772', '35000', '38500', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1464', '10', '43', '', '1464', 'TILE 30X30 OMEGA CREAM A ASIA', '1', '41', '31206', '34909', '38400', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1465', '10', '43', '', '1465', 'TILE 30X30 OMEGA GREY A ASIA', '1', '41', '31176', '34909', '38400', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1466', '10', '43', '', '1466', 'TILE 30X30 OSCAR BLACK A ASIA', '1', '41', '39697', '44091', '48500', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1467', '10', '43', '', '1467', 'TILE 30X30 OSCAR BROWN A ASIA', '1', '41', '39623', '44545', '49000', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1468', '10', '43', '', '1468', 'TILE 30X30 OSCAR GREEN A ASIA', '1', '41', '35227', '44091', '48500', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1469', '10', '43', '', '1469', 'TILE 30X30 OSCAR GREY A ASIA', '1', '41', '39042', '44091', '48500', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1470', '10', '43', '', '1470', 'TILE 30X30 OSCAR RED A ASIA', '1', '41', '38470', '44091', '48500', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1471', '10', '43', '', '1471', 'TILE 30X30 OSCAR TAUPE A ASIA', '1', '41', '39773', '44091', '48500', '0', '0', '0', 'y', '2017-04-24 21:56:19', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1472', '10', '43', '', '1472', 'TILE 30X30 VOLARE CREAM A ASIA', '1', '41', '32077', '36000', '39600', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1473', '10', '43', '', '1473', 'TILE 30X30 VOLARE GREY A ASIA', '1', '41', '32501', '36000', '39600', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1474', '10', '43', '', '1474', 'TILE 40X40 CARACAS BROWN A ASIA', '1', '41', '45227', '50091', '55100', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1475', '10', '43', '', '1475', 'TILE 40X40 FONTE BLACK A ASIA', '1', '41', '47179', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1476', '10', '43', '', '1476', 'TILE 40X40 GALLERIA CREAM A ASIA', '1', '41', '41140', '46545', '51200', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1477', '10', '43', '', '1477', 'TILE 40X40 GALLERIA GREY A ASIA', '1', '41', '41966', '46545', '51200', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1478', '10', '43', '', '1478', 'TILE 40X40 MURANO A ASIA', '1', '41', '30851', '37273', '41000', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1479', '10', '43', '', '1479', 'TILE 40X40 NIRWANA CREAM A ASIA', '1', '41', '35227', '40182', '44200', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1480', '10', '43', '', '1480', 'TILE 40X40 NIRWANA GREEN A ASIA', '1', '41', '35651', '40182', '44200', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1481', '10', '43', '', '1481', 'TILE 40X40 NIRWANA GREY A ASIA', '1', '41', '36301', '40455', '44500', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1482', '10', '43', '', '1482', 'TILE 40X40 OCRA BLACK A ASIA', '1', '41', '47306', '53091', '58400', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1483', '10', '43', '', '1483', 'TILE 40X40 OCRA BROWN A ASIA', '1', '41', '43864', '49545', '54500', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1484', '10', '43', '', '1484', 'TILE 40X40 OCRA GREY A ASIA', '1', '41', '44761', '49545', '54500', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1485', '10', '43', '', '1485', 'TILE 40X40 OCRA RED A ASIA', '1', '41', '44731', '49545', '54500', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1486', '10', '43', '', '1486', 'TILE 40X40 OCRA WHITE A ASIA', '1', '41', '44686', '49545', '54500', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1487', '10', '43', '', '1487', 'TILE 40X40 OSCAR BLACK A ASIA', '1', '41', '39318', '49545', '54500', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1488', '10', '43', '', '1488', 'TILE 40X40 OSCAR BROWN A ASIA', '1', '41', '39773', '50091', '55100', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1489', '10', '43', '', '1489', 'TILE 40X40 OSCAR GREY A ASIA', '1', '41', '40228', '49545', '54500', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1490', '10', '43', '', '1490', 'TILE 40X40 OSCAR TAUPE A ASIA', '1', '41', '44773', '49545', '54500', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1491', '10', '43', '', '1491', 'TILE 40X40 OTTO CREAM A ASIA', '1', '41', '35539', '39909', '43900', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1492', '10', '43', '', '1492', 'TILE 40X40 OTTO GREY A ASIA', '1', '41', '36134', '39909', '43900', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1493', '10', '43', '', '1493', 'TILE 40X40 WINSTON BEIGE ASIA', '1', '41', '40133', '46545', '51200', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1494', '10', '43', '', '1494', 'TILE 40X40 WINSTON GREY A ASIA', '1', '41', '40507', '46545', '51200', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1495', '10', '43', '', '1495', 'TILE 20X25 HALCON CREAM A ASIA', '1', '42', '40491', '46000', '50600', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1496', '10', '43', '', '1496', 'TILE 33X33 HAWAII BRUNO A G367404 ROMAN', '1', '43', '73639', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1497', '10', '43', '', '1497', 'TILE 33X33 HAWAII IVORY A G367400 ROMAN', '1', '43', '73745', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1498', '10', '43', '', '1498', 'TILE 33X33 HAWAII PERLA  A G367402 ROMAN', '1', '43', '73946', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1499', '10', '43', '', '1499', 'TILE 33X33 HAWAII SAND A G367401 ROMAN', '1', '43', '74123', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1500', '10', '43', '', '1500', 'TILE 20X33 ALLEGRA BLUE DCR3 A PLATINUM', '1', '44', '117693', '129727', '142700', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1501', '10', '43', '', '1501', 'TILE 20X33 ALLEGRA ORG DCR3 A PLATINUM', '1', '44', '118182', '129727', '142700', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1502', '10', '43', '', '1502', 'TILE 20X50 CASSO BLUE DCR3 A PLATINUM', '1', '44', '155689', '174727', '192200', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1503', '10', '43', '', '1503', 'TILE 20X50 CASSO GREY DCR3 A PLATINUM', '1', '44', '158482', '174727', '192200', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1504', '10', '43', '', '1504', 'TILE 25X40 BERRY BLUE DCR3 A PLATINUM', '1', '44', '140909', '157273', '173000', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1505', '10', '43', '', '1505', 'TILE 25X40 BERRY DECOR 3 A PLATINUM', '1', '44', '140909', '157273', '173000', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1506', '10', '43', '', '1506', 'TILE 25X40 BERRY GREEN DCR3 A PLATINUM', '1', '44', '141898', '157273', '173000', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1507', '10', '43', '', '1507', 'TILE 25X40 BERRY YELLOW DCR3 A PLATINUM', '1', '44', '140909', '157273', '173000', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1508', '10', '43', '', '1508', '*TILE 40X40 ARMANI BLACK A PLATINUM', '1', '44', '49961', '62182', '68400', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1509', '10', '43', '', '1509', '*TILE 40X40 AUSTIN BROWN A PLATINUM', '1', '44', '60141', '66636', '73300', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1510', '10', '43', '', '1510', '*TILE 40X40 CLARIN BONE A PLATINUM', '1', '44', '47885', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1511', '10', '43', '', '1511', '*TILE 40X40 CLARIN GREY A PLATINUM', '1', '44', '42085', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1512', '10', '43', '', '1512', '*TILE 40X40 CORDON BROWN A PLATINUM', '1', '44', '47124', '54636', '60100', '0', '0', '0', 'y', '2017-04-24 21:56:20', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1513', '10', '43', '', '1513', '*TILE 40X40 CORDON TERACOTA A PLATINUM', '1', '44', '49313', '54636', '60100', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1514', '10', '43', '', '1514', '*TILE 40X40 CYRCA BROWN A PLATINUM', '1', '44', '49792', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1515', '10', '43', '', '1515', '*TILE 40X40 CYRCA GREY A PLATINUM', '1', '44', '42509', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1516', '10', '43', '', '1516', '*TILE 40X40 DOMUS GREY A PLATINUM', '1', '44', '34546', '46636', '51300', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1517', '10', '43', '', '1517', '*TILE 40X40 DUCATI BROWN A PLATINUM', '1', '44', '45504', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1518', '10', '43', '', '1518', '*TILE 40X40 LIDO CREAM A PLATINUM', '1', '44', '45975', '53091', '58400', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1519', '10', '43', '', '1519', '*TILE 40X40 LIDO GREY A PLATINUM', '1', '44', '47697', '53091', '58400', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1520', '10', '43', '', '1520', '*TILE 40X40 LUCA BROWN A PLATINUM', '1', '44', '49786', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1521', '10', '43', '', '1521', '*TILE 40X40 LUCA GREY A PLATINUM', '1', '44', '46225', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1522', '10', '43', '', '1522', '*TILE 40X40 LUXOR GREY A PLATINUM', '1', '44', '50974', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1523', '10', '43', '', '1523', '*TILE 40X40 LUXOR WHITE A PLATINUM', '1', '44', '50682', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1524', '10', '43', '', '1524', '*TILE 40X40 TREZOR BROWN A PLATINUM', '1', '44', '46467', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1525', '10', '43', '', '1525', '*TILE 50X50 CASA GREY A PLATINUM', '1', '44', '62988', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1526', '10', '43', '', '1526', '*TILE 50X50 CAVALLI CREAM A PLATINUM', '1', '44', '63409', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1527', '10', '43', '', '1527', '*TILE 50X50 CAVALLI WHITE A PLATINUM', '1', '44', '63364', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1528', '10', '43', '', '1528', '*TILE 50X50 GOBY CREAM PLATINUM', '1', '44', '59721', '66182', '72800', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1529', '10', '43', '', '1529', '*TILE 50X50 GOBY GREY A PLATINUM', '1', '44', '59792', '66182', '72800', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1530', '10', '43', '', '1530', 'TILE 25X40 NYRA BROWN BASIC A PLATINUM', '1', '44', '50909', '58727', '64600', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1531', '10', '43', '', '1531', 'TILE 25X40 NYRA BROWN DECOR A PLATINUM', '1', '44', '54091', '60636', '66700', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1532', '10', '43', '', '1532', 'TILE 25X40 NYRA DARK BROWN A PLATINUM', '1', '44', '54091', '63091', '69400', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1533', '10', '43', '', '1533', 'TILE 25X40 NYRA GREY BASIC A PLATINUM', '1', '44', '50909', '58727', '64600', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1534', '10', '43', '', '1534', 'TILE 30X30 CARGO BROWN A PLATINUM', '1', '44', '43020', '48636', '53500', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1535', '10', '43', '', '1535', 'TILE 30X30 CARGO DARK BROWN A PLATINUM', '1', '44', '43863', '48636', '53500', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1536', '10', '43', '', '1536', 'TILE 30X30 CARGO DARK GREY A PLATINUM', '1', '44', '41137', '48636', '53500', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1537', '10', '43', '', '1537', 'TILE 30X30 CARGO GREY A PLATINUM', '1', '44', '44318', '48636', '53500', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1538', '10', '43', '', '1538', 'TILE 40X40 ALPINE BROWN A PLATINUM', '1', '44', '59082', '66636', '73300', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1539', '10', '43', '', '1539', 'TILE 40X40 ALPINE GREY A PLATINUM', '1', '44', '59343', '66636', '73300', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1540', '10', '43', '', '1540', 'TILE 40X40 ASCOT WHITE A PLATINUM', '1', '44', '44614', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1541', '10', '43', '', '1541', 'TILE 40X40 ASTON BROWN A PLATINUM', '1', '44', '0', '66636', '73300', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1542', '10', '43', '', '1542', 'TILE 40X40 ASTON GREY A PLATINUM', '1', '44', '56984', '66636', '73300', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1543', '10', '43', '', '1543', 'TILE 40X40 AZTECA DARK BROWN A PLATINUM', '1', '44', '56140', '62182', '68400', '0', '0', '0', 'y', '2017-04-24 21:56:21', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1544', '10', '43', '', '1544', 'TILE 40X40 AZTECA DARK GREY A PLATINUM', '1', '44', '58202', '62182', '68400', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1545', '10', '43', '', '1545', 'TILE 40X40 BONZA WHITE A PLATINUM', '1', '44', '58997', '68091', '74900', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1546', '10', '43', '', '1546', 'TILE 40X40 CASA CREAM A PLATINUM', '1', '44', '43988', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1547', '10', '43', '', '1547', 'TILE 40X40 CASA GREY A PLATINUM', '1', '44', '44022', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1548', '10', '43', '', '1548', 'TILE 40X40 CORIE CREAM A PLATINUM', '1', '44', '46429', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1549', '10', '43', '', '1549', 'TILE 40X40 CORIE GREY A PLATINUM', '1', '44', '47884', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1550', '10', '43', '', '1550', 'TILE 40X40 CORSO BLACK A PLATINUM', '1', '44', '49773', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1551', '10', '43', '', '1551', 'TILE 40X40 CORSO BROWN A PLATINUM', '1', '44', '52161', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1552', '10', '43', '', '1552', 'TILE 40X40 CORSO GREY A PLATINUM', '1', '44', '52500', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1553', '10', '43', '', '1553', 'TILE 40X40 DOLCE CRM A PLATINUM', '1', '44', '44586', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1554', '10', '43', '', '1554', 'TILE 40X40 DOLCE GREY A PLATINUM', '1', '44', '47610', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1555', '10', '43', '', '1555', 'TILE 40X40 DOME CRM A PLATINUM', '1', '44', '45275', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1556', '10', '43', '', '1556', 'TILE 40X40 DOME GREY A PLATINUM', '1', '44', '47881', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1557', '10', '43', '', '1557', 'TILE 40X40 GOLIA BROWN A PLATINUM', '1', '44', '46673', '54182', '59600', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1558', '10', '43', '', '1558', 'TILE 40X40 GOLIA GREY A PLATINUM', '1', '44', '45313', '54182', '59600', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1559', '10', '43', '', '1559', 'TILE 40X40 GRANADA CREAM A PLATINUM', '1', '44', '45274', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1560', '10', '43', '', '1560', 'TILE 40X40 GRANADA GREY A PLATINUM', '1', '44', '45612', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1561', '10', '43', '', '1561', 'TILE 40X40 LAVA CREAM A PLATINUM', '1', '44', '0', '51364', '56500', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1562', '10', '43', '', '1562', 'TILE 40X40 LAZIO BROWN A PLATINUM', '1', '44', '48864', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1563', '10', '43', '', '1563', 'TILE 40X40 LAZIO GREY A PLATINUM', '1', '44', '48865', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1564', '10', '43', '', '1564', 'TILE 40X40 LEXUS CREAM A PLATINUM', '1', '44', '43861', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1565', '10', '43', '', '1565', 'TILE 40X40 LEXUS GREY A PLATINUM', '1', '44', '43410', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1566', '10', '43', '', '1566', 'TILE 40X40 LOFT CREAM A PLATINUM', '1', '44', '46136', '51364', '56500', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1567', '10', '43', '', '1567', 'TILE 40X40 LOFT GREY A PLATINUM', '1', '44', '45918', '51364', '56500', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1568', '10', '43', '', '1568', 'TILE 40X40 NIKO CREAM A PLATINUM', '1', '44', '43401', '48182', '53000', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1569', '10', '43', '', '1569', 'TILE 40X40 NIKO GREY A PLATINUM', '1', '44', '41591', '48182', '53000', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1570', '10', '43', '', '1570', 'TILE 40X40 NIXON CREAM A PLATINUM', '1', '44', '43402', '48182', '53000', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1571', '10', '43', '', '1571', 'TILE 40X40 NIXON GREY A PLATINUM', '1', '44', '43408', '48182', '53000', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1572', '10', '43', '', '1572', 'TILE 40X40 NORTON CREAM A PLATINUM', '1', '44', '42254', '48182', '53000', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1573', '10', '43', '', '1573', 'TILE 40X40 ONYX PEACH A PLATINUM', '1', '44', '47544', '54182', '59600', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1574', '10', '43', '', '1574', 'TILE 40X40 SICILIA GREY A PLATINUM', '1', '44', '47883', '53909', '59300', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1575', '10', '43', '', '1575', 'TILE 40X40 STONE BLACK A PLATINUM', '1', '44', '56136', '62182', '68400', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1576', '10', '43', '', '1576', 'TILE 40X40 STRATA CREAM A PLATINUM', '1', '44', '46115', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1577', '10', '43', '', '1577', 'TILE 40X40 STRATA GREY A PLATINUM', '1', '44', '47955', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1578', '10', '43', '', '1578', 'TILE 40X40 VEGAS BROWN A PLATINUM', '1', '44', '43983', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1579', '10', '43', '', '1579', 'TILE 50X50 MAGMA BROWN A PLATINUM', '1', '44', '63405', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1580', '10', '43', '', '1580', 'TILE 50X50 MAGMA GREY A PLATINUM', '1', '44', '62954', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1581', '10', '43', '', '1581', 'TILE 50X50 MERLIN CREAM A PLATINUM', '1', '44', '62954', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:22', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1582', '10', '43', '', '1582', 'TILE 50X50 MERLIN GREY A PLATINUM', '1', '44', '63385', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1583', '10', '43', '', '1583', 'TILE 50X50 NASCO CREAM A PLATINUM', '1', '44', '63397', '70000', '77000', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1584', '10', '43', '', '1584', 'TILE 50X50 NAXOS CREAM A PLATINUM', '1', '44', '63513', '70000', '77000', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1585', '10', '43', '', '1585', 'TILE 50X50 NICON GREY A PLATINUM', '1', '44', '63410', '70000', '77000', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1586', '10', '43', '', '1586', '*TILE 20X33 ACACIA BROWN EM A DGPLATINUM', '1', '44', '47955', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1587', '10', '43', '', '1587', '*TILE 20X33 ACACIA CRM EM A DGPLATINUM', '1', '44', '47500', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1588', '10', '43', '', '1588', '*TILE 20X33 ACACIA D.BROWN A DGPLATINUM', '1', '44', '60631', '71636', '78800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1589', '10', '43', '', '1589', '*TILE 20X33 ACACIA DCR EM A DGPLATINUM', '1', '44', '53317', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1590', '10', '43', '', '1590', '*TILE 20X33 ACCOR BASIC GRY EMB PLATINUM', '1', '44', '53210', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1591', '10', '43', '', '1591', '*TILE 20X33 ACCOR BSC CRM EMB A PLATINUM', '1', '44', '54791', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1592', '10', '43', '', '1592', '*TILE 20X33 ACCOR CREAM DECOR A PLATINUM', '1', '44', '52500', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1593', '10', '43', '', '1593', '*TILE 20X33 ACCOR CREAM EMB A PLATINUM', '1', '44', '55644', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1594', '10', '43', '', '1594', '*TILE 20X33 ACCOR GREY EMB A PLATINUM', '1', '44', '55681', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1595', '10', '43', '', '1595', '*TILE 20X33 ADES CREAM BASIC A PLATINUM', '1', '44', '51292', '57182', '62900', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1596', '10', '43', '', '1596', '*TILE 20X33 ADES CREAM EMB A PLATINUM', '1', '44', '55606', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1597', '10', '43', '', '1597', '*TILE 20X33 ADES GREY BASIC A PLATINUM', '1', '44', '51575', '57182', '62900', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1598', '10', '43', '', '1598', '*TILE 20X33 ADES GREY EMB A PLATINUM', '1', '44', '53283', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1599', '10', '43', '', '1599', '*TILE 20X33 ALTO BSC CRM A DGPLATINUM', '1', '44', '42098', '57182', '62900', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1600', '10', '43', '', '1600', '*TILE 20X33 ALTO BSC GREY A DGPLATINUM', '1', '44', '40682', '57182', '62900', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1601', '10', '43', '', '1601', '*TILE 20X33 ALTO CRM EMBOS A DGPLATINUM', '1', '44', '44871', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1602', '10', '43', '', '1602', '*TILE 20X33 ALTO GREY EMBOS A DGPLATINUM', '1', '44', '47499', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1603', '10', '43', '', '1603', '*TILE 20X33 AMORE BSC CRM EM A PLATINUM', '1', '44', '55632', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1604', '10', '43', '', '1604', '*TILE 20X33 AMORE BSC GRY EM A PLATINUM', '1', '44', '47500', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1605', '10', '43', '', '1605', '*TILE 20X33 AMORE CRM EMBOS A DGPLATINUM', '1', '44', '49547', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1606', '10', '43', '', '1606', '*TILE 20X33 AMORE GRY EMBOS A DGPLATINUM', '1', '44', '48180', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1607', '10', '43', '', '1607', '*TILE 20X33 APRON BROWN EM A DGPLATINUM', '1', '44', '45448', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1608', '10', '43', '', '1608', '*TILE 20X33 APRON BSC EMBOS A DGPLATINUM', '1', '44', '44702', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1609', '10', '43', '', '1609', '*TILE 20X33 APRON GRY EMBOS A DGPLATINUM', '1', '44', '45257', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1610', '10', '43', '', '1610', '*TILE 20X33 AUDI BASIC EMB A PLATINUM', '1', '44', '55678', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1611', '10', '43', '', '1611', '*TILE 20X33 AUDI BL DCR1 EMB A PLATINUM', '1', '44', '55681', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1612', '10', '43', '', '1612', '*TILE 20X33 AUDI BL DCR2 EMB A PLATINUM', '1', '44', '55668', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1613', '10', '43', '', '1613', '*TILE 20X33 AUDI BLUE EMB A PLATINUM', '1', '44', '55662', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1614', '10', '43', '', '1614', '*TILE 20X33 AUDI GREEN EMB A PLATINUM', '1', '44', '56034', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1615', '10', '43', '', '1615', '*TILE 20X33 AUDI GRN DCR1 EMB A PLATINUM', '1', '44', '55543', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1616', '10', '43', '', '1616', '*TILE 20X33 AUDI GRN DCR2 EMB A PLATINUM', '1', '44', '55962', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1617', '10', '43', '', '1617', '*TILE 20X33 AUDI ORNG DCR1 EMB PLATINUM', '1', '44', '55655', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1618', '10', '43', '', '1618', '*TILE 20X33 AUDI PRPL DECOR1 A PLATINUM', '1', '44', '56115', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:23', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1619', '10', '43', '', '1619', '*TILE 20X33 AUDI PURPLE DCR2 A PLATINUM', '1', '44', '55623', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1620', '10', '43', '', '1620', '*TILE 20X33 AUDI PURPLE EMB A PLATINUM', '1', '44', '55615', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1621', '10', '43', '', '1621', '*TILE 20X33 BLOOM BASIC CREAM A PLATINUM', '1', '44', '39314', '49636', '54600', '0', '0', '0', 'y', '2017-04-24 21:56:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1622', '10', '43', '', '1622', '*TILE 20X33 BLOOM CREAM A PLATINUM', '1', '44', '42042', '52636', '57900', '0', '0', '0', 'y', '2017-04-24 21:56:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1623', '10', '43', '', '1623', '*TILE 20X33 BLOOM GREY A PLATINUM', '1', '44', '42438', '52636', '57900', '0', '0', '0', 'y', '2017-04-24 21:56:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1624', '10', '43', '', '1624', '*TILE 20X33 BONZA WHITE A PLATINUM', '1', '44', '70000', '77545', '85300', '0', '0', '0', 'y', '2017-04-24 21:56:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1625', '10', '43', '', '1625', '*TILE 25X40 BERLIN BASIC A PLATINUM', '1', '44', '55927', '65636', '72200', '0', '0', '0', 'y', '2017-04-24 21:56:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1626', '10', '43', '', '1626', '*TILE 25X40 BERLIN BLACK EMB A PLATINUM', '1', '44', '61775', '72000', '79200', '0', '0', '0', 'y', '2017-04-24 21:56:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1627', '10', '43', '', '1627', '*TILE 25X40 BERLIN BROWN EMB A PLATINUM', '1', '44', '61975', '72000', '79200', '0', '0', '0', 'y', '2017-04-24 21:56:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1628', '10', '43', '', '1628', '*TILE 25X40 BIRKIN BLUE DECOR A PLATINUM', '1', '44', '61136', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1629', '10', '43', '', '1629', '*TILE 25X40 BIRKIN D.BLUE EMB A PLATINUM', '1', '44', '79091', '90818', '99900', '0', '0', '0', 'y', '2017-04-24 21:56:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1630', '10', '43', '', '1630', '*TILE 25X40 BIRKIN D.PRPL EM A PLATINUM', '1', '44', '79091', '90818', '99900', '0', '0', '0', 'y', '2017-04-24 21:56:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1631', '10', '43', '', '1631', '*TILE 25X40 BIRKIN PURPLE DCR A PLATINUM', '1', '44', '60000', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1632', '10', '43', '', '1632', '*TILE 25X40 BLISS BASIC A PLATINUM', '1', '44', '0', '65636', '72200', '0', '0', '0', 'y', '2017-04-24 21:56:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1633', '10', '43', '', '1633', '*TILE 25X40 BLISS BLUE DCR A PLATINUM', '1', '44', '0', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1634', '10', '43', '', '1634', '*TILE 25X40 BLISS DARK BLUE A PLATINUM', '1', '44', '0', '87818', '96600', '0', '0', '0', 'y', '2017-04-24 21:56:24', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1635', '10', '43', '', '1635', '*TILE 25X40 BONY BASIC A PLATINUM', '1', '44', '52046', '65636', '72200', '0', '0', '0', 'y', '2017-04-24 21:56:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1636', '10', '43', '', '1636', '*TILE 25X40 BONY GREEN A PLATINUM', '1', '44', '58410', '68091', '74900', '0', '0', '0', 'y', '2017-04-24 21:56:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1637', '10', '43', '', '1637', '*TILE 25X40 BONY GREEN DECOR A PLATINUM', '1', '44', '61524', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1638', '10', '43', '', '1638', '*TILE 25X40 BONY GREY A PLATINUM', '1', '44', '58847', '68091', '74900', '0', '0', '0', 'y', '2017-04-24 21:56:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1639', '10', '43', '', '1639', '*TILE 25X40 BONY GREY DECOR A PLATINUM', '1', '44', '60028', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1640', '10', '43', '', '1640', '*TILE 25X40 BONZA BASIC A PLATINUM', '1', '44', '56136', '65636', '72200', '0', '0', '0', 'y', '2017-04-24 21:56:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1641', '10', '43', '', '1641', 'TILE 20X33 ADORE BROWN EMB A PLATINUM', '1', '44', '51137', '61818', '68000', '0', '0', '0', 'y', '2017-04-24 21:56:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1642', '10', '43', '', '1642', 'TILE 20X33 ADORE BRWN DCR EMB A PLATINUM', '1', '44', '51140', '61818', '68000', '0', '0', '0', 'y', '2017-04-24 21:56:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1643', '10', '43', '', '1643', 'TILE 20X33 ADORE GREY DCR EMB A PLATINUM', '1', '44', '51137', '61818', '68000', '0', '0', '0', 'y', '2017-04-24 21:56:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1644', '10', '43', '', '1644', 'TILE 20X33 ADORE GREY EMB A PLATINUM', '1', '44', '51137', '61818', '68000', '0', '0', '0', 'y', '2017-04-24 21:56:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1645', '10', '43', '', '1645', 'TILE 20X33 ALLEGRA BLUE BASIC A PLATINUM', '1', '44', '51590', '57091', '62800', '0', '0', '0', 'y', '2017-04-24 21:56:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1646', '10', '43', '', '1646', 'TILE 20X33 ALLEGRA D.BLUE EMB A PLATINUM', '1', '44', '55680', '61545', '67700', '0', '0', '0', 'y', '2017-04-24 21:56:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1647', '10', '43', '', '1647', 'TILE 20X33 ALLEGRA D.ORG EMB A PLATINUM', '1', '44', '55681', '61545', '67700', '0', '0', '0', 'y', '2017-04-24 21:56:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1648', '10', '43', '', '1648', 'TILE 20X33 ALLEGRA ORG BASIC A PLATINUM', '1', '44', '51590', '57091', '62800', '0', '0', '0', 'y', '2017-04-24 21:56:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1649', '10', '43', '', '1649', 'TILE 20X33 ALMOND BROWN DECOR A PLATINUM', '1', '44', '52505', '58091', '63900', '0', '0', '0', 'y', '2017-04-24 21:56:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1650', '10', '43', '', '1650', 'TILE 20X33 ALMOND D.BROWN EMB A PLATINUM', '1', '44', '55681', '61545', '67700', '0', '0', '0', 'y', '2017-04-24 21:56:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1651', '10', '43', '', '1651', 'TILE 20X33 ALMOND D.GREY EMB A PLATINUM', '1', '44', '55681', '61545', '67700', '0', '0', '0', 'y', '2017-04-24 21:56:25', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1652', '10', '43', '', '1652', 'TILE 20X33 ALMOND GREY DECOR A PLATINUM', '1', '44', '52500', '58091', '63900', '0', '0', '0', 'y', '2017-04-24 21:56:26', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1653', '10', '43', '', '1653', 'TILE 20X33 ASTOR BLUE DECOR A PLATINUM', '1', '44', '52500', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1654', '10', '43', '', '1654', 'TILE 20X33 ASTOR D.BLUE EMB A PLATINUM', '1', '44', '55681', '61818', '68000', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1655', '10', '43', '', '1655', 'TILE 20X33 ASTOR D.PURPLE EMB A PLATINUM', '1', '44', '55681', '61818', '68000', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1656', '10', '43', '', '1656', 'TILE 20X33 ASTOR PUPLE DECOR A PLATINUM', '1', '44', '52500', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1657', '10', '43', '', '1657', 'TILE 20X33 AVON BASIC EMB A PLATINUM', '1', '44', '55681', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1658', '10', '43', '', '1658', 'TILE 20X33 AVON BLUE DECOR A PLATINUM', '1', '44', '52499', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1659', '10', '43', '', '1659', 'TILE 20X33 AVON BLUE EMBOSSED A PLATINUM', '1', '44', '55681', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1660', '10', '43', '', '1660', 'TILE 20X33 AVON PURPLE DECOR A PLATINUM', '1', '44', '52501', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1661', '10', '43', '', '1661', 'TILE 20X33 AVON PURPLE EMB A PLATINUM', '1', '44', '55681', '61636', '67800', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1662', '10', '43', '', '1662', 'TILE 20X33 LINI BASIC A PLATINUM', '1', '44', '49404', '55182', '60700', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1663', '10', '43', '', '1663', 'TILE 20X33 LINI DARK BLUE A PLATINUM', '1', '44', '51744', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1664', '10', '43', '', '1664', 'TILE 20X33 LINI DARK BROWN A PLATINUM', '1', '44', '52478', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1665', '10', '43', '', '1665', 'TILE 20X33 LINI DARK GREEN A PLATINUM', '1', '44', '51646', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1666', '10', '43', '', '1666', 'TILE 20X33 MOSAIC BASIC A PLATINUM', '1', '44', '50317', '55455', '61000', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1667', '10', '43', '', '1667', 'TILE 20X33 MOSAIC CREAM A PLATINUM', '1', '44', '51768', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1668', '10', '43', '', '1668', 'TILE 20X33 MOSAIC GREY A PLATINUM', '1', '44', '47956', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1669', '10', '43', '', '1669', 'TILE 20X50 BONZA BLACK EMB A PLATINUM', '1', '44', '70341', '79091', '87000', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1670', '10', '43', '', '1670', 'TILE 20X50 BONZA WHITE A PLATINUM', '1', '44', '79318', '88091', '96900', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1671', '10', '43', '', '1671', 'TILE 20X50 CALDEA BRWN DCR2 A PLATINUM', '1', '44', '74318', '85455', '94000', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1672', '10', '43', '', '1672', 'TILE 20X50 CALDEA DARK BROWN A PLATINUM', '1', '44', '74318', '85455', '94000', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1673', '10', '43', '', '1673', 'TILE 20X50 CALDEA DARK GREY A PLATINUM', '1', '44', '74318', '85455', '94000', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1674', '10', '43', '', '1674', 'TILE 20X50 CALDEA GREY DCR2 A PLATINUM', '1', '44', '74051', '85455', '94000', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1675', '10', '43', '', '1675', 'TILE 20X50 CANAL BROWN DECOR1 A PLATINUM', '1', '44', '72045', '80000', '88000', '0', '0', '0', 'y', '2017-04-24 21:56:27', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1676', '10', '43', '', '1676', 'TILE 20X50 CANAL BROWN DECOR2 A PLATINUM', '1', '44', '72095', '80000', '88000', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1677', '10', '43', '', '1677', 'TILE 20X50 CANAL D.BROWN EMB A PLATINUM', '1', '44', '73664', '82000', '90200', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1678', '10', '43', '', '1678', 'TILE 20X50 CANAL D.GREY EMB A PLATINUM', '1', '44', '73314', '82000', '90200', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1679', '10', '43', '', '1679', 'TILE 20X50 CANAL GREY DECOR1 A PLATINUM', '1', '44', '72045', '80000', '88000', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1680', '10', '43', '', '1680', 'TILE 20X50 CANAL GREY DECOR2 A PLATINUM', '1', '44', '72043', '80000', '88000', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1681', '10', '43', '', '1681', 'TILE 20X50 CASSO BLUE DCR EMB A PLATINUM', '1', '44', '73980', '82000', '90200', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1682', '10', '43', '', '1682', 'TILE 20X50 CASSO DARK BLUE A PLATINUM', '1', '44', '73863', '82000', '90200', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1683', '10', '43', '', '1683', 'TILE 20X50 CASSO DARK GREY A PLATINUM', '1', '44', '73822', '82000', '90200', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1684', '10', '43', '', '1684', 'TILE 20X50 CASSO GREY DCR EMB A PLATINUM', '1', '44', '73863', '82000', '90200', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1685', '10', '43', '', '1685', 'TILE 20X50 CORBI DARK GRY EMB A PLATINUM', '1', '44', '74091', '82000', '90200', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1686', '10', '43', '', '1686', 'TILE 20X50 CORBI GREY BSC EMB A PLATINUM', '1', '44', '68636', '76000', '83600', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1687', '10', '43', '', '1687', 'TILE 20X50 CORBI GREY DCR EMB A PLATINUM', '1', '44', '72587', '82000', '90200', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1688', '10', '43', '', '1688', 'TILE 20X50 CORUM BROWN A PLATINUM', '1', '44', '72169', '80091', '88100', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1689', '10', '43', '', '1689', 'TILE 20X50 CORUM BRWN DCR EMB A PLATINUM', '1', '44', '73780', '82091', '90300', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1690', '10', '43', '', '1690', 'TILE 20X50 CORUM GREY A PLATINUM', '1', '44', '72045', '80091', '88100', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1691', '10', '43', '', '1691', 'TILE 20X50 CORUM GREY DCR EMB A PLATINUM', '1', '44', '73864', '82091', '90300', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1692', '10', '43', '', '1692', 'TILE 20X50 COZY BASIC A PLATINUM', '1', '44', '65633', '73000', '80300', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1693', '10', '43', '', '1693', 'TILE 20X50 COZY DARK BRWN EMB A PLATINUM', '1', '44', '73863', '82000', '90200', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1694', '10', '43', '', '1694', 'TILE 20X50 COZY DARK GREY EMB A PLATINUM', '1', '44', '73863', '82000', '90200', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1695', '10', '43', '', '1695', 'TILE 20X50 GROOVE DCR CRM A DGPLATINUM', '1', '44', '68833', '76091', '83700', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1696', '10', '43', '', '1696', 'TILE 20X50 GROOVE GRY DCR EMB A PLATINUM', '1', '44', '68831', '76091', '83700', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1697', '10', '43', '', '1697', 'TILE 25X40 BALKAN BASIC BROWN A PLATINUM', '1', '44', '53409', '65636', '72200', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1698', '10', '43', '', '1698', 'TILE 25X40 BALKAN BASIC GREY A PLATINUM', '1', '44', '53409', '65636', '72200', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1699', '10', '43', '', '1699', 'TILE 25X40 BALKAN BROWN A PLATINUM', '1', '44', '55681', '68091', '74900', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1700', '10', '43', '', '1700', 'TILE 25X40 BALKAN BRW DCR EMB A PLATINUM', '1', '44', '57500', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1701', '10', '43', '', '1701', 'TILE 25X40 BALKAN GREY A PLATINUM', '1', '44', '55687', '68091', '74900', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1702', '10', '43', '', '1702', 'TILE 25X40 BALKAN GRY DCR EMB A PLATINUM', '1', '44', '57500', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1703', '10', '43', '', '1703', 'TILE 25X40 BERRY BLUE DCR EMB A PLATINUM', '1', '44', '81132', '90818', '99900', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1704', '10', '43', '', '1704', 'TILE 25X40 BERRY GRN DCR EMB A PLATINUM', '1', '44', '80912', '90818', '99900', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1705', '10', '43', '', '1705', 'TILE 25X40 BERRY YLLW DCR EMB A PLATINUM', '1', '44', '81032', '90818', '99900', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1706', '10', '43', '', '1706', 'TILE 25X40 BETSY BASIC A PLATINUM', '1', '44', '55228', '65636', '72200', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1707', '10', '43', '', '1707', 'TILE 25X40 BETSY BLACK DECOR1 A PLATINUM', '1', '44', '59339', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1708', '10', '43', '', '1708', 'TILE 25X40 BETSY BLACK DECOR2 A PLATINUM', '1', '44', '60146', '70000', '77000', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1709', '10', '43', '', '1709', 'TILE 25X40 BETSY PURPLE DCR1 A PLATINUM', '1', '44', '60530', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1710', '10', '43', '', '1710', 'TILE 25X40 BETSY PURPLE DCR2 A PLATINUM', '1', '44', '59319', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1711', '10', '43', '', '1711', 'TILE 25X40 BOFA BASIC A PLATINUM', '1', '44', '55227', '65636', '72200', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1712', '10', '43', '', '1712', 'TILE 25X40 BOFA D.BLUE EMB A PLATINUM', '1', '44', '76296', '90818', '99900', '0', '0', '0', 'y', '2017-04-24 21:56:28', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1713', '10', '43', '', '1713', 'TILE 25X40 BOFA D.GREEN EMB A PLATINUM', '1', '44', '78409', '90818', '99900', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1714', '10', '43', '', '1714', 'TILE 25X40 BOFA DECOR A PLATINUM', '1', '44', '61137', '72000', '79200', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1715', '10', '43', '', '1715', 'TILE 25X40 BONZA BLACK EMB A PLATINUM', '1', '44', '80905', '90818', '99900', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1716', '10', '43', '', '1716', 'TILE 25X40 BONZA D.PURPLE EMB A PLATINUM', '1', '44', '81136', '90818', '99900', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1717', '10', '43', '', '1717', 'TILE 25X40 BONZA DARK BLUE A PLATINUM', '1', '44', '78443', '87818', '96600', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1718', '10', '43', '', '1718', 'TILE 25X40 BONZA DARK GREEN A PLATINUM', '1', '44', '78409', '87818', '96600', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1719', '10', '43', '', '1719', 'TILE 25X40 BONZA DARK YELLOW A PLATINUM', '1', '44', '78409', '87818', '96600', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1720', '10', '43', '', '1720', 'TILE 25X40 BONZA WHITE A PLATINUM', '1', '44', '78973', '90818', '99900', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1721', '10', '43', '', '1721', 'TILE 25X40 BORJA BL DCR1 EMB A PLATINUM', '1', '44', '61136', '72000', '79200', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1722', '10', '43', '', '1722', 'TILE 25X40 BORJA BLUE DCR2 A PLATINUM', '1', '44', '56806', '72000', '79200', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1723', '10', '43', '', '1723', 'TILE 25X40 BORJA D.BLUE EMB A PLATINUM', '1', '44', '81136', '90818', '99900', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1724', '10', '43', '', '1724', 'TILE 25X40 BORJA D.PRPL EMB A PLATINUM', '1', '44', '82176', '90818', '99900', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1725', '10', '43', '', '1725', 'TILE 25X40 BORJA PRP DCR1 EMB A PLATINUM', '1', '44', '63863', '72000', '79200', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1726', '10', '43', '', '1726', 'TILE 25X40 BORJA PURPLE DCR2 A PLATINUM', '1', '44', '65682', '72000', '79200', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1727', '10', '43', '', '1727', 'TILE 25X40 BRACO BASIC A PLATINUM', '1', '44', '59451', '65636', '72200', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1728', '10', '43', '', '1728', 'TILE 25X40 BRACO CREAM EMB A PLATINUM', '1', '44', '62045', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1729', '10', '43', '', '1729', 'TILE 25X40 BRACO GREY EMB A PLATINUM', '1', '44', '62045', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1730', '10', '43', '', '1730', 'TILE 25X40 BRIO BLUE DECOR A PLATINUM', '1', '44', '62152', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1731', '10', '43', '', '1731', 'TILE 25X40 BRIO DARK BLUE EMB A PLATINUM', '1', '44', '78531', '90818', '99900', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1732', '10', '43', '', '1732', 'TILE 25X40 BRIO DARK ORG EMB A PLATINUM', '1', '44', '80974', '90818', '99900', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1733', '10', '43', '', '1733', 'TILE 25X40 BRIO ORG DECOR A PLATINUM', '1', '44', '62045', '70091', '77100', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1734', '10', '43', '', '1734', 'TILE 25X40 NOLIA BASIC A PLATINUM', '1', '44', '52599', '58727', '64600', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1735', '10', '43', '', '1735', 'TILE 25X40 NOLIA DARK BLUE A PLATINUM', '1', '44', '55035', '63091', '69400', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1736', '10', '43', '', '1736', 'TILE 25X40 NOLIA DARK BROWN A PLATINUM', '1', '44', '54091', '63091', '69400', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1737', '10', '43', '', '1737', 'TILE 25X40 NOLIA DARK GREEN A PLATINUM', '1', '44', '54091', '63091', '69400', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1738', '10', '43', '', '1738', 'TILE 25X40 NYRA DARK GREY A PLATINUM', '1', '44', '54091', '63091', '69400', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1739', '10', '43', '', '1739', 'TILE 25X40 NYRA GREY DECOR A PLATINUM', '1', '44', '54094', '60636', '66700', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1740', '10', '43', '', '1740', '*TILE 20X40 DENIM BLUE C W40564 ROMAN', '1', '43', '57254', '87909', '96700', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1741', '10', '43', '', '1741', '*TILE 20X40 DENIM BONE B W40523 ROMAN', '1', '43', '71262', '85182', '93700', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1742', '10', '43', '', '1742', '*TILE 20X40 DENIM BROWN C W40563 ROMAN', '1', '43', '68886', '87909', '96700', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1743', '10', '43', '', '1743', '*TILE 25X50 RHPSDY LVNDER D W52248 ROMAN', '1', '43', '0', '123000', '135300', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1744', '10', '43', '', '1744', '*TILE 33X33 GENESIS IVORY A 36627P ROMAN', '1', '43', '0', '71182', '78300', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1745', '10', '43', '', '1745', '*TILE 33X33 HAWAII GRGIO A G367403 ROMAN', '1', '43', '68545', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1746', '10', '43', '', '1746', '*TILE 33X33 HAWAII NERO A G367405 ROMAN', '1', '43', '0', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1747', '10', '43', '', '1747', '*TILE 33X33 LIMESTONE RBW A G362092ROMAN', '1', '43', '50253', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1748', '10', '43', '', '1748', '*TILE 33X33 LIMESTONECRN A G362159 ROMAN', '1', '43', '50253', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1749', '10', '43', '', '1749', '*TILE 33X33 MANHATTAN BLK A G365412ROMAN', '1', '43', '0', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1750', '10', '43', '', '1750', '*TILE 33X33 MANHATTAN COP G365410 ROMAN', '1', '43', '0', '94545', '104000', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1751', '10', '43', '', '1751', '*TILE 33X33 MANHATTAN STL G365411 ROMAN', '1', '43', '0', '94545', '104000', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1752', '10', '43', '', '1752', '*TILE 33X33 MASONRY GRAF A G365407 ROMAN', '1', '43', '70380', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:29', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1753', '10', '43', '', '1753', '*TILE 33X33 MASONRY VINO A G365405 ROMAN', '1', '43', '70380', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1754', '10', '43', '', '1754', '*TILE 33X33 NATURA ROSSO A G360265 ROMAN', '1', '43', '0', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1755', '10', '43', '', '1755', '*TILE 33X33 PALIMANAN GL A G367009 ROMAN', '1', '43', '57434', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1756', '10', '43', '', '1756', '*TILE 33X33 PORFIDO VINO A G362063 ROMAN', '1', '43', '54676', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1757', '10', '43', '', '1757', '*TILE 33X33 RGRAND GREEN A G360401 ROMAN', '1', '43', '70380', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1758', '10', '43', '', '1758', '*TILE 33X33 TERAIN  BONE A G360404 ROMAN', '1', '43', '63600', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1759', '10', '43', '', '1759', '*TILE 33X33 TERAIN BLACK A G360407 ROMAN', '1', '43', '64251', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1760', '10', '43', '', '1760', '*TILE 33X33 TERAIN BROWN A G360406 ROMAN', '1', '43', '69679', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1761', '10', '43', '', '1761', '*TILE 33X33 TERAIN CREAM A G360405 ROMAN', '1', '43', '64694', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1762', '10', '43', '', '1762', '*TILE 33X33 TERRACOTTA PN A G365802ROMAN', '1', '43', '0', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1763', '10', '43', '', '1763', '*TILE 33X33 TRIESTE BRUNO B 36554P ROMAN', '1', '43', '67483', '76364', '84000', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1764', '10', '43', '', '1764', '*TILE 33X33 VARUNA CREMA A 36517P ROMAN', '1', '43', '0', '75455', '83000', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1765', '10', '43', '', '1765', '*TILE 33X33 VARUNA VERDE A 36516P ROMAN', '1', '43', '59520', '71182', '78300', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1766', '10', '43', '', '1766', '*TILE 33X33 VARUNAGRIGIO A 36518P ROMAN', '1', '43', '0', '71182', '78300', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1767', '10', '43', '', '1767', '*TILE 33X33 VENETO BLACK A G362215 ROMAN', '1', '43', '66064', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1768', '10', '43', '', '1768', '*TILE 33X33 VENETO BONE A G362217 ROMAN', '1', '43', '68545', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1769', '10', '43', '', '1769', '*TILE 33X33 VENETO GREY A G362213 ROMAN', '1', '43', '50253', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1770', '10', '43', '', '1770', '*TILE 33X33 VENETO TAUPE A G362214 ROMAN', '1', '43', '50253', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1771', '10', '43', '', '1771', '*TILE 33X33 VENETOMACH A G362225 ROMAN', '1', '43', '50253', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1772', '10', '43', '', '1772', '*TILE 40X40 ALEXA CREMA B G449233 ROMAN', '1', '43', '70019', '82182', '90400', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1773', '10', '43', '', '1773', '*TILE 40X40 ALEXA GRIGIO B G449235 ROMAN', '1', '43', '69266', '82182', '90400', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1774', '10', '43', '', '1774', '*TILE 40X40 ALEXA GRT C G449535 ROMAN', '1', '43', '72131', '86545', '95200', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1775', '10', '43', '', '1775', '*TILE 40X40 CHRYSNT BRWN A G447315 ROMAN', '1', '43', '0', '82182', '90400', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1776', '10', '43', '', '1776', '*TILE 40X40 CHRYSNT HONEY A G447312ROMAN', '1', '43', '59365', '82182', '90400', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1777', '10', '43', '', '1777', 'TILE 20X40 MALAKA BEIGE B W40501 ROMAN', '1', '43', '76920', '88636', '97500', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1778', '10', '43', '', '1778', 'TILE 20X40 MALAKA BONE B W40500 ROMAN', '1', '43', '76920', '88636', '97500', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1779', '10', '43', '', '1779', 'TILE 20X40 MALAKA BROWN C W40540 ROMAN', '1', '43', '79575', '90273', '99300', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1780', '10', '43', '', '1780', 'TILE 20X40 NEAPOLIS BRUNO C W40660 ROMAN', '1', '43', '79920', '87909', '96700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1781', '10', '43', '', '1781', 'TILE 20X40 NEAPOLIS GRGIO C W40662 ROMAN', '1', '43', '76920', '87909', '96700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1782', '10', '43', '', '1782', 'TILE 20X40 NEAPOLIS INVRN E W40632 ROMAN', '1', '43', '84320', '95636', '105200', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1783', '10', '43', '', '1783', 'TILE 20X40 NEAPOLIS PERLA B W40622 ROMAN', '1', '43', '74700', '85182', '93700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1784', '10', '43', '', '1784', 'TILE 20X40 PATRON DOLCE F W40711 ROMAN', '1', '43', '90280', '99273', '109200', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1785', '10', '43', '', '1785', 'TILE 20X40 PATRON FRESCO F W40712 ROMAN', '1', '43', '87280', '99273', '109200', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1786', '10', '43', '', '1786', 'TILE 20X40 PATRON NATURA B W40601 ROMAN', '1', '43', '74700', '85273', '93800', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1787', '10', '43', '', '1787', 'TILE 20X40 POLKA BLACK C W40240 ROMAN', '1', '43', '80109', '87909', '96700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1788', '10', '43', '', '1788', 'TILE 20X40 SERENITY BLACK C W40109 ROMAN', '1', '43', '77454', '90273', '99300', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1789', '10', '43', '', '1789', 'TILE 20X40 SERENITY WHT B W40106 ROMAN', '1', '43', '77699', '85182', '93700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1790', '10', '43', '', '1790', 'TILE 20X40 SERENITYBIANCA B W40160 ROMAN', '1', '43', '75127', '85182', '93700', '0', '0', '0', 'y', '2017-04-24 21:56:30', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1791', '10', '43', '', '1791', 'TILE 20X40 TWINKLE BEIGE B W40207 ROMAN', '1', '43', '77542', '88636', '97500', '0', '0', '0', 'y', '2017-04-24 21:56:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1792', '10', '43', '', '1792', 'TILE 20X40 TWINKLE BLACK C W40209 ROMAN', '1', '43', '79502', '90273', '99300', '0', '0', '0', 'y', '2017-04-24 21:56:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1793', '10', '43', '', '1793', 'TILE 20X40 TWINKLE BROWN C W40208 ROMAN', '1', '43', '79920', '90273', '99300', '0', '0', '0', 'y', '2017-04-24 21:56:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1794', '10', '43', '', '1794', 'TILE 20X40 TWINKLE WHITE B W40206 ROMAN', '1', '43', '77170', '88636', '97500', '0', '0', '0', 'y', '2017-04-24 21:56:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1795', '10', '43', '', '1795', 'TILE 20X40 URBAN CAFE C W40224 ROMAN', '1', '43', '79486', '87909', '96700', '0', '0', '0', 'y', '2017-04-24 21:56:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1796', '10', '43', '', '1796', 'TILE 20X40 URBAN CREMA B W40222 ROMAN', '1', '43', '76910', '88636', '97500', '0', '0', '0', 'y', '2017-04-24 21:56:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1797', '10', '43', '', '1797', 'TILE 20X40 URBAN ORIGINE B W40221 ROMAN', '1', '43', '77700', '85182', '93700', '0', '0', '0', 'y', '2017-04-24 21:56:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1798', '10', '43', '', '1798', 'TILE 20X40 WALTZ BLACK C W40119 ROMAN', '1', '43', '77818', '90273', '99300', '0', '0', '0', 'y', '2017-04-24 21:56:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1799', '10', '43', '', '1799', 'TILE 20X40 WALTZ WHITE B W40116 ROMAN', '1', '43', '77683', '85182', '93700', '0', '0', '0', 'y', '2017-04-24 21:56:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1800', '10', '43', '', '1800', 'TILE 25X50 BRUSSEL NATURA B W52253 ROMAN', '1', '43', '86760', '98000', '107800', '0', '0', '0', 'y', '2017-04-24 21:56:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1801', '10', '43', '', '1801', 'TILE 25X50 BRUSSEL PLTNUM F W52753 ROMAN', '1', '43', '120576', '133727', '147100', '0', '0', '0', 'y', '2017-04-24 21:56:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1802', '10', '43', '', '1802', 'TILE 25X50 HIMALAYA WHITE B W52160 ROMAN', '1', '43', '89760', '98000', '107800', '0', '0', '0', 'y', '2017-04-24 21:56:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1803', '10', '43', '', '1803', 'TILE 25X50 MONTURA BRUNO F W52725 ROMAN', '1', '43', '128954', '133727', '147100', '0', '0', '0', 'y', '2017-04-24 21:56:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1804', '10', '43', '', '1804', 'TILE 25X50 RHPSDY ARANCIO D W52246 ROMAN', '1', '43', '102972', '112455', '123700', '0', '0', '0', 'y', '2017-04-24 21:56:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1805', '10', '43', '', '1805', 'TILE 25X50 RHPSDY BIANCO B W52206 ROMAN', '1', '43', '91330', '98000', '107800', '0', '0', '0', 'y', '2017-04-24 21:56:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1806', '10', '43', '', '1806', 'TILE 25X50 RHPSDY GIALLO D W52244 ROMAN', '1', '43', '103084', '112455', '123700', '0', '0', '0', 'y', '2017-04-24 21:56:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1807', '10', '43', '', '1807', 'TILE 25X50 RHPSDY NERO D W52249 ROMAN', '1', '43', '101533', '112455', '123700', '0', '0', '0', 'y', '2017-04-24 21:56:31', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1808', '10', '43', '', '1808', 'TILE 25X50 RHPSDY ROSSO D W52245 ROMAN', '1', '43', '103084', '123000', '135300', '0', '0', '0', 'y', '2017-04-24 21:56:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1809', '10', '43', '', '1809', 'TILE 25X50 RHPSDY VERDE D W52247 ROMAN', '1', '43', '104932', '112455', '123700', '0', '0', '0', 'y', '2017-04-24 21:56:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1810', '10', '43', '', '1810', 'TILE 25X50 SAVILLE AVORIO B W52224 ROMAN', '1', '43', '86760', '98000', '107800', '0', '0', '0', 'y', '2017-04-24 21:56:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1811', '10', '43', '', '1811', 'TILE 25X50 SAVILLE FEMME E W52274 ROMAN', '1', '43', '109902', '123182', '135500', '0', '0', '0', 'y', '2017-04-24 21:56:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1812', '10', '43', '', '1812', 'TILE 25X50 SAVILLE PERLA B W52226 ROMAN', '1', '43', '87105', '98000', '107800', '0', '0', '0', 'y', '2017-04-24 21:56:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1813', '10', '43', '', '1813', 'TILE 25X50 SAVILLE VIRILE E W52276 ROMAN', '1', '43', '109902', '123182', '135500', '0', '0', '0', 'y', '2017-04-24 21:56:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1814', '10', '43', '', '1814', 'TILE 25X50 STRENNA LSTRA B W52223 ROMAN', '1', '43', '84520', '98000', '107800', '0', '0', '0', 'y', '2017-04-24 21:56:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1815', '10', '43', '', '1815', 'TILE 25X50 STRENNA MISTO F W52723 ROMAN', '1', '43', '118867', '133727', '147100', '0', '0', '0', 'y', '2017-04-24 21:56:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1816', '10', '43', '', '1816', 'TILE 33X33 ADELAIDE BONE A G362240 ROMAN', '1', '43', '74716', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1817', '10', '43', '', '1817', 'TILE 33X33 ADELAIDE COFF A G362242 ROMAN', '1', '43', '68403', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1818', '10', '43', '', '1818', 'TILE 33X33 ADELAIDE CRM A G362241 ROMAN', '1', '43', '74466', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1819', '10', '43', '', '1819', 'TILE 33X33 ADELAIDE SMK A G362243 ROMAN', '1', '43', '73745', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1820', '10', '43', '', '1820', 'TILE 33X33 ADELAIDE STN A G362244 ROMAN', '1', '43', '77975', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:32', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1821', '10', '43', '', '1821', 'TILE 33X33 BORNEO BAY A G362162 ROMAN', '1', '43', '74557', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1822', '10', '43', '', '1822', 'TILE 33X33 BORNEO BONE A G362161 ROMAN', '1', '43', '70380', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1823', '10', '43', '', '1823', 'TILE 33X33 BORNEO GRFT A G362163 ROMAN', '1', '43', '60342', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1824', '10', '43', '', '1824', 'TILE 33X33 BORNEO SAND A G362160 ROMAN', '1', '43', '74018', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1825', '10', '43', '', '1825', 'TILE 33X33 CALCADA GRG AB G360213 ROMAN', '1', '43', '73745', '83818', '92200', '0', '0', '0', 'y', '2017-04-24 21:56:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1826', '10', '43', '', '1826', 'TILE 33X33 D\'ACERA CREMA A G360410 ROMAN', '1', '43', '75839', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1827', '10', '43', '', '1827', 'TILE 33X33 D\'ACERA GRGIO A G360412 ROMAN', '1', '43', '74726', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1828', '10', '43', '', '1828', 'TILE 33X33 D\'ACERA ROSSO A G360411 ROMAN', '1', '43', '73745', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1829', '10', '43', '', '1829', 'TILE 33X33 D\'ALLEY BROWN A G360408 ROMAN', '1', '43', '74726', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1830', '10', '43', '', '1830', 'TILE 33X33 D\'ALLEY GREY A G360409 ROMAN', '1', '43', '73745', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1831', '10', '43', '', '1831', 'TILE 33X33 DCORAL BRUNO AB G360210 ROMAN', '1', '43', '73745', '83818', '92200', '0', '0', '0', 'y', '2017-04-24 21:56:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1832', '10', '43', '', '1832', 'TILE 33X33 DCORAL PERLA AB G360211 ROMAN', '1', '43', '76745', '83818', '92200', '0', '0', '0', 'y', '2017-04-24 21:56:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1833', '10', '43', '', '1833', 'TILE 33X33 GRANITY ALM A G362050 ROMAN', '1', '43', '69564', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1834', '10', '43', '', '1834', 'TILE 33X33 HAWAII BRUNO A G367404 ROMAN', '1', '43', '73639', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1835', '10', '43', '', '1835', 'TILE 33X33 HAWAII IVORY A G367400 ROMAN', '1', '43', '73745', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1836', '10', '43', '', '1836', 'TILE 33X33 HAWAII PERLA  A G367402 ROMAN', '1', '43', '73946', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:33', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1837', '10', '43', '', '1837', 'TILE 33X33 HAWAII SAND A G367401 ROMAN', '1', '43', '74123', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1838', '10', '43', '', '1838', 'TILE 33X33 MANHATTAN GRY A G365413 ROMAN', '1', '43', '70380', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1839', '10', '43', '', '1839', 'TILE 33X33 PAVE BRUNO AB G360218 ROMAN', '1', '43', '0', '83818', '92200', '0', '0', '0', 'y', '2017-04-24 21:56:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1840', '10', '43', '', '1840', 'TILE 33X33 PAVE GRIGIO AB G360217 ROMAN', '1', '43', '73745', '83818', '92200', '0', '0', '0', 'y', '2017-04-24 21:56:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1841', '10', '43', '', '1841', 'TILE 33X33 RGRANDE BROWN A G360400 ROMAN', '1', '43', '74726', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1842', '10', '43', '', '1842', 'TILE 33X33 RGRANDE GRPHT A G360402 ROMAN', '1', '43', '74607', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1843', '10', '43', '', '1843', 'TILE 33X33 SANDSTONE BN A G367001 ROMAN', '1', '43', '73745', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1844', '10', '43', '', '1844', 'TILE 33X33 SANDSTONE CRM A G367000 ROMAN', '1', '43', '61151', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1845', '10', '43', '', '1845', 'TILE 33X33 SIERA GARNET A G365022 ROMAN', '1', '43', '74726', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1846', '10', '43', '', '1846', 'TILE 33X33 SIERA GREY A G365023 ROMAN', '1', '43', '74491', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1847', '10', '43', '', '1847', 'TILE 33X33 STRATA BEIGE A G365028 ROMAN', '1', '43', '74384', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1848', '10', '43', '', '1848', 'TILE 33X33 STRATA BLACK A G365029 ROMAN', '1', '43', '76745', '84273', '92700', '0', '0', '0', 'y', '2017-04-24 21:56:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1849', '10', '43', '', '1849', 'TILE 33X33 VEREDA SAND AB G360216 ROMAN', '1', '43', '0', '83818', '92200', '0', '0', '0', 'y', '2017-04-24 21:56:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1850', '10', '43', '', '1850', 'TILE 33X33 VRDA QUARTZ AB G360215 ROMAN', '1', '43', '76745', '83818', '92200', '0', '0', '0', 'y', '2017-04-24 21:56:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1851', '10', '43', '', '1851', 'TILE 40X40 AVND CMENTO AS GL448030 ROMAN', '1', '43', '73352', '87909', '96700', '0', '0', '0', 'y', '2017-04-24 21:56:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1852', '10', '43', '', '1852', 'TILE 40X40 CHRYSNT BONE A G447311 ROMAN', '1', '43', '72637', '82182', '90400', '0', '0', '0', 'y', '2017-04-24 21:56:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1853', '10', '43', '', '1853', 'TILE 40X40 CHRYSNT GREY A G447314 ROMAN', '1', '43', '74959', '82182', '90400', '0', '0', '0', 'y', '2017-04-24 21:56:34', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1854', '10', '43', '', '1854', 'TILE 40X40 NVRRE COPPER C G449539 ROMAN', '1', '43', '78726', '86545', '95200', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1855', '10', '43', '', '1855', 'TILE 40X40 NVRRE GRIGIO C G449540 ROMAN', '1', '43', '78761', '86545', '95200', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1856', '10', '43', '', '1856', 'TILE 40X40 NVRRE IVORY B G449339 ROMAN', '1', '43', '74726', '82182', '90400', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1857', '10', '43', '', '1857', 'TILE 40X40 NVRRE PERLA B G449340 ROMAN', '1', '43', '74721', '82182', '90400', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1858', '10', '43', '', '1858', 'TILE 40X40 PAVILION BCH B G447307 ROMAN', '1', '43', '71851', '82182', '90400', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1859', '10', '43', '', '1859', 'TILE 40X40 PAVILION MHY B G447308 ROMAN', '1', '43', '71851', '82182', '90400', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1860', '10', '44', '', '1860', '*GRANIT 60X60 W-610 NTRL WHITE SANDIMAS', '1', '45', '128599', '146455', '161100', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1861', '10', '44', '', '1861', 'GRANIT 60X60 ALPINE SANDIMAS', '1', '45', '134801', '150000', '165000', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1862', '10', '44', '', '1862', 'GRANIT 60X60 ATLANTA SANDIMAS', '1', '45', '175497', '195000', '214500', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1863', '10', '44', '', '1863', 'GRANIT 60X60 B-658 ROCKY SANDIMAS', '1', '45', '134836', '150000', '165000', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1864', '10', '44', '', '1864', 'GRANIT 60X60 B-659 FUJI SANDIMAS', '1', '45', '134836', '146545', '161200', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1865', '10', '44', '', '1865', 'GRANIT 60X60 D610 BLACK SANDIMAS', '1', '45', '177319', '191909', '211100', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1866', '10', '44', '', '1866', 'GRANIT 60X60 WHITE FUJI SANDIMAS', '1', '45', '129600', '150000', '165000', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1867', '11', '45', '', '1867', 'CAT TB.BASE A 5KG  A912-T912A CATYLAC', '1', '46', '118996', '153636', '169000', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1868', '11', '45', '', '1868', 'CAT TB.BASE B 5KG  A912-T912B CATYLAC', '1', '46', '109710', '141818', '156000', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1869', '11', '45', '', '1869', 'CAT TB.BASE C 5KG  A912-T912C CATYLAC', '1', '46', '89889', '115909', '127500', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1870', '11', '45', '', '1870', 'CAT TB.BASE D 5KG  A912-T912D CATYLAC', '1', '46', '85728', '110455', '121500', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1871', '11', '45', '', '1871', 'CAT TBK BASE C 2,5L A9220T922C PENTALITE', '1', '46', '87311', '110909', '122000', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1872', '11', '45', '', '1872', 'CAT TBK BASE C 5KG  A9110T911C CATYLAC', '1', '46', '76184', '98182', '108000', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1873', '11', '45', '', '1873', 'CAT TBK BASE D 5KG  A9110T911D CATYLAC', '1', '46', '71616', '92273', '101500', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1874', '11', '45', '', '1874', 'CAT TBK BASE B 2,5L A9220T922B PENTALITE', '1', '46', '94742', '120455', '132500', '0', '0', '0', 'y', '2017-04-24 21:56:35', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1875', '11', '45', '', '1875', 'CAT TBK BASE B 20L A9220T922B PENTALITE', '1', '46', '560581', '801364', '881500', '0', '0', '0', 'y', '2017-04-24 21:56:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1876', '11', '45', '', '1876', 'CAT TBK BASE A 20L A9180T918A WS.PRO', '1', '46', '1321952', '1676364', '1844000', '0', '0', '0', 'y', '2017-04-24 21:56:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1877', '11', '45', '', '1877', 'CAT TBK BASE D 20L A9180T918D WS.PRO', '1', '46', '943737', '1315909', '1447500', '0', '0', '0', 'y', '2017-04-24 21:56:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1878', '11', '45', '', '1878', 'CAT TBK BASE D 25KG  A9110T911D CATYLAC', '1', '46', '259423', '443636', '488000', '0', '0', '0', 'y', '2017-04-24 21:56:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1879', '11', '45', '', '1879', 'CAT TBK BASE D 20L A9220T922D PENTALITE', '1', '46', '563408', '714545', '786000', '0', '0', '0', 'y', '2017-04-24 21:56:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1880', '11', '45', '', '1880', 'CAT TBK BASE A 20L A9220T922A PENTALITE', '1', '46', '788927', '1000455', '1100500', '0', '0', '0', 'y', '2017-04-24 21:56:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1881', '11', '45', '', '1881', 'CAT TBK BASE B 2,5L A9180T918B WS.PRO', '1', '46', '168905', '214545', '236000', '0', '0', '0', 'y', '2017-04-24 21:56:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1882', '11', '45', '', '1882', 'CAT TBK BASE A 25KG  A9110T911A CATYLAC', '1', '46', '384756', '495909', '545500', '0', '0', '0', 'y', '2017-04-24 21:56:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1883', '11', '45', '', '1883', 'CAT TBK BASE C 20L A9180T918C WS.PRO', '1', '46', '1098626', '1393182', '1532500', '0', '0', '0', 'y', '2017-04-24 21:56:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1884', '11', '45', '', '1884', 'CAT TBK BASE C 20L A9220T922C PENTALITE', '1', '46', '521948', '776818', '854500', '0', '0', '0', 'y', '2017-04-24 21:56:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1885', '11', '45', '', '1885', 'CAT TBK BASE B 20L A9180T918B WS.PRO', '1', '46', '1213735', '1539091', '1693000', '0', '0', '0', 'y', '2017-04-24 21:56:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1886', '11', '45', '', '1886', 'CAT TBK BASE A 2,5L A9220T922A PENTALITE', '1', '46', '110098', '140000', '154000', '0', '0', '0', 'y', '2017-04-24 21:56:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1887', '11', '45', '', '1887', 'CAT TBK BASE D 2,5L A9220T922D PENTALITE', '1', '46', '81046', '103182', '113500', '0', '0', '0', 'y', '2017-04-24 21:56:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1888', '11', '45', '', '1888', 'CAT TBK BASE A 2,5L A9180T918A WS.PRO', '1', '46', '183703', '233182', '256500', '0', '0', '0', 'y', '2017-04-24 21:56:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1889', '11', '45', '', '1889', 'CAT TBK BASE A 5KG  A9110T911A CATYLAC', '1', '46', '79936', '103182', '113500', '0', '0', '0', 'y', '2017-04-24 21:56:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1890', '11', '45', '', '1890', 'CAT TBK BASE C 25KG  A9110T911C CATYLAC', '1', '46', '366078', '471818', '519000', '0', '0', '0', 'y', '2017-04-24 21:56:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1891', '11', '45', '', '1891', 'CAT TBK BASE B 25KG  A9110T911B CATYLAC', '1', '46', '375703', '484545', '533000', '0', '0', '0', 'y', '2017-04-24 21:56:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1892', '11', '45', '', '1892', 'CAT TBK BASE C 2,5L A9180T918C WS.PRO', '1', '46', '160527', '203636', '224000', '0', '0', '0', 'y', '2017-04-24 21:56:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1893', '11', '45', '', '1893', 'CAT TB. 18L NEW WHITE JOTAPLAST', '1', '47', '325418', '453636', '499000', '0', '0', '0', 'y', '2017-04-24 21:56:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1894', '11', '45', '', '1894', 'CAT TB. 3,5L NEW WHITE JOTAPLAST', '1', '47', '70612', '98182', '108000', '0', '0', '0', 'y', '2017-04-24 21:56:36', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1895', '11', '45', '', '1895', 'CAT TB.BASE A 18L JOTAPLAST', '1', '47', '316461', '440909', '485000', '0', '0', '0', 'y', '2017-04-24 21:56:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1896', '11', '45', '', '1896', 'CAT TB.BASE B 2,2L MAJ T. BEAUTY SHEEN', '1', '47', '109854', '148818', '163700', '0', '0', '0', 'y', '2017-04-24 21:56:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1897', '11', '45', '', '1897', 'CAT TB.BASE C 18L JOTATOUGH', '1', '47', '276893', '428636', '471500', '0', '0', '0', 'y', '2017-04-24 21:56:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1898', '11', '45', '', '1898', 'CAT TB.BASE C 2,2L MAJ T. BEAUTY SHEEN', '1', '47', '98800', '133636', '147000', '0', '0', '0', 'y', '2017-04-24 21:56:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1899', '11', '45', '', '1899', 'CAT TB.BASE B 2,2L MAJ TRUE BEAUTY MATT', '1', '47', '87577', '118182', '130000', '0', '0', '0', 'y', '2017-04-24 21:56:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1900', '11', '45', '', '1900', 'CAT TB.BASE A 18L MAJ T. BEAUTY SHEEN', '1', '47', '874691', '1185455', '1304000', '0', '0', '0', 'y', '2017-04-24 21:56:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1901', '11', '45', '', '1901', 'CAT TB.BASE A 18L MAJ TRUE BEAUTY MATT', '1', '47', '742774', '985000', '1083500', '0', '0', '0', 'y', '2017-04-24 21:56:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1902', '11', '45', '', '1902', 'CAT TB.BASE A 2,2L MAJ T. BEAUTY SHEEN', '1', '47', '126641', '170909', '188000', '0', '0', '0', 'y', '2017-04-24 21:56:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1903', '11', '45', '', '1903', 'CAT TB.BASE A 2,2L MAJ TRUE BEAUTY MATT', '1', '47', '101227', '136364', '150000', '0', '0', '0', 'y', '2017-04-24 21:56:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1904', '11', '45', '', '1904', 'CAT TB.BASE A 3,5L JOTAPLAST', '1', '47', '69140', '96364', '106000', '0', '0', '0', 'y', '2017-04-24 21:56:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1905', '11', '45', '', '1905', 'CAT TB.BASE A 3,5L JOTATOUGH', '1', '47', '80145', '112727', '124000', '0', '0', '0', 'y', '2017-04-24 21:56:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1906', '11', '45', '', '1906', 'PRIMER 20L MAJESTIC', '1', '47', '551346', '747273', '822000', '0', '0', '0', 'y', '2017-04-24 21:56:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1907', '11', '45', '', '1907', 'CAT TBK BASE A 2,5L JOTASHIELD', '1', '47', '143105', '193636', '213000', '0', '0', '0', 'y', '2017-04-24 21:56:37', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1908', '11', '45', '', '1908', 'MULTICOLOR TINTER 1L HT JOTUN PAINT', '1', '47', '216', '545', '600', '0', '0', '0', 'y', '2017-04-24 21:56:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1909', '11', '45', '', '1909', 'CAT KY/BS 5L BASE B GARDEX GLOSS', '1', '47', '234175', '298636', '328500', '0', '0', '0', 'y', '2017-04-24 21:56:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1910', '11', '45', '', '1910', 'CAT TBK BASE B 2,5L JOTASHIELD EXTREME', '1', '47', '156211', '200000', '220000', '0', '0', '0', 'y', '2017-04-24 21:56:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1911', '11', '45', '', '1911', 'CAT TBK BASE A 20L JOTASHIELD', '1', '47', '1079891', '1463455', '1609800', '0', '0', '0', 'y', '2017-04-24 21:56:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1912', '11', '45', '', '1912', 'CAT KY/BS BASE B 5L GARDEX SEMI GLOSS', '1', '47', '246500', '298636', '328500', '0', '0', '0', 'y', '2017-04-24 21:56:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1913', '11', '45', '', '1913', 'PRIMER 2,5L MAJESTIC', '1', '47', '73582', '98182', '108000', '0', '0', '0', 'y', '2017-04-24 21:56:38', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1914', '11', '45', '', '1914', 'THINNER 0.9LTR GARDEX', '1', '47', '22756', '29091', '32000', '0', '0', '0', 'y', '2017-04-24 21:56:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1915', '11', '45', '', '1915', 'CAT TBK BASE C 20L JOTASHIELD', '1', '47', '943273', '1214545', '1336000', '0', '0', '0', 'y', '2017-04-24 21:56:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1916', '11', '45', '', '1916', 'ALKALI RESISTINGPRIMER 20L 07 JOTASHIELD', '1', '47', '657764', '870909', '958000', '0', '0', '0', 'y', '2017-04-24 21:56:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1917', '11', '45', '', '1917', 'CAT TBK BASE C 2,5L JOTASHIELD EXTREME', '1', '47', '153455', '191818', '211000', '0', '0', '0', 'y', '2017-04-24 21:56:39', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1918', '11', '45', '', '1918', 'MULTICOLOR TINTER 1L RE JOTUN PAINT', '1', '47', '670', '1091', '1200', '0', '0', '0', 'y', '2017-04-24 21:56:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1919', '11', '45', '', '1919', 'MULTICOLOR TINTER 1L ST JOTUN PAINT', '1', '47', '344', '788', '867', '0', '0', '0', 'y', '2017-04-24 21:56:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1920', '11', '45', '', '1920', 'CAT TBK BASE C 2,5L JOTATOUGH', '1', '47', '42109', '57273', '63000', '0', '0', '0', 'y', '2017-04-24 21:56:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1921', '11', '45', '', '1921', 'CAT TBK BASE B 20L JOTASHIELD EXTREME', '1', '47', '1081698', '1410909', '1552000', '0', '0', '0', 'y', '2017-04-24 21:56:40', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1922', '11', '45', '', '1922', 'CAT TBK BASE A 20L JOTASHIELD EXTREME', '1', '47', '1272572', '1591818', '1751000', '0', '0', '0', 'y', '2017-04-24 21:56:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1923', '11', '45', '', '1923', 'CAT TBK BASE C 2,5L JOTASHIELD', '1', '47', '131456', '174091', '191500', '0', '0', '0', 'y', '2017-04-24 21:56:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1924', '11', '45', '', '1924', 'MULTICOLOR TINTER 1L SS JOTUN PAINT', '1', '47', '180', '500', '550', '0', '0', '0', 'y', '2017-04-24 21:56:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1925', '11', '45', '', '1925', 'MULTICOLOR TINTER 1L BS JOTUN PAINT', '1', '47', '246', '545', '600', '0', '0', '0', 'y', '2017-04-24 21:56:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1926', '11', '45', '', '1926', 'UNDERCOAT PRIMER 0.9LT GARDEX', '1', '47', '40955', '51364', '56500', '0', '0', '0', 'y', '2017-04-24 21:56:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1927', '11', '45', '', '1927', 'MULTICOLOR TINTER 1L GO JOTUN PAINT', '1', '47', '670', '1091', '1200', '0', '0', '0', 'y', '2017-04-24 21:56:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1928', '11', '45', '', '1928', 'CAT TBK BASE C 10L JOTATOUGH', '1', '47', '156364', '208545', '229400', '0', '0', '0', 'y', '2017-04-24 21:56:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1929', '11', '45', '', '1929', 'CAT KY/BS 0.9L BASE B GARDEX GLOSS', '1', '47', '46982', '59909', '65900', '0', '0', '0', 'y', '2017-04-24 21:56:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1930', '11', '45', '', '1930', 'CAT KY/BS BASE A 0,9L GARDEX SEMI GLOSS', '1', '47', '50655', '64545', '71000', '0', '0', '0', 'y', '2017-04-24 21:56:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1931', '11', '45', '', '1931', 'CAT KY/BS BASE C 0,9L GARDEX SEMI GLOSS', '1', '47', '43352', '55182', '60700', '0', '0', '0', 'y', '2017-04-24 21:56:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1932', '11', '45', '', '1932', 'CAT KY/BS 0.9L BASE A GARDEX GLOSS', '1', '47', '50652', '64545', '71000', '0', '0', '0', 'y', '2017-04-24 21:56:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1933', '11', '45', '', '1933', 'CAT KY/BS 0.9L BASE C GARDEX GLOSS', '1', '47', '43311', '55182', '60700', '0', '0', '0', 'y', '2017-04-24 21:56:41', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1934', '11', '45', '', '1934', 'CAT TBK BASE A 2,5L JOTATOUGH', '1', '47', '56728', '75636', '83200', '0', '0', '0', 'y', '2017-04-24 21:56:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1935', '11', '45', '', '1935', 'CAT TBK BASE C 20L JOTASHIELD EXTREME', '1', '47', '1004582', '1321818', '1454000', '0', '0', '0', 'y', '2017-04-24 21:56:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1936', '11', '45', '', '1936', 'MULTICOLOR TINTER 1L BV JOTUN PAINT', '1', '47', '220', '545', '600', '0', '0', '0', 'y', '2017-04-24 21:56:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1937', '11', '45', '', '1937', 'CAT GENTENG BASE C 2,5L JOTAROOF', '1', '47', '97442', '131818', '145000', '0', '0', '0', 'y', '2017-04-24 21:56:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1938', '11', '45', '', '1938', 'CAT TBK 20L NEW WHITE JOTAPLAST', '1', '47', '272727', '318727', '350600', '0', '0', '0', 'y', '2017-04-24 21:56:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1939', '11', '45', '', '1939', 'MULTICOLOR TINTER 1L RB JOTUN PAINT', '1', '47', '139', '455', '500', '0', '0', '0', 'y', '2017-04-24 21:56:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1940', '11', '45', '', '1940', 'MULTICOLOR TINTER 1L GS JOTUN PAINT', '1', '47', '499', '909', '1000', '0', '0', '0', 'y', '2017-04-24 21:56:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1941', '11', '45', '', '1941', 'MULTICOLOR TINTER 1L RY JOTUN PAINT', '1', '47', '246', '545', '600', '0', '0', '0', 'y', '2017-04-24 21:56:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1942', '11', '45', '', '1942', 'MULTICOLOR TINTER 1L BD JOTUN PAINT', '1', '47', '498', '909', '1000', '0', '0', '0', 'y', '2017-04-24 21:56:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1943', '11', '45', '', '1943', 'MULTICOLOR TINTER 1L FS JOTUN PAINT', '1', '47', '220', '545', '600', '0', '0', '0', 'y', '2017-04-24 21:56:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1944', '11', '45', '', '1944', 'CAT TBK 1 LITER JOTASHIELD GOLD', '1', '47', '182647', '246182', '270800', '0', '0', '0', 'y', '2017-04-24 21:56:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1945', '11', '45', '', '1945', 'CAT TBK BASE B 20L JOTASHIELD', '1', '47', '1010182', '1300545', '1430600', '0', '0', '0', 'y', '2017-04-24 21:56:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1946', '11', '45', '', '1946', 'CAT TBK 2.5L PRIMER 07 JOTASHIELD', '1', '47', '83541', '112273', '123500', '0', '0', '0', 'y', '2017-04-24 21:56:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1947', '11', '45', '', '1947', 'CAT KY/BS BASE C 5L GARDEX SEMI GLOSS', '1', '47', '222323', '272455', '299700', '0', '0', '0', 'y', '2017-04-24 21:56:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1948', '11', '45', '', '1948', 'CAT TBK BASE A 2,5L JOTASHIELD EXTREME', '1', '47', '165084', '213636', '235000', '0', '0', '0', 'y', '2017-04-24 21:56:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1949', '11', '45', '', '1949', 'CAT TBK BASE A 2,5L JOTAPLAST', '1', '47', '40000', '57136', '62850', '0', '0', '0', 'y', '2017-04-24 21:56:42', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1950', '11', '45', '', '1950', 'CAT KY/BS BASE A 5L GARDEX SEMI GLOSS', '1', '47', '259869', '331455', '364600', '0', '0', '0', 'y', '2017-04-24 21:56:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1951', '11', '45', '', '1951', 'CAT KY/BS 5L BASE C GARDEX GLOSS', '1', '47', '210182', '272455', '299700', '0', '0', '0', 'y', '2017-04-24 21:56:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1952', '11', '45', '', '1952', 'MULTICOLOR TINTER 1L RS JOTUN PAINT', '1', '47', '836', '1273', '1400', '0', '0', '0', 'y', '2017-04-24 21:56:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1953', '11', '45', '', '1953', 'MULTICOLOR TINTER 1L GV JOTUN PAINT', '1', '47', '245', '545', '600', '0', '0', '0', 'y', '2017-04-24 21:56:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1954', '11', '45', '', '1954', 'MULTICOLOR TINTER 1L GI JOTUN PAINT', '1', '47', '244', '545', '600', '0', '0', '0', 'y', '2017-04-24 21:56:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1955', '11', '45', '', '1955', 'MULTICOLOR TINTER 1L SV JOTUN PAINT', '1', '47', '143', '455', '500', '0', '0', '0', 'y', '2017-04-24 21:56:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1956', '11', '45', '', '1956', 'CAT KY/BS 5L BASE A GARDEX GLOSS', '1', '47', '259869', '331455', '364600', '0', '0', '0', 'y', '2017-04-24 21:56:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1957', '11', '45', '', '1957', 'CAT KY/BS BASE B 0,9L GARDEX SEMI GLOSS', '1', '47', '46981', '59909', '65900', '0', '0', '0', 'y', '2017-04-24 21:56:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1958', '11', '45', '', '1958', 'CAT TBK BASE B 2,5L JOTASHIELD', '1', '47', '135437', '183455', '201800', '0', '0', '0', 'y', '2017-04-24 21:56:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1959', '11', '45', '', '1959', 'CAT KY/BS BASE 0,9L YELL GARDEX P.GLOSS', '1', '47', '60207', '76364', '84000', '0', '0', '0', 'y', '2017-04-24 21:56:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1960', '11', '45', '', '1960', 'MULTICOLOR TINTER 1L BC JOTUN PAINT', '1', '47', '1478', '2364', '2600', '0', '0', '0', 'y', '2017-04-24 21:56:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1961', '11', '45', '', '1961', 'MULTICOLOR TINTER 1L YC JOTUN PAINT', '1', '47', '1494', '2364', '2600', '0', '0', '0', 'y', '2017-04-24 21:56:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1962', '11', '45', '', '1962', 'CAT TBK 2.5L NEW WHITE JOTAPLAST', '1', '47', '42182', '47455', '52200', '0', '0', '0', 'y', '2017-04-24 21:56:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1963', '11', '45', '', '1963', 'POLITUR 1L WS 502 PALISANDER MOWILEX', '1', '48', '48473', '59455', '65400', '0', '0', '0', 'y', '2017-04-24 21:56:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1964', '11', '45', '', '1964', 'POLITUR 1L WS 504 AKASIA MOWILEX', '1', '48', '53773', '59455', '65400', '0', '0', '0', 'y', '2017-04-24 21:56:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1965', '11', '45', '', '1965', 'POLITUR 1L WS CLEAR FINISH MOWILEX', '1', '48', '52590', '59455', '65400', '0', '0', '0', 'y', '2017-04-24 21:56:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1966', '11', '45', '', '1966', 'POLITUR 1L WS 403 CHERRY MOWILEX', '1', '48', '54648', '59455', '65400', '0', '0', '0', 'y', '2017-04-24 21:56:43', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1967', '11', '45', '', '1967', 'POLITUR 1L WS 503 WALNUT MOWILEX', '1', '48', '54648', '59455', '65400', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1968', '11', '45', '', '1968', 'WOOD FILLER 5KG SH 113 RAMIN IMPRA', '1', '49', '0', '131818', '145000', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1969', '11', '45', '', '1969', 'WOOD STAIN WS 162B DARK MAHONY 1LT IMPRA', '1', '49', '54932', '59545', '65500', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1970', '11', '45', '', '1970', 'STONE CARE  1KG(1LTR) SC050SB PROPAN', '1', '49', '48789', '61818', '68000', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1971', '11', '45', '', '1971', 'WOOD CARE T.TEAK EDL601 1LT ULTRAN LASUR', '1', '49', '50237', '75000', '82500', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1972', '11', '45', '', '1972', 'WOOD STAIN 1LT PWS0631 CLR.GLOSS PROPAN', '1', '49', '0', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1973', '11', '45', '', '1973', 'WOOD FILLER WP 117 WHT 1KG IMPRA', '1', '49', '34025', '36818', '40500', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1974', '11', '45', '', '1974', 'WOOD STAIN WS 162B SALAK BRWN 1LT IMPRA', '1', '49', '44289', '59545', '65500', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1975', '11', '45', '', '1975', 'WOOD FILLER 5KG WF 115 MERBAU IMPRA', '1', '49', '0', '131818', '145000', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1976', '11', '45', '', '1976', 'POLITUR P003 NATURAL GLOSS 1LT ULTRAN', '1', '49', '56390', '66364', '73000', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1977', '11', '45', '', '1977', 'WOOD FILLER SH 114 WHT 1KG IMPRA', '1', '49', '33807', '37727', '41500', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1978', '11', '45', '', '1978', 'WOOD FILLER SH 113 RAMIN 1KG IMPRA', '1', '49', '19394', '29545', '32500', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1979', '11', '45', '', '1979', 'WOOD FILLER SH 113 TEAK 1KG IMPRA', '1', '49', '26785', '29545', '32500', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1980', '11', '45', '', '1980', 'POLITUR P001 TEAK 1LT ULTRAN', '1', '49', '47553', '51364', '56500', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1981', '11', '45', '', '1981', 'POLITUR P003 UV MAHONY 1LT ULTRAN', '1', '49', '35050', '55909', '61500', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1982', '11', '45', '', '1982', 'POLITUR P001 CLEAR DOF 1LT ULTRAN', '1', '49', '35138', '51364', '56500', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1983', '11', '45', '', '1983', 'WOOD FILLER 5KG SH 113 SUNGKAI IMPRA', '1', '49', '0', '131818', '145000', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1984', '11', '45', '', '1984', 'POLITUR P001 BROWN AR 1LT ULTRAN', '1', '49', '33403', '51364', '56500', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1985', '11', '45', '', '1985', 'WOOD STAIN WS 162B ROTAN BRWN 1LT IMPRA', '1', '49', '44148', '54091', '59500', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1986', '11', '45', '', '1986', 'POLITUR P003 UV SOLAR YELLOW 1LT ULTRAN', '1', '49', '46682', '55909', '61500', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1987', '11', '45', '', '1987', 'WOOD STAIN 1LT PWS0631 DARKBROWN PROPAN', '1', '49', '0', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1988', '11', '45', '', '1988', 'AQUA POLITUR 1LT CLEAR GLOSS ULTRAN', '1', '49', '40378', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1989', '11', '45', '', '1989', 'POLITUR P003 NATURAL DOF 1LT ULTRAN', '1', '49', '51000', '66364', '73000', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1990', '11', '45', '', '1990', 'WOOD STAIN WS 162B C.BRWN CA 1LT IMPRA', '1', '49', '44752', '54091', '59500', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1991', '11', '45', '', '1991', 'WOOD STAIN1LT PWS0631 CLR.DOFF PROPAN', '1', '49', '0', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1992', '11', '45', '', '1992', 'WOOD STAIN 1LT PWS0631 AKASIA PROPAN', '1', '49', '0', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:56:44', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1993', '11', '45', '', '1993', 'POLITUR P003 UV DARK BROWN 1LT ULTRAN', '1', '49', '36985', '55909', '61500', '0', '0', '0', 'y', '2017-04-24 21:56:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1994', '11', '45', '', '1994', 'WOOD STAIN WS 162B RED MAHONY 1LT IMPRA', '1', '49', '45415', '54091', '59500', '0', '0', '0', 'y', '2017-04-24 21:56:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1995', '11', '45', '', '1995', 'WOOD STAIN 5LT WS 162B LIGHT BRWN IMPRA', '1', '49', '0', '285000', '313500', '0', '0', '0', 'y', '2017-04-24 21:56:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1996', '11', '45', '', '1996', 'AQUA POLITUR 1LT LIGHT WALNUT ULTRAN', '1', '49', '55601', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:56:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1997', '11', '45', '', '1997', 'POLITUR P001 SHP BROWN 1LT ULTRAN', '1', '49', '35796', '51364', '56500', '0', '0', '0', 'y', '2017-04-24 21:56:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1998', '11', '45', '', '1998', 'STONE CARE AQUA 1LT ASC060WB PROPAN', '1', '49', '40105', '58636', '64500', '0', '0', '0', 'y', '2017-04-24 21:56:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('1999', '11', '45', '', '1999', 'POLITUR P003 UV MAIZE 1LT ULTRAN', '1', '49', '34436', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2000', '11', '45', '', '2000', 'WOOD FILLER WF 115 MERBAU 1KG IMPRA', '1', '49', '27750', '29545', '32500', '0', '0', '0', 'y', '2017-04-24 21:56:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2001', '11', '45', '', '2001', 'POLITUR P001 DARK BROWN 1LT ULTRAN', '1', '49', '35796', '51364', '56500', '0', '0', '0', 'y', '2017-04-24 21:56:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2002', '11', '45', '', '2002', 'AQUA POLITUR 1LT CLEAR DOFF ULTRAN', '1', '49', '42074', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:56:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2003', '11', '45', '', '2003', 'WOOD STAIN 5LT WS 162B BRWN KJ IMPRA', '1', '49', '0', '285000', '313500', '0', '0', '0', 'y', '2017-04-24 21:56:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2004', '11', '45', '', '2004', 'POLITUR P001 CLEAR GLOSS 1LT ULTRAN', '1', '49', '47553', '51364', '56500', '0', '0', '0', 'y', '2017-04-24 21:56:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2005', '11', '45', '', '2005', 'WOOD FILLER WF 115 KAMPER 1KG IMPRA', '1', '49', '25014', '29545', '32500', '0', '0', '0', 'y', '2017-04-24 21:56:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2006', '11', '45', '', '2006', 'POLITUR P003 UV TROPICAL TEAK 1LT ULTRAN', '1', '49', '34435', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2007', '11', '45', '', '2007', 'POLITUR P003 UV RED WOOD 1LT ULTRAN', '1', '49', '35796', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2008', '11', '45', '', '2008', 'WOOD STAIN 5LT WS 162B RED MAHONY IMPRA', '1', '49', '0', '253636', '279000', '0', '0', '0', 'y', '2017-04-24 21:56:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2009', '11', '45', '', '2009', 'WOOD FILLER SH 113 SUNGKAI 1KG IMPRA', '1', '49', '19716', '29545', '32500', '0', '0', '0', 'y', '2017-04-24 21:56:45', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2010', '11', '45', '', '2010', 'AQUA POLITUR 1LT AKASIA ULTRAN', '1', '49', '40322', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2011', '11', '45', '', '2011', 'STONE CARE 1 LTR SC070SB B.CANDI PROPAN', '1', '49', '55358', '69545', '76500', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2012', '11', '45', '', '2012', 'WOOD STAIN WS 162B COFFE BRWN 1LT IMPRA', '1', '49', '50205', '59545', '65500', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2013', '11', '45', '', '2013', 'WOOD STAIN 5LT WS 162B C.BRWN CB IMPRA', '1', '49', '0', '253636', '279000', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2014', '11', '45', '', '2014', 'WOOD STAIN 5LT WS 162B DARK BRWN IMPRA', '1', '49', '0', '285000', '313500', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2015', '11', '45', '', '2015', 'WOOD STAIN WS 162B LIGHT BRWN 1LT IMPRA', '1', '49', '46341', '59545', '65500', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2016', '11', '45', '', '2016', 'POLITUR P003 UV BROWN AR 1LT ULTRAN', '1', '49', '35134', '55909', '61500', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2017', '11', '45', '', '2017', 'POLITUR P003 UV SHP BROWN 1LT ULTRAN', '1', '49', '36632', '55909', '61500', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2018', '11', '45', '', '2018', 'WOOD STAIN WS 162B BRWN KJ 1LT IMPRA', '1', '49', '38945', '59545', '65500', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2019', '11', '45', '', '2019', 'AQUA POLITUR 1LT CHERRY ULTRAN', '1', '49', '43125', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2020', '11', '45', '', '2020', 'WOOD STAIN WS 162B DARK BRWN 1LT IMPRA', '1', '49', '54383', '59545', '65500', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2021', '11', '45', '', '2021', 'POLITUR P003 UV WALNUT 1LT ULTRAN', '1', '49', '34435', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2022', '11', '45', '', '2022', 'WOOD CARE WALNUT EL 501 1LT ULTRAN LASUR', '1', '49', '42060', '64091', '70500', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2023', '11', '45', '', '2023', 'AQUA POLITUR 1LT DARK BROWN ULTRAN', '1', '49', '55600', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2024', '11', '45', '', '2024', 'AQUA POLITUR 1LT SHP BROWN ULTRAN', '1', '49', '38921', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2025', '11', '45', '', '2025', 'CAT JALAN 5KG YELLOW 1000WA TENNOKOTE', '1', '49', '155844', '180000', '198000', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2026', '11', '45', '', '2026', 'WOOD STAIN WS 162B WALNUTBRWN 1LT IMPRA', '1', '49', '46136', '54091', '59500', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2027', '11', '45', '', '2027', 'WOOD FILLER 5KG WF 115 KAMPER IMPRA', '1', '49', '0', '131818', '145000', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2028', '11', '45', '', '2028', 'WOOD FILLER 5KG SH 113 TEAK IMPRA', '1', '49', '0', '131818', '145000', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2029', '11', '45', '', '2029', 'WOOD STAIN 1LT PWS0631 WALNUT PROPAN', '1', '49', '0', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2030', '11', '45', '', '2030', 'WOOD STAIN WS 162B COCOA BRWN 1LT IMPRA', '1', '49', '50014', '54091', '59500', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2031', '11', '45', '', '2031', 'WOOD STAIN WS 162B C.BRWN CB 1LT IMPRA', '1', '49', '36895', '54091', '59500', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2032', '11', '45', '', '2032', 'WOOD CARE CRY.RED EL501 1LT ULTRAN LASUR', '1', '49', '44397', '67273', '74000', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2033', '11', '45', '', '2033', 'WOOD CARE C.TEAK EL501 1LT ULTRAN LASUR', '1', '49', '45247', '67273', '74000', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2034', '11', '45', '', '2034', 'WOOD FILLER 5KG SH 114 WHT IMPRA', '1', '49', '0', '173636', '191000', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2035', '11', '45', '', '2035', 'AQUA POLITUR 1LT WALNUT ULTRAN', '1', '49', '55600', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2036', '11', '45', '', '2036', 'WOOD STAIN 5LT WS 162B BLCK IMPRA', '1', '49', '0', '285000', '313500', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2037', '11', '45', '', '2037', 'POLITUR P003 UV TEAK 1LT ULTRAN', '1', '49', '36895', '55909', '61500', '0', '0', '0', 'y', '2017-04-24 21:56:46', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2038', '11', '45', '', '2038', 'CAT TB.BASE PASTEL 2,5L FLAW-LESS', '1', '50', '88519', '118364', '130200', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2039', '11', '45', '', '2039', 'CAT TB.BASE PASTEL 20L FLAW-LESS', '1', '50', '680727', '852818', '938100', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2040', '11', '45', '', '2040', 'CAT TB.BASE TINT 2,5L FLAW-LESS', '1', '50', '82686', '114727', '126200', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2041', '11', '45', '', '2041', 'TINTER 1L PHTHALO GREEN (D) NIPPONPAINT', '1', '50', '151', '159', '175', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2042', '11', '45', '', '2042', 'CAT TBK BASE TINT 20L NIPPON W.BOND', '1', '50', '1115636', '1405455', '1546000', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2043', '11', '45', '', '2043', 'CAT TBK BASE DEEP 20L NIPPON W.BOND', '1', '50', '872898', '1344455', '1478900', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2044', '11', '45', '', '2044', 'CAT TBK BASE TINT 25 KG VINILEX', '1', '50', '401850', '473818', '521200', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2045', '11', '45', '', '2045', 'CAT TBK BASE PASTEL 20L NIPPON W.BOND', '1', '50', '1162181', '1459182', '1605100', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2046', '11', '45', '', '2046', 'CAT TBK 5KG 300 WHITE VINILEX5000', '1', '50', '88103', '103636', '114000', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2047', '11', '45', '', '2047', 'CAT SEMPROT CANDY TONE BLUE 126 PYLOX', '1', '50', '17836', '21364', '23500', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2048', '11', '45', '', '2048', 'CAT TBK BASE TINT 5 KG VINILEX', '1', '50', '84550', '99727', '109700', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2049', '11', '45', '', '2049', 'CAT TBK BASE TINT 2,5L NIPPON W.BOND', '1', '50', '160000', '195273', '214800', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2050', '11', '45', '', '2050', 'CAT KY/BS 0.9L 9109SPR.WHITE B.BRAND1000', '1', '50', '43575', '50909', '56000', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2051', '11', '45', '', '2051', 'ANTI ALKALIPRIMERSEALER 3IN1 2,5L NIPPON', '1', '50', '89980', '100000', '110000', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2052', '11', '45', '', '2052', 'CAT KYBS BASE ACCENT 2.5L NIPON9000 GLOS', '1', '50', '124000', '151364', '166500', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2053', '11', '45', '', '2053', 'CAT KY/BS BASE ACCENT 1L NIPPON9000 GLOS', '1', '50', '61946', '77545', '85300', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2054', '11', '45', '', '2054', 'TINTER 1L TITANIUM WHITE(KX) NIPPONPAINT', '1', '50', '152', '160', '176', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2055', '11', '45', '', '2055', 'CAT TBK BASE ACCENT 1L NIPPON W.BOND', '1', '50', '73980', '92545', '101800', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2056', '11', '45', '', '2056', 'ZINC CHROMATE PRIMR 1KG 3111GRYGRN NIPON', '1', '50', '30132', '34091', '37500', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2057', '11', '45', '', '2057', 'CAT SEMPROT CLEAR 128 PYLOX', '1', '50', '18256', '21364', '23500', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2058', '11', '45', '', '2058', 'CAT TBK BASE ACCENT 2,5L NIPPON W.BOND', '1', '50', '146670', '179364', '197300', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2059', '11', '45', '', '2059', 'TINTER 1L BROWN OXIDE (I) NIPPONPAINT', '1', '50', '109', '115', '126', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2060', '11', '45', '', '2060', 'CAT TBK BASE PASTEL(P) 2,5L SATIN GLO', '1', '50', '122259', '174545', '192000', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2061', '11', '45', '', '2061', 'CAT GENTENG 2.5L NRC831 TILE RED NIPPON', '1', '50', '156412', '181818', '200000', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2062', '11', '45', '', '2062', 'CAT TB.BASE ACCENT 2,5L SPOTLESS', '1', '50', '100432', '139091', '153000', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2063', '11', '45', '', '2063', 'CAT TBK BASE TINT 20L SPOTLESS', '1', '50', '782109', '1089545', '1198500', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2064', '11', '45', '', '2064', 'ALKALI KILLER SEALER WHITE 2,5L NIPPON', '1', '50', '111941', '125000', '137500', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2065', '11', '45', '', '2065', 'TINTER 1L RED (RN) NIPPONPAINT', '1', '50', '573', '602', '662', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2066', '11', '45', '', '2066', 'CAT KY/BS BASE PASTEL 1L NIPON9000 GLOSS', '1', '50', '69857', '87545', '96300', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2067', '11', '45', '', '2067', 'TINTER 1L H.PERF.YELL(AN) NIPPONPAINT', '1', '50', '757', '797', '877', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2068', '11', '45', '', '2068', 'CAT TBK BASE ACCENT 1.5 KG VINILEX', '1', '50', '27702', '38091', '41900', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2069', '11', '45', '', '2069', 'CAT TBK BASE DEEP 2,5L NIPPON W.BOND', '1', '50', '153000', '186727', '205400', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2070', '11', '45', '', '2070', 'CAT SEMPROT RED 138 PYLOX', '1', '50', '17889', '21364', '23500', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2071', '11', '45', '', '2071', 'CAT TBK BASE ACCENT(A) 2,5L SATIN GLO', '1', '50', '108444', '153727', '169100', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2072', '11', '45', '', '2072', 'CAT TBK BASE DEEP 1L SPOTLESS', '1', '50', '48440', '75000', '82500', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2073', '11', '45', '', '2073', 'ZINC CHROMATE PRIMR 5KG 3111GRYGRN NIPON', '1', '50', '142289', '160909', '177000', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2074', '11', '45', '', '2074', 'CAT SEMPROT SILVER 124 P BED PYLOX', '1', '50', '18112', '21364', '23500', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2075', '11', '45', '', '2075', 'CAT TBK BASE DEEP 5 KG VINILEX', '1', '50', '80662', '95273', '104800', '0', '0', '0', 'y', '2017-04-24 21:56:47', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2076', '11', '45', '', '2076', 'CAT TBK BASE PASTEL 2,5L SPOTLESS', '1', '50', '101012', '157455', '173200', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2077', '11', '45', '', '2077', 'TINTER 1L RED OXIDE (F) NIPPONPAINT', '1', '50', '151', '161', '177', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2078', '11', '45', '', '2078', 'CAT TBK BASE TINT(T) 1L SATIN GLO', '1', '50', '30675', '86273', '94900', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2079', '11', '45', '', '2079', 'CAT SEMPROT BROWN 112 PYLOX', '1', '50', '18170', '21364', '23500', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2080', '11', '45', '', '2080', 'CAT TBK BASE TINT 1L SPOTLESS', '1', '50', '51672', '78000', '85800', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2081', '11', '45', '', '2081', 'CAT TBK BASE PASTEL 25 KG VINILEX', '1', '50', '416279', '489455', '538400', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2082', '11', '45', '', '2082', 'CAT TBK BASE PASTEL 2,5L NIPPON W.BOND', '1', '50', '163887', '202545', '222800', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2083', '11', '45', '', '2083', 'CAT KY/BS BASE TINT 2.5L NIPON9000 GLOSS', '1', '50', '96215', '164727', '181200', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2084', '11', '45', '', '2084', 'TINTER 1L MEDIUM YELLOW (T) NIPPONPAINT', '1', '50', '305', '321', '353', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2085', '11', '45', '', '2085', 'CAT TBK BASE DEEP(D) 1L SATIN GLO', '1', '50', '40413', '82545', '90800', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2086', '11', '45', '', '2086', 'CAT TBK BASE PASTEL 5 KG VINILEX', '1', '50', '87420', '103091', '113400', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2087', '11', '45', '', '2087', 'CAT TBK BASE DEEP(D) 2,5L SATIN GLO', '1', '50', '115830', '161091', '177200', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2088', '11', '45', '', '2088', 'CAT SEMPROT RED 101 PYLOX', '1', '50', '18236', '21364', '23500', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2089', '11', '45', '', '2089', 'CAT TBK 25KG 300 WHITE VINILEX5000', '1', '50', '470720', '511364', '562500', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2090', '11', '45', '', '2090', 'CAT KY/BS BASE TINT 1L NIPPON 9000 GLOSS', '1', '50', '53407', '85000', '93500', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2091', '11', '45', '', '2091', 'CAT TBK BASE DEEP 20L SPOTLESS', '1', '50', '536086', '1045545', '1150100', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2092', '11', '45', '', '2092', 'TINTER 1L PHTHALO BLUE (E) NIPPONPAINT', '1', '50', '123', '131', '144', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2093', '11', '45', '', '2093', 'TINTER 1L MAGENTA (V) NIPPONPAINT', '1', '50', '247', '260', '286', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2094', '11', '45', '', '2094', 'CAT TBK BASE DEEP 1L NIPPON W.BOND', '1', '50', '76825', '96273', '105900', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2095', '11', '45', '', '2095', 'TINTER 1L ORGANIC RED (R) NIPPONPAINT', '1', '50', '321', '350', '385', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2096', '11', '45', '', '2096', 'CAT TBK BASE TINT 2,5L SPOTLESS', '1', '50', '113349', '151364', '166500', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2097', '11', '45', '', '2097', 'TINTER 1L RAW UMBER (L) NIPPONPAINT', '1', '50', '95', '100', '110', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2098', '11', '45', '', '2098', 'ZINC CHROMATE PRIMR 1KG 3114 BLACK NIPON', '1', '50', '31185', '34091', '37500', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2099', '11', '45', '', '2099', 'CAT TBK BASE TINT 1.5 KG VINILEX', '1', '50', '35103', '41455', '45600', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2100', '11', '45', '', '2100', 'CAT DUCO 1L 517 PTH CLASIC NIPPE 2000', '1', '50', '55960', '64091', '70500', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2101', '11', '45', '', '2101', 'CAT TBK BASE DEEP 2,5L SPOTLESS', '1', '50', '105147', '145182', '159700', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2102', '11', '45', '', '2102', 'CAT KY/BS0.9L NP666BLACKMATT B.BRAND1000', '1', '50', '43575', '50909', '56000', '0', '0', '0', 'y', '2017-04-24 21:56:48', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2103', '11', '45', '', '2103', 'TINTER 1L CARBAZ. VIOLET (J) NIPPONPAINT', '1', '50', '176', '189', '208', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2104', '11', '45', '', '2104', 'CAT TBK BASE DEEP 25 KG VINILEX', '1', '50', '391909', '452545', '497800', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2105', '11', '45', '', '2105', 'TINTER 1L YELLOW OXIDE (C) NIPPONPAINT', '1', '50', '119', '125', '138', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2106', '11', '45', '', '2106', 'CAT TBK BASE ACCENT 25 KG VINILEX', '1', '50', '343554', '431273', '474400', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2107', '11', '45', '', '2107', 'TINTER 1L ORGANIC YELLOW (A) NIPPONPAINT', '1', '50', '283', '298', '328', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2108', '11', '45', '', '2108', 'CAT TBK BASE PASTEL 1.5 KG VINILEX', '1', '50', '36523', '42636', '46900', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2109', '11', '45', '', '2109', 'TINTER 1L HIGH PERF.RED (HT) NIPPONPAINT', '1', '50', '635', '677', '745', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2110', '11', '45', '', '2110', 'TINTER 1L LAMP BLACK (B) NIPPONPAINT', '1', '50', '81', '85', '94', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2111', '11', '45', '', '2111', 'ANTI ALKALI PRIMERSEALER 3IN1 20L NIPPON', '1', '50', '675000', '750000', '825000', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2112', '11', '45', '', '2112', 'CAT TBK BASE PASTEL 20L SPOTLESS', '1', '50', '785259', '1133455', '1246800', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2113', '11', '45', '', '2113', 'CAT SEMPROT YELLOW 108 PYLOX', '1', '50', '17858', '21364', '23500', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2114', '11', '45', '', '2114', 'CAT SEMPROT SCOTCH LIGHT0YELLOW AUTOLUX', '1', '50', '24486', '32727', '36000', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2115', '11', '45', '', '2115', 'CAT KY/BS BASE PASTEL(P) 1L BEEBRAND1000', '1', '50', '48994', '54909', '60400', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2116', '11', '45', '', '2116', 'CAT KY/BS BASE DEEP(D) 1L BEE BRAND 1000', '1', '50', '44647', '51545', '56700', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2117', '11', '45', '', '2117', 'CAT TBK BASE ACCENT(A) 1L SATIN GLO', '1', '50', '52000', '78818', '86700', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2118', '11', '45', '', '2118', 'CAT TBK BASE PASTEL 1L SPOTLESS', '1', '50', '53548', '81273', '89400', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2119', '11', '45', '', '2119', 'CAT KYBS BASE PASTEL 2.5L NIPON9000 GLOS', '1', '50', '130534', '170818', '187900', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2120', '11', '45', '', '2120', 'CAT TBK BASE TINT(T) 2,5L SATIN GLO', '1', '50', '118325', '168364', '185200', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2121', '11', '45', '', '2121', 'CAT KY/BS BASE TINT(T) 1L BEE BRAND 1000', '1', '50', '47807', '53818', '59200', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2122', '11', '45', '', '2122', 'CAT SEMPROT SCOTCH LIGHT0PINK AUTOLUX', '1', '50', '23485', '32727', '36000', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2123', '11', '45', '', '2123', 'CAT TBK BASE PASTEL 1L NIPPON W.BOND', '1', '50', '82974', '103818', '114200', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2124', '11', '45', '', '2124', 'CAT TBK BASE ACCENT 5 KG VINILEX', '1', '50', '76781', '90727', '99800', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2125', '11', '45', '', '2125', 'CAT TBK BASE TINT 1L NIPPON W.BOND', '1', '50', '0', '100000', '110000', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2126', '11', '45', '', '2126', 'CAT TBK BASE DEEP 1.5 KG VINILEX', '1', '50', '29031', '39273', '43200', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2127', '11', '45', '', '2127', 'CAT SEMPROT GOLD 123 PYLOX', '1', '50', '18508', '21364', '23500', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2128', '11', '45', '', '2128', 'CAT KY/BS BASE ACCENT(A) 1L BEEBRAND1000', '1', '50', '44000', '49364', '54300', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2129', '11', '45', '', '2129', 'CAT TBK BASE ACCENT 20L NIPPON W.BOND', '1', '50', '929324', '1292000', '1421200', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2130', '11', '45', '', '2130', 'CAT KY/BS 0.9L 126 EVERGREEN B.BRAND1000', '1', '50', '43897', '50909', '56000', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2131', '11', '45', '', '2131', 'CAT TBK BASE PASTEL(P) 1L SATIN GLO', '1', '50', '57048', '90000', '99000', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2132', '11', '45', '', '2132', 'CAT DUCO 1L SUPER WHITE NIPPE2000', '1', '50', '54308', '64091', '70500', '0', '0', '0', 'y', '2017-04-24 21:56:49', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2133', '11', '45', '', '2133', 'CAT SEMPROT WHITE 102 P PYLOX', '1', '50', '17910', '21364', '23500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2134', '11', '45', '', '2134', 'CAT JALAN 1KG CR001 YELLOW INDAH', '1', '51', '35108', '50455', '55500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2135', '11', '46', '', '2135', 'WATERPROOF CLEAR 01 1KG ELASTEX', '1', '52', '23427', '41364', '45500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2136', '11', '46', '', '2136', 'WATERPROOF CLEAR 01 20KG ELASTEX', '1', '52', '471212', '706818', '777500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2137', '11', '46', '', '2137', 'WATERPROOF CLEAR 01 4KG ELASTEX', '1', '52', '76906', '155000', '170500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2138', '11', '46', '', '2138', 'WATERPROOF DARKGREY 06 1KG ELASTEX', '1', '52', '23657', '41364', '45500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2139', '11', '46', '', '2139', 'WATERPROOF DARKGREY 06 20KG ELASTEX', '1', '52', '350477', '706818', '777500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2140', '11', '46', '', '2140', 'WATERPROOF DARKGREY 06 4KG ELASTEX', '1', '52', '76869', '155000', '170500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2141', '11', '46', '', '2141', 'WATERPROOF GREY 05 1KG ELASTEX', '1', '52', '20931', '41364', '45500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2142', '11', '46', '', '2142', 'WATERPROOF GREY 05 20KG ELASTEX', '1', '52', '350488', '706818', '777500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2143', '11', '46', '', '2143', 'WATERPROOF GREY 05 4KG ELASTEX', '1', '52', '76868', '155000', '170500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2144', '11', '46', '', '2144', 'WATERPROOF LIGHTGREY 04 1KG ELASTEX', '1', '52', '21730', '41364', '45500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2145', '11', '46', '', '2145', 'WATERPROOF LIGHTGREY 04 20KG ELASTEX', '1', '52', '350400', '706818', '777500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2146', '11', '46', '', '2146', 'WATERPROOF LIGHTGREY 04 4KG ELASTEX', '1', '52', '76907', '155000', '170500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2147', '11', '46', '', '2147', 'WATERPROOF WHITE 02 1KG ELASTEX', '1', '52', '21970', '41364', '45500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2148', '11', '46', '', '2148', 'WATERPROOF WHITE 02 20KG ELASTEX', '1', '52', '350248', '706818', '777500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2149', '11', '46', '', '2149', 'WATERPROOF WHITE 02 4KG ELASTEX', '1', '52', '76909', '155000', '170500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2150', '12', '47', '', '2150', 'SEMEN PUTIH 40KG TIGA RODA', '1', '53', '69763', '80455', '88500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2151', '12', '47', '', '2151', 'WHITE MORTAR 40KG TR-30 TIGA RODA', '1', '53', '67171', '79091', '87000', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2152', '12', '47', '', '2152', 'SEALANT SIKAFLEX CONST GREY 600ML SIKA', '1', '54', '73500', '82273', '90500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2153', '12', '47', '', '2153', 'SEMEN GROUTING SIKAGROUT 215 25KG SIKA', '1', '54', '98500', '115455', '127000', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2154', '12', '47', '', '2154', 'SIKACIM BONDING ADHESIVE 900ML SIKA', '1', '54', '33561', '38636', '42500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2155', '12', '47', '', '2155', 'SIKACIM CONCRETE ADDITIVE 900ML SIKA', '1', '54', '24500', '27727', '30500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2156', '12', '47', '', '2156', 'LEM KUNING 1/2LT RAJAWALI', '1', '55', '18045', '20909', '23000', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2157', '12', '47', '', '2157', 'LEM KUNING 1/4LT RAJAWALI', '1', '55', '11255', '12727', '14000', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2158', '12', '47', '', '2158', 'LEM KUNING 100CC RAJAWALI', '1', '55', '5345', '6364', '7000', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2159', '12', '47', '', '2159', 'LEM KUNING 1LT RAJAWALI', '1', '55', '32527', '35455', '39000', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2160', '12', '47', '', '2160', 'LEM KUNING 4LT RAJAWALI', '1', '55', '116173', '124545', '137000', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2161', '12', '47', '', '2161', 'LEM PIPA PVC 45GR 60CC RAJAWALI', '1', '55', '4273', '5909', '6500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2162', '12', '47', '', '2162', 'LEM PVAC PUTIH 1KG (BESAR) RAJAWALI', '1', '55', '9900', '10455', '11500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2163', '12', '47', '', '2163', 'PENGISI NAT ICE BLUE 1KG 9 AM 50@', '1', '56', '10707', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2164', '12', '47', '', '2164', 'PENGISI NAT CHESNUT 1KG 110 AM50', '1', '56', '10706', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2165', '12', '47', '', '2165', 'PENGUAT MORTAR/BETON 1L AM70', '1', '56', '71883', '91364', '100500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2166', '12', '47', '', '2166', 'PENGISI NAT JADE GREEN 1KG 10 AM 50@', '1', '56', '11206', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2167', '12', '47', '', '2167', 'PENGISI NAT BROWN GINGER 1KG AM53', '1', '56', '6668', '9545', '10500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2168', '12', '47', '', '2168', 'KASA PENGUAT WTRPROOFING 10CMX10M AM612', '1', '56', '8049', '10909', '12000', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2169', '12', '47', '', '2169', 'PENGISI NAT GOLD 1 KG 117 AM 50', '1', '56', '9030', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2170', '12', '47', '', '2170', 'PENGISI NAT SPECIAL GREY 1KG 3.1 AM 50', '1', '56', '10128', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2171', '12', '47', '', '2171', 'PENGISI NAT RED FLAMBOYAN AM53', '1', '56', '6669', '9545', '10500', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2172', '12', '47', '', '2172', 'PENGUAT MORTAR / BETON 10L AM76', '1', '56', '265925', '343636', '378000', '0', '0', '0', 'y', '2017-04-24 21:56:50', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2173', '12', '47', '', '2173', 'PENGISI NAT BURGUNDY 1 KG 126 AM 50', '1', '56', '11745', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2174', '12', '47', '', '2174', 'PENGISI NAT BONE 1KG 106 AM 50@', '1', '56', '10939', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2175', '12', '47', '', '2175', 'PENGISI NAT FROSTY PINK 1KG 33 AM 50@', '1', '56', '0', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2176', '12', '47', '', '2176', 'PENGISI NAT GREY ORCHID AM53', '1', '56', '7024', '9545', '10500', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2177', '12', '47', '', '2177', 'PENGISI NAT CREAM IXIA 1KG AM53', '1', '56', '7192', '9545', '10500', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2178', '12', '47', '', '2178', 'PENGISI NAT BLACK EBONY 1KG AM53', '1', '56', '7056', '9545', '10500', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2179', '12', '47', '', '2179', 'PENGISI NAT BRICK RED 1 KG 37 AM 50', '1', '56', '14818', '20909', '23000', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2180', '12', '47', '', '2180', 'PENGISI NAT BLACK 1 KG 112 AM 50', '1', '56', '11348', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2181', '12', '47', '', '2181', 'PENGISI NAT COCOA 1KG 123 AM50', '1', '56', '10735', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2182', '12', '47', '', '2182', 'PENGISI NAT CREAM LOTUS 1KG AM53', '1', '56', '6914', '9545', '10500', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2183', '12', '47', '', '2183', 'PENGISI NAT LIME GREEN 1KG AM50', '1', '56', '11224', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2184', '12', '47', '', '2184', 'PENGISI NAT PEACH 1KG 116 AM50', '1', '56', '11561', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2185', '12', '47', '', '2185', 'LIQUID GROUT ADDITIVE 1LT AM54', '1', '56', '49520', '63636', '70000', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2186', '12', '47', '', '2186', 'PENGISI NAT VANILA CREAM 1KG 113A AM 50', '1', '56', '10754', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2187', '12', '47', '', '2187', 'PENGISI NAT CREAM 1KG 102 AM50', '1', '56', '10706', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2188', '12', '47', '', '2188', 'PENGISI NAT YELLOW EDELWISH AM53', '1', '56', '7160', '9545', '10500', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2189', '12', '47', '', '2189', 'ACIAN  PREMIUM SKIMCOAT GREY 40KG AM086', '1', '56', '109739', '139091', '153000', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2190', '12', '47', '', '2190', 'PENGUAT MORTAR / BETON 1L AM76', '1', '56', '28306', '36818', '40500', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2191', '12', '47', '', '2191', 'PENGISI NAT SMOKED ROSE 1KG 22 AM 50', '1', '56', '0', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2192', '12', '47', '', '2192', 'PENGISI NAT DARK GREEN 1 KG 12 AM 50', '1', '56', '15888', '20909', '23000', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2193', '12', '47', '', '2193', 'PENGISI NAT GRANITE 1KG 114 AM50', '1', '56', '11496', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2194', '12', '47', '', '2194', 'PENGISI NAT WHITE 1KG 1S AM50', '1', '56', '11276', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2195', '12', '47', '', '2195', 'PENGISI NAT CHINA BLUE 1 KG AM 119 AM50', '1', '56', '8997', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2196', '12', '47', '', '2196', 'PENGISI NAT BLUE CANNA 1KG AM53', '1', '56', '7232', '9545', '10500', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2197', '12', '47', '', '2197', 'PENGISI NAT BLUE ASTER AM53', '1', '56', '6718', '9545', '10500', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2198', '12', '47', '', '2198', 'PENGISI NAT GREEN PINE AM53', '1', '56', '5359', '9545', '10500', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2199', '12', '47', '', '2199', 'PENGISI NAT WHITE JASMINE AM53', '1', '56', '6914', '9545', '10500', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2200', '12', '47', '', '2200', 'PENGISI NAT ALMOND 1KG 125 AM 50', '1', '56', '0', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2201', '12', '47', '', '2201', 'PENGISI NAT GREY SOKA AM53', '1', '56', '7201', '9545', '10500', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2202', '12', '47', '', '2202', 'PENGISI NAT GREEN VANDA AM53', '1', '56', '6802', '9545', '10500', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2203', '12', '47', '', '2203', 'PENGISI NAT TAN 1KG 25 AM 50', '1', '56', '11100', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2204', '12', '47', '', '2204', 'PENGISI NAT LIGHT BROWN 118 AM50', '1', '56', '13801', '20909', '23000', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2205', '12', '47', '', '2205', 'BAHAN PASANG BATA&PLESTER10KG MU0301 MU', '1', '57', '10765', '12273', '13500', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2206', '12', '47', '', '2206', 'PEREKAT KERAMIK DINDING 25KG MU0400 MU', '1', '57', '91857', '110455', '121500', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2207', '12', '47', '', '2207', 'BAHAN PASANG BATA&PLESTER 40KG MU0301 MU', '1', '57', '52246', '65000', '71500', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2208', '12', '47', '', '2208', 'PEREKAT KERAMIK DGN KERAMIK25KG MU480 MU', '1', '57', '171655', '204091', '224500', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2209', '12', '47', '', '2209', 'ACIAN PLESTER&BETON 40KG MU0200 MU', '1', '57', '120472', '143182', '157500', '0', '0', '0', 'y', '2017-04-24 21:56:51', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2210', '12', '47', '', '2210', 'PEREKAT KERAMIK DINDING 10KG MU0400 MU', '1', '57', '39000', '55000', '60500', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2211', '12', '47', '', '2211', 'PEREKAT KERAMIK DGN KERAMIK10KG MU0480MU', '1', '57', '62727', '91818', '101000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2212', '12', '47', '', '2212', 'LARUTAN WATERPROOFING 2KG MU0L500 MU', '1', '57', '100250', '229091', '252000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2213', '12', '47', '', '2213', 'PEREKAT BATA RINGAN 40KG MU0380 MU', '1', '57', '106864', '133182', '146500', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2214', '12', '47', '', '2214', 'PEREKAT KERAMIK STANDART 25KG MU0420 MU', '1', '57', '66753', '79091', '87000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2215', '12', '47', '', '2215', 'ACIAN PUTIH 25KG MU0270 MU', '1', '57', '114425', '129091', '142000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2216', '12', '47', '', '2216', 'SILICONE BLACK DOW CORNING', '1', '58', '27545', '35455', '39000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2217', '12', '47', '', '2217', 'SILICONE BLACK DOW CORNING GP', '1', '58', '22031', '28182', '31000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2218', '12', '47', '', '2218', 'SILICONE CLEAR DOW CORNING', '1', '58', '27545', '35455', '39000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2219', '12', '47', '', '2219', 'SILICONE CLEAR DOW CORNING GP', '1', '58', '22036', '28182', '31000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2220', '12', '47', '', '2220', 'SILICONE WHITE DOW CORNING', '1', '58', '27545', '35455', '39000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2221', '12', '47', '', '2221', 'SILICONE WHITE DOW CORNING GP', '1', '58', '22036', '28182', '31000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2222', '12', '48', '', '2222', 'BLOK AAC 600X200X100MM CITICON', '1', '7', '6187', '8273', '9100', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2223', '12', '48', '', '2223', 'BLOK AAC 600X200X75MM CITICON', '1', '7', '4645', '6182', '6800', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2224', '12', '49', '', '2224', 'GLASS BLOCK BROMO 95053 MULIA', '1', '59', '15727', '19091', '21000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2225', '12', '49', '', '2225', 'GLASS BLOCK CANDI 95054 MULIA', '1', '59', '15727', '19091', '21000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2226', '12', '49', '', '2226', 'GLASS BLOCK DIAMOND 95021 MULIA', '1', '59', '15727', '19091', '21000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2227', '12', '49', '', '2227', 'GLASS BLOCK NET 95050 MULIA', '1', '59', '15727', '19091', '21000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2228', '12', '49', '', '2228', 'GLASS BLOCK OCEAN VIEW 95005 MULIA', '1', '59', '15727', '19091', '21000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2229', '12', '49', '', '2229', 'GLASS BLOCK QUADRA 95001 MULIA', '1', '59', '15727', '19091', '21000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2230', '12', '49', '', '2230', 'GLASS BLOCK TOBA 95052 MULIA', '1', '59', '15727', '19091', '21000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2231', '12', '49', '', '2231', 'GLASS BLOCK VESTA 95009 MULIA', '1', '59', '13409', '19091', '21000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2232', '12', '49', '', '2232', 'GLASS BLOCK WAVE 95002 MULIA', '1', '59', '15727', '19091', '21000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2233', '12', '50', '', '2233', 'TANGGA CALTEX 1,5M QUEEN', '1', '60', '262600', '328636', '361500', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2234', '12', '50', '', '2234', 'TANGGA CALTEX 1,75M QUEEN', '1', '60', '322400', '403182', '443500', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2235', '12', '50', '', '2235', 'TANGGA CALTEX 1M QUEEN', '1', '60', '0', '242273', '266500', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2236', '12', '50', '', '2236', 'TANGGA CALTEX 2,5M QUEEN', '1', '60', '428350', '535455', '589000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2237', '12', '50', '', '2237', 'TANGGA CALTEX 2M QUEEN', '1', '60', '358800', '448636', '493500', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2238', '12', '50', '', '2238', 'TANGGA CALTEX 3,5M QUEEN', '1', '60', '723450', '904545', '995000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2239', '12', '50', '', '2239', 'TANGGA CALTEX 3M QUEEN', '1', '60', '570700', '713636', '785000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2240', '12', '50', '', '2240', 'TANGGA CALTEX 4M QUEEN', '1', '60', '967200', '1209091', '1330000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2241', '12', '50', '', '2241', 'TANGGA LIPAT ALUMINIUM 170 ML-406 DALTON', '1', '22', '408932', '590000', '649000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2242', '12', '50', '', '2242', 'TANGGA LIPAT ALUMINIUM 260 ML-609 DALTON', '1', '22', '0', '1768636', '1945500', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2243', '12', '51', '', '2243', 'WATER TANK PLASTIK BPE-1100L PROFILTANK', '1', '61', '1074153', '1256818', '1382500', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2244', '12', '51', '', '2244', 'WATER TANK PLASTIK BPE-550L PROFILTANK', '1', '61', '416617', '765909', '842500', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2245', '12', '51', '', '2245', 'WATER TANK PLASTIK TDA-1100L PROFILTANK', '1', '61', '1154527', '1358182', '1494000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2246', '12', '51', '', '2246', 'WATER TANK PLASTIK TDA-250L PROFILTANK', '1', '61', '383636', '423636', '466000', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2247', '12', '51', '', '2247', 'WATER TANK PLASTIK TDA-300L PROFILTANK', '1', '61', '416496', '487727', '536500', '0', '0', '0', 'y', '2017-04-24 21:56:52', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2248', '12', '51', '', '2248', 'WATER TANK PLASTIK TDA-550L PROFILTANK', '1', '61', '695000', '767273', '844000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2249', '12', '51', '', '2249', 'WATER TANK PLASTIK TDA-700L PROFILTANK', '1', '61', '792026', '926818', '1019500', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2250', '12', '51', '', '2250', 'WATER TANK PLASTIK TDA-800L PROFILTANK', '1', '61', '900770', '1054545', '1160000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2251', '12', '51', '', '2251', 'WATER TANK SS+KAKI PS-1100 PROFILTANK', '1', '61', '2565455', '3018182', '3320000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2252', '12', '51', '', '2252', 'WATER TANK SS+KAKI PS-1500 PROFILTANK', '1', '61', '2850695', '3334545', '3668000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2253', '12', '51', '', '2253', 'WATER TANK SS+KAKI PS-380 PROFILTANK', '1', '61', '1171428', '1497273', '1647000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2254', '12', '51', '', '2254', 'WATER TANK SS+KAKI PS-550 PROFILTANK', '1', '61', '1553601', '1837727', '2021500', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2255', '12', '51', '', '2255', 'WATER TANK SS+KAKI PS-700 PROFILTANK', '1', '61', '1744850', '2041818', '2246000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2256', '12', '52', '', '2256', 'EXHAUST FAN 10\'\' 25ASB KDK', '1', '62', '600000', '1097727', '1207500', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2257', '12', '52', '', '2257', 'EXHAUST FAN 6\'\' 15AAQ1 KDK', '1', '62', '576019', '854091', '939500', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2258', '12', '52', '', '2258', 'EXHAUST FAN BATHROOM 4\'\' 10EGKA KDK', '1', '62', '350000', '394091', '433500', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2259', '12', '52', '', '2259', 'EXHAUST FAN BATHROOM 4\" 10EGSA KDK', '1', '62', '316364', '352273', '387500', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2260', '12', '52', '', '2260', 'EXHAUST FAN BATHROOM 6\" 15EGKA KDK', '1', '62', '443107', '497727', '547500', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2261', '12', '52', '', '2261', 'EXHAUST FAN BATHROOM 6\" 15EGSA KDK', '1', '62', '414441', '465455', '512000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2262', '12', '52', '', '2262', 'EXHAUST FAN DINDING 10\'\' 25-RQN5 KDK', '1', '62', '305290', '355909', '391500', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2263', '12', '52', '', '2263', 'EXHAUST FAN DINDING 12\'\' 30-RQN5 KDK', '1', '62', '341274', '392727', '432000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2264', '12', '52', '', '2264', 'EXHAUST FAN KITCHEN 10\'\' 25-AUFA KDK', '1', '62', '314393', '728636', '801500', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2265', '12', '52', '', '2265', 'EXHAUST FAN PLAFON 10\'\' 25TGQ2 KDK', '1', '62', '233634', '274091', '301500', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2266', '12', '52', '', '2266', 'EXHAUST FAN PLAFON 8\'\' 20TGQ2 KDK', '1', '62', '218596', '265455', '292000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2267', '12', '52', '', '2267', 'WALL FAN 12\'\' WN30B KDK', '1', '62', '307595', '345909', '380500', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2268', '12', '52', '', '2268', 'WALL FAN 16\'\' WN40B KDK', '1', '62', '328182', '376818', '414500', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2269', '12', '52', '', '2269', 'WALL FAN 2IN1 16\'\' TYPHON WB40L KDK', '1', '62', '562505', '662273', '728500', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2270', '12', '52', '', '2270', 'STAND FAN 20\'\' SPECTEK', '1', '63', '1094455', '1753182', '1928500', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2271', '12', '52', '', '2271', 'STAND FAN 24\'\' SPECTEK', '1', '63', '1231354', '1971818', '2169000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2272', '12', '52', '', '2272', 'WALL FAN 20\'\' SPECTEK', '1', '63', '1066309', '1421818', '1564000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2273', '12', '52', '', '2273', 'WALL FAN 24\'\' SPECTEK', '1', '63', '1185876', '1581364', '1739500', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2274', '12', '52', '', '2274', 'WALL FAN 30\'\' SPECTEK', '1', '63', '1355729', '1807727', '1988500', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2275', '13', '53', '', '2275', '*BASIN TAP GW 03B AER', '1', '64', '49147', '73636', '81000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2276', '13', '53', '', '2276', '*BASIN TAP GW 09C AER', '1', '64', '47727', '195455', '215000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2277', '13', '53', '', '2277', '*BASIN TAP GW 09D AER', '1', '64', '44475', '73636', '81000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2278', '13', '53', '', '2278', '*BASIN TAP MIXER SAG W1 AER', '1', '64', '0', '462727', '509000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2279', '13', '53', '', '2279', '*BASIN TAP SOV 05AF AER', '1', '64', '62500', '110000', '121000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2280', '13', '53', '', '2280', '*BASIN TAP SOV 05AF AER', '1', '64', '54546', '110000', '121000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2281', '13', '53', '', '2281', '*BASIN TAP SOV 05AW AER', '1', '64', '55398', '110000', '121000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2282', '13', '53', '', '2282', '*BASIN TAP SOV 09B W AER', '1', '64', '62500', '110000', '121000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2283', '13', '53', '', '2283', '*BASIN TAP SOV 09BF AER', '1', '64', '59659', '110000', '121000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2284', '13', '53', '', '2284', '*BASIN TAP SOV 09BW AER', '1', '64', '56533', '110000', '121000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2285', '13', '53', '', '2285', '*BASIN TAP SOV 09CF AER', '1', '64', '74929', '110000', '121000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2286', '13', '53', '', '2286', '*BASIN TAP W 5B Z AER', '1', '64', '32386', '49091', '54000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2287', '13', '53', '', '2287', '*BASIN TAP W 5G Z AER', '1', '64', '45455', '63636', '70000', '0', '0', '0', 'y', '2017-04-24 21:56:53', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2288', '13', '53', '', '2288', '*BASIN TAP W9EZ 1/2\" AER', '1', '64', '32386', '49091', '54000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2289', '13', '53', '', '2289', '*BASIN TAP W9FZ 1/2\" AER', '1', '64', '32391', '46364', '51000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2290', '13', '53', '', '2290', '*BASIN TAP WOV 05A AER', '1', '64', '107954', '159091', '175000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2291', '13', '53', '', '2291', '*BASIN TAP WOV 09B AER', '1', '64', '90861', '154545', '170000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2292', '13', '53', '', '2292', '*BASIN TAP WOV 09C AER', '1', '64', '107954', '154545', '170000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2293', '13', '53', '', '2293', 'HAND SHOWER GSH 2 1C AER', '1', '64', '97563', '131818', '145000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2294', '13', '53', '', '2294', 'HAND SHOWER HS 1-1C KOMPLIT AER', '1', '64', '68182', '95455', '105000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2295', '13', '53', '', '2295', 'HAND SHOWER HS 2-1C KOMPLIT AER', '1', '64', '73864', '104545', '115000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2296', '13', '53', '', '2296', 'HAND SHOWER SET CSH 3C AER', '1', '64', '115739', '154545', '170000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2297', '13', '53', '', '2297', 'HAND SHOWER SET FSH 1C AER', '1', '64', '111507', '150000', '165000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2298', '13', '53', '', '2298', 'HAND SHOWER SET FSH 3CW AER', '1', '64', '115739', '154545', '170000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2299', '13', '53', '', '2299', 'HAND SHOWER SET GSH 1C AER', '1', '64', '99431', '131818', '145000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2300', '13', '53', '', '2300', 'HEAD SHOWER WS11 AER', '1', '64', '133296', '177273', '195000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2301', '13', '53', '', '2301', 'HEAD SHOWER WS12 FR AER', '1', '64', '73864', '100000', '110000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2302', '13', '53', '', '2302', 'HEAD SHOWER WS13 AER', '1', '64', '132928', '177273', '195000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2303', '13', '53', '', '2303', 'HEAD SHOWER WS15 AER', '1', '64', '96592', '129091', '142000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2304', '13', '53', '', '2304', 'KITCHEN FAUCET A5LZ AER', '1', '64', '47329', '63636', '70000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2305', '13', '53', '', '2305', 'KITCHEN FAUCET A5MZ AER', '1', '64', '48230', '63636', '70000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2306', '13', '53', '', '2306', 'KITCHEN FAUCET A9GZ AER', '1', '64', '48296', '63636', '70000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2307', '13', '53', '', '2307', 'KITCHEN FAUCET AB 5JZ L AER', '1', '64', '90909', '130000', '143000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2308', '13', '53', '', '2308', 'KITCHEN FAUCET ACR 01B AER', '1', '64', '119319', '168182', '185000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2309', '13', '53', '', '2309', 'KITCHEN FAUCET ACR 03C AER', '1', '64', '105455', '168182', '185000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2310', '13', '53', '', '2310', 'KITCHEN FAUCET GT AOV 01A AER', '1', '64', '113636', '159091', '175000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2311', '13', '53', '', '2311', 'KITCHEN FAUCET GT AOV 09BX AER', '1', '64', '113637', '159091', '175000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2312', '13', '53', '', '2312', 'KITCHEN FAUCET GT AOV 3B AER', '1', '64', '113352', '159091', '175000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2313', '13', '53', '', '2313', 'KITCHEN FAUCET GT AOV 3C AER', '1', '64', '113637', '159091', '175000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2314', '13', '53', '', '2314', 'KITCHEN FAUCET GT HOV 01A AER', '1', '64', '102266', '145455', '160000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2315', '13', '53', '', '2315', 'KITCHEN FAUCET GT HOV 03B AER', '1', '64', '102273', '145455', '160000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2316', '13', '53', '', '2316', 'KITCHEN FAUCET GT HOV 09BX AER', '1', '64', '102273', '145455', '160000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2317', '13', '53', '', '2317', 'KITCHEN FAUCET GT HOV 3C AER', '1', '64', '102273', '145455', '160000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2318', '13', '53', '', '2318', 'KITCHEN FAUCET ROV 01A AER', '1', '64', '79915', '159091', '175000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2319', '13', '53', '', '2319', 'KITCHEN FAUCET ROV 03B AER', '1', '64', '78125', '159091', '175000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2320', '13', '53', '', '2320', 'KITCHEN FAUCET ROV 09BX AER', '1', '64', '79914', '159091', '175000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2321', '13', '53', '', '2321', 'KITCHEN FAUCET ROV 3C AER', '1', '64', '0', '159091', '175000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2322', '13', '53', '', '2322', 'KITCHEN FAUCET VCR 01B AER', '1', '64', '130682', '186364', '205000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2323', '13', '53', '', '2323', 'KITCHEN FAUCET VCR 03C AER', '1', '64', '130682', '186364', '205000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2324', '13', '53', '', '2324', 'KITCHEN FAUCET VOV 01A AER', '1', '64', '124995', '177273', '195000', '0', '0', '0', 'y', '2017-04-24 21:56:54', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2325', '13', '53', '', '2325', 'KITCHEN FAUCET VOV 03B AER', '1', '64', '124809', '177273', '195000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2326', '13', '53', '', '2326', 'KITCHEN FAUCET VOV 09BX AER', '1', '64', '125000', '177273', '195000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2327', '13', '53', '', '2327', 'KITCHEN FAUCET VOV 3C AER', '1', '64', '125000', '177273', '195000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2328', '13', '53', '', '2328', 'PAKET RAILING BAR D 34 + FSH 3C AER', '1', '64', '284091', '404545', '445000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2329', '13', '53', '', '2329', 'PELAMPUNG AIR 1/2\'\' YELLOW/ORANGE AER', '1', '64', '70512', '100000', '110000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2330', '13', '53', '', '2330', 'PELAMPUNG AIR 3/4\'\' ORANGE AER', '1', '64', '79546', '113636', '125000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2331', '13', '53', '', '2331', 'RAIN SHOWER SET MS 1 AER', '1', '64', '1079545', '1542727', '1697000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2332', '13', '53', '', '2332', 'RAIN SHOWER SET MS 2 AER', '1', '64', '1250000', '1522727', '1675000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2333', '13', '53', '', '2333', 'RAIN SHOWER SET MS 3 AER', '1', '64', '1212500', '1522727', '1675000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2334', '13', '53', '', '2334', 'SEAL TAPE 12MMX10M AER', '1', '64', '1192', '5455', '6000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2335', '13', '53', '', '2335', 'SEAL TAPE MERAH 12MMX10M PAK2 AER', '1', '64', '1421', '5455', '6000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2336', '13', '53', '', '2336', 'SELANG FLEXIBLE FA 30 SS AER', '1', '64', '22402', '32727', '36000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2337', '13', '53', '', '2337', 'SELANG FLEXIBLE FA 40 SS AER', '1', '64', '25433', '36364', '40000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2338', '13', '53', '', '2338', 'SELANG FLEXIBLE FA 50 SS AER', '1', '64', '27983', '40909', '45000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2339', '13', '53', '', '2339', 'SELANG FLEXIBLE FH 125 SSA F AER', '1', '64', '36931', '54545', '60000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2340', '13', '53', '', '2340', 'SELANG FLEXIBLE FH 150 SSAF/SACF AER', '1', '64', '45455', '63636', '70000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2341', '13', '53', '', '2341', 'SELANG FLEXIBLE FNS 30SS AER', '1', '64', '22203', '32727', '36000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2342', '13', '53', '', '2342', 'SELANG FLEXIBLE FNS 40SS AER', '1', '64', '25058', '36364', '40000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2343', '13', '53', '', '2343', 'SELANG FLEXIBLE FNS 50SS AER', '1', '64', '27983', '40909', '45000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2344', '13', '53', '', '2344', 'SELANG FLEXIBLE WATERHEATER FW 30 SS AER', '1', '64', '22727', '32727', '36000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2345', '13', '53', '', '2345', 'SELANG FLEXIBLE WATERHEATER FW 40 SS AER', '1', '64', '25569', '36364', '40000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2346', '13', '53', '', '2346', 'SELANG FLEXIBLE WATERHEATER FW 50 SS AER', '1', '64', '27800', '40909', '45000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2347', '13', '53', '', '2347', 'SHOWER MIXER SAG SH2 AER', '1', '64', '269887', '359091', '395000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2348', '13', '53', '', '2348', 'SHOWER MIXER SSV 01 AER', '1', '64', '248012', '354545', '390000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2349', '13', '53', '', '2349', 'SHOWER SPRAY BD03 W WHITE AER', '1', '64', '44566', '64545', '71000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2350', '13', '53', '', '2350', 'SHOWER SPRAY BD04 CHROME AER', '1', '64', '64116', '92727', '102000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2351', '13', '53', '', '2351', 'SHOWER SPRAY SC05 W WHITE AER', '1', '64', '56819', '72727', '80000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2352', '13', '53', '', '2352', 'SHOWER SPRAY SC06 C CHROME AER', '1', '64', '73864', '106364', '117000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2353', '13', '53', '', '2353', 'SHOWER SPRAY SC06 W WHITE AER', '1', '64', '69957', '95455', '105000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2354', '13', '53', '', '2354', 'SHOWER SPRAY SC07 C CHROME AER', '1', '64', '89205', '122727', '135000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2355', '13', '53', '', '2355', 'SHOWER SPRAY SC07 W WHITE AER', '1', '64', '83950', '113636', '125000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2356', '13', '53', '', '2356', 'SHOWER SPRAY SC08 C CHROME AER', '1', '64', '97301', '131818', '145000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2357', '13', '53', '', '2357', 'SHOWER TAP 3WAY TA5LZ AER', '1', '64', '33524', '49091', '54000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2358', '13', '53', '', '2358', 'SHOWER TAP 3WAY TA5MZ AER', '1', '64', '33453', '49091', '54000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2359', '13', '53', '', '2359', 'SHOWER TAP 3WAY TA9GZ AER', '1', '64', '33068', '49091', '54000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2360', '13', '53', '', '2360', 'SHOWER TAP 3WAY TF 01A AER', '1', '64', '73864', '105455', '116000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2361', '13', '53', '', '2361', 'SHOWER TAP 3WAY TF 3B AER', '1', '64', '73864', '105455', '116000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2362', '13', '53', '', '2362', 'SHOWER TAP AR5J AER', '1', '64', '47260', '69091', '76000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2363', '13', '53', '', '2363', 'SHOWER TAP AS5J AER', '1', '64', '48296', '69091', '76000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2364', '13', '53', '', '2364', 'SHOWER TAP SHCR 01B AER', '1', '64', '85227', '121818', '134000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2365', '13', '53', '', '2365', 'SHOWER TAP SHCR 03C AER', '1', '64', '85227', '121818', '134000', '0', '0', '0', 'y', '2017-04-24 21:56:55', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2366', '13', '53', '', '2366', 'SHOWER TAP SHOV 01A AER', '1', '64', '79545', '113636', '125000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2367', '13', '53', '', '2367', 'SHOWER TAP SHOV 09BX AER', '1', '64', '79545', '113636', '125000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2368', '13', '53', '', '2368', 'SHOWER TAP SHOV 3B AER', '1', '64', '78113', '113636', '125000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2369', '13', '53', '', '2369', 'SHOWER TAP SHOV 3C AER', '1', '64', '78113', '113636', '125000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2370', '13', '53', '', '2370', 'SHOWER TAP TR5JF AER', '1', '64', '48295', '69091', '76000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2371', '13', '53', '', '2371', 'SIFON BZ 11/4\'\' AER', '1', '64', '255681', '316364', '348000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2372', '13', '53', '', '2372', 'SIFON LEHER ANGSA 11/4\'\' SS AER', '1', '64', '70055', '95455', '105000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2373', '13', '53', '', '2373', 'SIFON LEHER ANGSA PLASTIK P-W 1 1/4 AER', '1', '64', '18291', '27273', '30000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2374', '13', '53', '', '2374', 'SINK TAP 2 WAY D11A AER', '1', '64', '142041', '195455', '215000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2375', '13', '53', '', '2375', 'SINK TAP 2 WAY D33B AER', '1', '64', '142046', '195455', '215000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2376', '13', '53', '', '2376', 'SINK TAP 2 WAY D33C AER', '1', '64', '142046', '195455', '215000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2377', '13', '53', '', '2377', 'SINK TAP 2 WAY D5LZ AER', '1', '64', '61564', '89091', '98000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2378', '13', '53', '', '2378', 'SINK TAP 2 WAY D5MZ AER', '1', '64', '61563', '89091', '98000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2379', '13', '53', '', '2379', 'SINK TAP 2 WAY D99BX AER', '1', '64', '0', '2000000', '2200000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2380', '13', '53', '', '2380', 'SINK TAP 2 WAY D99BX AER', '1', '64', '142046', '195455', '215000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2381', '13', '53', '', '2381', 'SINK TAP 2 WAY D9GZ AER', '1', '64', '61514', '89091', '98000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2382', '13', '53', '', '2382', 'SINK TAP 2 WAY DC 4B Z AER', '1', '64', '76705', '109091', '120000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2383', '13', '53', '', '2383', 'SINK TAP 2 WAY DC 51 Z AER', '1', '64', '74180', '109091', '120000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2384', '13', '53', '', '2384', 'SINK TAP NOV 09C 1/2\" AER', '1', '64', '51137', '72727', '80000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2385', '13', '53', '', '2385', 'SINK TAP S5LNZ AER', '1', '64', '36932', '52727', '58000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2386', '13', '53', '', '2386', 'SINK TAP S5MNZ AER', '1', '64', '36932', '52727', '58000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2387', '13', '53', '', '2387', 'SINK TAP S9GNZ AER', '1', '64', '36932', '52727', '58000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2388', '13', '53', '', '2388', 'SINK TAP SCR 01 BF AER', '1', '64', '93750', '133636', '147000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2389', '13', '53', '', '2389', 'SINK TAP SCR 01 BN AER', '1', '64', '93750', '133636', '147000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2390', '13', '53', '', '2390', 'SINK TAP SCR 03 CF AER', '1', '64', '93750', '133636', '147000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2391', '13', '53', '', '2391', 'SINK TAP SCR 03 CN AER', '1', '64', '93750', '133636', '147000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2392', '13', '53', '', '2392', 'SINK TAP TC 4B Z AER', '1', '64', '55399', '79091', '87000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2393', '13', '53', '', '2393', 'SINK TAP TC 51 Z AER', '1', '64', '55398', '79091', '87000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2394', '13', '53', '', '2394', 'SINK TAP TOV 01A AER', '1', '64', '88067', '125455', '138000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2395', '13', '53', '', '2395', 'SINK TAP TOV 09BX AER', '1', '64', '88069', '125455', '138000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2396', '13', '53', '', '2396', 'SINK TAP TOV 3B AER', '1', '64', '88069', '125455', '138000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2397', '13', '53', '', '2397', 'SINK TAP TOV 3C AER', '1', '64', '88069', '125455', '138000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2398', '13', '53', '', '2398', '*BASIN TAP B08012 EXCV ONDA', '1', '65', '0', '388636', '427500', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2399', '13', '53', '', '2399', 'SHOWER SPRAY S 75 BCS BLACK ONDA', '1', '65', '41351', '60455', '66500', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2400', '13', '53', '', '2400', 'SHOWER TAP JF020HA ONDA', '1', '65', '43146', '72727', '80000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2401', '13', '53', '', '2401', 'SHOWER SPRAY HEAD SO 212 GCS ONDA', '1', '65', '105954', '130000', '143000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2402', '13', '53', '', '2402', 'FLOOR CLEANOUT 4\'\' FCO ONDA', '1', '65', '0', '196818', '216500', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2403', '13', '53', '', '2403', 'TEE CHROME 1/2\" ONDA', '1', '65', '0', '39091', '43000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2404', '13', '53', '', '2404', 'SELANG AIR PANAS 45 CM ONDA', '1', '65', '19473', '35455', '39000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2405', '13', '53', '', '2405', 'BASIN TAP Y 316 FA ONDA', '1', '65', '41720', '54545', '60000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2406', '13', '53', '', '2406', 'AFFUR WASTAFEL M02108 ONDA', '1', '65', '0', '72273', '79500', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2407', '13', '53', '', '2407', 'BASIN TAP MIXER B39007 EXCV ONDA', '1', '65', '0', '306818', '337500', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2408', '13', '53', '', '2408', 'SHOWER TAP JF080ST ONDA', '1', '65', '35041', '46364', '51000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2409', '13', '53', '', '2409', 'CHECK VALVE KUNINGAN 1\'\' ONDA', '1', '65', '79036', '136818', '150500', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2410', '13', '53', '', '2410', 'HAND SHOWER SET SW08 ONDA', '1', '65', '78846', '118636', '130500', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2411', '13', '53', '', '2411', 'KITCHEN FAUCET GT V 629 TLG ONDA', '1', '65', '66072', '82727', '91000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2412', '13', '53', '', '2412', 'FLOOR DRAIN FLS 04 ONDA', '1', '65', '76172', '100909', '111000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2413', '13', '53', '', '2413', 'SELANG FLEXIBLE HS 30 ONDA', '1', '65', '18112', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2414', '13', '53', '', '2414', 'KITCHEN FAUCET GT B39314 EXCV ONDA', '1', '65', '257144', '311818', '343000', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2415', '13', '53', '', '2415', 'KITCHEN FAUCET GT V 627 CB ONDA', '1', '65', '97886', '120455', '132500', '0', '0', '0', 'y', '2017-04-24 21:56:56', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2416', '13', '53', '', '2416', 'SINK TAP 1/2\'\' A 801 T ONDA', '1', '65', '26827', '35000', '38500', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2417', '13', '53', '', '2417', 'CHECK VALVE KUNINGAN 3/4\'\' ONDA', '1', '65', '50809', '89091', '98000', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2418', '13', '53', '', '2418', 'SHOWER SPRAY S 75 MJS PINK ONDA', '1', '65', '25035', '60455', '66500', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2419', '13', '53', '', '2419', 'SHOWER SPRAY S 75 SCS GREY ONDA', '1', '65', '37228', '60455', '66500', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2420', '13', '53', '', '2420', 'BIB COCK 1/2\" CLS 02 ONDA', '1', '65', '25376', '35909', '39500', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2421', '13', '53', '', '2421', 'SHOWER SPRAY S 75 NCS CREAM ONDA', '1', '65', '43095', '60455', '66500', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2422', '13', '53', '', '2422', 'HEAD SHOWER SW06 ONDA', '1', '65', '37227', '54545', '60000', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2423', '13', '53', '', '2423', 'BIB COCK 1/2\'\' BLK ONDA', '1', '65', '16037', '20909', '23000', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2424', '13', '53', '', '2424', 'BATHTUB MIXER B08001 EXCV ONDA', '1', '65', '0', '397727', '437500', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2425', '13', '53', '', '2425', 'SHOWER TAP SV 10 TG EXCV ONDA', '1', '65', '0', '49091', '54000', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2426', '13', '53', '', '2426', 'HAND SHOWER HEAD SW01 ONDA', '1', '65', '26862', '92727', '102000', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2427', '13', '53', '', '2427', 'SINK TAP 1/2\'\' A 801 TLG ONDA', '1', '65', '48337', '64545', '71000', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2428', '13', '53', '', '2428', 'BRASS GATE VALVE 1/2\'\' ONDA', '1', '65', '36066', '48182', '53000', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2429', '13', '53', '', '2429', 'SINK TAP WSS 1/2\'\' A 811 SU ONDA', '1', '65', '35317', '61818', '68000', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2430', '13', '53', '', '2430', 'HAND SHOWER SET SO 244 PC CHROM ONDA', '1', '65', '66246', '80000', '88000', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2431', '13', '53', '', '2431', 'SINK TAP 1/2\'\' CLS 06 ONDA', '1', '65', '37036', '50455', '55500', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2432', '13', '53', '', '2432', 'BIB COCK 1/2\'\' BLS ONDA', '1', '65', '21236', '27727', '30500', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2433', '13', '53', '', '2433', 'KITCHEN FAUCET GT V 633 SU ONDA', '1', '65', '64909', '97727', '107500', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2434', '13', '53', '', '2434', 'KITCHEN FAUCET GT V 639 CS ONDA', '1', '65', '47536', '71364', '78500', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2435', '13', '53', '', '2435', 'BASIN TAP Y339AU ONDA', '1', '65', '152345', '198182', '218000', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2436', '13', '53', '', '2436', 'BATHTUB TAP A 803 CB ONDA', '1', '65', '71439', '100000', '110000', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2437', '13', '53', '', '2437', 'KITCHEN FAUCET B28314 EXCV ONDA', '1', '65', '0', '335000', '368500', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2438', '13', '53', '', '2438', 'SINK TAP PVC PV 350 GR ONDA', '1', '65', '5154', '7273', '8000', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2439', '13', '53', '', '2439', 'BIB COCK 1/2\'\' BM ONDA', '1', '65', '10393', '13636', '15000', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2440', '13', '53', '', '2440', 'KITCHEN FAUCET GT V 633 CS ONDA', '1', '65', '64909', '97727', '107500', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2441', '13', '53', '', '2441', 'KITCHEN FAUCET GT V633TG ONDA', '1', '65', '71591', '107273', '118000', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2442', '13', '53', '', '2442', 'BASIN TAP MIXER B12001 EXCV ONDA', '1', '65', '0', '386818', '425500', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2443', '13', '53', '', '2443', 'HAND SHOWER SET SO 232 PP PINK ONDA', '1', '65', '61419', '76818', '84500', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2444', '13', '53', '', '2444', 'HAND SHOWER SET SB01 EXCV ONDA', '1', '65', '0', '245909', '270500', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2445', '13', '53', '', '2445', 'BIB COCK A 807 S ONDA', '1', '65', '31310', '40909', '45000', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2446', '13', '53', '', '2446', 'KITCHEN FAUCET GT V637T ONDA', '1', '65', '34254', '41364', '45500', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2447', '13', '53', '', '2447', 'HAND SHOWER SET SO 232 PG GREEN ONDA', '1', '65', '60797', '76818', '84500', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2448', '13', '53', '', '2448', 'KITCHEN FAUCET GT V 638 F ONDA', '1', '65', '49627', '63182', '69500', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2449', '13', '53', '', '2449', 'SHOWER MIXER B0007 EXCV ONDA', '1', '65', '0', '243636', '268000', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2450', '13', '53', '', '2450', 'SINK TAP 1/2\'\' A 822 K ONDA', '1', '65', '23214', '31818', '35000', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2451', '13', '53', '', '2451', 'BIB COCK 1/2\" CLS 01 ONDA', '1', '65', '30163', '39091', '43000', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2452', '13', '53', '', '2452', 'SINK TAP WSS A 811 ST ONDA', '1', '65', '44864', '58636', '64500', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2453', '13', '53', '', '2453', '*KITCHEN FAUCET GT H 88 BU ONDA', '1', '65', '0', '110909', '122000', '0', '0', '0', 'y', '2017-04-24 21:56:57', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2454', '13', '53', '', '2454', 'HAND SHOWER SET SW03 ONDA', '1', '65', '139694', '171818', '189000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2455', '13', '53', '', '2455', 'KITCHEN FAUCET GT V 636 T ONDA', '1', '65', '35891', '43182', '47500', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2456', '13', '53', '', '2456', 'HAND SHOWER SET SW02 ONDA', '1', '65', '68536', '105909', '116500', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2457', '13', '53', '', '2457', 'SINK TAP PV 804 BL ONDA', '1', '65', '3246', '4545', '5000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2458', '13', '53', '', '2458', 'SINK TAP PVC PV 150 ONDA', '1', '65', '4772', '6364', '7000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2459', '13', '53', '', '2459', 'SELANG AIR PANAS 40 CM ONDA', '1', '65', '21952', '31818', '35000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2460', '13', '53', '', '2460', 'BASIN TAP MIXER B05001 EXCV ONDA', '1', '65', '0', '386364', '425000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2461', '13', '53', '', '2461', 'SELANG AIR PANAS 30 CM ONDA', '1', '65', '17369', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2462', '13', '53', '', '2462', 'BASIN TAP MIXER B28012 EXCV ONDA', '1', '65', '0', '361818', '398000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2463', '13', '53', '', '2463', 'SHOWER SPRAY S 75 MCS MARON ONDA', '1', '65', '43526', '60455', '66500', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2464', '13', '53', '', '2464', 'BIB COCK 1/2\'\' BC ONDA', '1', '65', '11995', '15455', '17000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2465', '13', '53', '', '2465', 'BASIN TAP MIXER B29001 EXCV ONDA', '1', '65', '0', '507727', '558500', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2466', '13', '53', '', '2466', 'SINK TAP PV 802 YLS ONDA', '1', '65', '5346', '7273', '8000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2467', '13', '53', '', '2467', 'SINK TAP 1/2\" A 810 CA/T ONDA', '1', '65', '49446', '64545', '71000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2468', '13', '53', '', '2468', 'SINK TAP H 860 BU EXCV ONDA', '1', '65', '0', '129091', '142000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2469', '13', '53', '', '2469', 'FLOOR DRAIN FLS 01 ONDA', '1', '65', '33345', '40909', '45000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2470', '13', '53', '', '2470', 'SHOWER FLEXIBLE HOSE FCHS 150CM ONDA', '1', '65', '41818', '55000', '60500', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2471', '13', '53', '', '2471', 'BASIN TAP Y 318 CA ONDA', '1', '65', '59095', '77727', '85500', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2472', '13', '53', '', '2472', 'KITCHEN FAUCET V634T ONDA', '1', '65', '35472', '44545', '49000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2473', '13', '53', '', '2473', 'SINK TAP PV 804 WH ONDA', '1', '65', '3246', '4545', '5000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2474', '13', '53', '', '2474', 'SINK TAP PV 804 GR ONDA', '1', '65', '3246', '4545', '5000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2475', '13', '53', '', '2475', 'SHOWER SPRAY S 75 BJS IVORY ONDA', '1', '65', '42191', '60455', '66500', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2476', '13', '53', '', '2476', 'SHOWER TAP JF004 BA ONDA', '1', '65', '35700', '48636', '53500', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2477', '13', '53', '', '2477', 'HAND SHOWER SET SO 232 PW WHITE ONDA', '1', '65', '59745', '76818', '84500', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2478', '13', '53', '', '2478', 'SINK TAP PV 802 WHS ONDA', '1', '65', '5376', '7273', '8000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2479', '13', '53', '', '2479', 'KITCHEN FAUCET GT V 628 TLG ONDA', '1', '65', '64130', '86364', '95000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2480', '13', '53', '', '2480', 'SHOWER TAP CA / JF07 1/2\" ONDA', '1', '65', '33002', '48182', '53000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2481', '13', '53', '', '2481', 'BASIN TAP MIXER M03901 EXCV ONDA', '1', '65', '0', '121818', '134000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2482', '13', '53', '', '2482', 'BASIN TAP Y338AU ONDA', '1', '65', '154662', '262727', '289000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2483', '13', '53', '', '2483', 'SINK TAP PV 803 WH ONDA', '1', '65', '7255', '10000', '11000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2484', '13', '53', '', '2484', 'BASIN TAP Y 319 CU ONDA', '1', '65', '53028', '70455', '77500', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2485', '13', '53', '', '2485', 'BASIN TAP Y 321 C ONDA', '1', '65', '60832', '81818', '90000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2486', '13', '53', '', '2486', 'BASIN TAP Y 320 C ONDA', '1', '65', '77337', '140909', '155000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2487', '13', '53', '', '2487', 'KITCHEN FAUCET GT V632CA ONDA', '1', '65', '49190', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2488', '13', '53', '', '2488', 'SHOWER MIXER B22007 EXCV ONDA', '1', '65', '0', '347273', '382000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2489', '13', '53', '', '2489', 'SEAL TAPE YELLOW ONDA', '1', '65', '10451', '15000', '16500', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2490', '13', '53', '', '2490', 'BASIN TAP MIXER W/POP UP B05012EXCV ONDA', '1', '65', '0', '268182', '295000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2491', '13', '53', '', '2491', 'SEAL TAPE 12MMX10M 2PC ONDA', '1', '65', '3820', '10000', '11000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2492', '13', '53', '', '2492', 'FLOOR CLEANOUT 2\'\' FCO ONDA', '1', '65', '52309', '90455', '99500', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2493', '13', '53', '', '2493', 'SINK TAP M03906 EXCV ONDA', '1', '65', '0', '112273', '123500', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2494', '13', '53', '', '2494', 'SINK TAP 1/2\" CLS 03 ONDA', '1', '65', '25963', '39091', '43000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2495', '13', '53', '', '2495', 'KITCHEN FAUCET H868 PJ EXCV ONDA', '1', '65', '108233', '151818', '167000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2496', '13', '53', '', '2496', 'SINK TAP PV 803 GR  ONDA', '1', '65', '7254', '10000', '11000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2497', '13', '53', '', '2497', 'BASIN TAP MIXER B04012 EXCV ONDA', '1', '65', '235733', '303636', '334000', '0', '0', '0', 'y', '2017-04-24 21:56:58', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2498', '13', '53', '', '2498', 'KITCHEN FAUCET GT V 638 CU ONDA', '1', '65', '41864', '55455', '61000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2499', '13', '53', '', '2499', 'KITCHEN FAUCET GT V 639 SU ONDA', '1', '65', '44918', '71364', '78500', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2500', '13', '53', '', '2500', 'BASIN TAP MIXER B39012 EXCV ONDA', '1', '65', '0', '355000', '390500', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2501', '13', '53', '', '2501', 'KITCHEN FAUCET GT V 639 TG ONDA', '1', '65', '66246', '80000', '88000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2502', '13', '53', '', '2502', 'SINK TAP PVC PV 350 BL ONDA', '1', '65', '5154', '7273', '8000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2503', '13', '53', '', '2503', 'BASIN TAP MIXER B04007 EXCV ONDA', '1', '65', '0', '295909', '325500', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2504', '13', '53', '', '2504', 'SINK TAP 2 WAY K 406 CTG ONDA', '1', '65', '55936', '83636', '92000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2505', '13', '53', '', '2505', 'SINK TAP 1/2\" CLS 04 PUTIH ONDA', '1', '65', '23294', '35000', '38500', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2506', '13', '53', '', '2506', 'FLOOR DRAIN FLS 06 ONDA', '1', '65', '77313', '117727', '129500', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2507', '13', '53', '', '2507', 'SINK TAP WSS A 811 S ONDA', '1', '65', '39136', '50909', '56000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2508', '13', '53', '', '2508', 'BASIN TAP MIXER B04001 EXCV ONDA', '1', '65', '0', '415909', '457500', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2509', '13', '53', '', '2509', 'KITCHEN FAUCET B29314 EXCV ONDA', '1', '65', '0', '338182', '372000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2510', '13', '53', '', '2510', 'SEAL TAPE RED ONDA', '1', '65', '4192', '6364', '7000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2511', '13', '53', '', '2511', 'BASIN TAP MIXER B39001 EXCV ONDA', '1', '65', '0', '420000', '462000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2512', '13', '53', '', '2512', 'KITCHEN FAUCET GT H 88 PJ ONDA', '1', '65', '0', '142273', '156500', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2513', '13', '53', '', '2513', 'SINK TAP 3/4\'\' CLS01 ONDA', '1', '65', '30903', '46364', '51000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2514', '13', '53', '', '2514', 'BIB COCK 1/2\'\' BL ONDA', '1', '65', '13970', '18182', '20000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2515', '13', '53', '', '2515', 'BASIN TAP MIXER B28001 EXCV ONDA', '1', '65', '0', '385909', '424500', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2516', '13', '53', '', '2516', 'BASIN TAP MIXER B39018 EXCV ONDA', '1', '65', '0', '341818', '376000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2517', '13', '53', '', '2517', 'KITCHEN FAUCET H 864 TG EXCV ONDA', '1', '65', '0', '113636', '125000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2518', '13', '53', '', '2518', 'SELANG AIR PANAS 60 CM ONDA', '1', '65', '30110', '40909', '45000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2519', '13', '53', '', '2519', 'SINK TAP PVC 1/2\" PV 250 ONDA', '1', '65', '4200', '6364', '7000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2520', '13', '53', '', '2520', 'HEAD SHOWER SW07 ONDA', '1', '65', '19664', '30000', '33000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2521', '13', '53', '', '2521', 'SINK TAP PV 802 GRS ONDA', '1', '65', '5372', '7273', '8000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2522', '13', '53', '', '2522', '*BASIN TAP B12014 EXCV ONDA', '1', '65', '0', '224091', '246500', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2523', '13', '53', '', '2523', 'BRASS GATE VALVE 3/4 ONDA', '1', '65', '47434', '71364', '78500', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2524', '13', '53', '', '2524', 'KITCHEN FAUCET GT V 627 CA ONDA', '1', '65', '102240', '124091', '136500', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2525', '13', '53', '', '2525', 'KITCHEN FAUCET GT H 88 TG ONDA', '1', '65', '0', '140455', '154500', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2526', '13', '53', '', '2526', 'BASIN TAP MIXER B28014 EXCV ONDA', '1', '65', '0', '270455', '297500', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2527', '13', '53', '', '2527', 'SELANG AIR PANAS 35 CM ONDA', '1', '65', '22197', '30000', '33000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2528', '13', '53', '', '2528', 'BIB COCK A 808 H ONDA', '1', '65', '27300', '35455', '39000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2529', '13', '53', '', '2529', 'SHOWER TAP JF030TA ONDA', '1', '65', '18755', '25909', '28500', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2530', '13', '53', '', '2530', 'SINK TAP WSS 1/2\'\' H 818 BU ONDA', '1', '65', '65100', '115455', '127000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2531', '13', '53', '', '2531', 'BASIN TAP MIXER B05014 EXCV ONDA', '1', '65', '0', '246818', '271500', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2532', '13', '53', '', '2532', 'HAND SHOWER SET SO 232 PB BLACK ONDA', '1', '65', '52881', '76818', '84500', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2533', '13', '53', '', '2533', 'SHOWER SPRAY S 75 CCS GREY ONDA', '1', '65', '48573', '65455', '72000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2534', '13', '53', '', '2534', 'SINK TAP PV801 ONDA', '1', '65', '4716', '6364', '7000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2535', '13', '53', '', '2535', 'BASIN TAP Y322C ONDA', '1', '65', '64528', '88182', '97000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2536', '13', '53', '', '2536', 'KITCHEN FAUCET GT H 89 PJ ONDA', '1', '65', '0', '124545', '137000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2537', '13', '53', '', '2537', 'KITCHEN FAUCET GT V 627 TG ONDA', '1', '65', '80181', '120455', '132500', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2538', '13', '53', '', '2538', 'KITCHEN FAUCET M03904 EXCV ONDA', '1', '65', '0', '182727', '201000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2539', '13', '53', '', '2539', 'SHOWER FLEXIBLE HOSE FCHS 130CM ONDA', '1', '65', '39655', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2540', '13', '53', '', '2540', 'KITCHEN FAUCET GT V 638 S ONDA', '1', '65', '38372', '59091', '65000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2541', '13', '53', '', '2541', 'KITCHEN FAUCET GT V 633 F ONDA', '1', '65', '85050', '107273', '118000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2542', '13', '53', '', '2542', 'SINK TAP PV 804 YL ONDA', '1', '65', '3246', '4545', '5000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2543', '13', '53', '', '2543', 'BASIN TAP MIXER B04018 EXCV ONDA', '1', '65', '0', '374545', '412000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2544', '13', '53', '', '2544', 'HAND SHOWER SET SW 10 EXCV ONDA', '1', '65', '126000', '192727', '212000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2545', '13', '53', '', '2545', 'ROOF DRAIN RFS 02 ONDA', '1', '65', '113972', '137273', '151000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2546', '13', '53', '', '2546', 'HAND SHOWER SET SO 255 PW WHITE ONDA', '1', '65', '48006', '59091', '65000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2547', '13', '53', '', '2547', 'BASIN TAP MIXER B05007 EXCV ONDA', '1', '65', '184662', '287273', '316000', '0', '0', '0', 'y', '2017-04-24 21:56:59', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2548', '13', '53', '', '2548', 'BASIN TAP MIXER B29014 EXCV ONDA', '1', '65', '0', '244545', '269000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2549', '13', '53', '', '2549', 'BASIN TAP MIXER B29007 EXCV ONDA', '1', '65', '0', '371818', '409000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2550', '13', '53', '', '2550', 'KITCHEN FAUCET GT V 625 C ONDA', '1', '65', '58800', '88182', '97000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2551', '13', '53', '', '2551', 'SEAL TAPE BLUE ONDA', '1', '65', '4200', '6364', '7000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2552', '13', '53', '', '2552', 'BATHTUB MIXER B22001 EXCV ONDA', '1', '65', '0', '452273', '497500', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2553', '13', '53', '', '2553', 'SINK TAP WSS 1/2\'\' A 811 GA ONDA', '1', '65', '44859', '58636', '64500', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2554', '13', '53', '', '2554', 'KITCHEN FAUCET GT H 87 PJ ONDA', '1', '65', '0', '165455', '182000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2555', '13', '53', '', '2555', 'HAND SHOWER SET SO 232 PN CREAM ONDA', '1', '65', '52859', '76818', '84500', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2556', '13', '53', '', '2556', 'SHOWER SPRAY S 75 BLUE LCS ONDA', '1', '65', '42859', '60455', '66500', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2557', '13', '53', '', '2557', 'KITCHEN FAUCET GT V 633 CB ONDA', '1', '65', '83602', '107273', '118000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2558', '13', '53', '', '2558', 'CHECK VALVE KUNINGAN 1/2\'\' ONDA', '1', '65', '37790', '62727', '69000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2559', '13', '53', '', '2559', 'SHOWER SPRAY S 75 PCS PINK ONDA', '1', '65', '42191', '60455', '66500', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2560', '13', '53', '', '2560', 'PENGUNCI FCO ONDA', '1', '65', '58610', '101364', '111500', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2561', '13', '53', '', '2561', 'KITCHEN FAUCET GT H 89 TG ONDA', '1', '65', '0', '121818', '134000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2562', '13', '53', '', '2562', '*KITCHEN FAUCET SL MIXER B39014EXCV ONDA', '1', '65', '0', '327273', '360000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2563', '13', '53', '', '2563', 'KITCHEN FAUCET GT H 87 TG ONDA', '1', '65', '0', '160000', '176000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2564', '13', '53', '', '2564', 'SINK TAP 2 WAY E 08 BG ONDA', '1', '65', '0', '185909', '204500', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2565', '13', '53', '', '2565', 'BASIN TAP Y323T ONDA', '1', '65', '49424', '73636', '81000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2566', '13', '53', '', '2566', 'KITCHEN FAUCET GT V627LA ONDA', '1', '65', '102900', '124091', '136500', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2567', '13', '53', '', '2567', 'BASIN TAP MIXER B29012 EXCV ONDA', '1', '65', '0', '423636', '466000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2568', '13', '53', '', '2568', 'SHOWER SPRAY TS 01 WHITE ONDA', '1', '65', '38181', '60000', '66000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2569', '13', '53', '', '2569', 'SHOWER SPRAY TS 02 WHITE ONDA', '1', '65', '44065', '66364', '73000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2570', '13', '53', '', '2570', 'HAND SHOWER SET SW05 ONDA', '1', '65', '92400', '111364', '122500', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2571', '13', '53', '', '2571', 'FLOOR DRAIN FLS 03 ONDA', '1', '65', '60316', '74545', '82000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2572', '13', '53', '', '2572', 'KITCHEN FAUCET GT V 639 CA ONDA', '1', '65', '55745', '83636', '92000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2573', '13', '53', '', '2573', 'BIB COCK 3/4\'\' CLS 02 ONDA', '1', '65', '28636', '42727', '47000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2574', '13', '53', '', '2574', 'FOOT KLEP KUNINGAN VF 1\'\' ONDA', '1', '65', '32707', '55000', '60500', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2575', '13', '53', '', '2575', 'SINK TAP PV 803 YL ONDA', '1', '65', '7254', '10000', '11000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2576', '13', '53', '', '2576', 'SINK TAP 1/2\" CLS 04 KUNING ONDA', '1', '65', '23189', '35000', '38500', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2577', '13', '53', '', '2577', 'BIB COCK W/ KEY A 821 K ONDA', '1', '65', '35507', '46364', '51000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2578', '13', '53', '', '2578', 'BALL VALVE 1/2\'\' ONDA', '1', '65', '43584', '59545', '65500', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2579', '13', '53', '', '2579', 'SHOWER SPRAY S 75 HJS GREEN ONDA', '1', '65', '40091', '60455', '66500', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2580', '13', '53', '', '2580', 'KITCHEN FAUCET GT V 627 SU ONDA', '1', '65', '75409', '113182', '124500', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2581', '13', '53', '', '2581', 'FLOOR DRAIN FLS 02 3\" ONDA', '1', '65', '60368', '74545', '82000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2582', '13', '53', '', '2582', 'KITCHEN FAUCET GT V 639 CB ONDA', '1', '65', '65566', '80000', '88000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2583', '13', '53', '', '2583', 'SHOWER SPRAY TS 02 CHROME ONDA', '1', '65', '42000', '66364', '73000', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2584', '13', '53', '', '2584', 'BIB COCK 1/2\'\' BCS ONDA', '1', '65', '19283', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2585', '13', '53', '', '2585', 'FOOT KLEP KUNINGAN VF 3/4\'\' ONDA', '1', '65', '23318', '39545', '43500', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2586', '13', '53', '', '2586', 'SINK TAP F 320 BU EXCV ONDA', '1', '65', '0', '95000', '104500', '0', '0', '0', 'y', '2017-04-24 21:57:00', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2587', '13', '53', '', '2587', 'KITCHEN FAUCET GT PVC PV632WH ONDA', '1', '65', '34363', '44091', '48500', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2588', '13', '53', '', '2588', 'SINK TAP 1/2\'\' A 806 KA ONDA', '1', '65', '30353', '38636', '42500', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2589', '13', '53', '', '2589', 'SINK TAP 1/2\'\' A 809 SUS ONDA', '1', '65', '39234', '51818', '57000', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2590', '13', '53', '', '2590', 'BASIN TAP MIXER B28007 EXCV ONDA', '1', '65', '0', '353636', '389000', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2591', '13', '53', '', '2591', 'BALL VALVE 3WAY 1/2\'\' ONDA', '1', '65', '52185', '99545', '109500', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2592', '13', '53', '', '2592', 'HAND SHOWER SET  SW04 ONDA', '1', '65', '125446', '156364', '172000', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2593', '13', '53', '', '2593', 'BIB COCK A 805 ST ONDA', '1', '65', '25964', '33636', '37000', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2594', '13', '53', '', '2594', 'SINK TAP 3/4\'\' CLS04 PUTIH ONDA', '1', '65', '30061', '45455', '50000', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2595', '13', '53', '', '2595', 'HAND SHOWER SET SO 232 PL BLUE ONDA', '1', '65', '57336', '76818', '84500', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2596', '13', '53', '', '2596', 'SHOWER TAP JF005 GA ONDA', '1', '65', '35471', '49091', '54000', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2597', '13', '53', '', '2597', 'KITCHEN FAUCET GT H 87 BU ONDA', '1', '65', '0', '122273', '134500', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2598', '13', '53', '', '2598', 'HAND SHOWER SET SW 09 EXCV ONDA', '1', '65', '112636', '137727', '151500', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2599', '13', '53', '', '2599', 'BALL VALVE 3WAY 3/4\'\' ONDA', '1', '65', '69872', '132273', '145500', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2600', '13', '53', '', '2600', 'BALL VALVE 3/4\'\' ONDA', '1', '65', '59744', '79545', '87500', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2601', '13', '53', '', '2601', 'SHOWER SPRAY HEAD SO 212 CCS ONDA', '1', '65', '99080', '121364', '133500', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2602', '13', '53', '', '2602', 'KITCHEN FAUCET GT V638GA ONDA', '1', '65', '45245', '68182', '75000', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2603', '13', '53', '', '2603', 'SHOWER FLEXIBLE HOSE FCHS 120CM ONDA', '1', '65', '37245', '49091', '54000', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2604', '13', '53', '', '2604', 'SHOWER SPRAY S 75 GREEN GCS ONDA', '1', '65', '43274', '60455', '66500', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2605', '13', '53', '', '2605', 'SELANG AIR PANAS 50 CM ONDA', '1', '65', '26214', '36818', '40500', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2606', '13', '53', '', '2606', 'BASIN TAP MIXER B04014 EXCV ONDA', '1', '65', '0', '260455', '286500', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2607', '13', '53', '', '2607', 'SHOWER SPRAY S 75 WCS WHITE ONDA', '1', '65', '42221', '60455', '66500', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2608', '13', '53', '', '2608', 'FLOOR CLEANOUT 3\'\' FCO ONDA', '1', '65', '0', '139545', '153500', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2609', '13', '53', '', '2609', 'SINK TAP PVC ANIMAL ASSORTED ONDA', '1', '65', '5455', '7727', '8500', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2610', '13', '53', '', '2610', 'BASIN TAP MIXER B22012 EXCV ONDA', '1', '65', '0', '426818', '469500', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2611', '13', '53', '', '2611', 'SINK TAP 2 WAY E 08 LG ONDA', '1', '65', '85050', '156364', '172000', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2612', '13', '53', '', '2612', 'BASIN TAP Y340AU ONDA', '1', '65', '154254', '200909', '221000', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2613', '13', '53', '', '2613', 'SINK TAP WSS 1/2\'\' A 811 CU ONDA', '1', '65', '39518', '59091', '65000', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2614', '13', '53', '', '2614', 'SINK TAP PV 802 BLS ONDA', '1', '65', '5346', '7273', '8000', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2615', '13', '53', '', '2615', 'SINK TAP PV 803 BL ONDA', '1', '65', '7255', '10000', '11000', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2616', '13', '53', '', '2616', 'KITCHEN FAUCET GT PVC PV860WH ONDA', '1', '65', '33218', '40909', '45000', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2617', '13', '53', '', '2617', 'SELANG FLEXIBLE HS 50 ONDA', '1', '65', '25391', '33182', '36500', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2618', '13', '53', '', '2618', 'SINK TAP A311C ONDA', '1', '65', '58007', '80000', '88000', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2619', '13', '53', '', '2619', 'SEAL TAPE 12MMX10M 1PC ONDA', '1', '65', '1255', '5000', '5500', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2620', '13', '54', '', '2620', 'WASTAFEL C LW523J IVORY TOTO', '1', '66', '0', '679000', '746900', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2621', '13', '54', '', '2621', 'WASTAFEL C LW524J IVORY TOTO', '1', '66', '0', '679000', '746900', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2622', '13', '54', '', '2622', 'WASTAFEL C LW535J IVORY TOTO', '1', '66', '0', '743455', '817800', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2623', '13', '54', '', '2623', 'WASTAFEL CT L521V1A IVORY TOTO', '1', '66', '0', '384818', '423300', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2624', '13', '54', '', '2624', 'WASTAFEL CT LW501CJ IVORY TOTO', '1', '66', '0', '357818', '393600', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2625', '13', '54', '', '2625', 'WASTAFEL CT LW530J IVORY TOTO', '1', '66', '0', '372909', '410200', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2626', '13', '54', '', '2626', 'WASTAFEL CT LW565 IVORY TOTO', '1', '66', '0', '301000', '331100', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2627', '13', '54', '', '2627', 'WASTAFEL SRE LW526J IVORY TOTO', '1', '66', '0', '631909', '695100', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2628', '13', '54', '', '2628', 'WASTAFEL SRE LW824CJ IVORY TOTO', '1', '66', '0', '705273', '775800', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2629', '13', '54', '', '2629', 'WASTAFEL UC L546 IVORY TOTO', '1', '66', '0', '621455', '683600', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2630', '13', '54', '', '2630', 'WASTAFEL UC LW553J IVORY TOTO', '1', '66', '0', '279091', '307000', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2631', '13', '54', '', '2631', 'WASTAFEL UC LW553J WHITE TOTO', '1', '66', '0', '549364', '604300', '0', '0', '0', 'y', '2017-04-24 21:57:01', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2632', '13', '54', '', '2632', 'WASTAFEL UC LW587J IVORY TOTO', '1', '66', '0', '432000', '475200', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2633', '13', '54', '', '2633', 'WASTAFEL UC LW651J IVORY TOTO', '1', '66', '0', '491909', '541100', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2634', '13', '54', '', '2634', 'WASTAFEL WH LW236CJ IVORY TOTO', '1', '66', '0', '386273', '424900', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2635', '13', '54', '', '2635', 'WASTAFEL WH LW820CJ IVORY TOTO', '1', '66', '0', '1200818', '1320900', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2636', '13', '54', '', '2636', 'WASTAFEL WH LW860CJ IVORY TOTO', '1', '66', '0', '751636', '826800', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2637', '13', '54', '', '2637', 'WASTAFEL WH JC0020 PLUSPDSTL WHT ORCHARD', '1', '67', '317818', '381364', '419500', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2638', '13', '54', '', '2638', 'WASTAFEL WH JC0021 WHITE ORCHARD', '1', '67', '0', '414091', '455500', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2639', '13', '54', '', '2639', 'WASTAFEL WH JC0063 WHT410X365X820 SITONG', '1', '67', '176239', '272727', '300000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2640', '13', '54', '', '2640', 'WASTAFEL WH JC007 WHT 520X440X830 SITONG', '1', '67', '239240', '295455', '325000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2641', '13', '54', '', '2641', 'WASTAFEL WH JD0031 WHT350X270X160 SITONG', '1', '67', '127323', '250000', '275000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2642', '13', '54', '', '2642', 'WASTAFEL+PEDESTAL JC0024 WHITE ORCHARD', '1', '67', '347727', '463636', '510000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2643', '13', '54', '', '2643', 'WASTAFEL B190 WHITE OULU', '1', '68', '0', '1084545', '1193000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2644', '13', '54', '', '2644', 'WASTAFEL B244H WHITE OULU', '1', '68', '0', '1011818', '1113000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2645', '13', '54', '', '2645', 'WASTAFEL W 222 WHITE OULU', '1', '68', '361431', '509091', '560000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2646', '13', '54', '', '2646', 'WASTAFEL W 288 WHITE OULU', '1', '68', '176661', '318182', '350000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2647', '13', '54', '', '2647', 'KITCHEN SINK SB 1 E ROYAL', '1', '69', '150617', '220909', '243000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2648', '13', '54', '', '2648', 'KITCHEN SINK SB 1 PK ROYAL', '1', '69', '394262', '592727', '652000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2649', '13', '54', '', '2649', 'KITCHEN SINK SB 21 E ROYAL', '1', '69', '197836', '291818', '321000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2650', '13', '54', '', '2650', 'KITCHEN SINK SB 22 ROYAL', '1', '69', '246988', '362727', '399000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2651', '13', '54', '', '2651', 'KITCHEN SINK SB 31 ROYAL', '1', '69', '140400', '205455', '226000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2652', '13', '54', '', '2652', 'KITCHEN SINK SB 35 ROYAL', '1', '69', '130214', '190909', '210000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2653', '13', '54', '', '2653', 'KITCHEN SINK SB 42 E ROYAL', '1', '69', '117450', '172727', '190000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2654', '13', '54', '', '2654', 'KITCHEN SINK SB 45 ROYAL', '1', '69', '180409', '262727', '289000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2655', '13', '54', '', '2655', 'KITCHEN SINK SB 62 PK ROYAL', '1', '69', '351000', '490909', '540000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2656', '13', '54', '', '2656', 'KITCHEN SINK SB 88 ROYAL', '1', '69', '266134', '390909', '430000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2657', '13', '54', '', '2657', 'KITCHEN SINK SB 9 ROYAL', '1', '69', '227843', '334545', '368000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2658', '13', '54', '', '2658', 'KITCHEN SINK SB 99 ROYAL', '1', '69', '382910', '561818', '618000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2659', '13', '54', '', '2659', 'KITCHEN SINK ST 1 ROYAL', '1', '69', '352288', '517273', '569000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2660', '13', '54', '', '2660', 'KITCHEN SINK ST 105 ROYAL', '1', '69', '650945', '978182', '1076000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2661', '13', '54', '', '2661', 'WASTAFEL WH LW211CJ IVORY TOTO', '1', '66', '322159', '504545', '555000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2662', '13', '54', '', '2662', 'WASTAFEL WH LW211CJ WHITE TOTO', '1', '66', '294545', '424545', '467000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2663', '13', '54', '', '2663', 'WASTAFEL WH LW236CJ WHITE TOTO', '1', '66', '367818', '528182', '581000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2664', '13', '54', '', '2664', 'WASTAFEL WH LW240CJ IVORY TOTO', '1', '66', '381182', '543636', '598000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2665', '13', '54', '', '2665', 'WASTAFEL WH LW240CJ WHITE TOTO', '1', '66', '383727', '454545', '500000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2666', '13', '54', '', '2666', 'WASTAFEL WH LW241CJ WHITE TOTO', '1', '66', '514818', '781818', '860000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2667', '13', '54', '', '2667', 'WASTAFEL WH LW246JW WHITE TOTO', '1', '66', '247910', '331818', '365000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2668', '13', '55', '', '2668', 'CLOSET DUDUK TNP TUTUP C-07 WHITE DUTY', '1', '70', '295455', '363636', '400000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2669', '13', '55', '', '2669', 'CLOSET JONGKOK SC-01 WHITE DUTY', '1', '70', '86364', '122727', '135000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2670', '13', '55', '', '2670', 'TUTUP CLOSET DUDUK C-07 WHITE DUTY', '1', '70', '27273', '36364', '40000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2671', '13', '55', '', '2671', 'WASTAFEL WH L-07 WHITE DUTY', '1', '70', '140909', '204545', '225000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2672', '13', '55', '', '2672', 'CLOSET DUDUK MONO JA0125 IVORY ORCHARD', '1', '67', '525000', '1000000', '1100000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2673', '13', '55', '', '2673', 'CLOSET DUDUK MONO JA0125 WHT ORCHARD', '1', '67', '803180', '1031818', '1135000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2674', '13', '55', '', '2674', 'CLOSET DUDUK NA001 IVORY ORCHARD/ALICE', '1', '67', '604040', '772727', '850000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2675', '13', '55', '', '2675', 'CLOSET DUDUK NA001 WHITE ORCHARD/ALICE', '1', '67', '604548', '772727', '850000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2676', '13', '55', '', '2676', 'CLOSETDUDUKMONO JA002 IVRY ORCHARD/ALICE', '1', '67', '700000', '909091', '1000000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2677', '13', '55', '', '2677', 'CLOSETDUDUKMONO JA002 WHT ORCHARD/ALICE', '1', '67', '695351', '909091', '1000000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2678', '13', '55', '', '2678', 'CLOSETDUDUKMONO JA003 IVRY ORCHARD/ALICE', '1', '67', '771818', '954545', '1050000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2679', '13', '55', '', '2679', 'CLOSETDUDUKMONO JA003 WHT ORCHARD/ALICE', '1', '67', '768182', '954545', '1050000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2680', '13', '55', '', '2680', 'TUTUP SOFTCLOSED JA002 WHT/IVORY ORCHARD', '1', '67', '0', '181818', '200000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2681', '13', '55', '', '2681', 'URINAL SET JF004 WHITE SITONG', '1', '67', '636364', '795455', '875000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2682', '13', '55', '', '2682', 'CLOSET DUDUK A625 WHITE OULU', '1', '68', '0', '2240909', '2465000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2683', '13', '55', '', '2683', 'CLOSET DUDUK A626 P WHITE OULU', '1', '68', '704545', '1090909', '1200000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2684', '13', '55', '', '2684', 'CLOSET DUDUK PINTAR A736 WHITE OULU', '1', '68', '0', '7950000', '8745000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2685', '13', '55', '', '2685', 'CLOSET DUDUK A190 WHITE OULU', '1', '68', '0', '1659091', '1825000', '0', '0', '0', 'y', '2017-04-24 21:57:02', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2686', '13', '55', '', '2686', 'CLOSET DUDUK A626 WHITE OULU', '1', '68', '690909', '795455', '875000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2687', '13', '55', '', '2687', 'CLOSET DUDUK A865 WHITE OULU', '1', '68', '0', '2745455', '3020000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2688', '13', '55', '', '2688', 'TUTUP TANGKI CLOSET A626 WHITE OULU', '1', '68', '109091', '145455', '160000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2689', '13', '55', '', '2689', 'CLOSET DUDUK CW420J/SW420JP WHITE TOTO', '1', '66', '991518', '1181818', '1300000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2690', '13', '55', '', '2690', 'CLOSETDUDUK CW421J/SW420JP ECO WHT TOTO', '1', '66', '1264751', '2200909', '2421000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2691', '13', '55', '', '2691', 'CLOSET DUDUK CW421J ECO TCW07S WHT TOTO', '1', '66', '1584637', '2519091', '2771000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2692', '13', '55', '', '2692', 'CLOSET DUDUK CW421J/SW420JP IVORY TOTO', '1', '66', '1656817', '2484545', '2733000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2693', '13', '55', '', '2693', 'CLOSET DUDUK CW421J/SW420JP WHITE TOTO', '1', '66', '1589319', '1840909', '2025000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2694', '13', '55', '', '2694', 'CLOSET DUDUK CW660NJ ECO TCW07S WHT TOTO', '1', '66', '1584638', '2519091', '2771000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2695', '13', '55', '', '2695', 'CLOSET DUDUK CW660NJ/SW660J P.IVORY TOTO', '1', '66', '1633085', '2484545', '2733000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2696', '13', '55', '', '2696', 'CLOSET DUDUK CW660NJ/SW660J WHITE TOTO', '1', '66', '1589317', '1840909', '2025000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2697', '13', '55', '', '2697', 'CLOSET JONGKOK CE 6 IVORY TOTO', '1', '66', '288151', '505455', '556000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2698', '13', '55', '', '2698', 'CLOSET JONGKOK CE 6 WHITE TOTO', '1', '66', '321363', '421818', '464000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2699', '13', '55', '', '2699', 'CLOSET JONGKOK CE 7 IVORY TOTO', '1', '66', '195729', '309091', '340000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2700', '13', '55', '', '2700', 'CLOSET JONGKOK CE 7 WHITE TOTO', '1', '66', '196000', '257273', '283000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2701', '13', '56', '', '2701', 'SEMPROTAN AIR  PLASTIK 378-003 JASON', '1', '5', '9546', '16364', '18000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2702', '13', '56', '', '2702', 'SEMPROTAN AIR 1,5LTR 378-025 JASON', '1', '5', '30410', '47273', '52000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2703', '13', '56', '', '2703', 'SEMPROTAN AIR 2 IN 1 378-014 JASON', '1', '5', '19091', '30909', '34000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2704', '13', '56', '', '2704', 'MIRROR 1090402-60 60/40 CASTELLI', '1', '71', '63182', '104545', '115000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2705', '13', '56', '', '2705', 'MIRROR 1090402-80 80/60 CASTELLI', '1', '71', '115454', '181818', '200000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2706', '13', '56', '', '2706', 'MIRROR 1090404-60 60/40 CASTELLI', '1', '71', '0', '104545', '115000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2707', '13', '56', '', '2707', 'MIRROR 1090404-80 80/60 CASTELLI', '1', '71', '115454', '181818', '200000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2708', '13', '56', '', '2708', 'MIRROR 1090405-BR 60/45 CASTELLI', '1', '71', '95531', '145455', '160000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2709', '13', '56', '', '2709', 'MIRROR 1090405-BU 60/45 CASTELLI', '1', '71', '97000', '145455', '160000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2710', '13', '56', '', '2710', 'MIRROR 1090405-GR 60/45 CASTELLI', '1', '71', '97000', '145455', '160000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2711', '13', '56', '', '2711', 'MIRROR 1090405-RB 60/45 CASTELLI', '1', '71', '97000', '145455', '160000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2712', '14', '57', '', '2712', 'WATER HEATER ELECTRIC 10L DA 4010 DOMO', '1', '72', '0', '1000000', '1100000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2713', '14', '57', '', '2713', 'WATER HEATER ELECTRIC 15L DA 4015 DOMO', '1', '72', '0', '1127273', '1240000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2714', '14', '57', '', '2714', 'WATER HEATER GAS 6L DA 1006 DOMO', '1', '72', '0', '836364', '920000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2715', '14', '57', '', '2715', 'WATER HEATER GAS 6L DA 1506 M DOMO', '1', '72', '29833', '927273', '1020000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2716', '14', '57', '', '2716', 'WATER HEATER TI-SHAPE 100 PROMO ARISTON', '1', '73', '0', '1454545', '1600000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2717', '14', '57', '', '2717', 'WATER HEATER AN 15R+ELCB 350W ARISTON', '1', '73', '1871818', '1838182', '2022000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2718', '14', '57', '', '2718', 'WATER HEATER AN 15RS+ELCB 350W ARISTON', '1', '73', '527272', '2175455', '2393000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2719', '14', '57', '', '2719', 'WATER HEATER NANO 10L 200W ARISTON', '1', '73', '1370909', '1500000', '1650000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2720', '14', '57', '', '2720', 'WATER HEATER GAS 6L DA 1506 M DOMO', '1', '72', '29833', '927273', '1020000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2721', '14', '57', '', '2721', 'WATER HEATER TI-SHAPE 100 PROMO ARISTON', '1', '73', '0', '1454545', '1600000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2722', '14', '57', '', '2722', 'WATER HEATER AN 15R+ELCB 350W ARISTON', '1', '73', '1871818', '1838182', '2022000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2723', '14', '57', '', '2723', 'WATER HEATER AN 15RS+ELCB 350W ARISTON', '1', '73', '527272', '2175455', '2393000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2724', '14', '57', '', '2724', 'WATER HEATER NANO 10L 200W ARISTON', '1', '73', '1370909', '1500000', '1650000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2725', '14', '57', '', '2725', 'WATER HEATER STAR 15L+ELCB 350W ARISTON', '1', '73', '1537878', '1693636', '1863000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2726', '14', '57', '', '2726', 'WATER HEATER ELECTRIC ES 10 A MODENA', '1', '74', '916650', '1345455', '1480000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2727', '14', '57', '', '2727', 'WATER HEATER ELECTRIC ES 15 A MODENA', '1', '74', '1083314', '1490909', '1640000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2728', '14', '57', '', '2728', 'WATER HEATER GAS 6L GI 6 S MODENA', '1', '74', '1066364', '1254545', '1380000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2729', '14', '57', '', '2729', 'WATER HEATER GAS 6L GI 6 V MODENA', '1', '74', '864685', '1018182', '1120000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2730', '14', '57', '', '2730', 'WATER HEATER GAS WH-506A LNG WASSER', '1', '75', '1297046', '1437273', '1581000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2731', '14', '57', '', '2731', 'WATER HEATER GAS WH-506A LPG WASSER', '1', '75', '1122727', '1244545', '1369000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2732', '14', '58', '', '2732', 'OTOMATIS POMPA AIR PH 136A BY SANYO', '1', '20', '57955', '68182', '75000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2733', '14', '58', '', '2733', 'OTOMATIS POMPA AIR PH 236A BY SANYO', '1', '20', '57955', '68182', '75000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2734', '14', '58', '', '2734', 'POMPA AIR PD H200B+TABUNG AUTO SANYO', '1', '20', '1740909', '2181818', '2400000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2735', '14', '58', '', '2735', 'POMPA AIR PD H250B+TABUNG AUTO SANYO', '1', '20', '2547924', '2895455', '3185000', '0', '0', '0', 'y', '2017-04-24 21:57:03', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2736', '14', '58', '', '2736', 'POMPA AIR PD WH 130B NON AUTO SANYO', '1', '20', '945555', '1074545', '1182000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2737', '14', '58', '', '2737', 'POMPA AIR PD WH 200B NON AUTO SANYO', '1', '20', '1187160', '1349091', '1484000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2738', '14', '58', '', '2738', 'POMPA AIR PH 130B SANYO', '1', '20', '1002826', '1140000', '1254000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2739', '14', '58', '', '2739', 'POMPA AIR PH 137AC SANYO', '1', '20', '487986', '563636', '620000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2740', '14', '58', '', '2740', 'POMPA AIR PH 236AC SANYO', '1', '20', '658464', '748182', '823000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2741', '14', '58', '', '2741', 'POMPA AIR PH 75A SANYO', '1', '20', '395675', '450000', '495000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2742', '14', '58', '', '2742', 'POMPA AIR PWH 137C SANYO', '1', '20', '359290', '415455', '457000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2743', '14', '58', '', '2743', 'POMPA AIR PWH 236C SANYO', '1', '20', '541263', '625455', '688000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2744', '14', '58', '', '2744', 'POMPA AIR PWH 75 SANYO', '1', '20', '298766', '340000', '374000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2745', '14', '58', '', '2745', 'TABUNG POMPA AWAJIRO BY SANYO', '1', '20', '36818', '43636', '48000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2746', '14', '58', '', '2746', 'POMPA AIR JET 100 BIT SHIMIZU', '1', '76', '612618', '718182', '790000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2747', '14', '58', '', '2747', 'POMPA AIR PC 260 BIT+TABUNG SHIMIZU', '1', '76', '1158975', '1708182', '1879000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2748', '14', '58', '', '2748', 'POMPA AIR PC 375 BIT+TABUNG SHIMIZU', '1', '76', '1632180', '1854545', '2040000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2749', '14', '58', '', '2749', 'POMPA AIR PN 125 BIT SHIMIZU', '1', '76', '266901', '350909', '386000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2750', '14', '58', '', '2750', 'POMPA AIR PS 121 BIT SHIMIZU', '1', '76', '315859', '359091', '395000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2751', '14', '58', '', '2751', 'POMPA AIR PS 128 BIT SHIMIZU', '1', '76', '320266', '364091', '400500', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2752', '14', '58', '', '2752', 'POMPA AIR PS 130 BIT SHIMIZU', '1', '76', '459832', '540909', '595000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2753', '14', '58', '', '2753', 'POMPA AIR PS 135 E SHIMIZU', '1', '76', '384173', '471818', '519000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2754', '14', '58', '', '2754', 'POMPA AIR PS 230 BIT SHIMIZU', '1', '76', '785974', '920000', '1012000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2755', '14', '58', '', '2755', 'POMPA AIR JET PC-255 EA WASSER', '1', '75', '1342727', '1525455', '1678000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2756', '14', '58', '', '2756', 'POMPA AIR JET PC-380 EA WASSER', '1', '75', '1523455', '1781818', '1960000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2757', '14', '58', '', '2757', 'POMPA AIR JET PC-500 EA WASSER', '1', '75', '2491364', '2830909', '3114000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2758', '14', '58', '', '2758', 'POMPA AIR JET PW-120 WASSER', '1', '75', '532000', '604545', '665000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2759', '14', '58', '', '2759', 'POMPA AIR JET PW-251EA WASSER', '1', '75', '1183637', '1345455', '1480000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2760', '14', '58', '', '2760', 'POMPA AIR JET PW-381EA WASSER', '1', '75', '1252576', '1456364', '1602000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2761', '14', '58', '', '2761', 'POMPA AIR PW-131 E WASSER', '1', '75', '344910', '391818', '431000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2762', '14', '58', '', '2762', 'POMPA AIR PW-139 EA WASSER', '1', '75', '413637', '470000', '517000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2763', '14', '58', '', '2763', 'POMPA AIR PW-225 E WASSER', '1', '75', '628091', '759091', '835000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2764', '14', '58', '', '2764', 'POMPA AIR PW-225 EA WASSER', '1', '75', '782728', '889091', '978000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2765', '14', '58', '', '2765', 'POMPA BOOSTER PB-060 EA WASSER', '1', '75', '543455', '617273', '679000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2766', '14', '58', '', '2766', 'POMPA BOOSTER PB-169 EA WASSER', '1', '75', '815183', '926364', '1019000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2767', '14', '58', '', '2767', 'POMPA CELUP PD-201EA WASSER', '1', '75', '911500', '1052727', '1158000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2768', '14', '58', '', '2768', 'POMPA CELUP WD-101E WASSER', '1', '75', '361454', '410909', '452000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2769', '14', '58', '', '2769', 'POMPA CELUP WD-101EA WASSER', '1', '75', '435909', '495455', '545000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2770', '14', '58', '', '2770', 'POMPA CELUP WD-131E WASSER', '1', '75', '334545', '426818', '469500', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2771', '14', '58', '', '2771', 'POMPA CELUP WD-131EA WASSER', '1', '75', '370909', '424545', '467000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2772', '14', '58', '', '2772', 'POMPA CELUP WD-200E WASSER', '1', '75', '539000', '612727', '674000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2773', '14', '58', '', '2773', 'POMPA CELUP WD-200EA WASSER', '1', '75', '604546', '686818', '755500', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2774', '14', '58', '', '2774', 'POMPA CELUP WD-80E WASSER', '1', '75', '328363', '373182', '410500', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2775', '15', '59', '', '2775', '*PINTU EGD 3 GLT1 82 OAK 3515 ANGZ', '1', '77', '480000', '960000', '1056000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2776', '15', '59', '', '2776', '*PINTU EGD 3 GLT2 82 JTI 3709 ANGZ', '1', '77', '0', '1195455', '1315000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2777', '15', '59', '', '2777', '*PINTU EGD 4B GLT1 82 OAK 3520 ANGZ', '1', '77', '529000', '1058182', '1164000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2778', '15', '59', '', '2778', '*PINTU GLS 4B GLTB0 82 PRM 2893 ANGZ', '1', '77', '150000', '300000', '330000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2779', '15', '59', '', '2779', '*PINTU GLS1 GLF0 82 PRM 1024 ANGZ', '1', '77', '150000', '300000', '330000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2780', '15', '59', '', '2780', '*PINTU HDF SLD 2 45X92 PRM 0237 ANGZ', '1', '77', '0', '548818', '603700', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2781', '15', '59', '', '2781', '*PINTO ECO+ 920 2AP W/O LOCK ANGZDOOR', '1', '77', '250000', '305455', '336000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2782', '15', '59', '', '2782', '*PINTU ECO+ 720 2AP W/O LOCK ANGZDOOR', '1', '77', '250000', '305455', '336000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2783', '15', '59', '', '2783', '*PINTU ECO+ WRN 820 2P HONEY ANGZDOOR', '1', '77', '0', '545455', '600000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2784', '15', '59', '', '2784', '*PINTU ECO+ WRN 820 2P MAROON ANGZDOOR', '1', '77', '0', '409091', '450000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2785', '15', '59', '', '2785', '*PINTU ECO+ WRN 820 2P PUTIH ANGZDOOR', '1', '77', '0', '396818', '436500', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2786', '15', '59', '', '2786', '*PINTU ECO+ WRN 820 2P WALNUT ANGZDOOR', '1', '77', '0', '564545', '621000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2787', '15', '59', '', '2787', '*PINTU ECO+ WRN 820 3P HONEY ANGZDOOR', '1', '77', '0', '545455', '600000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2788', '15', '59', '', '2788', '*PINTU ECO+ WRN 820 3P MAROON ANGZDOOR', '1', '77', '0', '409091', '450000', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2789', '15', '59', '', '2789', '*PINTU ECO+ WRN 820 3P PUTIH ANGZDOOR', '1', '77', '0', '396818', '436500', '0', '0', '0', 'y', '2017-04-24 21:57:04', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2790', '15', '59', '', '2790', '*PINTU ECO+ WRN 820 3P WALNUT ANGZDOOR', '1', '77', '0', '564545', '621000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2791', '15', '59', '', '2791', '*PINTU ECO+ WRN 820 4AP PUTIH ANGZDOOR', '1', '77', '0', '396818', '436500', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2792', '15', '59', '', '2792', '*PINTU ECO+ WRN 820 4BP HONEY ANGZDOOR', '1', '77', '0', '545455', '600000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2793', '15', '59', '', '2793', '*PINTU ECO+ WRN 820 4BP MAROON ANGZDOOR', '1', '77', '0', '409091', '450000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2794', '15', '59', '', '2794', '*PINTU ECO+ WRN 820 4BP PUTIH ANGZDOOR', '1', '77', '0', '396818', '436500', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2795', '15', '59', '', '2795', '*PINTU ECO+ WRN 820 4BP WALNUT ANGZDOOR', '1', '77', '0', '564545', '621000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2796', '15', '59', '', '2796', '*PINTU ECO+ WRN 820 4P HONEY ANGZDOOR', '1', '77', '0', '545455', '600000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2797', '15', '59', '', '2797', '*PINTU ECO+ WRN 820 4P MAROON ANGZDOOR', '1', '77', '0', '409091', '450000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2798', '15', '59', '', '2798', '*PINTU ECO+ WRN 820 4P PUTIH ANGZDOOR', '1', '77', '0', '396818', '436500', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2799', '15', '59', '', '2799', '*PINTU ECO+ WRN 820 4P WALNUT ANGZDOOR', '1', '77', '0', '564545', '621000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2800', '15', '59', '', '2800', '*PINTU ECO+ WRN 820 6BP MAROON ANGZDOOR', '1', '77', '0', '409091', '450000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2801', '15', '59', '', '2801', '*PINTU ECO+ WRN 820 6P PUTIH ANGZDOOR', '1', '77', '0', '396818', '436500', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2802', '15', '59', '', '2802', '*PINTU ECO+ WRN 920 4AP MAROON ANGZDOOR', '1', '77', '0', '396818', '436500', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2803', '15', '59', '', '2803', '*PINTU ECO+ WRN 920 4AP PUTIH ANGZDOOR', '1', '77', '0', '415909', '457500', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2804', '15', '59', '', '2804', '*PINTU ECO+ WRN 920 4P MAROON ANGZDOOR', '1', '77', '0', '418182', '460000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2805', '15', '59', '', '2805', '*PINTU ECO+820 4BP 2GRV W/OLOCK ANGZDOOR', '1', '77', '230850', '297727', '327500', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2806', '15', '59', '', '2806', '*PINTU ECO+820 4BP 4GRV W/OLOCK ANGZDOOR', '1', '77', '0', '297727', '327500', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2807', '15', '59', '', '2807', '*PINTU ECO+820 4P 2GRV W/O LOCK ANGZDOOR', '1', '77', '230850', '297727', '327500', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2808', '15', '59', '', '2808', '*PINTU ECO+820 4P 4GRV W/O LOCK ANGZDOOR', '1', '77', '230850', '297727', '327500', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2809', '15', '59', '', '2809', 'PINTU GLS1 GLF0 72 PRM 1296 ANGZ', '1', '77', '0', '300000', '330000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2810', '15', '59', '', '2810', 'PINTU GLS2 GLT0 72 PRM 1293 ANGZ', '1', '77', '0', '300000', '330000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2811', '15', '59', '', '2811', 'PINTU HDF1 GROOVE 820 FGRV12 6938 ANGZ', '1', '77', '0', '844000', '928400', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2812', '15', '59', '', '2812', 'PINTU PVC P1 70X200 O/L BROWN ANGZDOOR', '1', '77', '0', '996000', '1095600', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2813', '15', '59', '', '2813', 'PINTU PVC P1 70X200 O/R WHITE ANGZDOOR', '1', '77', '0', '996000', '1095600', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2814', '15', '59', '', '2814', 'PINTU PVC P2 70X200 O/L BROWN ANGZDOOR', '1', '77', '0', '996000', '1095600', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2815', '15', '59', '', '2815', 'PINTU PVC P2 70X200 O/R WHITE ANGZDOOR', '1', '77', '0', '712000', '783200', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2816', '15', '59', '', '2816', 'PINTU PVC P3 70X200 O/L BROWN ANGZDOOR', '1', '77', '0', '712000', '783200', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2817', '15', '59', '', '2817', 'PINTU PVC P3 70X200 O/R WHITE ANGZDOOR', '1', '77', '0', '996000', '1095600', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2818', '15', '59', '', '2818', 'DOOR FRAME (40X140) 720X2100 NYT ANGZ', '1', '77', '283000', '440909', '485000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2819', '15', '59', '', '2819', 'DOOR FRAME (40X140) 820X2100 NYT ANGZ', '1', '77', '283000', '459091', '505000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2820', '15', '59', '', '2820', 'DOOR FRAME (40X140) 920X2100 NYT ANGZ', '1', '77', '363000', '472727', '520000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2821', '15', '59', '', '2821', 'DOOR FRAME (40X70) 720X2100 METAL ANGZ', '1', '77', '0', '245455', '270000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2822', '15', '59', '', '2822', 'DOOR FRAME (40X70) 820X2100 METAL ANGZ', '1', '77', '0', '262727', '289000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2823', '15', '59', '', '2823', 'DOOR FRAME (40X70) 920X2100 METAL ANGZ', '1', '77', '0', '270455', '297500', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2824', '15', '59', '', '2824', 'PINTU 810 PLY LAMINATE+KUSEN TYPE B ANGZ', '1', '77', '0', '934091', '1027500', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2825', '15', '59', '', '2825', 'PINTU ALM A1 70X200 O/LCHMPNE 6846 ANGZ', '1', '77', '1018500', '1396364', '1536000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2826', '15', '59', '', '2826', 'PINTU ALM A1 70X200 O/RCHMPNE 6847 ANGZ', '1', '77', '1018500', '1396364', '1536000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2827', '15', '59', '', '2827', 'PINTU ALM A12 70X200O/L APPLE W7887 ANGZ', '1', '77', '0', '1455000', '1600500', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2828', '15', '59', '', '2828', 'PINTU ALM A12 70X200O/R APPLE W7888 ANGZ', '1', '77', '0', '1455000', '1600500', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2829', '15', '59', '', '2829', 'PINTU ALM A17 70X200O/LROSEWOOD7897 ANGZ', '1', '77', '0', '1455000', '1600500', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2830', '15', '59', '', '2830', 'PINTU ALM A17 70X200O/RROSEWOOD7898 ANGZ', '1', '77', '0', '1455000', '1600500', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2831', '15', '59', '', '2831', 'PINTU ALM A19 70X200 O/L WHITE 7901 ANGZ', '1', '77', '0', '1455000', '1600500', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2832', '15', '59', '', '2832', 'PINTU ALM A19 70X200 O/R WHITE 7902 ANGZ', '1', '77', '0', '1455000', '1600500', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2833', '15', '59', '', '2833', 'PINTU ALM A2 70X200 O/LCHMPNE 6848 ANGZ', '1', '77', '1036250', '1396364', '1536000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2834', '15', '59', '', '2834', 'PINTU ALM A2 70X200 O/RCHMPNE 6849 ANGZ', '1', '77', '1030333', '1396364', '1536000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2835', '15', '59', '', '2835', 'PINTU ALM A20 70X200 O/L WHITE 7903 ANGZ', '1', '77', '0', '1455000', '1600500', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2836', '15', '59', '', '2836', 'PINTU ALM A20 70X200 O/R WHITE 7904 ANGZ', '1', '77', '0', '1455000', '1600500', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2837', '15', '59', '', '2837', 'PINTU ALM A3 70X200 O/LCHMPNE 6850 ANGZ', '1', '77', '1036250', '1396364', '1536000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2838', '15', '59', '', '2838', 'PINTU ALM A3 70X200 O/RCHMPNE 6851 ANGZ', '1', '77', '1018500', '1396364', '1536000', '0', '0', '0', 'y', '2017-04-24 21:57:05', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2839', '15', '59', '', '2839', 'PINTU ALM A4 70X200 O/LCHMPNE 6852 ANGZ', '1', '77', '1027966', '1396364', '1536000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2840', '15', '59', '', '2840', 'PINTU ALM A4 70X200 O/RCHMPNE 6853 ANGZ', '1', '77', '1036250', '1396364', '1536000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2841', '15', '59', '', '2841', 'PINTU ALM A5 70X200 O/LCHMPNE 6856 ANGZ', '1', '77', '0', '1954545', '2150000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2842', '15', '59', '', '2842', 'PINTU ALM A5 70X200 O/RCHMPNE 6857 ANGZ', '1', '77', '1034400', '1954545', '2150000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2843', '15', '59', '', '2843', 'PINTU ALM A6 70X200 O/L TEAK 6858 ANGZ', '1', '77', '1034400', '1954545', '2150000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2844', '15', '59', '', '2844', 'PINTU ALM A6 70X200 O/LCHMPNE 6860 ANGZ', '1', '77', '1034400', '1954545', '2150000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2845', '15', '59', '', '2845', 'PINTU ALM A6 70X200 O/RCHMPNE 6861 ANGZ', '1', '77', '1034400', '1954545', '2150000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2846', '15', '59', '', '2846', 'PINTU ALM A8 70X200 O/LCHMPNE 6870 ANGZ', '1', '77', '1034400', '1954545', '2150000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2847', '15', '59', '', '2847', 'PINTU ALM A8 70X200 O/RCHMPNE 6871 ANGZ', '1', '77', '0', '1954545', '2150000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2848', '15', '59', '', '2848', 'PINTU ALM A9 70X200 O/L GOLD 7880 ANGZ', '1', '77', '0', '1455000', '1600500', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2849', '15', '59', '', '2849', 'PINTU ALM A9 70X200 O/R GOLD 7881 ANGZ', '1', '77', '0', '1455000', '1600500', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2850', '15', '59', '', '2850', 'PINTU ECO+ 720 1P W/O LOCK ANGZDOOR', '1', '77', '0', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2851', '15', '59', '', '2851', 'PINTU ECO+ 720 2P W/O LOCK ANGZDOOR', '1', '77', '289652', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2852', '15', '59', '', '2852', 'PINTU ECO+ 720 3P W/O LOCK ANGZDOOR', '1', '77', '290700', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2853', '15', '59', '', '2853', 'PINTU ECO+ 720 4BP W/O LOCK ANGZDOOR', '1', '77', '300900', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2854', '15', '59', '', '2854', 'PINTU ECO+ 720 6AP W/O LOCK ANGZDOOR', '1', '77', '0', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2855', '15', '59', '', '2855', 'PINTU ECO+ 720 6P W/O LOCK ANGZDOOR', '1', '77', '0', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2856', '15', '59', '', '2856', 'PINTU ECO+ 820 1P W/O LOCK ANGZDOOR', '1', '77', '289000', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2857', '15', '59', '', '2857', 'PINTU ECO+ 820 2P W/O LOCK ANGZDOOR', '1', '77', '306600', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2858', '15', '59', '', '2858', 'PINTU ECO+ 820 3P W/O LOCK ANGZDOOR', '1', '77', '306600', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2859', '15', '59', '', '2859', 'PINTU ECO+ 820 4AP W/O LOCK ANGZDOOR', '1', '77', '271667', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2860', '15', '59', '', '2860', 'PINTU ECO+ 820 4BP W/O LOCK ANGZDOOR', '1', '77', '306600', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2861', '15', '59', '', '2861', 'PINTU ECO+ 820 4P W/O LOCK ANGZDOOR', '1', '77', '306600', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2862', '15', '59', '', '2862', 'PINTU ECO+ 820 6AP W/O LOCK ANGZDOOR', '1', '77', '289000', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2863', '15', '59', '', '2863', 'PINTU ECO+ 820 6P W/O LOCK ANGZDOOR', '1', '77', '275000', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2864', '15', '59', '', '2864', 'PINTU ECO+ 920 1P W/O LOCK ANGZDOOR', '1', '77', '0', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2865', '15', '59', '', '2865', 'PINTU ECO+ 920 2P W/O LOCK ANGZDOOR', '1', '77', '289000', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2866', '15', '59', '', '2866', 'PINTU ECO+ 920 3P W/O LOCK ANGZDOOR', '1', '77', '305744', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2867', '15', '59', '', '2867', 'PINTU ECO+ 920 4BP W/O LOCK ANGZDOOR', '1', '77', '275000', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2868', '15', '59', '', '2868', 'PINTU ECO+ 920 4P W/O LOCK ANGZDOOR', '1', '77', '275000', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2869', '15', '59', '', '2869', 'PINTU ECO+ 920 6AP W/O LOCK ANGZDOOR', '1', '77', '0', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2870', '15', '59', '', '2870', 'PINTU ECO+ 920 6P W/O LOCK ANGZDOOR', '1', '77', '275000', '365455', '402000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2871', '15', '59', '', '2871', 'PINTU ECO+ ADF02/L 820 2P SET ANGZDOOR', '1', '77', '0', '960000', '1056000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2872', '15', '59', '', '2872', 'PINTU ECO+ ADF02/L 820 3P SET ANGZDOOR', '1', '77', '671972', '960000', '1056000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2873', '15', '59', '', '2873', 'PINTU ECO+ ADF02/R 820 2P SET ANGZDOOR', '1', '77', '0', '960000', '1056000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2874', '15', '59', '', '2874', 'PINTU ECO+ ADF02/R 820 3P SET ANGZDOOR', '1', '77', '671972', '960000', '1056000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2875', '15', '60', '', '2875', 'DOUBLE CYLINDER DC0270 MK US26 P0190217', '1', '78', '50000', '70455', '77500', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2876', '15', '60', '', '2876', 'DOUBLE CYLINDER NEW DB 2 US3 P1003051', '1', '78', '46464', '123182', '135500', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2877', '15', '60', '', '2877', 'DOUBLE CYLINDER NEW DB 2 US32D P1003053', '1', '78', '59091', '123182', '135500', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2878', '15', '60', '', '2878', 'DOUBLE CYLINDER NEW DB 2 US5 P1003052', '1', '78', '64773', '123182', '135500', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2879', '15', '60', '', '2879', 'DOUBLE CYLINDER SCR G2-60US26D P7700060', '1', '78', '66364', '102273', '112500', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2880', '15', '60', '', '2880', 'ENGSEL 211 T P1100026', '1', '78', '77001', '201818', '222000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2881', '15', '60', '', '2881', 'ENGSEL EK G1 3X2,5X2,52BBUS32D P7706042', '1', '78', '60910', '86818', '95500', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2882', '15', '60', '', '2882', 'ENGSEL EK G2 4X3X3 2BB US32D P7706047', '1', '78', '86364', '127727', '140500', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2883', '15', '60', '', '2883', 'ENGSEL EK G3 5X3X3 4BB US32D P7706052', '1', '78', '127273', '175455', '193000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2884', '15', '60', '', '2884', 'ENGSEL EK.01 3X2,5X2,5 2BB CHR P0600007', '1', '78', '19091', '27727', '30500', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2885', '15', '60', '', '2885', 'ENGSEL EK.01 3X2,5X2,5 2BB GP P0600006', '1', '78', '18182', '27727', '30500', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2886', '15', '60', '', '2886', 'ENGSEL EK.01 3X2.5X2.5 2BB SN P0600008', '1', '78', '18182', '27727', '30500', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2887', '15', '60', '', '2887', 'ENGSEL EK.02 4X3X3 4BB CHR P0600117', '1', '78', '27273', '39091', '43000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2888', '15', '60', '', '2888', 'ENGSEL EK.02 4X3X3 4BB GP P0600116', '1', '78', '23776', '39091', '43000', '0', '0', '0', 'y', '2017-04-24 21:57:06', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2889', '15', '60', '', '2889', 'ENGSEL EK.02 4X3X3 4BB SN P0600118', '1', '78', '27273', '39091', '43000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2890', '15', '60', '', '2890', 'ENGSEL EK.06 3X2,5X2 2BB US32 P0600062', '1', '78', '45961', '62727', '69000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2891', '15', '60', '', '2891', 'ENGSEL EK.06 3X2,5X2 US32D P0600061', '1', '78', '36819', '56364', '62000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2892', '15', '60', '', '2892', 'ENGSEL EK.07 4X3X2 US32D P0600071', '1', '78', '46637', '79091', '87000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2893', '15', '60', '', '2893', 'ENGSEL EK.07 4X3X2,5 2BB US32 P0600072', '1', '78', '70910', '97273', '107000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2894', '15', '60', '', '2894', 'ENGSEL EK.08 5X3X3 4BB US32D P0600082', '1', '78', '109091', '152727', '168000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2895', '15', '60', '', '2895', 'ENGSEL EK.09 5X3X3 4BB CHR P0600197', '1', '78', '31818', '45000', '49500', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2896', '15', '60', '', '2896', 'ENGSEL EK.09 5X3X3 4BB GP P0600196', '1', '78', '27273', '45000', '49500', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2897', '15', '60', '', '2897', 'ENGSEL EK.09 5X3X3 4BB SN P0600198', '1', '78', '30907', '45000', '49500', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2898', '15', '60', '', '2898', 'ENGSEL EK.16.3X2,5X2 2BB US32 P0600232', '1', '78', '32424', '45455', '50000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2899', '15', '60', '', '2899', 'ENGSEL EK.16.3X2,5X2US32D P0600231', '1', '78', '22240', '41818', '46000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2900', '15', '60', '', '2900', 'ENGSEL EK.17.4X3X2 US32D P0600236', '1', '78', '40000', '55455', '61000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2901', '15', '60', '', '2901', 'ENGSEL EK.17.4X3X2,5 2BB US32D P0600237', '1', '78', '48182', '65455', '72000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2902', '15', '60', '', '2902', 'ENGSEL EK.18.5X3X3 4BB US32D P0600242', '1', '78', '68182', '93636', '103000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2903', '15', '60', '', '2903', 'ENGSEL PIVOT EP.600 US32D P0600301', '1', '78', '85859', '185909', '204500', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2904', '15', '60', '', '2904', 'ENGSEL PIVOT EPT.601 US32D P0600302', '1', '78', '43666', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2905', '15', '60', '', '2905', 'ENGSEL SALON 633 9\'\' CHR P0601106', '1', '78', '15455', '25000', '27500', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2906', '15', '60', '', '2906', 'ENGSEL SENDOK 634 CHR P0601154', '1', '78', '13637', '20909', '23000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2907', '15', '60', '', '2907', 'ESCUTCHEON E 61.44 US32D P0303511', '1', '78', '18182', '27727', '30500', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2908', '15', '60', '', '2908', 'ESCUTCHEON E 62.15 CHR P0303702', '1', '78', '40909', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2909', '15', '60', '', '2909', 'ESCUTCHEON E 62.15 CHR+SN P0303709', '1', '78', '40909', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2910', '15', '60', '', '2910', 'ESCUTCHEON E 62.15 GP+SG P0303708', '1', '78', '27598', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2911', '15', '60', '', '2911', 'ESCUTCHEON E 62.15 SN P0303704', '1', '78', '40909', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2912', '15', '60', '', '2912', 'ESCUTCHEON E.61.47 US32D P0300609', '1', '78', '12728', '18182', '20000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2913', '15', '60', '', '2913', 'ESCUTCHEON EO.61.01 GP P0300051', '1', '78', '4318', '12727', '14000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2914', '15', '60', '', '2914', 'FLOOR HINGE FH 84 US32D P0500201', '1', '78', '586364', '934091', '1027500', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2915', '15', '60', '', '2915', 'HANDLE ALM HPAL 61.41 US32D P0300751', '1', '78', '86365', '160000', '176000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2916', '15', '60', '', '2916', 'HANDLE ALM HPAL 61.42 US32D P0300754', '1', '78', '86365', '166364', '183000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2917', '15', '60', '', '2917', 'HANDLE ALM HPAL 61.44 US32D P0300757', '1', '78', '100000', '160000', '176000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2918', '15', '60', '', '2918', 'HANDLE FPP 61.62 CHR+SN P0300154', '1', '78', '36364', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2919', '15', '60', '', '2919', 'HANDLE FPP 61.62 GP+SG P0300153', '1', '78', '21590', '60909', '67000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2920', '15', '60', '', '2920', 'HANDLE HRE 31.10 US32+US32D P0300336', '1', '78', '159091', '251364', '276500', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2921', '15', '60', '', '2921', 'HANDLE HRE 31.10 US32+US32D P0300336', '1', '78', '159091', '251364', '276500', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2922', '15', '60', '', '2922', 'HANDLE HRE 61.45 CHR+US32D P0300606', '1', '78', '187728', '407273', '448000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2923', '15', '60', '', '2923', 'HANDLE HRE 61.45 CHR+US32D P0300606', '1', '78', '187728', '407273', '448000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2924', '15', '60', '', '2924', 'HANDLE HRE 61.46 US32+US32D P0300607', '1', '78', '178295', '336364', '370000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2925', '15', '60', '', '2925', 'HANDLE HRE 61.46 US32+US32D P0300607', '1', '78', '178295', '336364', '370000', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2926', '15', '60', '', '2926', 'HANDLE HRE 61.48 US32D+LC101 SN+DC US26', '1', '78', '181818', '404091', '444500', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2927', '15', '60', '', '2927', 'HANDLE HRE 61.52 US32D+LC101 SN+DC US26', '1', '78', '177245', '404091', '444500', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2928', '15', '60', '', '2928', 'HANDLE HRE 61.53 US32D+LC101 SN+DC US26', '1', '78', '146359', '404091', '444500', '0', '0', '0', 'y', '2017-04-24 21:57:07', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2929', '15', '60', '', '2929', 'HANDLE HRE 63.01 US26+US32D P0300701', '1', '78', '107074', '242273', '266500', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2930', '15', '60', '', '2930', 'HANDLE HRE 63.01 US26+US32D P0300701', '1', '78', '107074', '242273', '266500', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2931', '15', '60', '', '2931', 'HANDLE HRE 63.02 US26+US32D P0300704', '1', '78', '136941', '247727', '272500', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2932', '15', '60', '', '2932', 'HANDLE HRE 63.02 US26+US32D P0300704', '1', '78', '136941', '247727', '272500', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2933', '15', '60', '', '2933', 'HANDLE HRE31.01US32D+LC101WL40SN+DC02-60', '1', '78', '159091', '309091', '340000', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2934', '15', '60', '', '2934', 'HANDLE HRE61.41US32D+LC101WL40SN+DC02-60', '1', '78', '159091', '309091', '340000', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2935', '15', '60', '', '2935', 'HANDLE HRE61.42US32D+LC101WL40SN+DC02-60', '1', '78', '144460', '309091', '340000', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2936', '15', '60', '', '2936', 'HANDLE HRE61.44US32D+LC101WL40SN+DC02-60', '1', '78', '159091', '309091', '340000', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2937', '15', '60', '', '2937', 'HANDLE HS3XHDC SN P1000009', '1', '78', '268182', '593636', '653000', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2938', '15', '60', '', '2938', 'HANDLE ON PLATE HP 31.01 US32D P0300303', '1', '78', '92045', '178182', '196000', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2939', '15', '60', '', '2939', 'HANDLE ON PLATE HP 61.18 A P0300083', '1', '78', '125278', '272727', '300000', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2940', '15', '60', '', '2940', 'HANDLE ON PLATE HP 61.32CHR+SN P0300570', '1', '78', '146817', '360000', '396000', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2941', '15', '60', '', '2941', 'HANDLE ON PLATE HP 61.41 US32D P0300600', '1', '78', '95000', '176818', '194500', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2942', '15', '60', '', '2942', 'HANDLE ON PLATE HP 61.44 US32D P0300604', '1', '78', '95000', '183182', '201500', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2943', '15', '60', '', '2943', 'HANDLE ON PLATE HP 61.57 CHR+SN P0300121', '1', '78', '131819', '192727', '212000', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2944', '15', '60', '', '2944', 'HANDLE ON PLATE HP 61.74 AG P0300657', '1', '78', '49432', '100000', '110000', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2945', '15', '60', '', '2945', 'HANDLE ON PLATE HP 61.74 DB P0300658', '1', '78', '48572', '100000', '110000', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2946', '15', '60', '', '2946', 'HANDLE ON PLATE HP 61.75 AB P0300662', '1', '78', '59091', '88182', '97000', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2947', '15', '60', '', '2947', 'HANDLE ON PLATE HP 61.75 AG P0300661', '1', '78', '38864', '88182', '97000', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2948', '15', '60', '', '2948', 'HANDLE ON PLATE HP 61.75 AS P0300660', '1', '78', '41501', '88182', '97000', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2949', '15', '60', '', '2949', 'HANDLE ON PLATE HP 99.02CHR+SN P7703007', '1', '78', '154545', '409091', '450000', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2950', '15', '60', '', '2950', 'HANDLE ON PLATE HP.61.03 SN P0300010', '1', '78', '118182', '180909', '199000', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2951', '15', '60', '', '2951', 'HANDLE ON PLATE HP.61.04CHR+SN P0300015', '1', '78', '118182', '174545', '192000', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2952', '15', '60', '', '2952', 'HANDLE ON PLATE HP.61.06CHR+SN P0300035', '1', '78', '115656', '186364', '205000', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2953', '15', '60', '', '2953', 'HANDLE ON PLATE HP61.54 CHR+SN P0300112', '1', '78', '122728', '179545', '197500', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2954', '15', '60', '', '2954', 'HANDLE ON PLATE HP61.55 CHR+SN P0300115', '1', '78', '122728', '179545', '197500', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2955', '15', '60', '', '2955', 'HANDLE ON PLATE HP99.26 US32D P7703117', '1', '78', '118182', '230455', '253500', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2956', '15', '60', '', '2956', 'HANDLE ON PLATE HP99.27 US32D P7703122', '1', '78', '115015', '243182', '267500', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2957', '15', '60', '', '2957', 'HANDLE ON PLATEHP99.10US32+US32DP7703047', '1', '78', '133863', '199273', '219200', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2958', '15', '60', '', '2958', 'HANDLE ON ROSE HRE 31.01 US32D P0300302', '1', '78', '69090', '128636', '141500', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2959', '15', '60', '', '2959', 'HANDLE ON ROSE HRE 31.01 US32D P0300302', '1', '78', '69090', '128636', '141500', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2960', '15', '60', '', '2960', 'HANDLE ON ROSE HRE 61.12 A P0300057', '1', '78', '131818', '259545', '285500', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2961', '15', '60', '', '2961', 'HANDLE ON ROSE HRE 61.12 A P0300057', '1', '78', '131818', '259545', '285500', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2962', '15', '60', '', '2962', 'HANDLE ON ROSE HRE 61.22 CHR P0300508', '1', '78', '108409', '155909', '171500', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2963', '15', '60', '', '2963', 'HANDLE ON ROSE HRE 61.22 CHR P0300508', '1', '78', '108409', '155909', '171500', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2964', '15', '60', '', '2964', 'HANDLE ON ROSE HRE 61.29 CHR+SN P0300561', '1', '78', '99375', '192727', '212000', '0', '0', '0', 'y', '2017-04-24 21:57:08', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2965', '15', '60', '', '2965', 'HANDLE ON ROSE HRE 61.29 CHR+SN P0300561', '1', '78', '99375', '192727', '212000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2966', '15', '60', '', '2966', 'HANDLE ON ROSE HRE 61.32CHR+SN P0300572', '1', '78', '140909', '322273', '354500', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2967', '15', '60', '', '2967', 'HANDLE ON ROSE HRE 61.32CHR+SN P0300572', '1', '78', '140909', '322273', '354500', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2968', '15', '60', '', '2968', 'HANDLE ON ROSE HRE 61.41 US32D P0300601', '1', '78', '70004', '124545', '137000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2969', '15', '60', '', '2969', 'HANDLE ON ROSE HRE 61.41 US32D P0300601', '1', '78', '70004', '124545', '137000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2970', '15', '60', '', '2970', 'HANDLE ON ROSE HRE 61.42 US32D P0300602', '1', '78', '69090', '143636', '158000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2971', '15', '60', '', '2971', 'HANDLE ON ROSE HRE 61.42 US32D P0300602', '1', '78', '69090', '143636', '158000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2972', '15', '60', '', '2972', 'HANDLE ON ROSE HRE 61.43 US32D P0300603', '1', '78', '69149', '143636', '158000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2973', '15', '60', '', '2973', 'HANDLE ON ROSE HRE 61.43 US32D P0300603', '1', '78', '69149', '143636', '158000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2974', '15', '60', '', '2974', 'HANDLE ON ROSE HRE 61.44 US32D P0300605', '1', '78', '72727', '130909', '144000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2975', '15', '60', '', '2975', 'HANDLE ON ROSE HRE 61.44 US32D P0300605', '1', '78', '72727', '130909', '144000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2976', '15', '60', '', '2976', 'HANDLE ON ROSE HRE 61.48 US32D P0300611', '1', '78', '100000', '189545', '208500', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2977', '15', '60', '', '2977', 'HANDLE ON ROSE HRE 61.48 US32D P0300611', '1', '78', '100000', '189545', '208500', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2978', '15', '60', '', '2978', 'HANDLE ON ROSE HRE 61.49 US32D P0300612', '1', '78', '96235', '189545', '208500', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2979', '15', '60', '', '2979', 'HANDLE ON ROSE HRE 61.49 US32D P0300612', '1', '78', '96235', '189545', '208500', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2980', '15', '60', '', '2980', 'HANDLE ON ROSE HRE 61.60 US32D P0300615', '1', '78', '93333', '195909', '215500', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2981', '15', '60', '', '2981', 'HANDLE ON ROSE HRE 61.60 US32D P0300615', '1', '78', '93333', '195909', '215500', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2982', '15', '60', '', '2982', 'HANDLE ON ROSE HRE 61.69 US32D P0300618', '1', '78', '118182', '208636', '229500', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2983', '15', '60', '', '2983', 'HANDLE ON ROSE HRE 61.69 US32D P0300618', '1', '78', '118182', '208636', '229500', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2984', '15', '60', '', '2984', 'HANDLE ON ROSE HRE 62.08CHR+SN P0300278', '1', '78', '127273', '254545', '280000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2985', '15', '60', '', '2985', 'HANDLE ON ROSE HRE 62.08CHR+SN P0300278', '1', '78', '127273', '254545', '280000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2986', '15', '60', '', '2986', 'HANDLE ON ROSE HRE 62.09CHR+SN P0300282', '1', '78', '186364', '251818', '277000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2987', '15', '60', '', '2987', 'HANDLE ON ROSE HRE 62.09CHR+SN P0300282', '1', '78', '186364', '251818', '277000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2988', '15', '60', '', '2988', 'HANDLE ON ROSE HRE 62.10CHR+SN P0300286', '1', '78', '127273', '254545', '280000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2989', '15', '60', '', '2989', 'HANDLE ON ROSE HRE 62.10CHR+SN P0300286', '1', '78', '127273', '254545', '280000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2990', '15', '60', '', '2990', 'HANDLE ON ROSE HRE 62.11CHR+SN P0300290', '1', '78', '122121', '254545', '280000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2991', '15', '60', '', '2991', 'HANDLE ON ROSE HRE 62.11CHR+SN P0300290', '1', '78', '122121', '254545', '280000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2992', '15', '60', '', '2992', 'HANDLE ON ROSE HRE 64.21 US32D P0300851', '1', '78', '120909', '242273', '266500', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2993', '15', '60', '', '2993', 'HANDLE ON ROSE HRE 64.21 US32D P0300851', '1', '78', '120909', '242273', '266500', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2994', '15', '60', '', '2994', 'HANDLE ON ROSE HRE 68.04GP+SG P0300422', '1', '78', '142500', '226818', '249500', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2995', '15', '60', '', '2995', 'HANDLE ON ROSE HRE 68.04GP+SG P0300422', '1', '78', '142500', '226818', '249500', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2996', '15', '60', '', '2996', 'HANDLE ON ROSE HRE 99.02CHR+SN P7703009', '1', '78', '134381', '310909', '342000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2997', '15', '60', '', '2997', 'HANDLE ON ROSE HRE 99.02CHR+SN P7703009', '1', '78', '134381', '310909', '342000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2998', '15', '60', '', '2998', 'HANDLE ON ROSE HRE 99.11 AC+AS P7703054', '1', '78', '75569', '174091', '191500', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('2999', '15', '60', '', '2999', 'HANDLE ON ROSE HRE 99.11 AC+AS P7703054', '1', '78', '75569', '174091', '191500', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3000', '15', '60', '', '3000', 'HANDLE ON ROSE HRE 99.12 AS P7703059', '1', '78', '88856', '149091', '164000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3001', '15', '60', '', '3001', 'HANDLE ON ROSE HRE 99.12 AS P7703059', '1', '78', '88856', '149091', '164000', '0', '0', '0', 'y', '2017-04-24 21:57:09', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3002', '15', '60', '', '3002', 'HANDLE ON ROSE HRE 99.13 AC+AS P7703064', '1', '78', '67682', '173636', '191000', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3003', '15', '60', '', '3003', 'HANDLE ON ROSE HRE 99.13 AC+AS P7703064', '1', '78', '67682', '173636', '191000', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3004', '15', '60', '', '3004', 'HANDLE ON ROSE HRE 99.14 CHR+SN P7703069', '1', '78', '120057', '242273', '266500', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3005', '15', '60', '', '3005', 'HANDLE ON ROSE HRE 99.14 CHR+SN P7703069', '1', '78', '120057', '242273', '266500', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3006', '15', '60', '', '3006', 'HANDLE ON ROSE HRE 99.15 CHR+SN P7703074', '1', '78', '121819', '210909', '232000', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3007', '15', '60', '', '3007', 'HANDLE ON ROSE HRE 99.15 CHR+SN P7703074', '1', '78', '121819', '210909', '232000', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3008', '15', '60', '', '3008', 'HANDLE ON ROSE HRE 99.27 US32D P7703124', '1', '78', '109091', '198636', '218500', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3009', '15', '60', '', '3009', 'HANDLE ON ROSE HRE 99.27 US32D P7703124', '1', '78', '109091', '198636', '218500', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3010', '15', '60', '', '3010', 'HANDLE ON ROSE HRE O 61.91 AS PT0300694', '1', '78', '43247', '64364', '70800', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3011', '15', '60', '', '3011', 'HANDLE ON ROSE HRE.61.06 SN P0300029', '1', '78', '127273', '199091', '219000', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3012', '15', '60', '', '3012', 'HANDLE ON ROSE HRE.61.06 SN P0300029', '1', '78', '127273', '199091', '219000', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3013', '15', '60', '', '3013', 'HANDLE ON ROSE HRE61.52 US32D P0300616', '1', '78', '84637', '161818', '178000', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3014', '15', '60', '', '3014', 'HANDLE ON ROSE HRE61.52 US32D P0300616', '1', '78', '84637', '161818', '178000', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3015', '15', '60', '', '3015', 'HANDLE ON ROSE HRE68.04CHR+SN P0300423', '1', '78', '154545', '253636', '279000', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3016', '15', '60', '', '3016', 'HANDLE ON ROSE HRE68.04CHR+SN P0300423', '1', '78', '154545', '253636', '279000', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3017', '15', '60', '', '3017', 'HANDLE ON ROSE HRE99.26 US32D P7703119', '1', '78', '105454', '198636', '218500', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3018', '15', '60', '', '3018', 'HANDLE ON ROSE HRE99.26 US32D P7703119', '1', '78', '105454', '198636', '218500', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3019', '15', '60', '', '3019', 'HANDLE ON ROSE HRE99.28 US32D P7703129', '1', '78', '106363', '198636', '218500', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3020', '15', '60', '', '3020', 'HANDLE ON ROSE HRE99.28 US32D P7703129', '1', '78', '106363', '198636', '218500', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3021', '15', '60', '', '3021', 'HANDLE ON ROSE HRE99.41 CHR+SN P7703167', '1', '78', '131818', '245455', '270000', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3022', '15', '60', '', '3022', 'HANDLE ON ROSE HRE99.41 CHR+SN P7703167', '1', '78', '131818', '245455', '270000', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3023', '15', '60', '', '3023', 'HANDLE ON ROSE HRE9916CHR+US32DP7703079', '1', '78', '109091', '252727', '278000', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3024', '15', '60', '', '3024', 'HANDLE ON ROSE HRE9916CHR+US32DP7703079', '1', '78', '109091', '252727', '278000', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3025', '15', '60', '', '3025', 'HANDLE P 31.40 US32 P0300351', '1', '78', '185682', '400909', '441000', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3026', '15', '60', '', '3026', 'HANDLE P 31.41 US32+US32D P0300352', '1', '78', '327273', '496364', '546000', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3027', '15', '60', '', '3027', 'HANDLE P 31.42 US32 P0300353', '1', '78', '190909', '350000', '385000', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3028', '15', '60', '', '3028', 'HANDLE P 64. 04 US32D P0300814', '1', '78', '172727', '343636', '378000', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3029', '15', '60', '', '3029', 'HANDLE P 64. 05 US32D P0300817', '1', '78', '166010', '354091', '389500', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3030', '15', '60', '', '3030', 'HANDLE P 64.01 US32+US32D P0300801', '1', '78', '304545', '430000', '473000', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3031', '15', '60', '', '3031', 'HANDLE P 64.02 US32+US32D P0300806', '1', '78', '335425', '452273', '497500', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3032', '15', '60', '', '3032', 'HANDLE P 64.03 US32+US32D P0300811', '1', '78', '286364', '396818', '436500', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3033', '15', '60', '', '3033', 'HANDLE P 64.07 US32D P0300819', '1', '78', '260909', '366364', '403000', '0', '0', '0', 'y', '2017-04-24 21:57:10', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3034', '15', '60', '', '3034', 'HANDLE P 64.10 US32+US32D P0300822', '1', '78', '281818', '391818', '431000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3035', '15', '60', '', '3035', 'HANDLE P 64.11 US32+US32D P0300823', '1', '78', '162561', '334545', '368000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3036', '15', '60', '', '3036', 'HANDLE P 64.13 US32+US32D P0300825', '1', '78', '172728', '309091', '340000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3037', '15', '60', '', '3037', 'HANDLE P 64.14 US32+US32D P0300826', '1', '78', '104545', '146364', '161000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3038', '15', '60', '', '3038', 'HANDLE P 64.31 US32+US32D P0300871', '1', '78', '190909', '293636', '323000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3039', '15', '60', '', '3039', 'HANDLE P 91.04 US32+US32D P0312311', '1', '78', '131818', '205000', '225500', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3040', '15', '60', '', '3040', 'HANDLE P 91.05 US32+US32D P0312314', '1', '78', '120910', '224545', '247000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3041', '15', '60', '', '3041', 'HANDLE P 99.04 US32D P7703022', '1', '78', '123031', '267273', '294000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3042', '15', '60', '', '3042', 'HANDLE P 99.05 US32+US32D P7703024', '1', '78', '127273', '202273', '222500', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3043', '15', '60', '', '3043', 'HANDLE P 99.06 US32+US32D P7703027', '1', '78', '159091', '217273', '239000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3044', '15', '60', '', '3044', 'HANDLE P 99.29 CHR+US32D P7703131', '1', '78', '175057', '265455', '292000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3045', '15', '60', '', '3045', 'HANDLE P 99.30 US32+US32D P7703134', '1', '78', '99859', '140000', '154000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3046', '15', '60', '', '3046', 'HANDLE P 99.31 US32+US32D P7703137', '1', '78', '100000', '140000', '154000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3047', '15', '60', '', '3047', 'HANDLE P 99.32 US32+US32D P7703140', '1', '78', '108896', '152727', '168000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3048', '15', '60', '', '3048', 'HANDLE P 99.33 US32D P7703143', '1', '78', '107955', '194091', '213500', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3049', '15', '60', '', '3049', 'HANDLE P 99.60 US32D P7703331', '1', '78', '204545', '294545', '324000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3050', '15', '60', '', '3050', 'HANDLE P 99.62 GP+US32D P7703337', '1', '78', '131818', '216364', '238000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3051', '15', '60', '', '3051', 'HANDLE P 99.63 US32D P7703340', '1', '78', '177273', '273182', '300500', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3052', '15', '60', '', '3052', 'HANDLE P.99.21 US32+US32D P07703102', '1', '78', '150000', '230000', '253000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3053', '15', '60', '', '3053', 'HANDLE P.99.23 US32D P07703108', '1', '78', '136364', '216818', '238500', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3054', '15', '60', '', '3054', 'HANDLE P.99.61 US32D P7703334', '1', '78', '194317', '323636', '356000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3055', '15', '60', '', '3055', 'HANDLE P64.41 US32+DB P0300881', '1', '78', '371362', '757273', '833000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3056', '15', '60', '', '3056', 'HANDLE P64.42 US32+US32D P0300882', '1', '78', '345455', '661818', '728000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3057', '15', '60', '', '3057', 'HANDLE P64.44 US32+US32D P0300884', '1', '78', '490909', '693636', '763000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3058', '15', '60', '', '3058', 'HANDLE P91.01 US32+US324 P0312302', '1', '78', '131818', '186364', '205000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3059', '15', '60', '', '3059', 'HANDLE P91.02 US32D P0312305', '1', '78', '109848', '197273', '217000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3060', '15', '60', '', '3060', 'HANDLE P91.03 US32D P0312308', '1', '78', '107955', '210000', '231000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3061', '15', '60', '', '3061', 'HANDLE P99.48 AS+US32D P7703185', '1', '78', '118182', '206818', '227500', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3062', '15', '60', '', '3062', 'HANDLE PR99.38 US32D P7703158', '1', '78', '154545', '311818', '343000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3063', '15', '60', '', '3063', 'HANDLE ROSE HRE 99.18US32+US32D P7703089', '1', '78', '136364', '311818', '343000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3064', '15', '60', '', '3064', 'HANDLE ROSE HRE 99.18US32+US32D P7703089', '1', '78', '136364', '311818', '343000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3065', '15', '60', '', '3065', 'HANDLE WITH LATCH CAM 632 GP P0803446', '1', '78', '29364', '50455', '55500', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3066', '15', '61', '', '3066', 'GEMBOK 30MM 818 L-GP P0200372', '1', '78', '14542', '19091', '21000', '0', '0', '0', 'y', '2017-04-24 21:57:11', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3067', '15', '61', '', '3067', 'GEMBOK 30MM 818-CHR P0200382', '1', '78', '13637', '19091', '21000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3068', '15', '61', '', '3068', 'GEMBOK 30MM 818-GP P0200362', '1', '78', '13637', '17273', '19000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3069', '15', '61', '', '3069', 'GEMBOK 30MM 819 GREY P0200402', '1', '78', '9091', '12273', '13500', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3070', '15', '61', '', '3070', 'GEMBOK 30MM 819-L GREY P0200412', '1', '78', '10000', '12727', '14000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3071', '15', '61', '', '3071', 'GEMBOK 40MM 809 SN P0200311', '1', '78', '20910', '30000', '33000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3072', '15', '61', '', '3072', 'GEMBOK 40MM 809-L SN P0200316', '1', '78', '22728', '31364', '34500', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3073', '15', '61', '', '3073', 'GEMBOK 40MM 817 US26D P0200356', '1', '78', '106364', '146364', '161000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3074', '15', '61', '', '3074', 'GEMBOK 40MM 818 L-CHR P0200393', '1', '78', '16364', '20909', '23000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3075', '15', '61', '', '3075', 'GEMBOK 40MM 818 L-GP P0200373', '1', '78', '16364', '20909', '23000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3076', '15', '61', '', '3076', 'GEMBOK 40MM 818-CHR P0200383', '1', '78', '15455', '21364', '23500', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3077', '15', '61', '', '3077', 'GEMBOK 40MM 818-GP P0200363', '1', '78', '15455', '21364', '23500', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3078', '15', '61', '', '3078', 'GEMBOK 40MM 819 GREY P0200403', '1', '78', '10909', '15909', '17500', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3079', '15', '61', '', '3079', 'GEMBOK 40MM 819-L GREY P0200413', '1', '78', '11819', '16818', '18500', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3080', '15', '61', '', '3080', 'GEMBOK 40MM 962-CHR P7700341', '1', '78', '31818', '53182', '58500', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3081', '15', '61', '', '3081', 'GEMBOK 40MM A 807 SN P0200301', '1', '78', '39091', '54091', '59500', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3082', '15', '61', '', '3082', 'GEMBOK 40MM AS 808 SN P0200306', '1', '78', '39091', '55909', '61500', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3083', '15', '61', '', '3083', 'GEMBOK 50MM 809 SN P0200312', '1', '78', '29091', '40909', '45000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3084', '15', '61', '', '3084', 'GEMBOK 50MM 809-L SN P0200317', '1', '78', '29931', '42273', '46500', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3085', '15', '61', '', '3085', 'GEMBOK 50MM 817 US26D P0200357', '1', '78', '130000', '177273', '195000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3086', '15', '61', '', '3086', 'GEMBOK 50MM 818 L-CHR P0200394', '1', '78', '28182', '38182', '42000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3087', '15', '61', '', '3087', 'GEMBOK 50MM 818 L-GP P0200374', '1', '78', '28182', '38182', '42000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3088', '15', '61', '', '3088', 'GEMBOK 50MM 818-CHR P0200384', '1', '78', '25455', '35455', '39000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3089', '15', '61', '', '3089', 'GEMBOK 50MM 818-GP P0200364', '1', '78', '23247', '35455', '39000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3090', '15', '61', '', '3090', 'GEMBOK 50MM 819 GREY P0200404', '1', '78', '18182', '25909', '28500', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3091', '15', '61', '', '3091', 'GEMBOK 50MM 819-L GREY P0200414', '1', '78', '20909', '29091', '32000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3092', '15', '61', '', '3092', 'GEMBOK 50MM 962-CHR P7700342', '1', '78', '44545', '63636', '70000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3093', '15', '61', '', '3093', 'GEMBOK 50MM A 807 SN P0200302', '1', '78', '50000', '68636', '75500', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3094', '15', '61', '', '3094', 'GEMBOK 50MM AS 808 SN P0200307', '1', '78', '50000', '68182', '75000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3095', '15', '61', '', '3095', 'GEMBOK 50MM MK3 809 SN P0200314', '1', '78', '110000', '151818', '167000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3096', '15', '61', '', '3096', 'GEMBOK 50MM MK3 SL 7806P CLR P0200023', '1', '78', '167273', '230455', '253500', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3097', '15', '61', '', '3097', 'GEMBOK 50MM MK5 809 SN P0200315', '1', '78', '171818', '236818', '260500', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3098', '15', '61', '', '3098', 'GEMBOK 50MM SL 7806P CLR P0200022', '1', '78', '49091', '69545', '76500', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3099', '15', '61', '', '3099', 'GEMBOK 60MM 809 SN P0200313', '1', '78', '37273', '51818', '57000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3100', '15', '61', '', '3100', 'GEMBOK 60MM 809-L SN P0200318', '1', '78', '38182', '54091', '59500', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3101', '15', '61', '', '3101', 'GEMBOK 60MM 817 US26D P0200358', '1', '78', '137576', '210909', '232000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3102', '15', '61', '', '3102', 'GEMBOK 60MM 818-CHR P0200385', '1', '78', '33612', '47273', '52000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3103', '15', '61', '', '3103', 'GEMBOK 60MM 818-GP P0200365', '1', '78', '33636', '47273', '52000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3104', '15', '61', '', '3104', 'GEMBOK 60MM 819 GREY P0200405', '1', '78', '27273', '38182', '42000', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3105', '15', '61', '', '3105', 'GEMBOK 60MM 962-CHR P7700343', '1', '78', '49091', '71364', '78500', '0', '0', '0', 'y', '2017-04-24 21:57:12', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3106', '15', '61', '', '3106', 'GEMBOK 60MM A 807 SN P0200303', '1', '78', '54545', '75000', '82500', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3107', '15', '61', '', '3107', 'GEMBOK 60MM AS 808 SN P0200308', '1', '78', '61818', '85000', '93500', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3108', '15', '61', '', '3108', 'GEMBOK 96040MM SN P7700312', '1', '78', '20910', '28636', '31500', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3109', '15', '61', '', '3109', 'GEMBOK 96050MM MK3 SN P7700315', '1', '78', '76318', '150000', '165000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3110', '15', '61', '', '3110', 'GEMBOK 96050MM MK5 SN P7700316', '1', '78', '137996', '234091', '257500', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3111', '15', '61', '', '3111', 'GEMBOK 96050MM SN P7700313', '1', '78', '30000', '41818', '46000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3112', '15', '61', '', '3112', 'GEMBOK 96060MM SN P7700314', '1', '78', '36364', '50000', '55000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3113', '15', '61', '', '3113', 'GEMBOK 961-L40MM CHR+SN P7700331', '1', '78', '25910', '43636', '48000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3114', '15', '61', '', '3114', 'GEMBOK 961-L50MM CHR+SN P7700332', '1', '78', '38182', '52727', '58000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3115', '15', '61', '', '3115', 'GEMBOK 961-L60MM CHR+SN P7700333', '1', '78', '44545', '61364', '67500', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3116', '15', '61', '', '3116', 'GEMBOK 96140MM CHR+SN P7700325', '1', '78', '27273', '41364', '45500', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3117', '15', '61', '', '3117', 'GEMBOK 96150MM CHR+SN P7700326', '1', '78', '31091', '50909', '56000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3118', '15', '61', '', '3118', 'GEMBOK 96150MM MK3 CHR+SN P7700328', '1', '78', '85644', '166818', '183500', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3119', '15', '61', '', '3119', 'GEMBOK 96150MM MK5 CHR+SN P7700329', '1', '78', '147903', '265909', '292500', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3120', '15', '61', '', '3120', 'GEMBOK 96160MM CHR+SN P7700327', '1', '78', '38182', '58636', '64500', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3121', '15', '61', '', '3121', 'GEMBOK NOMOR R-7801 CLR P0200001', '1', '78', '8183', '10909', '12000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3122', '15', '61', '', '3122', 'GEMBOK NOMOR R-7803 CLR P0200010', '1', '78', '8182', '10909', '12000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3123', '15', '61', '', '3123', 'GEMBOK R-7819 CLR P0200151', '1', '78', '8182', '10909', '12000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3124', '15', '61', '', '3124', 'GEMBOK R-7820 CLR P0200152', '1', '78', '8182', '10909', '12000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3125', '15', '61', '', '3125', 'GEMBOK R-970 CLR P7700351', '1', '78', '40383', '76818', '84500', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3126', '15', '61', '', '3126', 'GEMBOK R-971 CLR P7700352', '1', '78', '30000', '43636', '48000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3127', '15', '61', '', '3127', 'GEMBOK R-972 CLR P7700353', '1', '78', '39091', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3128', '15', '61', '', '3128', 'GEMBOK R-973 CLR P7700354', '1', '78', '39091', '58182', '64000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3129', '15', '61', '', '3129', 'GEMBOK R-974 CLR P7700355', '1', '78', '55455', '78182', '86000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3130', '15', '61', '', '3130', 'GEMBOK R-981 CLR P7700362', '1', '78', '29998', '43636', '48000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3131', '15', '61', '', '3131', 'GEMBOK R813-60MM US26D P0200336', '1', '78', '109091', '150909', '166000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3132', '15', '61', '', '3132', 'GEMBOK R813-70MM US26D P0200337', '1', '78', '124545', '171364', '188500', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3133', '15', '61', '', '3133', 'GEMBOK R813-80MM US26D P0200338', '1', '78', '119182', '201818', '222000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3134', '15', '61', '', '3134', 'GRENDEL 610 4\'\' CHR P0801006', '1', '78', '40569', '64545', '71000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3135', '15', '61', '', '3135', 'GRENDEL 610 4\'\' GP P0801005', '1', '78', '34546', '64545', '71000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3136', '15', '61', '', '3136', 'GRENDEL 610 4\'\'SN P0801007', '1', '78', '29091', '64545', '71000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3137', '15', '61', '', '3137', 'GRENDEL 611 4\'\' CHR P0801016', '1', '78', '34727', '83636', '92000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3138', '15', '61', '', '3138', 'GRENDEL 611 4\'\' GP P0801015', '1', '78', '40910', '83636', '92000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3139', '15', '61', '', '3139', 'GRENDEL 611 4\'\' SN P0801017', '1', '78', '44795', '83636', '92000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3140', '15', '61', '', '3140', 'GRENDEL ALUMUNIUM GT 315 12\'\'SN P0800101', '1', '78', '25455', '41818', '46000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3141', '15', '61', '', '3141', 'GRENDEL G 220 P1100028', '1', '78', '60546', '158636', '174500', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3142', '15', '61', '', '3142', 'GRENDEL G 314 US32D P0801134', '1', '78', '22727', '35909', '39500', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3143', '15', '61', '', '3143', 'GRENDEL G 627 12\'\' SN P0801052', '1', '78', '50909', '70000', '77000', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3144', '15', '61', '', '3144', 'GRENDEL G 627 2\'\' CHR P0801042', '1', '78', '13637', '19545', '21500', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3145', '15', '61', '', '3145', 'GRENDEL G 627 2\'\' GP P0801041', '1', '78', '13637', '19545', '21500', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3146', '15', '61', '', '3146', 'GRENDEL G 627 2\'\' SN P0801043', '1', '78', '13637', '19545', '21500', '0', '0', '0', 'y', '2017-04-24 21:57:13', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3147', '15', '61', '', '3147', 'GRENDEL G 627 3\'\' CHR P0801046', '1', '78', '18182', '25455', '28000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3148', '15', '61', '', '3148', 'GRENDEL G 627 3\'\' GP P0801045', '1', '78', '13791', '25455', '28000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3149', '15', '61', '', '3149', 'GRENDEL G 627 3\'\' SN P0801047', '1', '78', '18182', '25455', '28000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3150', '15', '61', '', '3150', 'GRENDEL G 802 HK 2\'\' US26 P0801027', '1', '78', '13637', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3151', '15', '61', '', '3151', 'GRENDEL G 802 HK 2\'\' US3 P0801026', '1', '78', '13637', '21818', '24000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3152', '15', '61', '', '3152', 'GRENDEL G 802 HK 3\'\' US26 P0801030', '1', '78', '12727', '25909', '28500', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3153', '15', '61', '', '3153', 'GRENDEL G 802 HK 6\'\' US26 P0801139', '1', '78', '40454', '67727', '74500', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3154', '15', '61', '', '3154', 'GRENDEL G 804 2\'\' US26 P0801021', '1', '78', '14682', '34545', '38000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3155', '15', '61', '', '3155', 'GRENDEL G 804 2\'\' US3 P0801020', '1', '78', '13636', '34545', '38000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3156', '15', '61', '', '3156', 'GRENDEL G 926  2\'\' SN P7700811', '1', '78', '19091', '39091', '43000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3157', '15', '61', '', '3157', 'GRENDEL INDIKATOR G 310 U32D P0801133', '1', '78', '17705', '45909', '50500', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3158', '15', '61', '', '3158', 'GRENDEL RANTAI GR 801 A P0801386', '1', '78', '37266', '61818', '68000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3159', '15', '61', '', '3159', 'GRENDEL RANTAI GR 801 CHR P0801387', '1', '78', '30000', '61818', '68000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3160', '15', '61', '', '3160', 'GRENDEL RANTAI GR 801 GP P0801384', '1', '78', '23317', '61818', '68000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3161', '15', '61', '', '3161', 'GRENDEL RANTAI GR 801 SN P0801388', '1', '78', '37273', '61818', '68000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3162', '15', '61', '', '3162', 'GRENDEL SLIDING G 703 DB P0801161', '1', '78', '10000', '14091', '15500', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3163', '15', '61', '', '3163', 'GRENDEL SLIDING G 703 SN P0801162', '1', '78', '9961', '14091', '15500', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3164', '15', '61', '', '3164', 'GRENDEL TANAM 312 24\'\' US26 P0800008', '1', '78', '160909', '231364', '254500', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3165', '15', '61', '', '3165', 'GRENDEL TANAM 313 6\'\' US32D P0800014', '1', '78', '53182', '123636', '136000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3166', '15', '61', '', '3166', 'GRENDEL TANAM 644 12\'\' US32D P0800026', '1', '78', '66364', '93636', '103000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3167', '15', '61', '', '3167', 'GRENDEL TANAM 644 6\'\' US32D P0800025', '1', '78', '50000', '70000', '77000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3168', '15', '61', '', '3168', 'GRENDEL TANAM GT 312 12\'\' US26 P0800006', '1', '78', '80779', '120000', '132000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3169', '15', '61', '', '3169', 'GRENDEL TANAM GT 312 12\'\' US3 P0800002', '1', '78', '45455', '97273', '107000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3170', '15', '61', '', '3170', 'GRENDEL TANAM GT 312 16\'\' US26 P0800007', '1', '78', '104546', '171818', '189000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3171', '15', '61', '', '3171', 'GRENDEL TANAM GT 312 16\'\' US3 P0800003', '1', '78', '77781', '150000', '165000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3172', '15', '61', '', '3172', 'GRENDEL TANAM GT 312 6\'\' US26 P0800005', '1', '78', '54529', '80000', '88000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3173', '15', '61', '', '3173', 'GRENDEL TANAM GT 312 6\'\' US3 P0800001', '1', '78', '38077', '69091', '76000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3174', '15', '61', '', '3174', 'GRENDEL WC G 316 3\'\' CHR P0801143', '1', '78', '15545', '35000', '38500', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3175', '15', '61', '', '3175', 'GRENDEL WC G 316 3\'\' GP P0801142', '1', '78', '15546', '35000', '38500', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3176', '15', '61', '', '3176', 'GRENDEL WC G 317 4\'\' US32D P0801144', '1', '78', '19018', '34545', '38000', '0', '0', '0', 'y', '2017-04-24 21:57:14', 'developer', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `m_barang` VALUES ('3177', '5', '32', null, '05323177', 'Barang2TEST', '1', '56', '50000', '70000', '77000', '0', null, null, 'y', '2017-04-25 13:22:53', 'developer', '2017-04-25 13:22:53', null, '0');
 
 -- ----------------------------
 -- Table structure for m_brand
 -- ----------------------------
 DROP TABLE IF EXISTS `m_brand`;
 CREATE TABLE `m_brand` (
-  `brand_id` int(11) DEFAULT NULL,
-  `nama_brand` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `brand_id` int(11) NOT NULL AUTO_INCREMENT,
+  `brand_nama` varchar(255) DEFAULT NULL,
+  `brand_status_aktif` char(1) NOT NULL,
+  `brand_create_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `brand_create_by` varchar(255) NOT NULL,
+  `brand_update_date` datetime DEFAULT NULL,
+  `brand_update_by` varchar(255) DEFAULT NULL,
+  `brand_revised` int(11) DEFAULT NULL,
+  PRIMARY KEY (`brand_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of m_brand
 -- ----------------------------
+INSERT INTO `m_brand` VALUES ('1', 'MAKITA', 'y', '2017-04-20 15:00:59', 'developer', '2017-04-20 15:00:59', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('2', 'MAKTEC', 'y', '2017-04-20 15:01:00', 'developer', '2017-04-20 15:01:00', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('3', 'DCA', 'y', '2017-04-20 15:01:00', 'developer', '2017-04-20 15:01:00', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('4', 'BOSCH', 'y', '2017-04-20 15:01:02', 'developer', '2017-04-20 15:01:02', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('5', 'JASON', 'y', '2017-04-20 15:01:03', 'developer', '2017-04-20 15:01:03', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('6', 'BULLOCK', 'y', '2017-04-20 15:01:10', 'developer', '2017-04-20 15:01:10', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('7', 'CITICON', 'y', '2017-04-20 15:01:17', 'developer', '2017-04-20 15:01:17', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('8', 'MASPION', 'y', '2017-04-20 15:01:19', 'developer', '2017-04-20 15:01:19', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('9', 'MELZER', 'y', '2017-04-20 15:01:20', 'developer', '2017-04-20 15:01:20', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('10', 'MITUTOYO', 'y', '2017-04-20 15:01:20', 'developer', '2017-04-20 15:01:20', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('11', 'CONSTANT', 'y', '2017-04-20 15:01:20', 'developer', '2017-04-20 15:01:20', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('12', 'NICHOLSON', 'y', '2017-04-20 15:01:23', 'developer', '2017-04-20 15:01:23', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('13', 'NACHI', 'y', '2017-04-20 15:01:24', 'developer', '2017-04-20 15:01:24', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('14', 'SKC', 'y', '2017-04-20 15:01:26', 'developer', '2017-04-20 15:01:26', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('15', 'LONCIN', 'y', '2017-04-20 15:01:28', 'developer', '2017-04-20 15:01:28', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('16', 'HONDA ', 'y', '2017-04-20 15:01:28', 'developer', '2017-04-20 15:01:28', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('17', 'YOKOHAMA', 'y', '2017-04-20 15:01:28', 'developer', '2017-04-20 15:01:28', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('18', 'IWARA', 'y', '2017-04-20 15:01:28', 'developer', '2017-04-20 15:01:28', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('19', 'LAKONI', 'y', '2017-04-20 15:01:28', 'developer', '2017-04-20 15:01:28', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('20', 'SANYO', 'y', '2017-04-20 15:01:28', 'developer', '2017-04-20 15:01:28', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('21', 'LOCTITE', 'y', '2017-04-20 15:01:28', 'developer', '2017-04-20 15:01:28', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('22', 'DALTON', 'y', '2017-04-20 15:01:28', 'developer', '2017-04-20 15:01:28', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('23', 'RRT', 'y', '2017-04-20 15:01:29', 'developer', '2017-04-20 15:01:29', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('24', 'PANERISE', 'y', '2017-04-20 15:01:30', 'developer', '2017-04-20 15:01:30', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('25', 'KAWAT LAS', 'y', '2017-04-20 15:01:31', 'developer', '2017-04-20 15:01:31', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('26', 'HELM', 'y', '2017-04-20 15:01:31', 'developer', '2017-04-20 15:01:31', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('27', 'MASKER', 'y', '2017-04-20 15:01:32', 'developer', '2017-04-20 15:01:32', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('28', 'PANFIX', 'y', '2017-04-20 15:01:33', 'developer', '2017-04-20 15:01:33', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('29', 'SARUNG TGN', 'y', '2017-04-20 15:01:34', 'developer', '2017-04-20 15:01:34', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('30', 'AP BOOTS', 'y', '2017-04-20 15:01:34', 'developer', '2017-04-20 15:01:34', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('31', 'YAN FIRE', 'y', '2017-04-20 15:01:35', 'developer', '2017-04-20 15:01:35', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('32', 'RODA', 'y', '2017-04-20 15:01:35', 'developer', '2017-04-20 15:01:35', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('33', 'RANTAI', 'y', '2017-04-20 15:01:40', 'developer', '2017-04-20 15:01:40', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('34', 'KAWAT SELING', 'y', '2017-04-20 15:01:41', 'developer', '2017-04-20 15:01:41', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('35', 'PHILIPS', 'y', '2017-04-20 15:01:42', 'developer', '2017-04-20 15:01:42', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('36', ' BROCO', 'y', '2017-04-20 15:01:44', 'developer', '2017-04-20 15:01:44', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('37', 'EVEREADY', 'y', '2017-04-20 15:01:46', 'developer', '2017-04-20 15:01:46', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('38', 'ETERNA', 'y', '2017-04-20 15:01:46', 'developer', '2017-04-20 15:01:46', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('39', 'UTICON', 'y', '2017-04-20 15:01:47', 'developer', '2017-04-20 15:01:47', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('40', 'IMUNDEX', 'y', '2017-04-20 15:01:54', 'developer', '2017-04-20 15:01:54', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('41', 'ASIA', 'y', '2017-04-20 15:01:55', 'developer', '2017-04-20 15:01:55', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('42', 'ALCO', 'y', '2017-04-20 15:02:03', 'developer', '2017-04-20 15:02:03', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('43', 'ROMAN', 'y', '2017-04-20 15:02:03', 'developer', '2017-04-20 15:02:03', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('44', 'PLATINUM', 'y', '2017-04-20 15:02:03', 'developer', '2017-04-20 15:02:03', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('45', 'sandimas', 'y', '2017-04-20 15:02:22', 'developer', '2017-04-20 15:02:22', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('46', 'DULUX CATYLAC', 'y', '2017-04-20 15:02:23', 'developer', '2017-04-20 15:02:23', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('47', 'JOTUN', 'y', '2017-04-20 15:02:23', 'developer', '2017-04-20 15:02:23', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('48', 'MOWILEX', 'y', '2017-04-20 15:02:26', 'developer', '2017-04-20 15:02:26', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('49', 'PROPAN', 'y', '2017-04-20 15:02:26', 'developer', '2017-04-20 15:02:26', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('50', 'NIPPON', 'y', '2017-04-20 15:02:28', 'developer', '2017-04-20 15:02:28', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('51', 'PARAGON', 'y', '2017-04-20 15:02:30', 'developer', '2017-04-20 15:02:30', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('52', 'ELASTEX', 'y', '2017-04-20 15:02:30', 'developer', '2017-04-20 15:02:30', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('53', 'TIGA RODA', 'y', '2017-04-20 15:02:31', 'developer', '2017-04-20 15:02:31', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('54', 'SIKA', 'y', '2017-04-20 15:02:32', 'developer', '2017-04-20 15:02:32', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('55', 'RAJAWALI', 'y', '2017-04-20 15:02:33', 'developer', '2017-04-20 15:02:33', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('56', 'AM', 'y', '2017-04-20 15:02:33', 'developer', '2017-04-20 15:02:33', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('57', 'MU', 'y', '2017-04-20 15:02:35', 'developer', '2017-04-20 15:02:35', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('58', 'LAIN-LAIN', 'y', '2017-04-20 15:02:35', 'developer', '2017-04-20 15:02:35', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('59', 'MULIA', 'y', '2017-04-20 15:02:35', 'developer', '2017-04-20 15:02:35', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('60', 'QUEEN', 'y', '2017-04-20 15:02:36', 'developer', '2017-04-20 15:02:36', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('61', 'PROFIL', 'y', '2017-04-20 15:02:36', 'developer', '2017-04-20 15:02:36', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('62', 'KDK', 'y', '2017-04-20 15:02:36', 'developer', '2017-04-20 15:02:36', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('63', 'SPECTEK', 'y', '2017-04-20 15:02:37', 'developer', '2017-04-20 15:02:37', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('64', 'AER', 'y', '2017-04-20 15:02:37', 'developer', '2017-04-20 15:02:37', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('65', 'ONDA', 'y', '2017-04-20 15:02:43', 'developer', '2017-04-20 15:02:43', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('66', 'TOTO', 'y', '2017-04-20 15:02:50', 'developer', '2017-04-20 15:02:50', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('67', 'ORCHARD', 'y', '2017-04-20 15:02:51', 'developer', '2017-04-20 15:02:51', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('68', 'OULU', 'y', '2017-04-20 15:02:51', 'developer', '2017-04-20 15:02:51', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('69', 'ROYAL', 'y', '2017-04-20 15:02:51', 'developer', '2017-04-20 15:02:51', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('70', 'DUTY', 'y', '2017-04-20 15:02:52', 'developer', '2017-04-20 15:02:52', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('71', 'CASTELLI', 'y', '2017-04-20 15:02:53', 'developer', '2017-04-20 15:02:53', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('72', 'DOMO', 'y', '2017-04-20 15:02:53', 'developer', '2017-04-20 15:02:53', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('73', 'ARISTON', 'y', '2017-04-20 15:02:53', 'developer', '2017-04-20 15:02:53', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('74', 'MODENA', 'y', '2017-04-20 15:02:54', 'developer', '2017-04-20 15:02:54', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('75', 'WASSER', 'y', '2017-04-20 15:02:54', 'developer', '2017-04-20 15:02:54', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('76', 'SHIMIZU', 'y', '2017-04-20 15:02:54', 'developer', '2017-04-20 15:02:54', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('77', 'ANGZ', 'y', '2017-04-20 15:02:55', 'developer', '2017-04-20 15:02:55', 'developer', '0');
+INSERT INTO `m_brand` VALUES ('78', 'SOLID', 'y', '2017-04-20 15:02:57', 'developer', '2017-04-20 15:02:57', 'developer', '0');
 
 -- ----------------------------
 -- Table structure for m_cabang
@@ -7230,17 +10517,101 @@ CREATE TABLE `m_cabang` (
   `cabang_update_by` varchar(255) DEFAULT NULL,
   `cabang_revised` int(11) DEFAULT NULL,
   PRIMARY KEY (`cabang_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of m_cabang
 -- ----------------------------
-INSERT INTO `m_cabang` VALUES ('1', 'Nusa Indah Metalindo', '-', '3578', '[\"031\"]', '[\"031\"]', '[\"cabang1@gmail.com\"]', 'y', '2017-02-15 17:56:36', 'developer', '2017-03-08 10:04:31', 'developer', '1');
-INSERT INTO `m_cabang` VALUES ('2', 'Cabang 2', '-', '3578', '[\"03143454611\",\"081943584563\"]', '[\"0131224\"]', '[\"cabang2@gmail.com\"]', 'y', '2017-02-16 16:31:07', 'developer', '2017-02-17 11:12:43', null, '0');
+INSERT INTO `m_cabang` VALUES ('1', 'AJBS GRESIK', '-', '3578', '[\"031\"]', '[\"031\"]', '[\"cabang1@gmail.com\"]', 'y', '2017-02-15 17:56:36', 'developer', '2017-04-13 20:06:39', 'developer', '1');
 INSERT INTO `m_cabang` VALUES ('3', 'Cabang 3', 'Alamat Cabang', '1107', '[\"0218412487142\",\"08364238733\",\"0384834934342\"]', '[\"04783246932\",\"08324234234\"]', '[\"cabang3@gmail.com\",\"cabang_3@cabang.com\"]', 'n', '2017-02-17 10:55:43', 'developer', '2017-02-20 14:38:41', 'developer', '5');
-INSERT INTO `m_cabang` VALUES ('4', 'cabang 4', 'hghgh', '6308', '[\"88555855\"]', '[\"52558552\"]', '[\"gcvgtft@ggvg.com\"]', 'y', '2017-03-06 12:04:12', 'developer', '2017-03-06 12:04:46', 'developer', '3');
-INSERT INTO `m_cabang` VALUES ('5', 'cabang 5', 'alamat cabang', '1112', '[\"111111\"]', '[\"56265\"]', '[\"cabang5@gmail.com\"]', 'y', '2017-03-06 12:06:33', 'developer', '2017-03-06 13:27:35', 'developer', '9');
-INSERT INTO `m_cabang` VALUES ('6', 'NewCabang', 'Somewhere', '3578', '[\"031\"]', '[\"031\"]', '[\"mymail@example.com\"]', 'n', '2017-03-11 13:47:04', 'developer', '2017-03-11 13:47:32', 'developer', '1');
+INSERT INTO `m_cabang` VALUES ('4', 'CABANG1TEST', 'CABANG1ALAMAT', '3578', '[\"11111\"]', '[\"1111\"]', '[\"email@email.com\"]', 'y', '2017-04-17 12:36:29', 'developer', '2017-04-17 12:36:38', 'developer', '1');
+
+-- ----------------------------
+-- Table structure for m_category_2
+-- ----------------------------
+DROP TABLE IF EXISTS `m_category_2`;
+CREATE TABLE `m_category_2` (
+  `category_2_id` int(11) NOT NULL AUTO_INCREMENT,
+  `m_jenis_barang_id` int(11) DEFAULT NULL,
+  `category_2_nama` varchar(255) NOT NULL,
+  `category_2_status_aktif` char(1) NOT NULL,
+  `category_2_create_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `category_2_create_by` varchar(255) NOT NULL,
+  `category_2_update_date` datetime DEFAULT NULL,
+  `category_2_update_by` varchar(255) DEFAULT NULL,
+  `category_2_revised` int(11) DEFAULT NULL,
+  PRIMARY KEY (`category_2_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of m_category_2
+-- ----------------------------
+INSERT INTO `m_category_2` VALUES ('1', '3', 'Mesin Bor', 'y', '2017-04-20 15:04:18', 'developer', '2017-04-20 15:04:18', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('2', '3', 'Mesin Potong', 'y', '2017-04-20 15:04:19', 'developer', '2017-04-20 15:04:19', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('3', '3', 'Mesin Finishing', 'y', '2017-04-20 15:04:20', 'developer', '2017-04-20 15:04:20', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('4', '3', 'Catok & Klem', 'y', '2017-04-20 15:04:20', 'developer', '2017-04-20 15:04:20', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('5', '3', 'Palu', 'y', '2017-04-20 15:04:20', 'developer', '2017-04-20 15:04:20', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('6', '1', 'Tang', 'y', '2017-04-20 15:04:21', 'developer', '2017-04-20 15:04:21', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('7', '3', 'Obeng', 'y', '2017-04-20 15:04:23', 'developer', '2017-04-20 15:04:23', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('8', '3', 'Kunci Sock', 'y', '2017-04-20 15:04:25', 'developer', '2017-04-20 15:04:25', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('9', '3', 'Kunci', 'y', '2017-04-20 15:04:27', 'developer', '2017-04-20 15:04:27', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('10', '3', 'Kunci L', 'y', '2017-04-20 15:04:29', 'developer', '2017-04-20 15:04:29', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('11', '3', 'Alat Potong', 'y', '2017-04-20 15:04:32', 'developer', '2017-04-20 15:04:32', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('12', '3', 'Alat Finishing', 'y', '2017-04-20 15:04:33', 'developer', '2017-04-20 15:04:33', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('13', '2', 'Tool Box ', 'y', '2017-04-20 15:04:35', 'developer', '2017-04-20 15:04:35', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('14', '3', 'Alat Ukur', 'y', '2017-04-20 15:04:35', 'developer', '2017-04-20 15:04:35', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('15', '3', 'Mata Bor', 'y', '2017-04-20 15:04:38', 'developer', '2017-04-20 15:04:38', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('16', '3', 'Mata Potong', 'y', '2017-04-20 15:04:41', 'developer', '2017-04-20 15:04:41', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('17', '3', 'Mata Ketok', 'y', '2017-04-20 15:04:42', 'developer', '2017-04-20 15:04:42', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('18', '1', 'Handtaps & Snei', 'y', '2017-04-20 15:04:42', 'developer', '2017-04-20 15:04:42', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('19', '3', 'Finishing', 'y', '2017-04-20 15:04:43', 'developer', '2017-04-20 15:04:43', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('20', '3', 'Generator', 'y', '2017-04-20 15:04:44', 'developer', '2017-04-20 15:04:44', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('21', '1', 'Engine ', 'y', '2017-04-20 15:04:44', 'developer', '2017-04-20 15:04:44', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('22', '1', 'Mesin Pompa', 'y', '2017-04-20 15:04:44', 'developer', '2017-04-20 15:04:44', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('23', '1', 'Mesin Segel', 'y', '2017-04-20 15:04:45', 'developer', '2017-04-20 15:04:45', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('24', '1', 'Blower', 'y', '2017-04-20 15:04:45', 'developer', '2017-04-20 15:04:45', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('25', '1', 'Mesin Pembersih', 'y', '2017-04-20 15:04:45', 'developer', '2017-04-20 15:04:45', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('26', '2', 'Pelumas ', 'y', '2017-04-20 15:04:45', 'developer', '2017-04-20 15:04:45', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('27', '1', 'Mesin Kompresor', 'y', '2017-04-20 15:04:45', 'developer', '2017-04-20 15:04:45', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('28', '1', 'Aksesoris Kompresor', 'y', '2017-04-20 15:04:45', 'developer', '2017-04-20 15:04:45', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('29', '1', 'Mesin Las', 'y', '2017-04-20 15:04:46', 'developer', '2017-04-20 15:04:46', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('30', '1', 'Aksesoris Mesin Las', 'y', '2017-04-20 15:04:46', 'developer', '2017-04-20 15:04:46', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('31', '1', 'Kawat Las', 'y', '2017-04-20 15:04:47', 'developer', '2017-04-20 15:04:47', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('32', '1', 'Alat Pelindung Diri', 'y', '2017-04-20 15:04:48', 'developer', '2017-04-20 15:04:48', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('33', '1', 'Alat Pemadam', 'y', '2017-04-20 15:04:52', 'developer', '2017-04-20 15:04:52', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('34', '1', 'Roda', 'y', '2017-04-20 15:04:52', 'developer', '2017-04-20 15:04:52', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('35', '1', 'Dongkrak & Aksesoris', 'y', '2017-04-20 15:04:54', 'developer', '2017-04-20 15:04:54', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('36', '1', 'Chainblock', 'y', '2017-04-20 15:04:54', 'developer', '2017-04-20 15:04:54', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('37', '1', 'Aksesoris', 'y', '2017-04-20 15:04:54', 'developer', '2017-04-21 11:15:02', 'developer', '6');
+INSERT INTO `m_category_2` VALUES ('38', '1', 'Lampu ', 'y', '2017-04-20 15:04:55', 'developer', '2017-04-20 15:04:55', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('39', '1', 'Fitting Lampu', 'y', '2017-04-20 15:04:55', 'developer', '2017-04-20 15:04:55', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('40', '1', 'Baterai', 'y', '2017-04-20 15:04:56', 'developer', '2017-04-20 15:04:56', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('41', '1', 'Kabel', 'y', '2017-04-20 15:04:56', 'developer', '2017-04-20 15:04:56', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('42', '1', 'Saklar', 'y', '2017-04-20 15:04:57', 'developer', '2017-04-20 15:04:57', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('43', '1', 'Tile', 'y', '2017-04-20 15:04:59', 'developer', '2017-04-20 15:04:59', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('44', '1', 'Granite Tile', 'y', '2017-04-20 15:05:12', 'developer', '2017-04-20 15:05:12', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('45', '1', 'Paint', 'y', '2017-04-20 15:05:12', 'developer', '2017-04-20 15:05:12', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('46', '1', 'Waterproof', 'y', '2017-04-20 15:05:18', 'developer', '2017-04-20 15:05:18', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('47', '1', 'Semen ', 'y', '2017-04-20 15:05:19', 'developer', '2017-04-20 15:05:19', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('48', '2', 'Bata Ringan', 'y', '2017-04-20 15:05:21', 'developer', '2017-04-20 15:05:21', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('49', '2', 'Glassblock', 'y', '2017-04-20 15:05:21', 'developer', '2017-04-20 15:05:21', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('50', '2', 'Tangga', 'y', '2017-04-20 15:05:21', 'developer', '2017-04-20 15:05:21', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('51', '2', 'Tandon Air', 'y', '2017-04-20 15:05:22', 'developer', '2017-04-20 15:05:22', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('52', '2', 'Kipas Angin', 'y', '2017-04-20 15:05:22', 'developer', '2017-04-20 15:05:22', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('53', '2', 'Kran', 'y', '2017-04-20 15:05:22', 'developer', '2017-04-20 15:05:22', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('54', '2', 'Wastafel', 'y', '2017-04-20 15:05:30', 'developer', '2017-04-20 15:05:30', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('55', '2', 'Closet', 'y', '2017-04-20 15:05:32', 'developer', '2017-04-20 15:05:32', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('56', '2', 'Perlengkapan', 'y', '2017-04-20 15:05:33', 'developer', '2017-04-20 15:05:33', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('57', '2', 'Water Heater', 'y', '2017-04-20 15:05:33', 'developer', '2017-04-20 15:05:33', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('58', '2', 'Pompa Air', 'y', '2017-04-20 15:05:33', 'developer', '2017-04-20 15:05:33', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('59', '2', 'Pintu', 'y', '2017-04-20 15:05:35', 'developer', '2017-04-20 15:05:35', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('60', '2', 'Handle & Engsel', 'y', '2017-04-20 15:05:37', 'developer', '2017-04-20 15:05:37', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('61', '2', 'Gembok', 'y', '2017-04-20 15:05:42', 'developer', '2017-04-20 15:05:42', 'developer', '0');
+INSERT INTO `m_category_2` VALUES ('64', null, 'testing kategori', 'y', '2017-04-21 10:52:50', 'developer', '2017-04-21 10:52:50', null, '0');
+INSERT INTO `m_category_2` VALUES ('65', '5', 'qqqqqqqqqqqqqqq', 'y', '2017-04-21 10:56:01', 'developer', '2017-04-21 10:56:01', null, '0');
+INSERT INTO `m_category_2` VALUES ('66', '5', 'a', 'y', '2017-04-21 14:14:51', 'developer', '2017-04-21 14:14:51', null, '0');
+INSERT INTO `m_category_2` VALUES ('67', '9', 'a', 'y', '2017-04-21 14:17:31', 'developer', '2017-04-21 14:17:31', null, '0');
+INSERT INTO `m_category_2` VALUES ('68', '5', 'baru', 'y', '2017-04-25 13:28:13', 'developer', '2017-04-25 13:28:13', null, '0');
 
 -- ----------------------------
 -- Table structure for m_departemen
@@ -7262,9 +10633,28 @@ CREATE TABLE `m_departemen` (
 -- Records of m_departemen
 -- ----------------------------
 INSERT INTO `m_departemen` VALUES ('1', 'produksi', 'y', '0000-00-00 00:00:00', '', '2017-03-21 10:15:45', 'developer', '1');
-INSERT INTO `m_departemen` VALUES ('2', 'Departemen 2', 'y', '2017-02-17 21:57:46', 'developer', '2017-02-17 21:57:51', 'developer', '1');
+INSERT INTO `m_departemen` VALUES ('2', 'Departemen 2', 'y', '2017-02-17 21:57:46', 'developer', '2017-04-17 12:36:54', 'developer', '3');
 INSERT INTO `m_departemen` VALUES ('3', 'gudang barang jadi', 'y', '2017-03-06 12:08:06', 'developer', '2017-03-21 10:16:36', 'developer', '7');
 INSERT INTO `m_departemen` VALUES ('4', 'gudang bahan', 'y', '2017-03-06 13:04:19', 'developer', '2017-03-21 10:16:14', 'developer', '6');
+
+-- ----------------------------
+-- Table structure for m_detail_promo
+-- ----------------------------
+DROP TABLE IF EXISTS `m_detail_promo`;
+CREATE TABLE `m_detail_promo` (
+  `promo_id` int(11) DEFAULT NULL,
+  `barang_id` int(11) DEFAULT NULL,
+  `det_promo_status_aktif` char(1) DEFAULT NULL,
+  `det_promo_promo_create_date` datetime DEFAULT '0000-00-00 00:00:00',
+  `det_promo_promo_create_by` varchar(255) DEFAULT NULL,
+  `det_promo_promo_update_date` datetime DEFAULT NULL,
+  `det_promo_promo_update_by` varchar(255) DEFAULT NULL,
+  `det_promo_promo_revised` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of m_detail_promo
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for m_gudang
@@ -7291,43 +10681,70 @@ CREATE TABLE `m_gudang` (
   KEY `gudang_jenis_gudang` (`m_jenis_gudang_id`),
   CONSTRAINT `gudang_cabang` FOREIGN KEY (`m_cabang_id`) REFERENCES `m_cabang` (`cabang_id`),
   CONSTRAINT `gudang_jenis_gudang` FOREIGN KEY (`m_jenis_gudang_id`) REFERENCES `m_jenis_gudang` (`jenis_gudang_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of m_gudang
 -- ----------------------------
-INSERT INTO `m_gudang` VALUES ('1', 'Gudang DD', 'Surimulia DD/9', '3578', '[\"031\"]', '[\"031\"]', '[\"weweer@gmail.com\"]', '1', '2', 'y', '2017-02-15 18:04:36', 'developer', '2017-03-07 14:07:25', 'gudangbahan', '8');
-INSERT INTO `m_gudang` VALUES ('2', 'Gudang 2', '-', '3372', '[\"0492384825\",\"9004746343\"]', '[\"01378274\"]', '[\"gudang2@gudang.com\"]', '1', '1', 'n', '2017-02-16 16:57:21', 'developer', '2017-03-06 13:21:03', 'developer', '1');
-INSERT INTO `m_gudang` VALUES ('3', 'Gudang 3', 'Alamat Gudang', '8171', '[\"035859358\",\"07583593\"]', '[\"08393579353\",\"037428535\"]', '[\"gudang3@gudang.com\",\"gudang_3@gudang.com\"]', '3', '1', 'n', '2017-02-17 11:07:24', 'developer', '2017-03-06 13:21:03', 'developer', '1');
-INSERT INTO `m_gudang` VALUES ('4', 'Gudang JJ Produksi', 'Surimulia JJ 3-4', '3578', '[\"08521456321\"]', '[\"2656564\"]', '[\"gudang4@gmail.com\"]', '1', '3', 'y', '2017-03-06 13:30:02', 'developer', '2017-03-13 10:57:09', 'developer', '7');
-INSERT INTO `m_gudang` VALUES ('5', 'Gudang JJ Bahan Baku', 'Surabaya', '3578', '[\"031\"]', '[\"031\"]', '[\"gudang@gmail\"]', '1', '2', 'y', '2017-03-13 10:53:47', 'developer', '2017-03-13 10:53:47', null, '0');
-INSERT INTO `m_gudang` VALUES ('6', 'Gudang JJ Barang Jadi ', 'surabaya', '3578', '[\"031\"]', '[\"031\"]', '[\"gudang@gmail\"]', '1', '1', 'y', '2017-03-13 10:55:37', 'developer', '2017-03-13 10:55:37', null, '0');
+INSERT INTO `m_gudang` VALUES ('1', 'Gudang', 'Surimulia DD/9', '3578', '[\"031\"]', '[\"031\"]', '[\"weweer@gmail.com\"]', '1', '2', 'y', '2017-02-15 18:04:36', 'developer', '2017-04-15 09:11:09', 'gudangbahan', '8');
+INSERT INTO `m_gudang` VALUES ('2', 'Display', 'Gudang1', '3578', '[\"1111111\"]', '[\"222222\"]', '[\"email@email.com\"]', '1', '4', 'y', '2017-04-17 12:25:00', 'developer', '2017-04-25 14:32:00', null, '0');
 
 -- ----------------------------
 -- Table structure for m_harga
 -- ----------------------------
 DROP TABLE IF EXISTS `m_harga`;
 CREATE TABLE `m_harga` (
-  `barang_id` int(11) DEFAULT NULL,
-  `cabang_id` int(11) DEFAULT NULL,
-  `harga_jual` int(11) DEFAULT NULL,
-  `harga_beli` int(11) DEFAULT NULL,
-  `harga_jual_pajak` int(11) DEFAULT NULL,
+  `harga_id` int(11) NOT NULL AUTO_INCREMENT,
+  `barang_id` int(11) NOT NULL,
+  `cabang_id` int(11) NOT NULL,
+  `harga_jual` int(11) NOT NULL,
+  `harga_beli` int(11) NOT NULL,
+  `harga_jual_pajak` int(11) NOT NULL,
   `barang_status_aktif` char(1) NOT NULL,
   `barang_create_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `barang_create_by` varchar(255) NOT NULL,
   `barang_update_date` datetime DEFAULT NULL,
   `barang_update_by` varchar(255) DEFAULT NULL,
-  `barang_revised` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `barang_revised` int(11) DEFAULT NULL,
+  PRIMARY KEY (`harga_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of m_harga
 -- ----------------------------
-INSERT INTO `m_harga` VALUES ('7', '1', null, '30000', null, '5', '2017-04-04 10:55:34', 'developer', '2017-04-04 10:55:34', null, '0');
-INSERT INTO `m_harga` VALUES ('8', '1', '9000', '1000', null, 'y', '2017-04-04 10:58:02', 'developer', '2017-04-04 10:58:02', null, '0');
-INSERT INTO `m_harga` VALUES ('9', '1', '9900', '9800', null, 'y', '2017-04-04 11:01:30', 'developer', '2017-04-04 14:39:41', 'developer', '14');
-INSERT INTO `m_harga` VALUES ('11', '1', '8900', '7800', null, 'y', '2017-04-04 11:04:00', 'developer', '2017-04-04 11:04:00', null, '0');
+INSERT INTO `m_harga` VALUES ('1', '7', '1', '0', '30000', '0', '5', '2017-04-04 10:55:34', 'developer', '2017-04-04 10:55:34', null, '0');
+INSERT INTO `m_harga` VALUES ('2', '8', '1', '9000', '1000', '0', 'y', '2017-04-04 10:58:02', 'developer', '2017-04-04 10:58:02', null, '0');
+INSERT INTO `m_harga` VALUES ('3', '9', '1', '9900', '9800', '0', 'y', '2017-04-04 11:01:30', 'developer', '2017-04-04 14:39:41', 'developer', '14');
+INSERT INTO `m_harga` VALUES ('4', '11', '1', '8900', '7800', '0', 'y', '2017-04-04 11:04:00', 'developer', '2017-04-04 11:04:00', null, '0');
+INSERT INTO `m_harga` VALUES ('5', '1', '1', '528182', '348637', '581000', 'y', '2017-04-07 15:56:36', 'developer', '2017-04-24 21:50:14', 'developer', '2');
+INSERT INTO `m_harga` VALUES ('6', '3180', '1', '100000', '1000', '900000', 'y', '2017-04-17 00:38:47', 'developer', '2017-04-17 00:38:47', null, '0');
+INSERT INTO `m_harga` VALUES ('7', '3181', '1', '9900', '1000', '900000', 'y', '2017-04-17 00:45:22', 'developer', '2017-04-17 00:45:22', null, '0');
+INSERT INTO `m_harga` VALUES ('8', '3182', '1', '9900', '50000', '900000', 'y', '2017-04-17 00:50:54', 'developer', '2017-04-17 00:50:54', null, '0');
+INSERT INTO `m_harga` VALUES ('9', '3183', '1', '2000', '1000', '1000', 'y', '2017-04-17 12:30:49', 'developer', '2017-04-17 12:31:37', 'developer', '2');
+INSERT INTO `m_harga` VALUES ('10', '19', '1', '200000', '90', '220000', 'y', '2017-04-18 11:29:12', 'developer', '2017-04-18 11:30:40', 'developer', '3');
+INSERT INTO `m_harga` VALUES ('11', '3177', '1', '100000', '1000', '110000', 'y', '2017-04-24 17:11:04', 'developer', '2017-04-24 17:11:04', null, '0');
+INSERT INTO `m_harga` VALUES ('12', '3178', '1', '9900', '1000', '10890', 'y', '2017-04-24 17:13:40', 'developer', '2017-04-24 17:17:06', 'developer', '2');
+INSERT INTO `m_harga` VALUES ('13', '3177', '1', '70000', '50000', '77000', 'y', '2017-04-25 13:22:54', 'developer', '2017-04-25 13:22:54', null, '0');
+
+-- ----------------------------
+-- Table structure for m_header
+-- ----------------------------
+DROP TABLE IF EXISTS `m_header`;
+CREATE TABLE `m_header` (
+  `header_id` int(11) NOT NULL AUTO_INCREMENT,
+  `header_text` text,
+  `header_created_date` datetime DEFAULT NULL,
+  `header_created_by` varchar(255) DEFAULT NULL,
+  `header_updated_date` datetime DEFAULT NULL,
+  `header_updated_by` varchar(255) DEFAULT NULL,
+  `header_revised` int(11) DEFAULT NULL,
+  PRIMARY KEY (`header_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of m_header
+-- ----------------------------
+INSERT INTO `m_header` VALUES ('1', 'Galvalume Roll, Genteng Metal,\r\nGanal C, Reng,\r\nAtap Gelombang 5 (Trimdek),\r\nHollow, Wall Angel ', '2017-04-01 15:09:04', 'developer', '2017-04-12 15:14:41', 'developer', '7');
 
 -- ----------------------------
 -- Table structure for m_jenis_barang
@@ -7336,24 +10753,33 @@ DROP TABLE IF EXISTS `m_jenis_barang`;
 CREATE TABLE `m_jenis_barang` (
   `jenis_barang_id` int(11) NOT NULL AUTO_INCREMENT,
   `jenis_barang_nama` varchar(255) DEFAULT NULL,
-  `m_jenis_gudang_id` int(11) DEFAULT NULL,
   `jenis_barang_status_aktif` char(1) DEFAULT NULL,
   `jenis_barang_create_date` datetime DEFAULT NULL,
   `jenis_barang_create_by` varchar(255) DEFAULT NULL,
   `jenis_barang_update_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `jenis_barang_update_by` varchar(255) DEFAULT NULL,
   `jenis_barang_revised` int(11) DEFAULT NULL,
-  PRIMARY KEY (`jenis_barang_id`),
-  KEY `jenis_gudang` (`m_jenis_gudang_id`),
-  CONSTRAINT `jenis_gudang` FOREIGN KEY (`m_jenis_gudang_id`) REFERENCES `m_jenis_gudang` (`jenis_gudang_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`jenis_barang_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of m_jenis_barang
 -- ----------------------------
-INSERT INTO `m_jenis_barang` VALUES ('1', 'Bahan Baku', '2', 'y', '2017-02-15 18:06:09', 'developer', '2017-03-13 10:32:24', 'developer', '3');
-INSERT INTO `m_jenis_barang` VALUES ('2', 'Bahan Penolong', '2', 'y', '2017-03-06 13:24:28', 'developer', '2017-03-13 10:33:29', 'developer', '6');
-INSERT INTO `m_jenis_barang` VALUES ('3', 'Barang Jadi', '1', 'y', '2017-03-06 13:40:10', 'developer', '2017-03-13 10:32:39', 'developer', '1');
+INSERT INTO `m_jenis_barang` VALUES ('1', 'Power Tools', 'y', '2017-04-20 14:45:55', 'developer', '2017-04-20 14:45:55', 'developer', '0');
+INSERT INTO `m_jenis_barang` VALUES ('2', 'Tools', 'y', '2017-04-20 15:01:03', 'developer', '2017-04-20 15:01:03', 'developer', '0');
+INSERT INTO `m_jenis_barang` VALUES ('3', 'Cutting & Finishing', 'y', '2017-04-20 15:01:21', 'developer', '2017-04-20 15:01:21', 'developer', '0');
+INSERT INTO `m_jenis_barang` VALUES ('4', 'Machinery', 'y', '2017-04-20 15:01:28', 'developer', '2017-04-20 15:01:28', 'developer', '0');
+INSERT INTO `m_jenis_barang` VALUES ('5', 'Air Compressor', 'y', '2017-04-20 15:01:28', 'developer', '2017-04-20 15:01:28', 'developer', '0');
+INSERT INTO `m_jenis_barang` VALUES ('6', 'Welding', 'y', '2017-04-20 15:01:30', 'developer', '2017-04-20 15:01:30', 'developer', '0');
+INSERT INTO `m_jenis_barang` VALUES ('7', 'Safety & Protection', 'y', '2017-04-20 15:01:31', 'developer', '2017-04-20 15:01:31', 'developer', '0');
+INSERT INTO `m_jenis_barang` VALUES ('8', 'Material Handling', 'y', '2017-04-20 15:01:35', 'developer', '2017-04-20 15:01:35', 'developer', '0');
+INSERT INTO `m_jenis_barang` VALUES ('9', 'Electrical & Lighting', 'y', '2017-04-20 15:01:42', 'developer', '2017-04-20 15:01:42', 'developer', '0');
+INSERT INTO `m_jenis_barang` VALUES ('10', 'Flooring', 'y', '2017-04-20 15:01:55', 'developer', '2017-04-20 15:01:55', 'developer', '0');
+INSERT INTO `m_jenis_barang` VALUES ('11', 'Painting', 'y', '2017-04-20 15:02:23', 'developer', '2017-04-20 15:02:23', 'developer', '0');
+INSERT INTO `m_jenis_barang` VALUES ('12', 'Building Supplies', 'y', '2017-04-20 15:02:31', 'developer', '2017-04-20 15:02:31', 'developer', '0');
+INSERT INTO `m_jenis_barang` VALUES ('13', 'Sanitary', 'y', '2017-04-20 15:02:37', 'developer', '2017-04-20 15:02:37', 'developer', '0');
+INSERT INTO `m_jenis_barang` VALUES ('14', 'Pumps', 'y', '2017-04-20 15:02:53', 'developer', '2017-04-20 15:02:53', 'developer', '0');
+INSERT INTO `m_jenis_barang` VALUES ('15', 'Door & Windows', 'y', '2017-04-20 15:02:55', 'developer', '2017-04-20 15:02:55', 'developer', '0');
 
 -- ----------------------------
 -- Table structure for m_jenis_gudang
@@ -7369,7 +10795,7 @@ CREATE TABLE `m_jenis_gudang` (
   `jenis_gudang_update_by` varchar(255) DEFAULT NULL,
   `jenis_gudang_revised` int(11) DEFAULT NULL,
   PRIMARY KEY (`jenis_gudang_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of m_jenis_gudang
@@ -7377,6 +10803,7 @@ CREATE TABLE `m_jenis_gudang` (
 INSERT INTO `m_jenis_gudang` VALUES ('1', 'GUDANG BARANG JADI', 'y', '2017-02-15 18:02:15', 'developer', '2017-03-07 14:05:01', 'gudangbahan', '4');
 INSERT INTO `m_jenis_gudang` VALUES ('2', 'GUDANG BAHAN BAKU', 'y', '2017-03-06 13:28:08', 'developer', '2017-03-07 14:04:49', 'gudangbahan', '2');
 INSERT INTO `m_jenis_gudang` VALUES ('3', 'GUDANG PRODUKSI', 'y', '2017-03-07 14:05:15', 'gudangbahan', '2017-03-07 14:05:15', null, '0');
+INSERT INTO `m_jenis_gudang` VALUES ('4', 'JenisGudang1-TEST', 'y', '2017-04-17 12:23:57', 'developer', '2017-04-17 12:24:08', 'developer', '1');
 
 -- ----------------------------
 -- Table structure for m_jenis_produksi
@@ -7392,7 +10819,7 @@ CREATE TABLE `m_jenis_produksi` (
   `jenis_produksi_update_by` varchar(255) DEFAULT NULL,
   `jenis_produksi_revised` int(11) DEFAULT NULL,
   PRIMARY KEY (`jenis_produksi_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of m_jenis_produksi
@@ -7400,6 +10827,7 @@ CREATE TABLE `m_jenis_produksi` (
 INSERT INTO `m_jenis_produksi` VALUES ('1', 'Trimdeck', 'y', '2017-03-10 10:38:45', null, '2017-03-10 16:30:53', null, null);
 INSERT INTO `m_jenis_produksi` VALUES ('2', 'Roll', 'y', '2017-03-10 10:39:37', null, '2017-03-10 16:30:56', null, null);
 INSERT INTO `m_jenis_produksi` VALUES ('3', 'Batangan', 'y', '2017-03-10 10:39:56', null, '2017-03-10 16:30:59', null, null);
+INSERT INTO `m_jenis_produksi` VALUES ('4', 'PRODUKSITEST1', 'y', '2017-04-17 12:35:20', 'developer', '2017-04-17 12:35:27', 'developer', '1');
 
 -- ----------------------------
 -- Table structure for m_jenis_produksidet
@@ -7412,7 +10840,7 @@ CREATE TABLE `m_jenis_produksidet` (
   `jenis_produksidet_parameter` varchar(255) DEFAULT NULL,
   `jenis_produksidet_operator` int(11) DEFAULT NULL COMMENT '1(+); 2(-); 3(x); 4(:); 5(=);',
   PRIMARY KEY (`jenis_produksidet_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of m_jenis_produksidet
@@ -7431,6 +10859,7 @@ INSERT INTO `m_jenis_produksidet` VALUES ('11', '3', '1', 'perolehan_produksi_ak
 INSERT INTO `m_jenis_produksidet` VALUES ('12', '3', '1', 'perolehan_produksi_akhirdet_qty_rusak', '1');
 INSERT INTO `m_jenis_produksidet` VALUES ('13', '3', '1', 'perolehan_produksi_akhirdet_ns', '3');
 INSERT INTO `m_jenis_produksidet` VALUES ('14', '3', '1', 'perolehan_produksi_akhirdet_berat', '5');
+INSERT INTO `m_jenis_produksidet` VALUES ('15', '4', '1', 'perolehan_produksi_akhirdet_berat', '1');
 
 -- ----------------------------
 -- Table structure for m_karyawan
@@ -7465,11 +10894,36 @@ CREATE TABLE `m_karyawan` (
 -- ----------------------------
 INSERT INTO `m_karyawan` VALUES ('1', '1', 'developer', '-', '[\"-\"]', '1', '1', '1', 'y', '0000-00-00 00:00:00', '0', '2017-03-06 13:07:30', 'developer', '1');
 INSERT INTO `m_karyawan` VALUES ('7', '2017000001', 'Karyawan 1', '-', '[\"087\",\"088\",\"089\"]', '5', '1', '1', 'y', '2017-02-15 17:59:04', 'developer', '2017-03-01 12:06:23', 'developer', '4');
-INSERT INTO `m_karyawan` VALUES ('8', '2017000002', 'Karyawan 2', '-', '[\"1212\",\"088\"]', '6', '1', '2', 'y', '2017-02-20 01:27:58', 'developer', '2017-03-06 13:07:03', 'developer', '2');
+INSERT INTO `m_karyawan` VALUES ('8', '2017000002', 'Karyawan 2', '-', '[\"1212\",\"088\"]', '6', '1', '2', 'n', '2017-02-20 01:27:58', 'developer', '2017-04-21 15:38:22', 'developer', '4');
 INSERT INTO `m_karyawan` VALUES ('9', '2000000001', 'Direktur 1', '-', '[\"087\"]', '1', '1', '1', 'y', '2017-02-20 01:28:45', 'developer', '2017-03-06 13:07:40', 'developer', '2');
-INSERT INTO `m_karyawan` VALUES ('10', '0988', 'karyawan 1', 'bijihygygg', '[\"4515412\"]', '6', '1', '3', 'y', '2017-03-06 13:14:45', 'developer', '2017-03-11 13:50:02', 'developer', '7');
+INSERT INTO `m_karyawan` VALUES ('10', '09886575', 'TestKaryawan1', 'bijihygygg', '[\"4515412\",\"35535353\"]', '6', '1', '3', 'n', '2017-03-06 13:14:45', 'developer', '2017-04-21 15:38:26', 'developer', '10');
 INSERT INTO `m_karyawan` VALUES ('11', '2017000004', 'produksi1', 'surabaya', '[\"0987654321\"]', '9', '1', '1', 'y', '2017-03-21 10:17:29', 'developer', '2017-03-21 10:17:29', null, '0');
 INSERT INTO `m_karyawan` VALUES ('12', '2017000005', 'kepalaproduksi1', 'surabaya', '[\"1923891283\"]', '10', '1', '1', 'y', '2017-03-21 11:33:41', 'developer', '2017-03-21 11:33:41', null, '0');
+
+-- ----------------------------
+-- Table structure for m_konsinyasi
+-- ----------------------------
+DROP TABLE IF EXISTS `m_konsinyasi`;
+CREATE TABLE `m_konsinyasi` (
+  `konsinyasi_id` int(11) NOT NULL AUTO_INCREMENT,
+  `m_jenis_barang_id` int(11) DEFAULT NULL,
+  `m_category_2_id` int(11) DEFAULT NULL,
+  `konsinyasi_nama` varchar(255) NOT NULL,
+  `konsinyasi_status_aktif` char(1) NOT NULL,
+  `konsinyasi_create_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `konsinyasi_create_by` varchar(255) NOT NULL,
+  `konsinyasi_update_date` datetime DEFAULT NULL,
+  `konsinyasi_update_by` varchar(255) DEFAULT NULL,
+  `konsinyasi_revised` int(11) DEFAULT NULL,
+  PRIMARY KEY (`konsinyasi_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of m_konsinyasi
+-- ----------------------------
+INSERT INTO `m_konsinyasi` VALUES ('1', '1', '1', 'konsinyasi testing', 'y', '0000-00-00 00:00:00', '', null, null, null);
+INSERT INTO `m_konsinyasi` VALUES ('2', '5', '37', 'a', 'n', '2017-04-21 14:51:46', 'developer', '2017-04-21 15:38:22', 'developer', '3');
+INSERT INTO `m_konsinyasi` VALUES ('3', '5', '37', 'sample konsinyasi', 'y', '2017-04-21 14:52:42', 'developer', '2017-04-24 17:17:32', 'developer', '3');
 
 -- ----------------------------
 -- Table structure for m_konversi
@@ -7509,7 +10963,7 @@ CREATE TABLE `m_mata_uang` (
   `mata_uang_update_by` varchar(255) DEFAULT NULL,
   `mata_uang_revised` int(11) DEFAULT NULL,
   PRIMARY KEY (`mata_uang_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of m_mata_uang
@@ -7517,6 +10971,7 @@ CREATE TABLE `m_mata_uang` (
 INSERT INTO `m_mata_uang` VALUES ('1', 'IDR', 'y', '2017-03-07 12:10:06', 'developer', '2017-03-07 12:10:57', 'developer', '1');
 INSERT INTO `m_mata_uang` VALUES ('2', 'USD', 'y', '2017-03-07 13:12:36', 'developer', '2017-03-07 13:12:36', null, '0');
 INSERT INTO `m_mata_uang` VALUES ('3', 'CNY', 'y', '2017-03-07 13:12:49', 'developer', '2017-03-07 13:12:49', null, '0');
+INSERT INTO `m_mata_uang` VALUES ('4', 'CURRTEST', 'y', '2017-04-17 12:34:40', 'developer', '2017-04-17 12:34:49', 'developer', '1');
 
 -- ----------------------------
 -- Table structure for m_partner
@@ -7529,6 +10984,7 @@ CREATE TABLE `m_partner` (
   `partner_nama_cetak` varchar(255) DEFAULT NULL,
   `partner_alamat` varchar(255) NOT NULL,
   `partner_alamat_cetak` varchar(255) DEFAULT NULL,
+  `partner_kota` char(4) DEFAULT NULL,
   `partner_telepon` varchar(255) NOT NULL,
   `partner_telepon_cetak` varchar(255) DEFAULT NULL,
   `partner_email` varchar(255) DEFAULT NULL,
@@ -7537,6 +10993,7 @@ CREATE TABLE `m_partner` (
   `partner_fax_cetak` varchar(255) DEFAULT NULL,
   `partner_nomor_npwp` varchar(255) DEFAULT NULL,
   `partner_file_npwp` text,
+  `partner_limit_kredit` decimal(20,2) DEFAULT '0.00',
   `partner_status_aktif` char(1) NOT NULL,
   `partner_create_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `partner_create_by` varchar(255) NOT NULL,
@@ -7544,17 +11001,47 @@ CREATE TABLE `m_partner` (
   `partner_update_by` varchar(255) DEFAULT NULL,
   `partner_revised` int(11) DEFAULT NULL,
   PRIMARY KEY (`partner_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of m_partner
 -- ----------------------------
-INSERT INTO `m_partner` VALUES ('1', '3', 'Partner 1', 'cust 1', '-', '-', '[\"03435258235\"]', '[\"03435258235\"]', '[\"a@s\"]', '[\"\"]', '[\"2223\"]', '[\"\"]', '12345', 'Order_P6586300_-_www_seagm_com2.pdf', 'n', '2017-02-15 18:03:04', 'developer', '2017-03-20 16:06:57', 'pembelian', '4');
-INSERT INTO `m_partner` VALUES ('2', '1', 'Partner 2', 'Partner 2', 'Alamat', 'Alamat Cetak', '[\"03435258235\"]', '[\"03483932\"]', '[\"partner2@partner.com\",\"partner@gmail.com\"]', '[\"partner@partner.com\",\"partner2@gmail.com\"]', '[]', '[]', '1212324221', '10-BekerjaDenganDatabase.pdf', 'n', '2017-02-17 13:47:27', 'developer', '2017-03-20 16:07:35', 'pembelian', '7');
-INSERT INTO `m_partner` VALUES ('3', '1', 'Partner 3', 'Partner 3', 'Alamat partner', 'Alamat cetak', '[\"085645321152\"]', '[\"89638\"]', '[\"partner3@gmail.com\"]', '[\"partner@gmail.com\"]', '[]', '[]', '63853', '', 'n', '2017-03-06 13:21:36', 'developer', '2017-03-20 16:07:23', 'pembelian', '4');
-INSERT INTO `m_partner` VALUES ('4', '1', 'dsd', '', 'ww', '', '[\"333\"]', '[\"\"]', '[\"awa@sese\"]', '[\"\"]', '[\"444\"]', '[\"\"]', '', '', 'n', '2017-03-08 08:32:50', 'developer', '2017-03-20 16:07:16', 'pembelian', '1');
-INSERT INTO `m_partner` VALUES ('5', '1', 'aaaa', '', 'waws', '', '[\"4322\"]', '[\"\"]', '[\"asas@asa\"]', '[\"\"]', '[\"2233\"]', '[\"\"]', '', '', 'n', '2017-03-08 08:37:13', 'developer', '2017-03-20 16:07:07', 'pembelian', '1');
-INSERT INTO `m_partner` VALUES ('6', '1', 'Great Fortune, PT', '', 'Raya pakal No. 1 - A RT.05/RW.01', '', '[\"0317422241\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"0317422245\"]', '[\"\"]', '', '', 'y', '2017-03-20 16:06:36', 'pembelian', '2017-03-20 16:06:36', null, '0');
+INSERT INTO `m_partner` VALUES ('1', '3', 'Partner 1', '[\"cust 1\"]', 'jalan surabaya', '[\"margomulyo\"]', '3575', '[\"03435258235\"]', '[\"03435258235\"]', '[\"a@s\"]', '[\"\"]', '[\"2223\"]', '[\"\"]', '12345', 'Order_P6586300_-_www_seagm_com2.pdf', '100.00', 'y', '2017-02-15 18:03:04', 'developer', '2017-03-30 11:45:42', 'developer', '7');
+INSERT INTO `m_partner` VALUES ('2', '1', 'Partner 2', '[\"Partner 2\"]', 'Alamat', '[\"Alamat Cetak\"]', '1107', '[\"03435258235\"]', '[\"03483932\"]', '[\"partner2@partner.com\",\"partner@gmail.com\"]', '[\"partner@partner.com\",\"partner2@gmail.com\"]', '[\"333333\"]', '[\"\"]', '1212324221', '10-BekerjaDenganDatabase.pdf', '0.00', 'y', '2017-02-17 13:47:27', 'developer', '2017-04-25 11:31:04', 'developer', '10');
+INSERT INTO `m_partner` VALUES ('3', '1', 'Partner 3', '[\"Partner 3\"]', 'Alamat partner', '[\"Alamat cetak\"]', null, '[\"085645321152\"]', '[\"89638\"]', '[\"partner3@gmail.com\"]', '[\"partner@gmail.com\"]', '[]', '[]', '63853', '', '0.00', 'y', '2017-03-06 13:21:36', 'developer', '2017-04-03 14:54:28', 'pembelian', '4');
+INSERT INTO `m_partner` VALUES ('4', '1', 'dsd', '[\"\"]', 'ww', '[\"\"]', null, '[\"333\"]', '[\"\"]', '[\"awa@sese\"]', '[\"\"]', '[\"444\"]', '[\"\"]', '', '', '0.00', 'n', '2017-03-08 08:32:50', 'developer', '2017-03-23 14:07:53', 'pembelian', '1');
+INSERT INTO `m_partner` VALUES ('5', '1', 'aaaa', '[\"\"]', 'waws', '[\"\"]', null, '[\"4322\"]', '[\"\"]', '[\"asas@asa\"]', '[\"\"]', '[\"2233\"]', '[\"\"]', '', '', '0.00', 'n', '2017-03-08 08:37:13', 'developer', '2017-03-23 14:07:53', 'pembelian', '1');
+INSERT INTO `m_partner` VALUES ('6', '1', 'Great Fortune, PT', '[\"a\"]', 'Raya pakal No. 1 - A RT.05/RW.01', '[\"a\"]', '1107', '[\"0317422241\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"0317422245\"]', '[\"\"]', '', '', '0.00', 'y', '2017-03-20 16:06:36', 'pembelian', '2017-04-25 11:30:27', 'developer', '1');
+INSERT INTO `m_partner` VALUES ('7', '2', 'alfamart', '[\"alfa\",\"alfa1\"]', 'adad', '[\"alfa2\",\"alfa2\"]', '3578', '[\"88\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"2343\"]', '[\"\"]', '', '', '30.00', 'y', '2017-03-29 09:50:13', 'developer', '2017-03-30 10:29:10', 'developer', '7');
+INSERT INTO `m_partner` VALUES ('8', '2', 'alfamart', '[\"alfa\",\"alfa1\"]', 'adad', '[\"asdasd\",\"asasdada\"]', null, '[\"3434\"]', '[\"23344\",\"543341\"]', '[\"slfa@ddf\"]', '[\"\"]', '[\"3434335\"]', '[\"3355\"]', '', '', '10.00', 'n', '2017-03-29 09:50:14', 'developer', '2017-03-29 10:03:17', 'developer', '5');
+INSERT INTO `m_partner` VALUES ('9', '3', 'ewrew', '[\"aewe\"]', 'balongsari', '[\"surabaya\"]', '3573', '[\"312312323\"]', '[\"312312323\"]', '[\"vfbdgdfg@gmail.com\"]', '[\"fewewrew@gmail.com\"]', '[\"3312123\"]', '[\"23321331\"]', '12313123123', '', '0.00', 'n', '2017-04-03 10:31:58', 'developer', '2017-04-03 10:32:55', 'developer', '2');
+INSERT INTO `m_partner` VALUES ('10', '3', 'pt jasaweb', '[\"jasaweb 1\",\"jasaweb 2\",\"jasaweb 3\"]', 'lontar no 226', '[\"surabaya\"]', '3578', '[\"0312312323\"]', '[\"031\"]', '[\"jasaweb@gmail.com\"]', '[\"\"]', '[\"031231\"]', '[\"031\"]', '092749467', '', '100000000.00', 'y', '2017-04-11 15:31:40', 'developer', '2017-04-11 15:31:40', null, '0');
+INSERT INTO `m_partner` VALUES ('11', '3', 'agung', '[\"agung jaya\"]', 'Jl. Kaliasin no.99', '[\"Jl. Raya\"]', '3578', '[\"0317457256\"]', '[\"0312544442\",\"081234568\"]', '[\"mail@gmail.com\"]', '[\"mail@gmail.com\"]', '[\"031225666\"]', '[\"0314788988\",\"01232659\"]', '', '', '10000000.00', 'y', '2017-04-12 13:51:13', 'developer', '2017-04-12 13:57:47', 'developer', '1');
+INSERT INTO `m_partner` VALUES ('12', '3', 'Custam', '[\"Custami\"]', 'Jl.Gahi', '[\"JL.  Jadi\"]', '3509', '[\"08102837\"]', '[\"08199999\"]', '[\"mail@gmail.com\"]', '[\"mail@gmail.com\"]', '[\"031762376\"]', '[\"03145765786\"]', '', '', '10000000.00', 'n', '2017-04-12 13:55:23', 'developer', '2017-04-12 13:59:17', 'developer', '2');
+INSERT INTO `m_partner` VALUES ('13', '1', 'Sup3', '[\"Sup4\"]', 'Jl. Gahiui', '[\"Jl. Nusa dua\",\"Jl. Banyurip\"]', '3372', '[\"0315454564\"]', '[\"03125656\"]', '[\"mail@gmail.com\"]', '[\"mail@gmail.com\"]', '[\"03154849\"]', '[\"031544998\"]', '', '', '100000000.00', 'y', '2017-04-12 14:01:26', 'developer', '2017-04-12 14:01:26', null, '0');
+INSERT INTO `m_partner` VALUES ('14', '2', 'cus6', '[\"cus7\"]', 'Alamat', '[\"Alamat\"]', '3372', '[\"12355646\",\"1258789\"]', '[\"8565565\",\"8948465\"]', '[\"mail@gmail.com\"]', '[\"mail@gmail.com\"]', '[\"031258784\"]', '[\"03154898\"]', '', '', '112155555.01', 'y', '2017-04-12 14:04:01', 'developer', '2017-04-13 16:45:51', 'developer', '2');
+
+-- ----------------------------
+-- Table structure for m_promo
+-- ----------------------------
+DROP TABLE IF EXISTS `m_promo`;
+CREATE TABLE `m_promo` (
+  `promo_id` int(11) NOT NULL,
+  `promo_nama` varchar(255) DEFAULT NULL,
+  `promo_qty` int(11) DEFAULT NULL,
+  `promo_harga` int(11) DEFAULT NULL,
+  `promo_status_aktif` char(1) DEFAULT NULL,
+  `promo_create_date` datetime DEFAULT '0000-00-00 00:00:00',
+  `promo_create_by` varchar(255) DEFAULT NULL,
+  `promo_update_date` datetime DEFAULT NULL,
+  `promo_update_by` varchar(255) DEFAULT NULL,
+  `promo_revised` int(11) DEFAULT NULL,
+  PRIMARY KEY (`promo_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of m_promo
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for m_satuan
@@ -7570,14 +11057,12 @@ CREATE TABLE `m_satuan` (
   `satuan_update_by` varchar(255) DEFAULT NULL,
   `satuan_revised` int(11) DEFAULT NULL,
   PRIMARY KEY (`satuan_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of m_satuan
 -- ----------------------------
-INSERT INTO `m_satuan` VALUES ('1', 'Meter', 'y', '2017-02-16 16:10:43', 'developer', '2017-02-16 16:10:43', null, '0');
-INSERT INTO `m_satuan` VALUES ('2', 'Kilogram', 'y', '2017-02-16 16:11:12', 'developer', '2017-03-06 13:23:07', 'developer', '2');
-INSERT INTO `m_satuan` VALUES ('3', 'cm', 'y', '2017-03-06 13:38:33', 'developer', '2017-03-06 13:38:58', 'developer', '2');
+INSERT INTO `m_satuan` VALUES ('1', 'PCS', 'y', '2017-04-20 15:00:59', 'developer', '2017-04-20 15:00:59', 'developer', '0');
 
 -- ----------------------------
 -- Table structure for m_sub_atribut_barang
@@ -7624,7 +11109,7 @@ CREATE TABLE `m_type_karyawan` (
   `type_karyawan_update_by` varchar(255) DEFAULT NULL,
   `type_karyawan_revised` int(11) DEFAULT NULL,
   PRIMARY KEY (`type_karyawan_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of m_type_karyawan
@@ -7637,6 +11122,9 @@ INSERT INTO `m_type_karyawan` VALUES ('7', 'jenis barang', 'y', '2017-03-06 12:0
 INSERT INTO `m_type_karyawan` VALUES ('8', 'penjualan', 'y', '2017-03-06 13:05:27', 'developer', '2017-03-06 13:05:47', 'developer', '2');
 INSERT INTO `m_type_karyawan` VALUES ('9', 'produksi', 'y', '2017-03-21 10:11:34', 'developer', '2017-03-21 10:11:34', null, '0');
 INSERT INTO `m_type_karyawan` VALUES ('10', 'kepala produksi', 'y', '2017-03-21 10:11:57', 'developer', '2017-03-21 10:11:57', null, '0');
+INSERT INTO `m_type_karyawan` VALUES ('11', 'kasir', 'y', '2017-03-21 10:11:57', 'developer', '2017-03-21 10:11:57', null, null);
+INSERT INTO `m_type_karyawan` VALUES ('12', 'kasir ekspedisi', 'y', '2017-03-21 10:11:57', 'developer', '2017-03-21 10:11:57', null, null);
+INSERT INTO `m_type_karyawan` VALUES ('13', 'TestTipeKaryawan', 'y', '2017-04-17 12:20:49', 'developer', '2017-04-17 12:20:49', null, '0');
 
 -- ----------------------------
 -- Table structure for m_value
@@ -8284,7 +11772,7 @@ CREATE TABLE `s_menu` (
   `menu_link` varchar(255) DEFAULT NULL,
   `menu_icon` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of s_menu
@@ -8296,21 +11784,21 @@ INSERT INTO `s_menu` VALUES ('4', 'Master Tipe Karyawan', '3', '1', '1', 'master
 INSERT INTO `s_menu` VALUES ('5', 'Master Karyawan', '4', '1', '1', 'master-karyawan', 'Master-Karyawan', 'Master-Data/Karyawan', null);
 INSERT INTO `s_menu` VALUES ('6', 'Master Partner', '5', '1', '1', 'master-partner', 'Master-Partner', 'Master-Data/Partner', null);
 INSERT INTO `s_menu` VALUES ('7', 'Master Gudang', '7', '1', '1', 'master-gudang', 'Master-Gudang', 'Master-Data/Gudang', null);
-INSERT INTO `s_menu` VALUES ('8', 'Master Jenis Barang', '9', '1', '1', 'master-jenis-barang', 'Master-Jenis-Barang', 'Master-Data/Jenis-Barang', null);
-INSERT INTO `s_menu` VALUES ('9', 'Master Barang', '10', '1', '1', 'master-barang', 'Master-Barang', 'Master-Data/Barang', null);
+INSERT INTO `s_menu` VALUES ('8', 'Master Category 1', '9', '1', '1', 'category-1', 'Category-1', 'Master-Data/Jenis-Barang', null);
+INSERT INTO `s_menu` VALUES ('9', 'Master Barang', '11', '1', '1', 'master-barang', 'Master-Barang', 'Master-Data/Barang', null);
 INSERT INTO `s_menu` VALUES ('10', 'Master Atribut Barang', '11', '1', '1', 'master-atribut-barang', 'Master-Atribut-Barang', 'Master-Data/Atribut-Barang', null);
 INSERT INTO `s_menu` VALUES ('11', 'Master Sub Atribut Barang', '12', '1', '1', 'master-sub-atribut-barang', 'Master-Sub-Atribut-Barang', 'Master-Data/Sub-Atribut-Barang', null);
 INSERT INTO `s_menu` VALUES ('12', 'Produksi', '3', '0', '', 'produksi', 'Produksi', '#', 'icon-folder-alt');
 INSERT INTO `s_menu` VALUES ('13', 'Bukti Keluar Barang', '1', '1', '12', 'bukti-keluar-barang', 'Produksi/Bukti-Keluar-Barang', 'Produksi/Bukti-Keluar-Barang', null);
 INSERT INTO `s_menu` VALUES ('14', 'Master Satuan', '8', '1', '1', 'master-satuan', 'Master-Satuan', 'Master-Data/Satuan', null);
 INSERT INTO `s_menu` VALUES ('15', 'Master Departemen', '2', '1', '1', 'master-departemen', 'Master-Data/Departemen', 'Master-Data/Departemen', null);
-INSERT INTO `s_menu` VALUES ('16', 'Inventory', '2', '0', '', 'inventory', 'Inventory', 'Inventory', 'icon-folder-alt');
-INSERT INTO `s_menu` VALUES ('17', 'Stok Gudang', '1', '1', '16', 'stok-gudang', 'Inventory/Stok-Gudang', 'Inventory/Stok-Gudang', null);
+INSERT INTO `s_menu` VALUES ('16', 'Inventory', '1', '1', '27', 'inventory', 'Inventory', 'Inventory', 'icon-folder-alt');
+INSERT INTO `s_menu` VALUES ('17', 'Stok Gudang', '1', '1', '18', 'stok-gudang', 'Inventory/Stok-Gudang', 'Inventory/Stok-Gudang', null);
 INSERT INTO `s_menu` VALUES ('18', 'Gudang', '4', '0', '', 'gudang', 'Gudang', 'Gudang', 'icon-folder-alt');
 INSERT INTO `s_menu` VALUES ('19', 'Bukti Keluar Barang', '1', '1', '18', 'bukti-keluar-barang', 'Gudang/Bukti-Keluar-Barang', 'Gudang/Bukti-Keluar-Barang', null);
-INSERT INTO `s_menu` VALUES ('20', 'Surat Permintaan Pembelian', '3', '1', '18', 'surat-permintaan-pembelian', 'Gudang/Surat-Permintaan-Pembelian', 'Gudang/Surat-Permintaan-Pembelian', null);
+INSERT INTO `s_menu` VALUES ('20', 'Permintaan Pembelian Barang', '3', '1', '18', 'surat-permintaan-pembelian', 'Gudang/Surat-Permintaan-Pembelian', 'Gudang/Surat-Permintaan-Pembelian', null);
 INSERT INTO `s_menu` VALUES ('21', 'Pembelian', '5', '0', '', 'pembelian', 'Pembelian', 'Pembelian', 'icon-folder-alt');
-INSERT INTO `s_menu` VALUES ('22', 'Surat Permintaan Pembelian', '2', '1', '21', 'surat-permintaan-pembelian', 'Pembelian/Surat-Permintaan-Pembelian', 'Pembelian/Surat-Permintaan-Pembelian', null);
+INSERT INTO `s_menu` VALUES ('22', 'Permintaan Pembelian Barang', '2', '1', '21', 'surat-permintaan-pembelian', 'Pembelian/Surat-Permintaan-Pembelian', 'Pembelian/Surat-Permintaan-Pembelian', null);
 INSERT INTO `s_menu` VALUES ('23', 'Penawaran Harga', '2', '1', '21', 'penawaran-harga', 'Pembelian/Penawaran-Harga', 'Pembelian/Penawaran-Harga', null);
 INSERT INTO `s_menu` VALUES ('24', 'Laporan', '8', '0', null, 'laporan', 'Laporan', 'Laporan', 'icon-folder-alt');
 INSERT INTO `s_menu` VALUES ('25', 'Laporan Harian Keluar Barang', '1', '1', '24', 'laporan-harian-keluar-barang', 'Laporan/Laporan-Harian-Keluar-Barang', 'Laporan/Laporan-Harian-Keluar-Barang', null);
@@ -8344,12 +11832,12 @@ INSERT INTO `s_menu` VALUES ('52', 'Pengubahan Bahan', '1', '1', '50', 'pengubah
 INSERT INTO `s_menu` VALUES ('53', 'Serah Terima', '8', '1', '12', 'serah-terima', 'Produksi/Serah-Terima', 'Produksi/Serah-Terima', null);
 INSERT INTO `s_menu` VALUES ('54', 'Serah Terima', '9', '1', '18', 'serah-terima', 'Gudang/Serah-Terima', 'Gudang/Serah-Terima', null);
 INSERT INTO `s_menu` VALUES ('55', 'Pengembalian Barang', '9', '1', '12', 'pengembalian-barang', 'Produksi/Pengembalian-Barang', 'Produksi/Pengembalian-Barang', null);
-INSERT INTO `s_menu` VALUES ('56', 'Pengembalian Barang', '10', '1', '18', 'pengembalian-barang', 'Gudang/Pengembalian-Barang', 'Gudang/Pengembalian-Barang', null);
+INSERT INTO `s_menu` VALUES ('56', 'Pengembalian Barang', '12', '1', '18', 'pengembalian-barang', 'Gudang/Pengembalian-Barang', 'Gudang/Pengembalian-Barang', null);
 INSERT INTO `s_menu` VALUES ('57', 'Master Mata Uang', '13', '1', '1', 'master-mata-uang', 'Master-Data/Mata-Uang', 'Master-Data/Mata-Uang', null);
 INSERT INTO `s_menu` VALUES ('58', 'Master Jenis Produksi', '14', '1', '1', 'master-jenis-produksi', 'Master-Data/Jenis-Produksi', 'Master-Data/Jenis-Produksi', null);
 INSERT INTO `s_menu` VALUES ('59', 'Jadwal Produksi', '5', '1', '29', 'jadwal-produksi', 'Persetujuan/Jadwal-Produksi', 'Persetujuan/Jadwal-Produksi', null);
-INSERT INTO `s_menu` VALUES ('60', 'Marketing', '8', '0', '', 'marketing', 'Marketing', 'Marketing', 'icon-folder-alt');
-INSERT INTO `s_menu` VALUES ('61', 'Purchase Order Customer', '1', '1', '60', 'purchase-order-customer', 'Marketing/Purchase-Order-Customer', 'Marketing/Purchase-Order-Customer', null);
+INSERT INTO `s_menu` VALUES ('60', 'Marketing', '8', '1', '26', 'marketing', 'Marketing', 'Marketing', 'icon-folder-alt');
+INSERT INTO `s_menu` VALUES ('61', 'Purchase Order Customer', '9', '1', '42', 'purchase-order-customer', 'Marketing/Purchase-Order-Customer', 'Marketing/Purchase-Order-Customer', null);
 INSERT INTO `s_menu` VALUES ('62', 'Laporan SPP Belum Realisasi', '2', '1', '24', 'laporan-spp-belum-realisasi', 'Laporan/SPP-Belum-Realisasi', 'Laporan/SPP-Belum-Realisasi', null);
 INSERT INTO `s_menu` VALUES ('63', 'Purchase Order Customer', '6', '1', '29', 'purchase-order-customer', 'Persetujuan/Purchase-Order-Customer', 'Persetujuan/Purchase-Order-Customer', null);
 INSERT INTO `s_menu` VALUES ('64', 'Sales Order', '2', '1', '42', 'sales-order-customer', 'Penjualan/Sales-Order-Customer', 'Penjualan/Sales-Order-Customer', null);
@@ -8360,11 +11848,15 @@ INSERT INTO `s_menu` VALUES ('68', 'Surat Jalan Retur', '5', '1', '42', 'surat-j
 INSERT INTO `s_menu` VALUES ('69', 'Nota Kredit', '6', '1', '42', 'nota-kredit', 'Penjualan/Nota-Kredit', 'Penjualan/Nota-Kredit', null);
 INSERT INTO `s_menu` VALUES ('70', 'Perhitungan Kebutuhan Bahan', '6', '1', '29', 'perhitungan-kebutuhan-bahan', 'Persetujuan/Perhitungan-Kebutuhan-Bahan', 'Persetujuan/Perhitungan-Kebutuhan-Bahan', null);
 INSERT INTO `s_menu` VALUES ('71', 'Pengubahan Bahan', '7', '1', '29', 'pengubahan-bahan', 'Persetujuan/Pengubahan-Bahan', 'Persetujuan/Pengubahan-Bahan', null);
-INSERT INTO `s_menu` VALUES ('72', 'Klaim/Retur Penjualan', '2', '1', '60', 'klaim-retur-penjualan', 'Marketing/Klaim-Retur-Penjualan', 'Marketing/Klaim-Retur-Penjualan', null);
-INSERT INTO `s_menu` VALUES ('73', 'Klaim/Retur Penjualan', '7', '1', '42', 'klaim-retur-penjualan', 'Penjualan/Klaim-Retur-Penjualan', 'Penjualan/Klaim-Retur-Penjualan', null);
+INSERT INTO `s_menu` VALUES ('72', 'Klaim/Retur Penjualan', '10', '1', '42', 'klaim-retur-penjualan', 'Marketing/Klaim-Retur-Penjualan', 'Marketing/Klaim-Retur-Penjualan', null);
+INSERT INTO `s_menu` VALUES ('73', 'Klaim/Retur Penjualan', '11', '1', '42', 'klaim-retur-penjualan', 'Penjualan/Klaim-Retur-Penjualan', 'Penjualan/Klaim-Retur-Penjualan', null);
 INSERT INTO `s_menu` VALUES ('74', 'Klaim/Retur Penjualan', '8', '1', '29', 'klaim-retur-penjualan', 'Persetujuan/Klaim-Retur-Penjualan', 'Persetujuan/Klaim-Retur-Penjualan', null);
 INSERT INTO `s_menu` VALUES ('75', 'Penerimaan Barang Retur', '11', '1', '18', 'penerimaan-barang-retur', 'Gudang/Penerimaan-Barang-Retur', 'Gudang/Penerimaan-Barang-Retur', null);
 INSERT INTO `s_menu` VALUES ('76', 'Point of Sale', '8', '1', '42', 'point-of-sale', 'Point-of-Sale', 'Penjualan/Point-of-Sale', null);
+INSERT INTO `s_menu` VALUES ('77', 'Master Brand', '15', '1', '1', 'master-brand', 'Master-Brand', 'Master-Data/Master-Brand', null);
+INSERT INTO `s_menu` VALUES ('78', 'Master Category 2', '10', '1', '1', 'category-2', 'Category-2', 'Master-Data/Master-Kategori', null);
+INSERT INTO `s_menu` VALUES ('79', 'Master Promo', '16', '1', '1', 'master-promo', 'Master-Promo', 'Master-Data/Master-Promo', null);
+INSERT INTO `s_menu` VALUES ('80', 'Master Konsinyasi', '17', '1', '1', 'konsinyasi', 'Konsinyasi', 'Master-Data/Konsinyasi', null);
 
 -- ----------------------------
 -- Table structure for s_privilege
@@ -8381,13 +11873,13 @@ CREATE TABLE `s_privilege` (
   `entry_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `entry_user` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`privilege_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=218 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=223 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of s_privilege
 -- ----------------------------
 INSERT INTO `s_privilege` VALUES ('1', '1', '1', '1', '1', '1', '1', '2017-02-07 13:20:34', null);
-INSERT INTO `s_privilege` VALUES ('2', '1', '2', '1', '1', '1', '1', '2017-03-20 17:08:55', null);
+INSERT INTO `s_privilege` VALUES ('2', '1', '2', '0', '1', '0', '0', '2017-04-17 16:01:02', null);
 INSERT INTO `s_privilege` VALUES ('3', '1', '3', '1', '1', '1', '1', '2017-02-24 15:14:34', null);
 INSERT INTO `s_privilege` VALUES ('4', '1', '4', '1', '1', '1', '1', '2017-02-24 15:59:35', null);
 INSERT INTO `s_privilege` VALUES ('5', '1', '5', '1', '1', '1', '1', '2017-02-24 15:19:07', null);
@@ -8397,14 +11889,14 @@ INSERT INTO `s_privilege` VALUES ('8', '1', '8', '1', '1', '1', '1', '2017-02-24
 INSERT INTO `s_privilege` VALUES ('9', '1', '9', '1', '1', '1', '1', '2017-02-24 14:28:18', null);
 INSERT INTO `s_privilege` VALUES ('10', '1', '10', '1', '1', '1', '1', '2017-02-24 14:34:15', null);
 INSERT INTO `s_privilege` VALUES ('11', '1', '11', '1', '1', '1', '1', '2017-02-24 15:55:31', null);
-INSERT INTO `s_privilege` VALUES ('12', '1', '12', '1', '1', '1', '1', '2017-03-04 13:41:53', null);
+INSERT INTO `s_privilege` VALUES ('12', '1', '12', '1', '1', '1', '1', '2017-04-18 12:30:54', null);
 INSERT INTO `s_privilege` VALUES ('13', '1', '13', '1', '1', '1', '1', '2017-02-28 07:45:38', null);
 INSERT INTO `s_privilege` VALUES ('14', '1', '14', '1', '1', '1', '1', '2017-02-24 15:48:01', null);
 INSERT INTO `s_privilege` VALUES ('15', '1', '15', '1', '1', '1', '1', '2017-02-24 15:01:44', null);
 INSERT INTO `s_privilege` VALUES ('16', '1', '16', '1', '1', '1', '1', '2017-02-18 02:43:55', null);
 INSERT INTO `s_privilege` VALUES ('17', '1', '17', '1', '1', '1', '1', '2017-02-24 15:50:07', null);
 INSERT INTO `s_privilege` VALUES ('18', '1', '18', '1', '1', '1', '1', '2017-02-18 04:45:27', null);
-INSERT INTO `s_privilege` VALUES ('19', '1', '19', '1', '1', '1', '1', '2017-02-24 15:33:24', null);
+INSERT INTO `s_privilege` VALUES ('19', '1', '19', '1', '1', '1', '1', '2017-04-18 12:30:57', null);
 INSERT INTO `s_privilege` VALUES ('20', '1', '20', '1', '1', '1', '1', '2017-02-24 15:37:37', null);
 INSERT INTO `s_privilege` VALUES ('21', '1', '21', '1', '1', '1', '1', '2017-02-20 02:56:09', null);
 INSERT INTO `s_privilege` VALUES ('22', '1', '22', '1', '1', '1', '1', '2017-02-25 09:20:38', null);
@@ -8416,31 +11908,31 @@ INSERT INTO `s_privilege` VALUES ('27', '1', '27', '1', '1', '1', '1', '2017-02-
 INSERT INTO `s_privilege` VALUES ('28', '1', '28', '1', '1', '1', '1', '2017-02-24 15:42:52', null);
 INSERT INTO `s_privilege` VALUES ('29', '1', '29', '1', '1', '1', '1', '2017-02-25 10:09:31', null);
 INSERT INTO `s_privilege` VALUES ('30', '1', '30', '1', '1', '1', '1', '2017-02-25 10:09:31', null);
-INSERT INTO `s_privilege` VALUES ('31', '1', '31', '1', '1', '1', '1', '2017-02-24 15:33:30', null);
+INSERT INTO `s_privilege` VALUES ('31', '1', '31', '1', '1', '1', '1', '2017-04-18 12:31:01', null);
 INSERT INTO `s_privilege` VALUES ('32', '4', '13', '0', '1', '0', '0', '2017-02-24 16:45:30', null);
-INSERT INTO `s_privilege` VALUES ('33', '4', '12', '1', '1', '1', '1', '2017-02-24 16:54:15', null);
-INSERT INTO `s_privilege` VALUES ('34', '4', '17', '0', '1', '0', '0', '2017-02-24 16:52:03', null);
+INSERT INTO `s_privilege` VALUES ('33', '4', '12', '1', '0', '1', '1', '2017-04-17 11:57:04', null);
+INSERT INTO `s_privilege` VALUES ('34', '4', '17', '0', '0', '0', '0', '2017-04-17 11:57:05', null);
 INSERT INTO `s_privilege` VALUES ('35', '4', '19', '0', '1', '0', '0', '2017-02-24 16:53:58', null);
-INSERT INTO `s_privilege` VALUES ('36', '4', '27', '0', '0', '0', '0', '2017-02-28 07:45:06', null);
+INSERT INTO `s_privilege` VALUES ('36', '4', '27', '0', '1', '0', '0', '2017-04-18 12:31:03', null);
 INSERT INTO `s_privilege` VALUES ('37', '4', '29', '1', '1', '1', '1', '2017-02-25 09:45:37', null);
 INSERT INTO `s_privilege` VALUES ('38', '4', '30', '1', '1', '1', '1', '2017-03-01 11:21:49', null);
 INSERT INTO `s_privilege` VALUES ('39', '1', '32', '1', '1', '1', '1', '2017-02-27 10:04:52', null);
 INSERT INTO `s_privilege` VALUES ('40', '1', '33', '1', '1', '1', '1', '2017-02-27 10:51:43', null);
 INSERT INTO `s_privilege` VALUES ('41', '1', '34', '1', '1', '1', '1', '2017-02-27 11:51:35', null);
-INSERT INTO `s_privilege` VALUES ('42', '1', '35', '1', '1', '1', '1', '2017-02-27 14:34:59', null);
+INSERT INTO `s_privilege` VALUES ('42', '1', '35', '0', '0', '0', '0', '2017-04-25 16:32:57', null);
 INSERT INTO `s_privilege` VALUES ('43', '1', '36', '1', '1', '1', '1', '2017-02-27 11:55:13', null);
-INSERT INTO `s_privilege` VALUES ('44', '1', '37', '1', '1', '1', '1', '2017-02-27 23:00:07', null);
+INSERT INTO `s_privilege` VALUES ('44', '1', '37', '0', '0', '0', '0', '2017-04-25 16:34:21', null);
 INSERT INTO `s_privilege` VALUES ('45', '4', '1', '1', '1', '1', '1', '2017-02-28 07:45:01', null);
 INSERT INTO `s_privilege` VALUES ('46', '4', '2', '1', '1', '1', '1', '2017-02-28 07:45:01', null);
-INSERT INTO `s_privilege` VALUES ('47', '4', '3', '0', '0', '0', '0', '2017-03-01 11:24:14', null);
-INSERT INTO `s_privilege` VALUES ('48', '1', '38', '1', '1', '1', '1', '2017-02-28 09:42:16', null);
+INSERT INTO `s_privilege` VALUES ('47', '4', '3', '0', '1', '0', '0', '2017-04-18 12:31:08', null);
+INSERT INTO `s_privilege` VALUES ('48', '1', '38', '0', '0', '0', '0', '2017-04-25 16:34:28', null);
 INSERT INTO `s_privilege` VALUES ('49', '1', '39', '1', '1', '1', '1', '2017-02-28 09:45:12', null);
-INSERT INTO `s_privilege` VALUES ('50', '1', '40', '1', '1', '1', '1', '2017-02-28 11:54:40', null);
+INSERT INTO `s_privilege` VALUES ('50', '1', '40', '1', '1', '1', '1', '2017-04-18 12:31:11', null);
 INSERT INTO `s_privilege` VALUES ('51', '1', '41', '1', '1', '1', '1', '2017-02-28 13:18:22', null);
 INSERT INTO `s_privilege` VALUES ('52', '4', '21', '1', '1', '1', '1', '2017-03-01 11:24:54', null);
 INSERT INTO `s_privilege` VALUES ('53', '4', '22', '1', '1', '1', '1', '2017-03-01 11:24:53', null);
 INSERT INTO `s_privilege` VALUES ('54', '5', '1', '1', '1', '1', '1', '2017-03-07 14:18:24', null);
-INSERT INTO `s_privilege` VALUES ('55', '5', '2', '0', '0', '0', '0', '2017-03-01 11:47:23', null);
+INSERT INTO `s_privilege` VALUES ('55', '5', '2', '0', '1', '0', '0', '2017-04-18 12:31:14', null);
 INSERT INTO `s_privilege` VALUES ('56', '5', '3', '1', '1', '1', '1', '2017-03-01 11:47:34', null);
 INSERT INTO `s_privilege` VALUES ('57', '5', '7', '1', '1', '1', '1', '2017-03-01 11:48:27', null);
 INSERT INTO `s_privilege` VALUES ('58', '5', '8', '1', '1', '1', '1', '2017-03-01 11:48:14', null);
@@ -8478,8 +11970,8 @@ INSERT INTO `s_privilege` VALUES ('91', '1', '42', '1', '1', '1', '1', '2017-03-
 INSERT INTO `s_privilege` VALUES ('92', '1', '43', '1', '1', '1', '1', '2017-03-02 14:08:53', null);
 INSERT INTO `s_privilege` VALUES ('93', '1', '44', '1', '1', '1', '1', '2017-03-02 15:31:29', null);
 INSERT INTO `s_privilege` VALUES ('94', '1', '45', '1', '1', '1', '1', '2017-03-02 16:17:12', null);
-INSERT INTO `s_privilege` VALUES ('95', '1', '46', '1', '1', '1', '1', '2017-03-03 23:31:39', null);
-INSERT INTO `s_privilege` VALUES ('96', '1', '47', '1', '1', '1', '1', '2017-03-04 03:40:24', null);
+INSERT INTO `s_privilege` VALUES ('95', '1', '46', '0', '0', '0', '0', '2017-04-21 10:30:48', null);
+INSERT INTO `s_privilege` VALUES ('96', '1', '47', '0', '0', '0', '0', '2017-04-25 16:33:36', null);
 INSERT INTO `s_privilege` VALUES ('97', '1', '48', '1', '1', '1', '1', '2017-03-04 13:41:53', null);
 INSERT INTO `s_privilege` VALUES ('98', '1', '49', '1', '1', '1', '1', '2017-03-04 06:38:11', null);
 INSERT INTO `s_privilege` VALUES ('99', '5', '12', '1', '1', '1', '1', '2017-03-04 08:55:17', null);
@@ -8496,10 +11988,10 @@ INSERT INTO `s_privilege` VALUES ('109', '5', '47', '1', '1', '1', '1', '2017-03
 INSERT INTO `s_privilege` VALUES ('110', '1', '50', '1', '1', '1', '1', '2017-03-06 14:57:19', null);
 INSERT INTO `s_privilege` VALUES ('111', '1', '51', '1', '1', '1', '1', '2017-03-06 14:57:28', null);
 INSERT INTO `s_privilege` VALUES ('112', '1', '52', '1', '1', '1', '1', '2017-03-06 14:57:35', null);
-INSERT INTO `s_privilege` VALUES ('113', '1', '53', '1', '1', '1', '1', '2017-03-06 14:57:48', null);
-INSERT INTO `s_privilege` VALUES ('114', '1', '54', '1', '1', '1', '1', '2017-03-06 14:57:56', null);
-INSERT INTO `s_privilege` VALUES ('115', '1', '55', '1', '1', '1', '1', '2017-03-06 14:58:03', null);
-INSERT INTO `s_privilege` VALUES ('116', '1', '56', '1', '1', '1', '1', '2017-03-06 14:58:09', null);
+INSERT INTO `s_privilege` VALUES ('113', '1', '53', '0', '0', '0', '0', '2017-04-21 10:29:21', null);
+INSERT INTO `s_privilege` VALUES ('114', '1', '54', '0', '0', '0', '0', '2017-04-21 10:30:01', null);
+INSERT INTO `s_privilege` VALUES ('115', '1', '55', '1', '1', '1', '1', '2017-04-25 16:35:29', null);
+INSERT INTO `s_privilege` VALUES ('116', '1', '56', '0', '0', '0', '0', '2017-04-25 16:35:25', null);
 INSERT INTO `s_privilege` VALUES ('117', '1', '57', '1', '1', '1', '1', '2017-03-07 11:53:41', null);
 INSERT INTO `s_privilege` VALUES ('118', '6', '6', '1', '1', '1', '1', '2017-03-07 14:58:52', null);
 INSERT INTO `s_privilege` VALUES ('119', '6', '3', '1', '1', '1', '1', '2017-03-07 14:59:01', null);
@@ -8508,7 +12000,7 @@ INSERT INTO `s_privilege` VALUES ('121', '6', '14', '1', '1', '1', '1', '2017-03
 INSERT INTO `s_privilege` VALUES ('122', '6', '57', '1', '1', '1', '1', '2017-03-07 14:59:22', null);
 INSERT INTO `s_privilege` VALUES ('123', '1', '58', '1', '1', '1', '1', '2017-03-10 15:07:39', null);
 INSERT INTO `s_privilege` VALUES ('124', '1', '59', '1', '1', '1', '1', '2017-03-11 02:01:16', null);
-INSERT INTO `s_privilege` VALUES ('125', '1', '60', '1', '1', '1', '1', '2017-03-15 11:28:29', null);
+INSERT INTO `s_privilege` VALUES ('125', '1', '60', '0', '0', '0', '0', '2017-04-25 22:48:50', null);
 INSERT INTO `s_privilege` VALUES ('126', '1', '61', '1', '1', '1', '1', '2017-03-15 11:41:18', null);
 INSERT INTO `s_privilege` VALUES ('127', '1', '62', '1', '1', '1', '1', '2017-03-16 15:10:44', null);
 INSERT INTO `s_privilege` VALUES ('128', '1', '63', '1', '1', '1', '1', '2017-03-18 11:42:12', null);
@@ -8520,24 +12012,24 @@ INSERT INTO `s_privilege` VALUES ('133', '1', '68', '1', '1', '1', '1', '2017-03
 INSERT INTO `s_privilege` VALUES ('134', '1', '69', '1', '1', '1', '1', '2017-03-20 03:07:34', null);
 INSERT INTO `s_privilege` VALUES ('135', '1', '70', '1', '1', '1', '1', '2017-03-20 04:05:20', null);
 INSERT INTO `s_privilege` VALUES ('136', '1', '71', '1', '1', '1', '1', '2017-03-20 04:05:31', null);
-INSERT INTO `s_privilege` VALUES ('137', '1', '72', '1', '1', '1', '1', '2017-03-20 05:27:38', null);
-INSERT INTO `s_privilege` VALUES ('138', '1', '73', '1', '1', '1', '1', '2017-03-20 08:29:56', null);
+INSERT INTO `s_privilege` VALUES ('137', '1', '72', '0', '0', '0', '0', '2017-04-25 22:52:21', null);
+INSERT INTO `s_privilege` VALUES ('138', '1', '73', '1', '1', '1', '1', '2017-04-25 22:52:23', null);
 INSERT INTO `s_privilege` VALUES ('139', '1', '74', '1', '1', '1', '1', '2017-03-20 08:30:01', null);
 INSERT INTO `s_privilege` VALUES ('140', '1', '75', '1', '1', '1', '1', '2017-03-20 09:25:06', null);
 INSERT INTO `s_privilege` VALUES ('141', '9', '1', '1', '1', '1', '1', '2017-03-21 10:18:35', null);
 INSERT INTO `s_privilege` VALUES ('142', '9', '2', '1', '1', '1', '1', '2017-03-21 10:18:36', null);
 INSERT INTO `s_privilege` VALUES ('143', '9', '3', '1', '1', '1', '1', '2017-03-21 10:18:37', null);
 INSERT INTO `s_privilege` VALUES ('144', '9', '4', '1', '1', '1', '1', '2017-03-21 10:18:38', null);
-INSERT INTO `s_privilege` VALUES ('145', '9', '4', '0', '0', '0', '0', '2017-03-21 10:18:41', null);
+INSERT INTO `s_privilege` VALUES ('145', '9', '4', '0', '1', '0', '0', '2017-04-18 12:31:22', null);
 INSERT INTO `s_privilege` VALUES ('146', '9', '9', '1', '1', '1', '1', '2017-03-21 10:18:58', null);
-INSERT INTO `s_privilege` VALUES ('147', '9', '9', '0', '0', '0', '0', '2017-03-21 10:18:59', null);
+INSERT INTO `s_privilege` VALUES ('147', '9', '9', '0', '1', '0', '0', '2017-04-18 12:31:24', null);
 INSERT INTO `s_privilege` VALUES ('148', '9', '8', '1', '1', '1', '1', '2017-03-21 10:18:59', null);
 INSERT INTO `s_privilege` VALUES ('149', '9', '9', '1', '1', '1', '1', '2017-03-21 10:19:01', null);
 INSERT INTO `s_privilege` VALUES ('150', '9', '7', '1', '1', '1', '1', '2017-03-21 10:19:03', null);
 INSERT INTO `s_privilege` VALUES ('151', '9', '10', '1', '1', '1', '1', '2017-03-21 10:19:06', null);
 INSERT INTO `s_privilege` VALUES ('152', '9', '11', '1', '1', '1', '1', '2017-03-21 10:19:07', null);
 INSERT INTO `s_privilege` VALUES ('153', '9', '14', '1', '1', '1', '1', '2017-03-21 10:19:15', null);
-INSERT INTO `s_privilege` VALUES ('154', '9', '15', '0', '0', '0', '0', '2017-03-21 10:19:20', null);
+INSERT INTO `s_privilege` VALUES ('154', '9', '15', '0', '1', '0', '0', '2017-04-18 12:31:27', null);
 INSERT INTO `s_privilege` VALUES ('155', '9', '58', '1', '1', '1', '1', '2017-03-21 10:19:49', null);
 INSERT INTO `s_privilege` VALUES ('156', '9', '12', '1', '1', '1', '1', '2017-03-21 10:19:58', null);
 INSERT INTO `s_privilege` VALUES ('157', '9', '13', '1', '1', '1', '1', '2017-03-21 10:19:58', null);
@@ -8562,7 +12054,7 @@ INSERT INTO `s_privilege` VALUES ('175', '10', '11', '1', '1', '1', '1', '2017-0
 INSERT INTO `s_privilege` VALUES ('176', '10', '15', '1', '1', '1', '1', '2017-03-21 11:30:14', null);
 INSERT INTO `s_privilege` VALUES ('177', '10', '57', '1', '1', '1', '1', '2017-03-21 11:30:15', null);
 INSERT INTO `s_privilege` VALUES ('178', '10', '14', '1', '1', '1', '1', '2017-03-21 11:30:16', null);
-INSERT INTO `s_privilege` VALUES ('179', '10', '58', '1', '1', '1', '1', '2017-03-21 11:30:16', null);
+INSERT INTO `s_privilege` VALUES ('179', '10', '58', '1', '0', '1', '1', '2017-04-18 12:35:05', null);
 INSERT INTO `s_privilege` VALUES ('180', '10', '12', '1', '1', '1', '1', '2017-03-21 11:30:22', null);
 INSERT INTO `s_privilege` VALUES ('181', '10', '13', '1', '1', '1', '1', '2017-03-21 11:30:22', null);
 INSERT INTO `s_privilege` VALUES ('182', '10', '34', '1', '1', '1', '1', '2017-03-21 11:30:23', null);
@@ -8586,8 +12078,8 @@ INSERT INTO `s_privilege` VALUES ('199', '10', '54', '1', '1', '1', '1', '2017-0
 INSERT INTO `s_privilege` VALUES ('200', '10', '75', '1', '1', '1', '1', '2017-03-21 11:31:00', null);
 INSERT INTO `s_privilege` VALUES ('201', '10', '24', '1', '1', '1', '1', '2017-03-21 11:31:51', null);
 INSERT INTO `s_privilege` VALUES ('202', '10', '25', '1', '1', '1', '1', '2017-03-21 11:31:51', null);
-INSERT INTO `s_privilege` VALUES ('203', '10', '26', '0', '0', '0', '0', '2017-03-21 11:31:57', null);
-INSERT INTO `s_privilege` VALUES ('204', '10', '27', '0', '0', '0', '0', '2017-03-21 11:31:56', null);
+INSERT INTO `s_privilege` VALUES ('203', '10', '26', '0', '1', '0', '0', '2017-04-18 12:31:33', null);
+INSERT INTO `s_privilege` VALUES ('204', '10', '27', '0', '1', '0', '0', '2017-04-18 12:31:35', null);
 INSERT INTO `s_privilege` VALUES ('205', '10', '29', '1', '1', '1', '1', '2017-03-21 11:32:05', null);
 INSERT INTO `s_privilege` VALUES ('206', '10', '39', '1', '1', '1', '1', '2017-03-21 11:32:05', null);
 INSERT INTO `s_privilege` VALUES ('207', '10', '40', '1', '1', '1', '1', '2017-03-21 11:32:08', null);
@@ -8601,6 +12093,11 @@ INSERT INTO `s_privilege` VALUES ('214', '10', '74', '1', '1', '1', '1', '2017-0
 INSERT INTO `s_privilege` VALUES ('215', '10', '42', '1', '1', '1', '1', '2017-03-21 11:32:27', null);
 INSERT INTO `s_privilege` VALUES ('216', '10', '43', '1', '1', '1', '1', '2017-03-21 11:32:28', null);
 INSERT INTO `s_privilege` VALUES ('217', '1', '76', '1', '1', '1', '1', '2017-04-01 14:17:39', null);
+INSERT INTO `s_privilege` VALUES ('218', '1', '77', '1', '1', '1', '1', '2017-04-07 13:21:55', null);
+INSERT INTO `s_privilege` VALUES ('219', '1', '78', '1', '1', '1', '1', '2017-04-07 13:21:57', null);
+INSERT INTO `s_privilege` VALUES ('220', '1', '79', '1', '1', '1', '1', '2017-04-13 16:11:48', null);
+INSERT INTO `s_privilege` VALUES ('221', '1', '80', '1', '1', '1', '1', '2017-04-19 15:26:04', null);
+INSERT INTO `s_privilege` VALUES ('222', '1', '81', '1', '1', '1', '1', '2017-04-25 10:52:08', null);
 
 -- ----------------------------
 -- Table structure for s_user
@@ -8627,9 +12124,79 @@ CREATE TABLE `s_user` (
 -- ----------------------------
 INSERT INTO `s_user` VALUES ('1', '1', 'developer', '5cbc1fb2952638a54ccc08f1a2d51d7f', 'y', '0000-00-00 00:00:00', '0', '2017-02-10 13:22:44', '0', null);
 INSERT INTO `s_user` VALUES ('5', '7', 'gudangbahan', '5cbc1fb2952638a54ccc08f1a2d51d7f', 'y', '0000-00-00 00:00:00', '0', '2017-03-01 13:23:32', null, null);
-INSERT INTO `s_user` VALUES ('6', '8', 'pembelian', '5cbc1fb2952638a54ccc08f1a2d51d7f', 'y', '0000-00-00 00:00:00', '0', '2017-03-01 13:23:32', null, null);
+INSERT INTO `s_user` VALUES ('6', '8', 'pembelian', '5cbc1fb2952638a54ccc08f1a2d51d7f', 'n', '0000-00-00 00:00:00', '0', '2017-04-21 15:38:22', '0', '2');
 INSERT INTO `s_user` VALUES ('7', '11', 'produksi', '5cbc1fb2952638a54ccc08f1a2d51d7f', 'y', '0000-00-00 00:00:00', '0', '2017-03-21 11:37:11', null, null);
 INSERT INTO `s_user` VALUES ('8', '12', 'pembelian', '5cbc1fb2952638a54ccc08f1a2d51d7f', 'y', '0000-00-00 00:00:00', '0', '2017-03-21 11:36:49', null, null);
+
+-- ----------------------------
+-- Table structure for tb_penjualan
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_penjualan`;
+CREATE TABLE `tb_penjualan` (
+  `penjualan_id` int(11) NOT NULL AUTO_INCREMENT,
+  `penjualan_code` varchar(200) NOT NULL,
+  `penjualan_date` datetime NOT NULL,
+  `customer` int(11) DEFAULT NULL,
+  `branch` int(11) DEFAULT NULL,
+  `penjualan_all_discount` float DEFAULT NULL,
+  `penjualan_total` bigint(20) DEFAULT NULL,
+  `penjualan_pajak` bigint(20) DEFAULT NULL,
+  `penjualan_all_discount_percent` float DEFAULT NULL,
+  `penjualan_all_discount_nominal` int(11) DEFAULT NULL,
+  `penjualan_grand_total` bigint(20) DEFAULT NULL,
+  `penjualan_payment` bigint(20) DEFAULT NULL,
+  `penjualan_change` int(11) DEFAULT NULL,
+  `penjualan_payment_method` int(11) DEFAULT NULL,
+  `bank_atas_name` varchar(200) DEFAULT NULL,
+  `bank` int(11) DEFAULT NULL,
+  `bank_number` varchar(200) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`penjualan_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tb_penjualan
+-- ----------------------------
+INSERT INTO `tb_penjualan` VALUES ('1', 'INV_1492491596', '2017-04-18 11:04:56', '1', '1', '0', '201000', '0', '0', '0', '201000', '300000', '78900', '0', '', '0', '', '0');
+INSERT INTO `tb_penjualan` VALUES ('2', 'INV_1492491916', '2017-04-18 12:04:16', '1', '1', '0', '201000', '0', '0', '0', '201000', '300000', '78900', '0', '', '0', '', '0');
+INSERT INTO `tb_penjualan` VALUES ('3', 'INV_1492491938', '2017-04-18 12:04:38', '1', '1', '0', '461500', '0', '0', '0', '461500', '2000000', '1492350', '0', '', '0', '', '0');
+INSERT INTO `tb_penjualan` VALUES ('4', 'INV_1492491998', '2017-04-18 12:04:38', '1', '1', '0', '578000', '0', '0', '0', '578000', '2000000', '1364200', '0', '', '0', '', '0');
+INSERT INTO `tb_penjualan` VALUES ('5', 'INV_1492494466', '2017-04-18 12:04:46', '1', '1', '200', '474500', '0', '0', '200', '474500', '600000', '78050', '0', '', '0', '', '0');
+INSERT INTO `tb_penjualan` VALUES ('6', 'INV_1493041553', '2017-04-24 08:04:53', '1', '1', '2677480', '2677475', '0', '0', '2677475', '2677475', '3000000', '54750', '0', '', '0', '', '0');
+
+-- ----------------------------
+-- Table structure for tb_penjualan_details
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_penjualan_details`;
+CREATE TABLE `tb_penjualan_details` (
+  `penjualan_detail_id` int(11) NOT NULL AUTO_INCREMENT,
+  `penjualan` int(11) NOT NULL,
+  `barang` int(11) NOT NULL,
+  `barang_qty` int(11) NOT NULL,
+  `barang_price` int(11) NOT NULL,
+  `barang_total` int(11) NOT NULL,
+  `barang_discount_percent` int(11) NOT NULL,
+  `barang_discount_nominal` int(11) NOT NULL,
+  `barang_grand_total` bigint(20) NOT NULL,
+  PRIMARY KEY (`penjualan_detail_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tb_penjualan_details
+-- ----------------------------
+INSERT INTO `tb_penjualan_details` VALUES ('1', '1', '2', '1', '95000', '95000', '0', '0', '95000');
+INSERT INTO `tb_penjualan_details` VALUES ('2', '1', '3', '2', '53000', '106000', '0', '0', '106000');
+INSERT INTO `tb_penjualan_details` VALUES ('3', '2', '2', '1', '95000', '95000', '0', '0', '95000');
+INSERT INTO `tb_penjualan_details` VALUES ('4', '2', '3', '2', '53000', '106000', '0', '0', '106000');
+INSERT INTO `tb_penjualan_details` VALUES ('5', '3', '2', '1', '95000', '95000', '0', '0', '95000');
+INSERT INTO `tb_penjualan_details` VALUES ('6', '3', '5', '1', '289000', '289000', '0', '0', '289000');
+INSERT INTO `tb_penjualan_details` VALUES ('7', '3', '7', '1', '77500', '77500', '0', '0', '77500');
+INSERT INTO `tb_penjualan_details` VALUES ('8', '4', '4', '1', '134000', '134000', '0', '0', '134000');
+INSERT INTO `tb_penjualan_details` VALUES ('9', '4', '5', '1', '289000', '289000', '0', '0', '289000');
+INSERT INTO `tb_penjualan_details` VALUES ('10', '4', '7', '2', '77500', '155000', '0', '0', '155000');
+INSERT INTO `tb_penjualan_details` VALUES ('11', '5', '2', '1', '475000', '475000', '300', '300', '474700');
+INSERT INTO `tb_penjualan_details` VALUES ('12', '6', '1', '3', '581000', '1743000', '50', '50', '1742950');
+INSERT INTO `tb_penjualan_details` VALUES ('13', '6', '3', '1', '3612000', '3612000', '0', '0', '3612000');
 
 -- ----------------------------
 -- Table structure for t_bpbr
@@ -8695,7 +12262,7 @@ CREATE TABLE `t_estimasi_penjualan` (
   `estimasi_penjualan_revised` int(11) DEFAULT NULL,
   `m_cabang_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`estimasi_penjualan_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_estimasi_penjualan
@@ -8703,6 +12270,8 @@ CREATE TABLE `t_estimasi_penjualan` (
 INSERT INTO `t_estimasi_penjualan` VALUES ('13', 'EST20170300003', '20/03/2017 - 21/03/2017', '5', '2017-03-20 13:44:11', '2017-03-20 13:34:04', 'developer', '2017-03-20 13:44:11', 'developer', '3', '1');
 INSERT INTO `t_estimasi_penjualan` VALUES ('12', 'EST20170300002', '01/04/2017 - 14/04/2017', '1', null, '2017-03-15 15:35:08', 'developer', '2017-03-15 15:35:08', null, '0', '1');
 INSERT INTO `t_estimasi_penjualan` VALUES ('11', 'EST20170300001', '17/03/2017 - 31/03/2017', '5', '2017-03-15 15:46:36', '2017-03-15 15:34:23', 'developer', '2017-03-15 15:46:36', 'developer', '3', '1');
+INSERT INTO `t_estimasi_penjualan` VALUES ('14', 'EST20170400001', '24/04/2017 - 30/04/2017', '1', null, '2017-04-24 18:07:05', 'developer', '2017-04-24 18:07:05', null, '0', '1');
+INSERT INTO `t_estimasi_penjualan` VALUES ('15', 'EST20170400002', '24/04/2017 - 30/04/2017', '1', null, '2017-04-24 23:53:05', 'developer', '2017-04-24 23:53:05', null, '0', '1');
 
 -- ----------------------------
 -- Table structure for t_estimasi_penjualandet
@@ -8716,7 +12285,7 @@ CREATE TABLE `t_estimasi_penjualandet` (
   `m_satuan_id` int(11) DEFAULT NULL,
   `estimasi_penjualandet_status` int(11) DEFAULT '0' COMMENT '0 Belum, 1 Realisasi',
   PRIMARY KEY (`estimasi_penjualandet_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_estimasi_penjualandet
@@ -8727,6 +12296,8 @@ INSERT INTO `t_estimasi_penjualandet` VALUES ('15', '12', '4', '100', null, '0')
 INSERT INTO `t_estimasi_penjualandet` VALUES ('14', '11', '7', '200', null, '1');
 INSERT INTO `t_estimasi_penjualandet` VALUES ('13', '11', '2', '120', null, '1');
 INSERT INTO `t_estimasi_penjualandet` VALUES ('12', '11', '1', '100', null, '1');
+INSERT INTO `t_estimasi_penjualandet` VALUES ('18', '14', '2398', '1', null, '0');
+INSERT INTO `t_estimasi_penjualandet` VALUES ('19', '15', '2398', '0', null, '0');
 
 -- ----------------------------
 -- Table structure for t_estimasi_penjualanlog
@@ -8762,24 +12333,35 @@ CREATE TABLE `t_faktur_penjualan` (
   `faktur_penjualan_nomor` varchar(255) DEFAULT NULL,
   `faktur_penjualan_tanggal` datetime DEFAULT NULL,
   `faktur_penjualan_jatuh_tempo` datetime DEFAULT NULL,
-  `t_so_customer_id` int(11) DEFAULT NULL,
-  `faktur_penjualan_sub_total` float(255,0) DEFAULT NULL,
-  `faktur_penjualan_potongan` float(255,0) DEFAULT NULL,
-  `faktur_penjualan_uang_muka` float(255,0) DEFAULT NULL,
-  `faktur_penjualan_total` float(255,0) DEFAULT NULL,
+  `t_surat_jalan_id` int(11) DEFAULT NULL,
+  `faktur_penjualan_sub_total` decimal(20,2) DEFAULT '0.00',
+  `faktur_penjualan_potongan` decimal(20,2) DEFAULT '0.00',
+  `faktur_penjualan_uang_muka` decimal(20,2) DEFAULT '0.00',
+  `faktur_penjualan_total` decimal(20,2) DEFAULT '0.00',
   `faktur_penjualan_tujuan_transfer` text,
+  `faktur_penjualan_status` tinyint(1) DEFAULT '1' COMMENT '0 Lunas, 1 Belum',
+  `faktur_penjualan_status_pembayaran` int(1) DEFAULT '1',
+  `faktur_penjualan_nominal_pembayaran` decimal(20,2) DEFAULT '0.00',
   `faktur_penjualan_created_date` datetime DEFAULT NULL,
   `faktur_penjualan_created_by` varchar(255) DEFAULT NULL,
   `faktur_penjualan_updated_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `faktur_penjualan_updated_by` varchar(255) DEFAULT NULL,
   `faktur_penjualan_revised` int(11) DEFAULT NULL,
   PRIMARY KEY (`faktur_penjualan_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_faktur_penjualan
 -- ----------------------------
-INSERT INTO `t_faktur_penjualan` VALUES ('1', '1', 'INV20170300001', '2017-03-19 00:00:00', '2017-03-31 00:00:00', '1', null, '0', '500000', '3500000', 'Rekening BCA', '2017-03-19 21:10:38', 'developer', '2017-03-19 21:10:38', null, '0');
+INSERT INTO `t_faktur_penjualan` VALUES ('1', '1', 'INV20170300001', '2017-03-19 00:00:00', '2017-03-31 00:00:00', '9', null, '0.00', '500000.00', '3500000.00', 'Rekening BCA', '1', '0', '3500000.00', '2017-03-19 21:10:38', 'developer', '2017-04-11 11:23:31', null, '0');
+INSERT INTO `t_faktur_penjualan` VALUES ('2', '1', 'INV20170300002', '2017-03-23 00:00:00', '2017-03-23 00:00:00', '9', null, '100000.00', '1000000.00', '2650000.00', '[\"1\",\"3\"]', '1', '1', '0.00', '2017-03-23 11:11:31', 'developer', '2017-03-23 11:11:31', null, '0');
+INSERT INTO `t_faktur_penjualan` VALUES ('3', '1', 'INV20170300003', '2017-03-30 00:00:00', '2017-03-30 00:00:00', '14', null, '4000.00', '100000.00', '130000.00', '[\"1\",\"4\"]', '1', '1', '0.00', '2017-03-30 11:01:24', 'developer', '2017-03-30 11:01:24', null, '0');
+INSERT INTO `t_faktur_penjualan` VALUES ('4', '1', 'INV20170300004', '2017-03-30 00:00:00', '2017-03-30 00:00:00', '15', null, '40000.00', '800000.00', '1000000.00', '[\"1\",\"3\",\"4\"]', '1', '0', '1000000.00', '2017-03-30 15:50:22', 'developer', '2017-04-05 13:10:18', null, '0');
+INSERT INTO `t_faktur_penjualan` VALUES ('5', '1', 'INV20170400001', '2017-04-05 00:00:00', '2017-04-05 00:00:00', '17', null, '0.00', '0.00', '18000.00', '[\"1\",\"4\"]', '1', '1', '0.00', '2017-04-05 11:27:09', 'developer', '2017-04-05 11:27:09', null, '0');
+INSERT INTO `t_faktur_penjualan` VALUES ('6', '1', 'INV20170400002', '2017-04-12 00:00:00', '2017-05-02 00:00:00', '19', null, '0.00', '0.00', '100000.00', '[\"1\"]', '1', '1', '0.00', '2017-04-12 11:30:40', 'developer', '2017-04-12 11:33:15', 'developer', '1');
+INSERT INTO `t_faktur_penjualan` VALUES ('7', '1', 'INV20170400003', '2017-04-12 00:00:00', '2017-04-22 00:00:00', '20', null, '0.00', '0.00', '1000000.00', '[\"1\"]', '1', '1', '750000.00', '2017-04-12 11:52:47', 'developer', '2017-04-12 13:20:53', null, '0');
+INSERT INTO `t_faktur_penjualan` VALUES ('8', '1', 'INV20170400004', '2017-04-19 00:00:00', '2017-04-29 00:00:00', '22', null, '0.00', '0.00', '20000.00', '[\"1\"]', '1', '1', '0.00', '2017-04-19 10:52:20', 'developer', '2017-04-19 10:52:20', null, '0');
+INSERT INTO `t_faktur_penjualan` VALUES ('10', '1', 'INV20170400005', '2017-04-19 00:00:00', '2017-05-19 00:00:00', '23', null, '0.00', '0.00', '50000.00', '[\"1\"]', '1', '1', '0.00', '2017-04-19 11:46:32', 'developer', '2017-04-19 11:46:32', null, '0');
 
 -- ----------------------------
 -- Table structure for t_faktur_penjualandet
@@ -8789,20 +12371,34 @@ CREATE TABLE `t_faktur_penjualandet` (
   `faktur_penjualandet_id` int(11) NOT NULL AUTO_INCREMENT,
   `t_po_customerdet_id` int(11) DEFAULT NULL,
   `t_faktur_penjualan_id` int(11) DEFAULT NULL,
-  `faktur_penjualandet_discount` float(255,0) DEFAULT NULL,
+  `faktur_penjualandet_discount` decimal(20,0) DEFAULT NULL,
   `faktur_penjualandet_created_date` datetime DEFAULT NULL,
   `faktur_penjualandet_created_by` varchar(255) DEFAULT NULL,
   `faktur_penjualandet_updated_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `faktur_penjualandet_updated_by` varchar(255) DEFAULT NULL,
   `faktur_penjualandet_revised` int(11) DEFAULT NULL,
   PRIMARY KEY (`faktur_penjualandet_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_faktur_penjualandet
 -- ----------------------------
 INSERT INTO `t_faktur_penjualandet` VALUES ('1', '1', '1', '0', '2017-03-19 21:10:38', 'developer', '2017-03-19 21:10:38', null, '0');
 INSERT INTO `t_faktur_penjualandet` VALUES ('2', '2', '1', '0', '2017-03-19 21:10:38', 'developer', '2017-03-19 21:10:38', null, '0');
+INSERT INTO `t_faktur_penjualandet` VALUES ('3', '1', '2', '10', '2017-03-23 11:11:31', 'developer', '2017-03-23 11:11:31', null, '0');
+INSERT INTO `t_faktur_penjualandet` VALUES ('4', '2', '2', '5', '2017-03-23 11:11:32', 'developer', '2017-03-23 11:11:32', null, '0');
+INSERT INTO `t_faktur_penjualandet` VALUES ('5', '3', '3', '5', '2017-03-30 11:01:25', 'developer', '2017-03-30 11:01:25', null, '0');
+INSERT INTO `t_faktur_penjualandet` VALUES ('6', '4', '3', '0', '2017-03-30 11:01:25', 'developer', '2017-03-30 11:01:25', null, '0');
+INSERT INTO `t_faktur_penjualandet` VALUES ('7', '13', '3', '0', '2017-03-30 11:01:25', 'developer', '2017-03-30 11:01:25', null, '0');
+INSERT INTO `t_faktur_penjualandet` VALUES ('8', '9', '4', '5', '2017-03-30 15:50:23', 'developer', '2017-03-30 15:50:23', null, '0');
+INSERT INTO `t_faktur_penjualandet` VALUES ('9', '10', '4', '0', '2017-03-30 15:50:23', 'developer', '2017-03-30 15:50:23', null, '0');
+INSERT INTO `t_faktur_penjualandet` VALUES ('10', '13', '5', '10', '2017-04-05 11:27:10', 'developer', '2017-04-05 11:27:10', null, '0');
+INSERT INTO `t_faktur_penjualandet` VALUES ('11', '24', '6', '0', '2017-04-12 11:30:40', 'developer', '2017-04-12 11:30:40', null, '0');
+INSERT INTO `t_faktur_penjualandet` VALUES ('12', '25', '7', '0', '2017-04-12 11:52:47', 'developer', '2017-04-12 11:52:47', null, '0');
+INSERT INTO `t_faktur_penjualandet` VALUES ('13', '33', '8', '0', '2017-04-19 10:52:21', 'developer', '2017-04-19 10:52:21', null, '0');
+INSERT INTO `t_faktur_penjualandet` VALUES ('14', '33', '9', '0', '2017-04-19 10:52:22', 'developer', '2017-04-19 10:52:22', null, '0');
+INSERT INTO `t_faktur_penjualandet` VALUES ('15', '28', '10', '0', '2017-04-19 11:46:33', 'developer', '2017-04-19 11:46:33', null, '0');
+INSERT INTO `t_faktur_penjualandet` VALUES ('16', '29', '10', '0', '2017-04-19 11:46:33', 'developer', '2017-04-19 11:46:33', null, '0');
 
 -- ----------------------------
 -- Table structure for t_jadwal_produksi
@@ -8974,7 +12570,7 @@ CREATE TABLE `t_kartu_stok` (
   PRIMARY KEY (`kartu_stok_id`),
   KEY `stok_gudang` (`m_gudang_id`),
   KEY `stok_barang` (`m_barang_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_kartu_stok
@@ -9023,6 +12619,7 @@ INSERT INTO `t_kartu_stok` VALUES ('79', '6', '2', '2017-03-19 17:52:18', '-', '
 INSERT INTO `t_kartu_stok` VALUES ('81', '6', '1', '2017-03-19 17:56:03', 'SO20170300001', '100', '0', '10', '0', 'SO Customer', '2017-03-19 17:56:03', 'developer', null, null, '0');
 INSERT INTO `t_kartu_stok` VALUES ('82', '6', '2', '2017-03-19 17:56:03', 'SO20170300001', '200', '0', '20', '0', 'SO Customer', '2017-03-19 17:56:03', 'developer', null, null, '0');
 INSERT INTO `t_kartu_stok` VALUES ('83', '6', '1', '2017-03-20 11:35:32', 'SO20170300002', '90', '0', '1000', '0', 'SO Customer', '2017-03-20 11:35:32', 'developer', null, null, '0');
+INSERT INTO `t_kartu_stok` VALUES ('84', '2', '1', '2017-04-25 14:33:11', 'SJ20170400005', '65', '0', '20', '0', 'Surat Jalan Retur', '2017-04-25 14:33:11', 'developer', null, null, '0');
 
 -- ----------------------------
 -- Table structure for t_keluar_barang
@@ -9365,7 +12962,7 @@ CREATE TABLE `t_order` (
   `order_update_by` varchar(0) DEFAULT NULL,
   `order_revised` int(255) DEFAULT NULL,
   PRIMARY KEY (`order_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_order
@@ -9376,6 +12973,9 @@ INSERT INTO `t_order` VALUES ('9', 'PO20170300001', '2017-03-04 00:00:00', '6', 
 INSERT INTO `t_order` VALUES ('10', 'WO20170300001', '2017-03-04 00:00:00', '8', '1', '1', '1', 'asas', 'dsds', '2323', '500000', '0', '500000', '2017-03-07 00:00:00', '0', '0', null, '1', '2017-03-04 11:24:33', null, '2017-03-04 11:24:33', 'developer', '2017-03-04 11:24:33', null, '0');
 INSERT INTO `t_order` VALUES ('11', 'PO20170300002', '2017-03-08 00:00:00', '14', '1', '0', '2', 'ddxd', 'xdxd', '4455', '2147483647', '0', '2147483647', '2017-03-11 00:00:00', '1', '100000', null, '3', '2017-03-08 09:02:22', null, '2017-03-08 08:59:16', 'developer', '2017-03-08 09:02:27', '', '2');
 INSERT INTO `t_order` VALUES ('12', 'PO20170300003', '2017-03-13 00:00:00', '16', '1', '0', '2', 'nama', 'alamar', '2103', '9000000', '10', '9900000', '2017-03-13 00:00:00', '0', '1000', null, '1', '2017-03-13 13:32:57', null, '2017-03-13 13:32:57', 'pembelian', '2017-03-13 13:32:57', null, '0');
+INSERT INTO `t_order` VALUES ('13', 'PO20170400001', '2017-04-16 00:00:00', '19', '1', '0', '1', '', '', '', '8000000', '10', '8800000', '1970-01-01 00:00:00', '0', '500', '0', '1', '2017-04-16 21:33:40', null, '2017-04-16 21:33:40', 'developer', '2017-04-16 21:33:40', null, '0');
+INSERT INTO `t_order` VALUES ('14', 'PO20170400002', '2017-04-16 00:00:00', '28', '1', '0', '1', 'A', '', '', '0', '10', '0', '1970-01-01 00:00:00', '0', '1000000', '0', '1', '2017-04-16 23:49:49', null, '2017-04-16 23:49:49', 'developer', '2017-04-16 23:49:49', null, '0');
+INSERT INTO `t_order` VALUES ('15', 'PO20170400003', '2017-04-17 00:00:00', '32', '1', '0', '1', 'nama', 'alamat', 'fax', '16120', '10', '17732', '1970-01-01 00:00:00', '0', '1500000', '0', '-2', '2017-04-25 00:00:28', null, '2017-04-17 12:49:17', 'developer', '2017-04-25 00:00:28', '', '4');
 
 -- ----------------------------
 -- Table structure for t_orderdet
@@ -9396,7 +12996,7 @@ CREATE TABLE `t_orderdet` (
   `orderdet_update_by` varchar(0) DEFAULT NULL,
   `orderdet_revised` int(255) DEFAULT NULL,
   PRIMARY KEY (`orderdet_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_orderdet
@@ -9411,6 +13011,11 @@ INSERT INTO `t_orderdet` VALUES ('7', '11', '5', '10000', null, null, '344409', 
 INSERT INTO `t_orderdet` VALUES ('8', '11', '6', '350', null, null, '0', '0', '2017-03-08 08:59:16', 'developer', '2017-03-08 09:04:02', '', '3');
 INSERT INTO `t_orderdet` VALUES ('9', '12', '5', '9000', '0', '0', '1000', '9000000', '2017-03-13 13:32:58', 'pembelian', '2017-03-13 13:32:58', null, '0');
 INSERT INTO `t_orderdet` VALUES ('10', '12', '5', '150', '0', '0', '0', '0', '2017-03-13 13:32:58', 'pembelian', '2017-03-13 13:32:58', null, '0');
+INSERT INTO `t_orderdet` VALUES ('11', '13', '841', '8000', '0', '0', '1000', '8000000', '2017-04-16 21:33:41', 'developer', '2017-04-16 21:33:41', null, '0');
+INSERT INTO `t_orderdet` VALUES ('12', '14', '2401', '10', '0', '0', '300', '0', '2017-04-16 23:49:49', 'developer', '2017-04-16 23:49:49', null, '0');
+INSERT INTO `t_orderdet` VALUES ('13', '14', '2525', '0', '0', '0', '0', '0', '2017-04-16 23:49:49', 'developer', '2017-04-16 23:49:49', null, '0');
+INSERT INTO `t_orderdet` VALUES ('14', '15', '2278', '21', '0', '0', '310', '6510', '2017-04-17 12:49:17', 'developer', '2017-04-25 00:00:28', '', '4');
+INSERT INTO `t_orderdet` VALUES ('15', '15', '2295', '31', '0', '0', '310', '9610', '2017-04-17 12:49:17', 'developer', '2017-04-17 12:49:17', null, '0');
 
 -- ----------------------------
 -- Table structure for t_orderlog
@@ -9458,7 +13063,7 @@ CREATE TABLE `t_penawaran` (
   `penawaran_update_by` varchar(255) DEFAULT NULL,
   `penawaran_revised` int(255) DEFAULT NULL,
   PRIMARY KEY (`penawaran_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_penawaran
@@ -9466,7 +13071,7 @@ CREATE TABLE `t_penawaran` (
 INSERT INTO `t_penawaran` VALUES ('1', 'SRC20170200001', '1', '2017-03-07 14:50:14', '1', '[\"1\",\"2\"]', '4', '4', '2017-03-07 14:50:14', null, '2017-03-07 14:50:14', 'developer', '2017-03-07 14:49:58', 'developer', '69');
 INSERT INTO `t_penawaran` VALUES ('5', 'SRC20170200002', '2', '2017-02-28 11:22:15', '1', '[\"3\"]', '4', '4', '2017-02-28 11:22:15', null, '2017-02-28 11:22:15', 'developer', '2017-02-28 11:22:10', 'developer', '5');
 INSERT INTO `t_penawaran` VALUES ('6', 'SRC20170200003', '1', '2017-03-06 12:15:25', '1', '[\"2\"]', '4', '4', '2017-03-06 12:15:25', null, '2017-03-06 12:15:25', 'developer', '2017-03-06 12:15:24', 'developer', '19');
-INSERT INTO `t_penawaran` VALUES ('7', 'SRC20170300001', '1', '2017-03-07 11:26:51', '1', '[\"4\"]', '2', '2', '2017-03-07 11:26:51', null, '2017-03-07 11:26:51', 'developer', '2017-03-07 11:26:35', 'developer', '15');
+INSERT INTO `t_penawaran` VALUES ('7', 'SRC20170300001', '1', '2017-04-17 00:47:53', '1', '[\"4\"]', '2', '2', '2017-04-17 00:47:53', null, '2017-04-17 00:47:53', 'developer', '2017-04-17 00:47:53', 'developer', '23');
 INSERT INTO `t_penawaran` VALUES ('8', 'SRC20170300002', '2', '2017-03-06 12:13:17', '1', '[\"5\"]', '4', '4', '2017-03-06 12:13:17', null, '2017-03-06 12:13:17', 'developer', '2017-03-06 12:13:16', 'developer', '6');
 INSERT INTO `t_penawaran` VALUES ('9', 'SRC20170300003', '1', '2017-03-08 06:27:03', '1', '[\"9\"]', '4', '4', '2017-03-08 06:27:03', null, '2017-03-08 06:27:03', 'developer', '2017-03-08 06:26:45', 'developer', '136');
 INSERT INTO `t_penawaran` VALUES ('10', 'SRC20170300004', '1', '2017-03-07 00:00:00', '1', '[\"10\"]', '1', '1', '2017-03-07 14:02:03', null, '2017-03-07 14:02:03', 'pembelian', '2017-03-07 14:02:03', null, '0');
@@ -9476,8 +13081,31 @@ INSERT INTO `t_penawaran` VALUES ('13', 'SRC20170300007', '2', '2017-03-08 09:58
 INSERT INTO `t_penawaran` VALUES ('14', 'SRC20170300008', '1', '2017-03-08 10:02:45', '1', '[\"12\"]', '4', '4', '2017-03-08 10:02:45', null, '2017-03-08 10:02:45', 'developer', '2017-03-08 10:02:39', 'developer', '6');
 INSERT INTO `t_penawaran` VALUES ('15', 'SRC20170300009', '1', '2017-03-13 11:42:06', '1', '[\"13\"]', '4', '4', '2017-03-13 11:42:06', null, '2017-03-13 11:42:06', 'developer', '2017-03-13 11:42:06', 'developer', '3');
 INSERT INTO `t_penawaran` VALUES ('16', 'SRC20170300010', '1', '2017-03-15 10:44:22', '1', '[\"14\",\"8\"]', '4', '4', '2017-03-15 10:44:22', null, '2017-03-15 10:44:22', 'pembelian', '2017-03-15 10:44:16', 'developer', '21');
-INSERT INTO `t_penawaran` VALUES ('17', 'SRC20170300011', '1', '2017-03-15 14:04:04', '1', '[\"15\"]', '3', '3', '2017-03-15 14:04:04', null, '2017-03-15 14:04:04', 'developer', '2017-03-15 14:03:58', 'developer', '25');
+INSERT INTO `t_penawaran` VALUES ('17', 'SRC20170300011', '1', '2017-04-16 23:46:32', '1', '[\"15\"]', '4', '4', '2017-04-16 23:46:32', null, '2017-04-16 23:46:32', 'developer', '2017-04-16 23:46:32', 'developer', '34');
 INSERT INTO `t_penawaran` VALUES ('18', 'SRC20170400001', '1', '2017-04-03 17:13:20', null, '[\"7\"]', '1', '1', '2017-04-03 17:13:20', null, '2017-04-03 17:13:20', null, '2017-04-03 17:13:20', null, '1');
+INSERT INTO `t_penawaran` VALUES ('19', 'SRC20170400002', '1', '2017-04-16 20:44:28', '1', '[\"16\"]', '4', '4', '2017-04-16 20:44:28', null, '2017-04-16 20:44:28', 'developer', '2017-04-16 20:44:28', 'developer', '9');
+INSERT INTO `t_penawaran` VALUES ('20', 'SRC20170400003', '1', '2017-04-16 22:00:52', '1', '[\"18\"]', '2', '2', '2017-04-16 22:00:52', null, '2017-04-16 22:00:52', 'developer', '2017-04-16 22:00:52', 'developer', '14');
+INSERT INTO `t_penawaran` VALUES ('21', 'SRC20170400004', '1', '2017-04-15 00:00:00', '1', '[\"17\"]', '1', '1', '2017-04-15 05:21:56', null, '2017-04-15 05:21:56', 'developer', '2017-04-15 05:21:56', null, '0');
+INSERT INTO `t_penawaran` VALUES ('22', 'SRC20170400005', '1', '2017-04-15 00:00:00', '1', '[\"19\"]', '1', '1', '2017-04-15 12:42:18', null, '2017-04-15 12:42:18', 'developer', '2017-04-15 12:42:18', null, '0');
+INSERT INTO `t_penawaran` VALUES ('23', 'SRC20170400006', '1', '2017-04-15 00:00:00', '1', '[\"22\"]', '1', '1', '2017-04-15 12:48:35', null, '2017-04-15 12:48:35', 'developer', '2017-04-15 12:48:35', null, '0');
+INSERT INTO `t_penawaran` VALUES ('24', 'SRC20170400007', '1', '2017-04-16 15:35:43', '1', '[\"21\"]', '4', '4', '2017-04-16 15:35:43', null, '2017-04-16 15:35:43', 'developer', '2017-04-16 15:35:43', 'developer', '8');
+INSERT INTO `t_penawaran` VALUES ('25', 'SRC20170400008', '1', '2017-04-16 17:37:22', '1', '[\"20\"]', '2', '2', '2017-04-16 17:37:22', null, '2017-04-16 17:37:22', 'developer', '2017-04-16 17:37:22', 'developer', '1');
+INSERT INTO `t_penawaran` VALUES ('26', 'SRC20170400009', '1', '2017-04-16 20:43:08', '1', '[\"23\"]', '4', '4', '2017-04-16 20:43:08', null, '2017-04-16 20:43:08', 'developer', '2017-04-16 20:43:08', 'developer', '11');
+INSERT INTO `t_penawaran` VALUES ('27', 'SRC20170400010', '1', '2017-04-16 21:40:23', '1', '[\"23\"]', '4', '4', '2017-04-16 21:40:23', null, '2017-04-16 21:40:23', 'developer', '2017-04-16 21:40:23', 'developer', '32');
+INSERT INTO `t_penawaran` VALUES ('28', 'SRC20170400011', '1', '2017-04-16 23:46:10', '1', '[\"24\"]', '4', '4', '2017-04-16 23:46:10', null, '2017-04-16 23:46:10', 'developer', '2017-04-16 23:46:10', 'developer', '11');
+INSERT INTO `t_penawaran` VALUES ('29', 'SRC20170400012', '1', '2017-04-16 00:00:00', '1', '[\"25\"]', '1', '1', '2017-04-16 23:47:34', null, '2017-04-16 23:47:34', 'developer', '2017-04-16 23:47:34', null, '0');
+INSERT INTO `t_penawaran` VALUES ('30', 'SRC20170400013', '1', '2017-04-17 00:48:59', '1', '[\"26\"]', '3', '3', '2017-04-17 00:48:59', null, '2017-04-17 00:48:59', 'developer', '2017-04-17 00:48:59', 'developer', '6');
+INSERT INTO `t_penawaran` VALUES ('31', 'SRC20170400014', '1', '2017-04-18 11:34:00', '1', '[\"27\"]', '4', '4', '2017-04-18 11:34:00', null, '2017-04-18 11:34:00', 'developer', '2017-04-18 11:34:00', 'developer', '17');
+INSERT INTO `t_penawaran` VALUES ('32', 'SRC20170400015', '1', '2017-04-17 11:07:04', '1', '[\"28\"]', '4', '4', '2017-04-17 11:07:04', null, '2017-04-17 11:07:04', 'developer', '2017-04-17 11:07:04', 'developer', '6');
+INSERT INTO `t_penawaran` VALUES ('33', 'SRC20170400016', '1', '2017-04-17 12:57:06', '1', '[\"29\"]', '4', '4', '2017-04-17 12:57:06', null, '2017-04-17 12:57:06', 'developer', '2017-04-17 12:57:06', 'developer', '4');
+INSERT INTO `t_penawaran` VALUES ('34', 'SRC20170400017', '1', '2017-04-17 12:56:24', '1', '[\"30\"]', '4', '4', '2017-04-17 12:56:24', null, '2017-04-17 12:56:24', 'developer', '2017-04-17 12:56:24', 'developer', '12');
+INSERT INTO `t_penawaran` VALUES ('35', 'SRC20170400018', '1', '2017-04-17 12:59:39', '1', '[\"31\"]', '4', '4', '2017-04-17 12:59:39', null, '2017-04-17 12:59:39', 'developer', '2017-04-17 12:59:39', 'developer', '9');
+INSERT INTO `t_penawaran` VALUES ('36', 'SRC20170400019', '1', '2017-04-18 11:33:17', '1', '[\"32\"]', '4', '4', '2017-04-18 11:33:17', null, '2017-04-18 11:33:17', 'developer', '2017-04-18 11:33:17', 'developer', '8');
+INSERT INTO `t_penawaran` VALUES ('37', 'SRC20170400020', '1', '2017-04-17 13:02:16', '1', '[\"33\"]', '4', '4', '2017-04-17 13:02:16', null, '2017-04-17 13:02:16', 'developer', '2017-04-17 13:02:16', 'developer', '4');
+INSERT INTO `t_penawaran` VALUES ('38', 'SRC20170400021', '1', '2017-04-18 09:37:57', '1', '[\"34\"]', '4', '4', '2017-04-18 09:37:57', null, '2017-04-18 09:37:57', 'developer', '2017-04-18 09:37:57', 'developer', '7');
+INSERT INTO `t_penawaran` VALUES ('39', 'SRC20170400022', '1', '2017-04-18 11:32:21', '1', '[\"35\"]', '4', '4', '2017-04-18 11:32:21', null, '2017-04-18 11:32:21', 'developer', '2017-04-18 11:32:21', 'developer', '6');
+INSERT INTO `t_penawaran` VALUES ('40', 'SRC20170400023', '1', '2017-04-18 11:38:17', '1', '[\"36\"]', '4', '4', '2017-04-18 11:38:17', null, '2017-04-18 11:38:17', 'developer', '2017-04-18 11:38:17', 'developer', '7');
+INSERT INTO `t_penawaran` VALUES ('41', 'SRC20170400024', '1', '2017-04-18 11:41:25', '1', '[\"37\"]', '4', '4', '2017-04-18 11:41:25', null, '2017-04-18 11:41:25', 'developer', '2017-04-18 11:41:25', 'developer', '5');
 
 -- ----------------------------
 -- Table structure for t_penawaran_barang
@@ -9495,7 +13123,7 @@ CREATE TABLE `t_penawaran_barang` (
   `penawaran_barang_update_by` varchar(255) DEFAULT NULL,
   `penawaran_barang_revised` int(11) DEFAULT NULL,
   PRIMARY KEY (`penawaran_barang_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_penawaran_barang
@@ -9519,6 +13147,31 @@ INSERT INTO `t_penawaran_barang` VALUES ('21', '16', '8', '5', '100', '2017-03-1
 INSERT INTO `t_penawaran_barang` VALUES ('22', '17', '15', '1', '20000', '2017-03-15 11:00:27', 'developer', '2017-03-15 11:00:27', null, '0');
 INSERT INTO `t_penawaran_barang` VALUES ('23', '17', '15', '2', '30000', '2017-03-15 11:00:27', 'developer', '2017-03-15 11:00:27', null, '0');
 INSERT INTO `t_penawaran_barang` VALUES ('24', '18', '7', '1', '0', '2017-04-03 17:12:50', null, '2017-04-03 17:12:50', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('25', '19', '16', '841', '0', '2017-04-13 16:25:39', 'developer', '2017-04-13 16:25:39', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('26', '20', '18', '45', '0', '2017-04-14 18:09:17', 'developer', '2017-04-14 18:09:17', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('27', '26', '23', '2401', '10', '2017-04-16 17:38:22', 'developer', '2017-04-16 17:38:22', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('28', '27', '23', '2401', '10', '2017-04-16 17:38:39', 'developer', '2017-04-16 17:38:39', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('29', '28', '24', '2401', '40', '2017-04-16 23:40:19', 'developer', '2017-04-16 23:40:19', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('30', '28', '24', '2525', '20', '2017-04-16 23:40:19', 'developer', '2017-04-16 23:40:19', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('31', '29', '25', '2525', '50', '2017-04-16 23:47:35', 'developer', '2017-04-16 23:47:35', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('32', '30', '26', '142', '0', '2017-04-17 00:48:34', 'developer', '2017-04-17 00:48:34', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('33', '31', '27', '2401', '10', '2017-04-17 10:48:05', 'developer', '2017-04-17 10:48:05', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('34', '31', '27', '2280', '20', '2017-04-17 10:48:05', 'developer', '2017-04-17 10:48:05', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('35', '31', '27', '2685', '30', '2017-04-17 10:48:05', 'developer', '2017-04-17 10:48:05', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('36', null, null, null, null, null, null, null, null, null);
+INSERT INTO `t_penawaran_barang` VALUES ('37', '32', '28', '2278', '20', '2017-04-17 11:03:14', 'developer', '2017-04-17 11:03:14', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('38', '32', '28', '2295', '30', '2017-04-17 11:03:14', 'developer', '2017-04-17 11:03:14', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('39', '33', '29', '2279', '33', '2017-04-17 12:42:05', 'developer', '2017-04-17 12:42:05', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('40', '33', '29', '2278', '10', '2017-04-17 12:42:05', 'developer', '2017-04-17 12:42:05', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('41', '34', '30', '2280', '30', '2017-04-17 12:45:05', 'developer', '2017-04-17 12:45:05', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('42', '35', '31', '2279', '10', '2017-04-17 12:58:08', 'developer', '2017-04-17 12:58:08', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('43', '36', '32', '2401', '30', '2017-04-17 13:00:33', 'developer', '2017-04-17 13:00:33', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('44', '37', '33', '2291', '20', '2017-04-17 13:01:44', 'developer', '2017-04-17 13:01:44', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('45', '38', '34', '2', '0', '2017-04-18 09:36:03', 'developer', '2017-04-18 09:36:03', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('46', '39', '35', '14', '0', '2017-04-18 11:05:09', 'developer', '2017-04-18 11:05:09', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('47', '40', '36', '19', '0', '2017-04-18 11:34:52', 'developer', '2017-04-18 11:34:52', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('48', '40', '36', '1', '0', '2017-04-18 11:34:52', 'developer', '2017-04-18 11:34:52', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('49', '41', '37', '14', '0', '2017-04-18 11:39:57', 'developer', '2017-04-18 11:39:57', null, '0');
 
 -- ----------------------------
 -- Table structure for t_penawaran_harga
@@ -9534,7 +13187,7 @@ CREATE TABLE `t_penawaran_harga` (
   `penawaran_harga_nominal` float DEFAULT NULL,
   `penawaran_harga_ppn` tinyint(1) DEFAULT '0' COMMENT '0 Exclude, 1 Include, 2 Tanpa',
   PRIMARY KEY (`t_penawaran_harga_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_penawaran_harga
@@ -9562,6 +13215,76 @@ INSERT INTO `t_penawaran_harga` VALUES ('33', '15', '20', '19', '1', '0', '20000
 INSERT INTO `t_penawaran_harga` VALUES ('34', '15', '21', '19', '1', '0', '7000', '0');
 INSERT INTO `t_penawaran_harga` VALUES ('35', '16', '22', '20', '1', '0', '1000', '0');
 INSERT INTO `t_penawaran_harga` VALUES ('36', '16', '22', '21', '1', '0', '1000', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('37', '27', '29', '28', '1', '5000', '1000', '2');
+INSERT INTO `t_penawaran_harga` VALUES ('38', '26', '27', '27', '1', '0', '1000', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('39', '19', '30', '25', '1', '8000', '1000', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('40', '17', '23', '22', '1', '50', '50000', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('41', '17', '24', '22', '1', '60000', '0', '2');
+INSERT INTO `t_penawaran_harga` VALUES ('42', '17', '23', '23', '1', '50', '10000', null);
+INSERT INTO `t_penawaran_harga` VALUES ('43', '17', '24', '23', '1', '70000', '0', null);
+INSERT INTO `t_penawaran_harga` VALUES ('44', '28', '31', '29', '1', '10', '30', '2');
+INSERT INTO `t_penawaran_harga` VALUES ('45', '28', '32', '29', '1', '10', '300', '2');
+INSERT INTO `t_penawaran_harga` VALUES ('46', '28', '31', '30', '1', '20', '50', null);
+INSERT INTO `t_penawaran_harga` VALUES ('47', '28', '32', '30', '1', '10', '20', null);
+INSERT INTO `t_penawaran_harga` VALUES ('48', '28', '31', '29', '1', '0', '0', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('49', '28', '32', '29', '1', '0', '0', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('50', '28', '31', '30', '1', '0', '0', null);
+INSERT INTO `t_penawaran_harga` VALUES ('51', '28', '32', '30', '1', '0', '0', null);
+INSERT INTO `t_penawaran_harga` VALUES ('52', '28', '31', '29', '1', '10', '1', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('53', '28', '32', '29', '1', '10', '1', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('54', '28', '31', '30', '1', '10', '1', null);
+INSERT INTO `t_penawaran_harga` VALUES ('55', '28', '32', '30', '1', '10', '1', null);
+INSERT INTO `t_penawaran_harga` VALUES ('56', '28', null, null, null, '0', '0', null);
+INSERT INTO `t_penawaran_harga` VALUES ('57', '28', null, null, null, '0', '0', null);
+INSERT INTO `t_penawaran_harga` VALUES ('58', '28', null, null, null, '0', '0', null);
+INSERT INTO `t_penawaran_harga` VALUES ('59', '28', null, null, null, '0', '0', null);
+INSERT INTO `t_penawaran_harga` VALUES ('60', '28', '31', '29', '1', '10', '1', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('61', '28', '32', '29', '1', '10', '1', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('62', '28', '31', '30', '1', '10', '1', null);
+INSERT INTO `t_penawaran_harga` VALUES ('63', '28', '32', '30', '1', '10', '1', null);
+INSERT INTO `t_penawaran_harga` VALUES ('64', '28', null, null, null, '0', '0', null);
+INSERT INTO `t_penawaran_harga` VALUES ('65', '28', null, null, null, '0', '0', null);
+INSERT INTO `t_penawaran_harga` VALUES ('66', '28', null, null, null, '0', '0', null);
+INSERT INTO `t_penawaran_harga` VALUES ('67', '28', null, null, null, '0', '0', null);
+INSERT INTO `t_penawaran_harga` VALUES ('68', '28', '31', '29', '1', '10', '1', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('69', '28', '32', '29', '1', '0', '0', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('70', '28', '31', '30', '1', '0', '0', null);
+INSERT INTO `t_penawaran_harga` VALUES ('71', '28', '32', '30', '1', '0', '0', null);
+INSERT INTO `t_penawaran_harga` VALUES ('72', '28', null, null, null, '10', '1', null);
+INSERT INTO `t_penawaran_harga` VALUES ('73', '28', null, null, null, '10', '1', null);
+INSERT INTO `t_penawaran_harga` VALUES ('74', '28', null, null, null, '10', '1', null);
+INSERT INTO `t_penawaran_harga` VALUES ('75', '28', null, null, null, '10', '1', null);
+INSERT INTO `t_penawaran_harga` VALUES ('76', '30', '33', '32', '1', '0', '0', '2');
+INSERT INTO `t_penawaran_harga` VALUES ('77', '30', '33', '32', '1', '0', '0', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('78', '31', '34', '33', '1', '11', '100', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('79', '31', '35', '33', '1', '12', '900', '2');
+INSERT INTO `t_penawaran_harga` VALUES ('80', '31', '34', '34', '1', '21', '200', null);
+INSERT INTO `t_penawaran_harga` VALUES ('81', '31', '35', '34', '1', '22', '700', null);
+INSERT INTO `t_penawaran_harga` VALUES ('82', '31', '34', '35', '1', '31', '300', null);
+INSERT INTO `t_penawaran_harga` VALUES ('83', '31', '35', '35', '1', '32', '500', null);
+INSERT INTO `t_penawaran_harga` VALUES ('90', '32', '37', '37', '1', '21', '210', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('91', '32', '38', '37', '1', '22', '220', '2');
+INSERT INTO `t_penawaran_harga` VALUES ('92', '32', '37', '38', '1', '31', '310', null);
+INSERT INTO `t_penawaran_harga` VALUES ('93', '32', '38', '38', '1', '32', '320', null);
+INSERT INTO `t_penawaran_harga` VALUES ('94', '34', '39', '41', '1', '10', '1000', '2');
+INSERT INTO `t_penawaran_harga` VALUES ('95', '34', '40', '41', '1', '20', '2000', '2');
+INSERT INTO `t_penawaran_harga` VALUES ('96', '33', '41', '39', '1', '0', '0', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('97', '33', '42', '39', '1', '0', '0', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('98', '33', '41', '40', '1', '0', '0', null);
+INSERT INTO `t_penawaran_harga` VALUES ('99', '33', '42', '40', '1', '0', '0', null);
+INSERT INTO `t_penawaran_harga` VALUES ('100', '35', '43', '42', '1', '11', '1000', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('101', '35', '44', '42', '1', '22', '1000', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('102', '36', '45', '43', '1', '0', '0', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('103', '37', '46', '44', '1', '10', '200', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('104', '37', '47', '44', '1', '20', '300', '2');
+INSERT INTO `t_penawaran_harga` VALUES ('105', '38', '48', '45', '1', '0', '0', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('106', '39', '49', '46', '1', '1', '1000', '1');
+INSERT INTO `t_penawaran_harga` VALUES ('107', '40', '50', '47', '1', '21', '100', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('108', '40', '51', '47', '1', '22', '200', '2');
+INSERT INTO `t_penawaran_harga` VALUES ('109', '40', '50', '48', '1', '31', '200', null);
+INSERT INTO `t_penawaran_harga` VALUES ('110', '40', '51', '48', '1', '32', '300', null);
+INSERT INTO `t_penawaran_harga` VALUES ('111', '41', '53', '49', '1', '10', '10', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('112', '41', '52', '49', '1', '20', '10', '0');
 
 -- ----------------------------
 -- Table structure for t_penawaran_supplier
@@ -9583,7 +13306,7 @@ CREATE TABLE `t_penawaran_supplier` (
   `penawaran_supplier_update_by` varchar(255) DEFAULT NULL,
   `penawaran_supplier_revised` int(11) DEFAULT NULL,
   PRIMARY KEY (`penawaran_supplier_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_penawaran_supplier
@@ -9602,8 +13325,37 @@ INSERT INTO `t_penawaran_supplier` VALUES ('19', '14', '2', 'Partner 2', '2017-0
 INSERT INTO `t_penawaran_supplier` VALUES ('20', '15', '2', 'Partner 2', '2017-03-13 00:00:00', '105', '10', '0', '', '2017-03-13 11:42:07', 'developer', '2017-03-13 11:42:06', 'developer', '2');
 INSERT INTO `t_penawaran_supplier` VALUES ('21', '15', '3', 'partner 3', '2017-03-13 00:00:00', '108', '10', '1', '', '2017-03-13 11:42:07', 'developer', '2017-03-13 11:42:06', 'developer', '2');
 INSERT INTO `t_penawaran_supplier` VALUES ('22', '16', '2', 'Partner 2', '2017-03-13 00:00:00', '10', '10', '1', '', '2017-03-13 13:21:48', 'pembelian', '2017-03-13 13:21:47', 'developer', '2');
-INSERT INTO `t_penawaran_supplier` VALUES ('23', '17', '1', 'Partner 1', '2017-03-18 00:00:00', '0', '10', '0', null, '2017-03-15 13:23:35', 'developer', '2017-03-15 13:23:30', 'developer', '2');
-INSERT INTO `t_penawaran_supplier` VALUES ('24', '17', '2', 'Partner 2', '2017-03-19 00:00:00', '0', '10', '0', null, '2017-03-15 13:24:50', 'developer', '2017-03-15 13:24:45', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('23', '17', '1', 'Partner 1', '0000-00-00 00:00:00', '0', '10', '0', null, '2017-04-16 22:07:20', 'developer', '2017-04-16 22:07:20', 'developer', '3');
+INSERT INTO `t_penawaran_supplier` VALUES ('24', '17', '2', 'Partner 2', '0000-00-00 00:00:00', '0', null, '0', null, '2017-04-16 22:07:20', 'developer', '2017-04-16 22:07:20', 'developer', '3');
+INSERT INTO `t_penawaran_supplier` VALUES ('25', '24', '1', 'Partner 1', '2017-04-15 00:00:00', '10', '10', '1', 'sistem complete', '2017-04-15 13:02:31', 'developer', '2017-04-15 13:02:31', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('26', '25', '1', 'Partner 1', null, null, '0', '0', null, '2017-04-16 17:37:22', 'developer', '2017-04-16 17:37:22', null, '0');
+INSERT INTO `t_penawaran_supplier` VALUES ('27', '26', '1', 'Partner 1', '0000-00-00 00:00:00', '0', '10', '1', 'aaa', '2017-04-16 20:42:29', 'developer', '2017-04-16 20:42:29', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('28', '20', '1', 'Partner 1', null, null, '0', '0', null, '2017-04-16 19:28:11', 'developer', '2017-04-16 19:28:11', null, '0');
+INSERT INTO `t_penawaran_supplier` VALUES ('29', '27', '1', 'Partner 1', '0000-00-00 00:00:00', '0', '10', '0', null, '2017-04-16 20:28:20', 'developer', '2017-04-16 20:28:20', 'developer', '1');
+INSERT INTO `t_penawaran_supplier` VALUES ('30', '19', '1', 'Partner 1', '0000-00-00 00:00:00', '0', '10', '1', '', '2017-04-16 20:44:19', 'developer', '2017-04-16 20:44:19', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('31', '28', '3', 'Partner 3', '0000-00-00 00:00:00', '0', '10', '0', '', '2017-04-16 23:46:10', 'developer', '2017-04-16 23:46:10', 'developer', '6');
+INSERT INTO `t_penawaran_supplier` VALUES ('32', '28', '1', 'Partner 1', '0000-00-00 00:00:00', '0', '10', '1', '', '2017-04-16 23:46:10', 'developer', '2017-04-16 23:46:10', 'developer', '6');
+INSERT INTO `t_penawaran_supplier` VALUES ('33', '30', '1', 'Partner 1', '0000-00-00 00:00:00', '0', '10', '0', null, '2017-04-17 00:48:59', 'developer', '2017-04-17 00:48:59', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('34', '31', '1', 'Partner 1', '0000-00-00 00:00:00', '0', '10', '1', '', '2017-04-18 11:34:00', 'developer', '2017-04-18 11:34:00', 'developer', '3');
+INSERT INTO `t_penawaran_supplier` VALUES ('35', '31', '2', 'Partner 2', '0000-00-00 00:00:00', '0', '10', '0', '', '2017-04-18 11:34:00', 'developer', '2017-04-18 11:34:00', 'developer', '3');
+INSERT INTO `t_penawaran_supplier` VALUES ('36', null, null, null, null, null, '0', '0', null, null, null, null, null, null);
+INSERT INTO `t_penawaran_supplier` VALUES ('37', '32', '1', 'Partner 1', '0000-00-00 00:00:00', '0', '10', '1', '', '2017-04-17 11:07:04', 'developer', '2017-04-17 11:07:04', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('38', '32', '3', 'Partner 3', '0000-00-00 00:00:00', '0', null, '1', '', '2017-04-17 11:07:04', 'developer', '2017-04-17 11:07:04', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('39', '34', '1', 'Partner 1', '0000-00-00 00:00:00', '0', null, '0', null, '2017-04-17 12:45:48', 'developer', '2017-04-17 12:45:48', 'developer', '1');
+INSERT INTO `t_penawaran_supplier` VALUES ('40', '34', '2', 'Partner 2', '0000-00-00 00:00:00', '0', null, '0', null, '2017-04-17 12:45:48', 'developer', '2017-04-17 12:45:48', 'developer', '1');
+INSERT INTO `t_penawaran_supplier` VALUES ('41', '33', '1', 'Partner 1', '0000-00-00 00:00:00', '0', '10', '1', '', '2017-04-17 12:57:06', 'developer', '2017-04-17 12:57:06', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('42', '33', '2', 'Partner 2', '0000-00-00 00:00:00', '0', '10', '1', '', '2017-04-17 12:57:06', 'developer', '2017-04-17 12:57:06', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('43', '35', '1', 'Partner 1', '0000-00-00 00:00:00', '0', '10', '0', '', '2017-04-17 12:59:07', 'developer', '2017-04-17 12:59:07', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('44', '35', '2', 'Partner 2', '0000-00-00 00:00:00', '0', '10', '0', '', '2017-04-17 12:59:07', 'developer', '2017-04-17 12:59:07', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('45', '36', '1', 'Partner 1', '0000-00-00 00:00:00', '0', '10', '1', '', '2017-04-18 11:33:17', 'developer', '2017-04-18 11:33:17', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('46', '37', '1', 'Partner 1', '0000-00-00 00:00:00', '0', '10', '1', '', '2017-04-17 13:02:16', 'developer', '2017-04-17 13:02:16', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('47', '37', '2', 'Partner 2', '0000-00-00 00:00:00', '0', null, '1', '', '2017-04-17 13:02:16', 'developer', '2017-04-17 13:02:16', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('48', '38', '1', 'Partner 1', '0000-00-00 00:00:00', '0', '10', '1', '', '2017-04-18 09:37:34', 'developer', '2017-04-18 09:37:34', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('49', '39', '1', 'Partner 1', '0000-00-00 00:00:00', '0', '10', '1', '', '2017-04-18 11:05:47', 'developer', '2017-04-18 11:05:47', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('50', '40', '1', 'Partner 1', '0000-00-00 00:00:00', '0', '10', '1', '', '2017-04-18 11:38:17', 'developer', '2017-04-18 11:38:17', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('51', '40', '2', 'Partner 2', '0000-00-00 00:00:00', '0', null, '0', '', '2017-04-18 11:38:17', 'developer', '2017-04-18 11:38:17', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('52', '41', '2', 'Partner 2', '0000-00-00 00:00:00', '0', '10', '1', '', '2017-04-18 11:41:25', 'developer', '2017-04-18 11:41:25', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('53', '41', '1', 'Partner 1', '0000-00-00 00:00:00', '0', '10', '1', '', '2017-04-18 11:41:25', 'developer', '2017-04-18 11:41:25', 'developer', '2');
 
 -- ----------------------------
 -- Table structure for t_penerimaan_barang
@@ -10061,9 +13813,9 @@ CREATE TABLE `t_permintaan_pembelian` (
   `t_permintaan_jasa` int(11) DEFAULT NULL,
   `permintaan_pembelian_tanggal` datetime NOT NULL,
   `permintaan_pembelian_tanggal_dibutuhkan` datetime NOT NULL,
-  `permintaan_pembelian_type` int(11) DEFAULT NULL COMMENT '0 SPP Barang, 1 SPP Jasa',
-  `permintaan_pembelian_jenis` int(255) NOT NULL,
-  `m_gudang_id_permintaan` int(11) DEFAULT NULL,
+  `permintaan_pembelian_type` int(11) NOT NULL DEFAULT '1' COMMENT '0 SPP Barang, 1 SPP Jasa',
+  `permintaan_pembelian_jenis` int(255) NOT NULL DEFAULT '2',
+  `m_gudang_id_permintaan` int(11) NOT NULL DEFAULT '1',
   `permintaan_pembelian_status` int(255) NOT NULL,
   `permintaan_pembelian_status_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `permintaan_pembelian_penerima` varchar(255) DEFAULT NULL,
@@ -10078,7 +13830,7 @@ CREATE TABLE `t_permintaan_pembelian` (
   `permintaan_pembelian_update_by` varchar(0) DEFAULT NULL,
   `permintaan_pembelian_revised` int(255) DEFAULT NULL,
   PRIMARY KEY (`permintaan_pembelian_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_permintaan_pembelian
@@ -10098,6 +13850,28 @@ INSERT INTO `t_permintaan_pembelian` VALUES ('12', '1', 'SPP20170300009', null, 
 INSERT INTO `t_permintaan_pembelian` VALUES ('13', '1', 'SPP20170300010', null, '2017-03-13 00:00:00', '2017-03-14 00:00:00', '1', '2', '5', '3', '2017-03-13 11:28:19', null, null, '1', null, 'alasan', 'catatan', '2017-03-13 11:20:48', 'developer', '2017-03-13 11:28:19', '', '2');
 INSERT INTO `t_permintaan_pembelian` VALUES ('14', '1', 'SPP20170300011', null, '2017-03-13 00:00:00', '2017-03-13 00:00:00', '1', '2', '6', '3', '2017-03-13 11:55:08', null, null, '7', null, 'alasan', 'catatan', '2017-03-13 11:46:50', 'gudangbahan', '2017-03-13 11:55:09', '', '1');
 INSERT INTO `t_permintaan_pembelian` VALUES ('15', '1', 'SPP20170300012', null, '2017-03-15 00:00:00', '2017-03-31 00:00:00', '1', '2', '6', '3', '2017-03-15 11:00:26', null, null, '1', null, '-', '', '2017-03-15 10:49:34', 'developer', '2017-03-15 11:00:31', '', '1');
+INSERT INTO `t_permintaan_pembelian` VALUES ('16', '1', 'SPP20170400001', null, '2017-04-13 00:00:00', '2017-04-13 00:00:00', '1', '1', '1', '3', '2017-04-13 16:25:39', null, null, '1', null, 'a', '', '2017-04-13 16:24:56', 'developer', '2017-04-13 16:25:39', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('17', '1', 'SPP20170400002', null, '2017-04-14 00:00:00', '2017-04-14 00:00:00', '1', '2', '6', '3', '2017-04-15 05:21:56', null, null, '1', null, '-', '-', '2017-04-14 14:34:07', 'developer', '2017-04-15 05:21:56', '', '1');
+INSERT INTO `t_permintaan_pembelian` VALUES ('18', '1', 'SPP20170400003', null, '2017-04-14 00:00:00', '2017-04-14 00:00:00', '1', '2', '6', '3', '2017-04-14 18:09:17', null, null, '1', null, '-', '-', '2017-04-14 18:08:16', 'developer', '2017-04-14 18:09:17', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('19', '1', 'SPP20170400004', null, '2017-04-15 00:00:00', '2017-04-15 00:00:00', '0', '0', '0', '3', '2017-04-15 12:42:19', null, null, '1', null, 'test', 'test', '2017-04-15 09:46:57', 'developer', '2017-04-15 12:42:19', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('20', '1', 'SPP20170400005', null, '2017-04-15 00:00:00', '2017-04-15 00:00:00', '0', '0', '0', '3', '2017-04-16 17:37:11', null, null, '1', null, 'halo', 'halo', '2017-04-15 09:50:53', 'developer', '2017-04-16 17:37:11', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('21', '1', 'SPP20170400006', null, '2017-04-15 00:00:00', '2017-04-15 00:00:00', '0', '0', '0', '3', '2017-04-15 12:59:42', null, null, '1', null, 'lagi', 'lagi', '2017-04-15 09:55:12', 'developer', '2017-04-15 12:59:42', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('22', '1', 'SPP20170400007', null, '2017-04-15 00:00:00', '2017-04-15 00:00:00', '1', '2', '1', '3', '2017-04-15 12:48:35', null, null, '1', null, 'baru', 'baru', '2017-04-15 09:56:49', 'developer', '2017-04-15 12:48:35', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('23', '1', 'SPP20170400008', null, '2017-04-16 00:00:00', '2017-04-16 00:00:00', '1', '2', '1', '3', '2017-04-16 17:38:39', null, null, '1', null, 'testing sistem ajbs', 'testing sistem ajbs', '2017-04-16 14:49:27', 'developer', '2017-04-16 17:38:39', '', '6');
+INSERT INTO `t_permintaan_pembelian` VALUES ('24', '1', 'SPP20170400009', null, '2017-04-16 00:00:00', '2017-04-16 00:00:00', '1', '2', '1', '3', '2017-04-16 23:40:19', null, null, '1', null, 'testing lagi', 'testing lagi', '2017-04-16 22:38:25', 'developer', '2017-04-16 23:40:19', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('25', '1', 'SPP20170400010', null, '2017-04-16 00:00:00', '2017-04-16 00:00:00', '1', '2', '1', '3', '2017-04-16 23:47:34', null, null, '1', null, 'yes', 'yes', '2017-04-16 22:40:00', 'developer', '2017-04-16 23:47:34', '', '1');
+INSERT INTO `t_permintaan_pembelian` VALUES ('26', '1', 'SPP20170400011', null, '2017-04-17 00:00:00', '2017-04-17 00:00:00', '1', '2', '1', '3', '2017-04-17 00:48:34', null, null, '1', null, 'coba', 'coba', '2017-04-17 00:48:17', 'developer', '2017-04-17 00:48:34', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('27', '1', 'SPP20170400012', null, '2017-04-17 00:00:00', '2017-04-17 00:00:00', '1', '2', '1', '3', '2017-04-17 10:48:05', null, null, '1', null, 'testing lagi', 'testing lagi', '2017-04-17 10:47:07', 'developer', '2017-04-17 10:48:05', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('28', '1', 'SPP20170400013', null, '2017-04-17 00:00:00', '2017-04-17 00:00:00', '1', '2', '1', '3', '2017-04-17 11:03:14', null, null, '1', null, '-', '-', '2017-04-17 11:02:41', 'developer', '2017-04-17 11:03:14', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('29', '1', 'SPP20170400014', null, '2017-04-17 00:00:00', '2017-04-17 00:00:00', '1', '2', '1', '3', '2017-04-17 12:42:04', null, null, '1', null, 'testing', 'testing', '2017-04-17 12:15:34', 'developer', '2017-04-17 12:42:04', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('30', '1', 'SPP20170400015', null, '2017-04-17 00:00:00', '2017-04-17 00:00:00', '1', '2', '1', '3', '2017-04-17 12:45:04', null, null, '1', null, '-', '-', '2017-04-17 12:44:03', 'developer', '2017-04-17 12:45:04', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('31', '1', 'SPP20170400016', null, '2017-04-17 00:00:00', '2017-04-17 00:00:00', '1', '2', '1', '3', '2017-04-17 12:58:08', null, null, '1', null, 'a', 'a', '2017-04-17 12:57:46', 'developer', '2017-04-17 12:58:08', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('32', '1', 'SPP20170400017', null, '2017-04-17 00:00:00', '2017-04-17 00:00:00', '1', '2', '1', '3', '2017-04-17 13:00:33', null, null, '1', null, 'a', 'a', '2017-04-17 13:00:06', 'developer', '2017-04-17 13:00:33', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('33', '1', 'SPP20170400018', null, '2017-04-17 00:00:00', '2017-04-17 00:00:00', '1', '2', '1', '3', '2017-04-17 13:01:44', null, null, '1', null, 'a', 'a', '2017-04-17 13:01:26', 'developer', '2017-04-17 13:01:44', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('34', '1', 'SPP20170400019', null, '2017-04-18 00:00:00', '2017-04-18 00:00:00', '1', '2', '1', '3', '2017-04-18 09:36:03', null, null, '1', null, 'a', 'a', '2017-04-18 09:35:45', 'developer', '2017-04-18 09:36:03', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('35', '1', 'SPP20170400020', null, '2017-04-18 00:00:00', '2017-04-18 00:00:00', '1', '2', '1', '3', '2017-04-18 11:05:09', null, null, '1', null, '-', '-', '2017-04-18 11:04:50', 'developer', '2017-04-18 11:05:09', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('36', '1', 'SPP20170400021', null, '2017-04-18 00:00:00', '2017-04-18 00:00:00', '1', '2', '1', '3', '2017-04-18 11:34:52', null, null, '1', null, 'test lagi', 'test lagi', '2017-04-18 11:34:34', 'developer', '2017-04-18 11:34:52', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('37', '1', 'SPP20170400022', null, '2017-04-18 00:00:00', '2017-04-18 00:00:00', '1', '2', '1', '3', '2017-04-18 11:39:57', null, null, '1', null, 'a', 'a', '2017-04-18 11:39:29', 'developer', '2017-04-18 11:39:57', null, '0');
 
 -- ----------------------------
 -- Table structure for t_permintaan_pembeliandet
@@ -10116,7 +13890,7 @@ CREATE TABLE `t_permintaan_pembeliandet` (
   `permintaan_pembeliandet_update_by` varchar(255) DEFAULT NULL,
   `permintaan_pembeliandet_revised` int(11) DEFAULT NULL,
   PRIMARY KEY (`permintaan_pembeliandet_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_permintaan_pembeliandet
@@ -10141,6 +13915,31 @@ INSERT INTO `t_permintaan_pembeliandet` VALUES ('17', '13', '6', '20000', null, 
 INSERT INTO `t_permintaan_pembeliandet` VALUES ('18', '14', '5', '9000', null, '1', '2017-03-13 11:46:50', 'gudangbahan', '2017-03-13 11:55:09', null, '0');
 INSERT INTO `t_permintaan_pembeliandet` VALUES ('19', '15', '1', '20000', null, '1', '2017-03-15 10:49:35', 'developer', '2017-03-15 11:00:32', null, '0');
 INSERT INTO `t_permintaan_pembeliandet` VALUES ('20', '15', '2', '30000', null, '1', '2017-03-15 10:49:35', 'developer', '2017-03-15 11:00:32', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('21', '16', '841', '0', null, '1', '2017-04-13 16:24:56', 'developer', '2017-04-13 16:25:39', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('22', '18', '45', '0', null, '1', '2017-04-14 18:08:17', 'developer', '2017-04-14 18:09:17', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('23', '19', '2401', '0', null, '0', '2017-04-15 09:46:57', 'developer', '2017-04-15 09:46:57', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('24', '20', '2279', '0', null, '0', '2017-04-15 09:50:53', 'developer', '2017-04-15 09:50:53', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('25', '23', '2401', '10', null, '1', '2017-04-16 14:49:27', 'developer', '2017-04-16 17:38:22', 'developer', '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('26', '24', '2401', '40', null, '1', '2017-04-16 22:38:25', 'developer', '2017-04-16 23:40:19', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('27', '24', '2525', '20', null, '1', '2017-04-16 22:38:25', 'developer', '2017-04-16 23:40:19', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('28', '25', '2525', '50', null, '1', '2017-04-16 22:40:01', 'developer', '2017-04-16 23:47:35', 'developer', '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('29', '26', '142', '0', null, '1', '2017-04-17 00:48:17', 'developer', '2017-04-17 00:48:35', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('30', '27', '2401', '10', null, '1', '2017-04-17 10:47:08', 'developer', '2017-04-17 10:48:05', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('31', '27', '2280', '20', null, '1', '2017-04-17 10:47:08', 'developer', '2017-04-17 10:48:05', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('32', '27', '2685', '30', null, '1', '2017-04-17 10:47:08', 'developer', '2017-04-17 10:48:05', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('33', '28', '2278', '20', null, '1', '2017-04-17 11:02:42', 'developer', '2017-04-17 11:03:14', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('34', '28', '2295', '30', null, '1', '2017-04-17 11:02:42', 'developer', '2017-04-17 11:03:14', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('35', '29', '2279', '33', null, '1', '2017-04-17 12:15:34', 'developer', '2017-04-17 12:42:05', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('36', '29', '2278', '10', null, '1', '2017-04-17 12:15:34', 'developer', '2017-04-17 12:42:05', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('37', '30', '2280', '30', null, '1', '2017-04-17 12:44:03', 'developer', '2017-04-17 12:45:05', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('38', '31', '2279', '10', null, '1', '2017-04-17 12:57:46', 'developer', '2017-04-17 12:58:08', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('39', '32', '2401', '30', null, '1', '2017-04-17 13:00:06', 'developer', '2017-04-17 13:00:33', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('40', '33', '2291', '20', null, '1', '2017-04-17 13:01:27', 'developer', '2017-04-17 13:01:44', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('41', '34', '2', '0', null, '1', '2017-04-18 09:35:45', 'developer', '2017-04-18 09:36:03', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('42', '35', '14', '0', null, '1', '2017-04-18 11:04:50', 'developer', '2017-04-18 11:05:09', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('43', '36', '19', '0', null, '1', '2017-04-18 11:34:34', 'developer', '2017-04-18 11:34:52', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('44', '36', '1', '0', null, '1', '2017-04-18 11:34:34', 'developer', '2017-04-18 11:34:52', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('45', '37', '14', '0', null, '1', '2017-04-18 11:39:29', 'developer', '2017-04-18 11:39:57', null, '0');
 
 -- ----------------------------
 -- Table structure for t_permintaan_pembelianlog
@@ -10154,7 +13953,7 @@ CREATE TABLE `t_permintaan_pembelianlog` (
   `permintaan_pembelianlog_status_update_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `permintaan_pembelianlog_status_update_by` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`permintaan_pembelianlog_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_permintaan_pembelianlog
@@ -10192,6 +13991,30 @@ INSERT INTO `t_permintaan_pembelianlog` VALUES ('32', '8', '2', '3', '2017-03-13
 INSERT INTO `t_permintaan_pembelianlog` VALUES ('33', '15', '1', '2', '2017-03-15 10:50:10', 'developer');
 INSERT INTO `t_permintaan_pembelianlog` VALUES ('34', '15', '2', '3', '2017-03-15 11:00:26', 'developer');
 INSERT INTO `t_permintaan_pembelianlog` VALUES ('35', '7', '2', '3', '2017-04-03 17:12:50', null);
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('36', '16', '1', '3', '2017-04-13 16:25:39', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('37', '17', '1', '2', '2017-04-14 15:43:18', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('38', '18', '1', '3', '2017-04-14 18:09:17', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('39', '17', '2', '3', '2017-04-15 05:21:56', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('40', '19', '0', '3', '2017-04-15 12:42:19', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('41', '22', '0', '3', '2017-04-15 12:48:35', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('42', '21', '0', '3', '2017-04-15 12:59:42', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('43', '20', '0', '3', '2017-04-16 17:37:11', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('44', '23', '0', '3', '2017-04-16 17:38:22', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('45', '23', '3', '3', '2017-04-16 17:38:39', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('46', '24', '0', '3', '2017-04-16 23:40:19', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('47', '25', '0', '3', '2017-04-16 23:47:34', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('48', '26', '0', '3', '2017-04-17 00:48:34', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('49', '27', '0', '3', '2017-04-17 10:48:05', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('50', '28', '0', '3', '2017-04-17 11:03:14', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('51', '29', '0', '3', '2017-04-17 12:42:04', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('52', '30', '0', '3', '2017-04-17 12:45:04', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('53', '31', '0', '3', '2017-04-17 12:58:08', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('54', '32', '0', '3', '2017-04-17 13:00:33', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('55', '33', '0', '3', '2017-04-17 13:01:44', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('56', '34', '0', '3', '2017-04-18 09:36:03', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('57', '35', '0', '3', '2017-04-18 11:05:09', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('58', '36', '0', '3', '2017-04-18 11:34:52', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('59', '37', '0', '3', '2017-04-18 11:39:57', 'developer');
 
 -- ----------------------------
 -- Table structure for t_perolehan_produksi
@@ -10353,10 +14176,14 @@ CREATE TABLE `t_po_customer` (
   `m_partner_id` int(255) DEFAULT NULL,
   `po_customer_kontak_person` varchar(255) DEFAULT NULL,
   `po_customer_nama_pelanggan` varchar(255) DEFAULT NULL,
+  `po_customer_alamat_kirim` varchar(255) DEFAULT NULL,
+  `po_customer_sejarah` int(1) DEFAULT '1' COMMENT '{"1": "Lama", "2": "Baru"}',
+  `m_karyawan_id` int(11) DEFAULT NULL,
   `po_customer_perjanjian_bayar` int(255) DEFAULT NULL,
   `po_customer_jasaangkut_jenis` int(255) DEFAULT NULL COMMENT '{"1": "Ekspedisi", "2": "Kirim Sendiri"}',
   `po_customer_ekspedisi` varchar(255) DEFAULT NULL,
   `po_customer_jasaangkut_bayar` int(255) DEFAULT NULL COMMENT '{"1": "Bayar Kantor", "2": "Bayar Toko"}',
+  `po_customer_ppn` int(1) DEFAULT '1' COMMENT '{"1": "PPN", "2": "Tanpa PPN"}',
   `po_customer_catatan` text,
   `po_customer_step` int(11) DEFAULT NULL,
   `po_customer_status` int(255) DEFAULT NULL COMMENT '{"1": "Draft PO", "2": "Cek Stok Barang", "3": "Cek Kredit Limit", "4": "Menunggu Otorisasi", "5": "PO Diterima", "6": "Terbit SO", "7":  "PO Tidak Diterima"}',
@@ -10366,15 +14193,46 @@ CREATE TABLE `t_po_customer` (
   `po_customer_updated_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `po_customer_updated_by` varchar(0) DEFAULT NULL,
   `po_customer_revised` int(255) DEFAULT NULL,
+  `po_customer_nama_kontak` varchar(255) DEFAULT NULL,
+  `po_customer_tanggal_persetujuan` datetime DEFAULT NULL,
+  `po_customer_file` text,
+  `po_customer_jenis` int(2) DEFAULT NULL,
   PRIMARY KEY (`po_customer_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_po_customer
 -- ----------------------------
-INSERT INTO `t_po_customer` VALUES ('1', '1', 'POC20170300001', '2017-03-18 00:00:00', '1', 'Bambang', 'Partner 1', '30', '1', 'Truk', '1', '-', '3', '6', null, '2017-03-18 10:59:50', 'developer', '2017-03-18 15:06:50', '', '2');
-INSERT INTO `t_po_customer` VALUES ('2', '1', 'POC20170300002', '2017-03-20 00:00:00', '1', '2333e3', 'Partner 1', '30', '1', 'eks1', '1', 'kirim senin', '2', '4', null, '2017-03-20 09:33:13', 'developer', '2017-03-20 09:38:10', '', '1');
-INSERT INTO `t_po_customer` VALUES ('3', '1', 'POC20170300003', '2017-03-20 00:00:00', '1', '88854', 'Partner 1', '30', '2', '', '1', 'catatan', '3', '6', null, '2017-03-20 09:58:12', 'developer', '2017-03-20 10:52:52', '', '2');
+INSERT INTO `t_po_customer` VALUES ('1', '1', 'POC20170300001', '2017-03-18 00:00:00', '1', 'Bambang', 'Partner 1', '-', '1', '1', '30', '1', 'Truk', '1', '1', '-', '4', '5', null, '2017-03-18 10:59:50', 'developer', '2017-04-12 00:32:11', '', '3', null, null, null, null);
+INSERT INTO `t_po_customer` VALUES ('2', '1', 'POC20170300002', '2017-03-20 00:00:00', '1', '2333e3', 'Partner 1', '-', '1', '1', '30', '1', 'eks1', '1', '1', 'kirim senin', '4', '4', null, '2017-03-20 09:33:13', 'developer', '2017-04-12 00:45:49', '', '4', null, null, '', null);
+INSERT INTO `t_po_customer` VALUES ('3', '1', 'POC20170300003', '2017-03-20 00:00:00', '1', '88854', 'Partner 1', '-', '1', '1', '30', '2', '', '1', '1', 'catatan', '3', '6', null, '2017-03-20 09:58:12', 'developer', '2017-04-06 16:50:01', '', '2', null, null, null, null);
+INSERT INTO `t_po_customer` VALUES ('4', '1', 'POC20170300004', '2017-03-23 00:00:00', '1', 'aaa', 'Partner 1', '-', '1', '1', '50', '1', '', '1', '1', '-', '3', '6', null, '2017-03-23 13:24:26', 'developer', '2017-04-06 16:50:02', '', '2', null, null, null, null);
+INSERT INTO `t_po_customer` VALUES ('5', '1', 'POC20170300005', '2017-03-23 00:00:00', '1', '124', 'Partner 1', '-', '1', '1', '80', '2', '', '1', '1', '-', '3', '6', null, '2017-03-23 13:51:15', 'developer', '2017-04-06 16:50:03', '', '2', null, null, null, null);
+INSERT INTO `t_po_customer` VALUES ('6', '1', 'POC20170300006', '2017-03-29 00:00:00', '1', '0987787', 'Partner 1', 'margomulyo', '1', '11', '25', '1', 'ekspedisi express', '1', '1', '', '3', '4', null, '2017-03-29 09:44:56', 'developer', '2017-04-06 16:50:03', '', '7', null, null, null, null);
+INSERT INTO `t_po_customer` VALUES ('7', '1', 'POC20170300007', '2017-03-29 00:00:00', '7', '3131231', 'alfamart', 'margomulyo', '1', '12', '25', '2', '', '1', '1', '', '3', '6', null, '2017-03-29 09:54:36', 'developer', '2017-04-06 16:50:04', '', '4', null, null, null, null);
+INSERT INTO `t_po_customer` VALUES ('8', '1', 'POC20170300008', '2017-03-29 00:00:00', '7', '', 'alfamart', 'margomulyo', '1', '7', '25', '2', '', '1', '2', '', '3', '6', null, '2017-03-29 10:06:01', 'developer', '2017-04-07 14:16:05', '', '3', null, null, null, null);
+INSERT INTO `t_po_customer` VALUES ('9', '1', 'POC20170300009', '2017-03-29 00:00:00', '7', 'Budi', 'alfamart', 'adad', '1', '7', '20', '2', '', '1', '1', '', '3', '4', null, '2017-03-29 16:12:43', 'developer', '2017-04-11 21:55:08', '', '4', null, null, 'Formulir_dan_Laporan_CUT.pdf', null);
+INSERT INTO `t_po_customer` VALUES ('10', '1', 'POC20170300010', '2017-03-31 00:00:00', '7', 'alfa', 'alfamart', 'adad', '1', '7', '120', '2', '', '1', '1', '-', '3', '4', null, '2017-03-31 10:34:15', 'developer', '2017-04-06 16:50:06', '', '3', null, null, null, null);
+INSERT INTO `t_po_customer` VALUES ('11', '1', 'POC20170400001', '2017-04-03 00:00:00', '7', 'aassa', 'alfamart', 'adad', '1', '7', '1', '2', '', '1', '1', 'tidak ada', '3', '4', null, '2017-04-03 15:24:47', 'developer', '2017-04-07 10:17:15', '', '2', null, null, null, null);
+INSERT INTO `t_po_customer` VALUES ('12', '1', 'POC20170400002', '2017-04-05 00:00:00', '1', '2352', 'Partner 1', 'margomulyo', '1', '7', '20', '1', 'expedisi', '1', '2', 'urgent', '4', '6', null, '2017-04-05 10:08:50', 'developer', '2017-04-07 11:13:54', '', '7', null, null, null, null);
+INSERT INTO `t_po_customer` VALUES ('13', '1', 'POC20170400003', '2017-04-11 00:00:00', '7', '123', 'alfamart', 'adad', '1', '7', '0', '1', 'acv', '1', '1', 'catatan', '1', '4', null, '2017-04-11 11:33:55', 'developer', '2017-04-11 21:55:30', '', '3', null, null, '', null);
+INSERT INTO `t_po_customer` VALUES ('14', '1', 'POC20170400004', '2017-04-11 00:00:00', '7', '12345', 'alfamart', 'adad', '1', '10', '0', '1', '123', '1', '1', 'tidak ada', '4', '6', null, '2017-04-11 11:58:44', 'developer', '2017-04-12 10:55:26', '', '5', ' alief', '2017-12-04 10:49:00', '', null);
+INSERT INTO `t_po_customer` VALUES ('15', '1', 'POC20170400005', '2017-04-11 00:00:00', '10', 'kadad', 'pt jasaweb', 'lontar no 226', '1', '7', '90', '2', '', '1', '1', '', '1', '2', null, '2017-04-11 23:32:36', 'developer', '2017-04-11 23:32:36', null, '0', null, null, '', null);
+INSERT INTO `t_po_customer` VALUES ('16', '1', 'POC20170400006', '2017-04-12 00:00:00', '1', '10390193', 'Partner 1', 'jalan surabaya', '1', '7', '20', '2', '', '1', '1', '', '4', '10', null, '2017-04-12 10:02:07', 'developer', '2017-04-12 11:03:38', '', '14', ' jqwnejq', '2017-12-04 10:45:00', 'Chrysanthemum.jpg', null);
+INSERT INTO `t_po_customer` VALUES ('17', '1', 'POC20170400007', '2017-04-12 00:00:00', '10', '13123', 'pt jasaweb', 'lontar no 226', '2', '7', '10', '2', '', '1', '2', '', '4', '11', null, '2017-04-12 11:48:19', 'developer', '2017-04-19 16:53:51', '', '4', 'alief', '2017-12-04 11:48:00', '', null);
+INSERT INTO `t_po_customer` VALUES ('18', '1', 'POC20170400008', '2017-04-13 00:00:00', '14', '03123456789', 'cus6', 'Alamat', '2', '19', '30', '2', '', '1', '1', '-', '4', '4', null, '2017-04-13 16:50:24', 'developer', '2017-04-13 17:05:55', '', '4', null, null, 'UU1108edit.pdf', null);
+INSERT INTO `t_po_customer` VALUES ('19', '1', 'POC20170400009', '2017-04-18 00:00:00', '1', '-', 'Partner 1', 'jalan surabaya', '1', '7', '30', '1', 'Truk', '1', '1', '-', '4', '11', null, '2017-04-18 15:24:24', 'developer', '2017-04-18 15:31:29', '', '4', ' ', '2017-04-18 15:25:00', '', null);
+INSERT INTO `t_po_customer` VALUES ('20', '1', 'POC20170400010', '2017-04-18 00:00:00', '7', '123', 'alfamart', 'adad', '1', '7', '10', '2', '', '1', '1', '', '1', '2', null, '2017-04-18 21:08:01', 'developer', '2017-04-18 21:08:01', null, '0', null, null, 'Chrysanthemum1.jpg', null);
+INSERT INTO `t_po_customer` VALUES ('21', '1', 'POC20170400011', '2017-04-19 00:00:00', '1', 'aas', 'Partner 1', 'jalan surabaya', '1', '7', '10', '2', '', '1', '1', '', '1', '2', null, '2017-04-19 09:28:08', 'developer', '2017-04-19 09:28:08', null, '0', null, null, '', null);
+INSERT INTO `t_po_customer` VALUES ('22', '1', 'POC20170400012', '2017-04-19 00:00:00', '1', 'alief', 'Partner 1', 'margomulyo', '1', '7', '10', '2', '', '1', '1', '', '4', '10', null, '2017-04-19 09:34:28', 'developer', '2017-04-19 09:59:50', '', '4', ' ', '2017-04-19 09:56:00', 'Chrysanthemum3.jpg', null);
+INSERT INTO `t_po_customer` VALUES ('23', '1', 'POC20170400013', '2017-04-19 00:00:00', '1', 'alief', 'Partner 1', 'jalan surabaya', '1', '7', '10', '2', '', '1', '1', '', '4', '11', null, '2017-04-19 09:36:08', 'developer', '2017-04-19 10:05:57', '', '4', ' ', '2017-04-19 09:44:00', 'Chrysanthemum.jpg', null);
+INSERT INTO `t_po_customer` VALUES ('24', '1', 'POC20170400014', '2017-04-19 00:00:00', '1', 'alief', 'Partner 1', 'jalan surabaya', '1', null, '10', '2', '', '1', '1', '', '1', '1', null, '2017-04-19 09:40:34', 'developer', '2017-04-19 09:40:34', null, '0', null, null, '', null);
+INSERT INTO `t_po_customer` VALUES ('25', '1', 'POC20170400015', '2017-04-19 00:00:00', '14', '121345', 'cus6', 'Alamat', '2', '19', '30', '2', '', '1', '1', '', '4', '9', null, '2017-04-19 14:55:31', 'developer', '2017-04-19 15:14:49', '', '11', ' ', '2017-04-19 15:09:00', '', null);
+INSERT INTO `t_po_customer` VALUES ('26', '1', 'POC20170400016', '2017-04-20 00:00:00', '1', '123', 'Partner 1', 'jalan surabaya', '1', '7', '10', '2', '', '1', '2', '', '1', '4', null, '2017-04-20 10:43:39', 'developer', '2017-04-20 10:44:46', '', '3', null, null, '', null);
+INSERT INTO `t_po_customer` VALUES ('27', '1', 'POC20170400017', '2017-04-25 00:00:00', '11', 'a', 'agung', 'Jl. Kaliasin no.99', null, '7', '0', '1', 'a', '1', null, '', '1', '4', null, '2017-04-25 11:06:54', 'developer', '2017-04-25 11:06:57', '', '1', null, null, null, null);
+INSERT INTO `t_po_customer` VALUES ('28', '1', 'POC20170400018', '2017-04-25 00:00:00', null, '', 'agung', 'Jl. Kaliasin no.99', '1', null, '0', null, 'a', null, '1', '', '1', '4', null, '2017-04-25 11:10:44', 'developer', '2017-04-25 11:11:31', '', '2', null, null, '', null);
+INSERT INTO `t_po_customer` VALUES ('29', '1', 'POC20170400019', '2017-04-25 00:00:00', '11', 'a', 'agung', 'Jl. Kaliasin no.99', '1', '7', '0', '1', 'a', '1', '1', '', '1', '3', null, '2017-04-25 11:23:55', 'developer', '2017-04-25 11:23:55', null, '0', null, null, '', null);
+INSERT INTO `t_po_customer` VALUES ('30', '1', 'POC20170400020', '2017-04-25 00:00:00', null, 'a', 'agung', 'Jl. Kaliasin no.99', '1', null, '0', null, '', null, '1', '', '1', '4', null, '2017-04-25 11:27:30', 'developer', '2017-04-25 11:27:47', '', '1', null, null, '', null);
 
 -- ----------------------------
 -- Table structure for t_po_customerdet
@@ -10383,27 +14241,64 @@ DROP TABLE IF EXISTS `t_po_customerdet`;
 CREATE TABLE `t_po_customerdet` (
   `po_customerdet_id` int(11) NOT NULL AUTO_INCREMENT,
   `t_po_customer_id` int(11) DEFAULT NULL,
+  `po_customerdet_barang_uraian` text,
   `m_barang_id` int(11) DEFAULT NULL,
-  `po_customerdet_qty` float DEFAULT NULL,
-  `po_customerdet_harga_satuan` float(255,0) DEFAULT NULL,
+  `po_customerdet_qty` decimal(20,2) DEFAULT '0.00',
+  `po_customerdet_harga_satuan` decimal(20,2) DEFAULT '0.00',
   `po_customerdet_keterangan` text,
   `po_customerdet_created_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `po_customerdet_created_by` varchar(255) DEFAULT NULL,
   `po_customerdet_updated_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `po_customerdet_updated_by` varchar(255) DEFAULT NULL,
   `po_customerdet_revised` int(11) DEFAULT NULL,
+  `po_customerdet_status` int(1) DEFAULT '1',
   PRIMARY KEY (`po_customerdet_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_po_customerdet
 -- ----------------------------
-INSERT INTO `t_po_customerdet` VALUES ('1', '1', '1', '10', '100000', '-', '2017-03-18 10:59:50', 'developer', '2017-03-18 10:59:50', null, '0');
-INSERT INTO `t_po_customerdet` VALUES ('2', '1', '2', '20', '150000', '-', '2017-03-18 10:59:50', 'developer', '2017-03-18 10:59:50', null, '0');
-INSERT INTO `t_po_customerdet` VALUES ('3', '2', '2', '20', '6000', 'ket', '2017-03-20 09:33:13', 'developer', '2017-03-20 09:33:13', null, '0');
-INSERT INTO `t_po_customerdet` VALUES ('4', '2', '2', '10', '10000', 'ket', '2017-03-20 09:33:13', 'developer', '2017-03-20 09:33:13', null, '0');
-INSERT INTO `t_po_customerdet` VALUES ('5', '3', '1', '1000', '1000', 'ket', '2017-03-20 09:58:12', 'developer', '2017-03-20 09:58:12', null, '0');
-INSERT INTO `t_po_customerdet` VALUES ('6', '3', '7', '500', '2000', 'ket', '2017-03-20 09:58:12', 'developer', '2017-03-20 09:58:12', null, '0');
+INSERT INTO `t_po_customerdet` VALUES ('1', '1', null, '1', '10.00', '100000.00', '-', '2017-03-18 10:59:50', 'developer', '2017-03-18 10:59:50', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('2', '1', null, '2', '20.00', '150000.00', '-', '2017-03-18 10:59:50', 'developer', '2017-03-18 10:59:50', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('3', '2', null, '2', '20.00', '6000.00', 'ket', '2017-04-12 00:45:50', 'developer', '2017-04-12 00:45:50', 'developer', '1', '1');
+INSERT INTO `t_po_customerdet` VALUES ('4', '2', null, '2', '10.00', '10000.00', 'ket', '2017-04-12 00:45:51', 'developer', '2017-04-12 00:45:50', 'developer', '1', '1');
+INSERT INTO `t_po_customerdet` VALUES ('5', '3', null, '1', '1000.00', '1000.00', 'ket', '2017-03-20 09:58:12', 'developer', '2017-03-20 09:58:12', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('6', '3', null, '7', '500.00', '2000.00', 'ket', '2017-03-20 09:58:12', 'developer', '2017-03-20 09:58:12', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('7', '4', null, '30', '120.00', '100000.00', '-', '2017-03-23 13:24:26', 'developer', '2017-03-23 13:24:26', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('8', '4', null, '134', '100.00', '50000.00', '-', '2017-03-23 13:24:26', 'developer', '2017-03-23 13:24:26', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('9', '5', null, '2', '60.00', '20000.00', '-', '2017-03-23 13:51:15', 'developer', '2017-03-23 13:51:15', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('10', '5', null, '7', '70.00', '10000.00', '-', '2017-03-23 13:51:15', 'developer', '2017-03-23 13:51:15', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('11', '6', null, '314', '10.90', '10000.00', 'ket', '2017-03-29 09:44:57', 'developer', '2017-03-29 09:44:57', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('12', '7', null, '263', '0.00', '0.00', '', '2017-03-29 09:54:37', 'developer', '2017-03-29 09:54:37', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('13', '8', null, '5', '20.00', '1000.00', 'ket', '2017-04-05 11:03:18', 'developer', '2017-04-05 11:03:17', 'developer', '2', '2');
+INSERT INTO `t_po_customerdet` VALUES ('14', '9', null, '411', '70.00', '1000.00', '', '2017-04-11 21:55:09', 'developer', '2017-04-11 21:55:08', 'developer', '2', '1');
+INSERT INTO `t_po_customerdet` VALUES ('15', '10', null, '4', '50.00', '90000.00', '', '2017-03-31 10:34:16', 'developer', '2017-03-31 10:34:16', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('16', '10', null, '7', '30.00', '100000.00', '', '2017-03-31 10:34:16', 'developer', '2017-03-31 10:34:16', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('17', '11', null, '4', '1.00', '12.00', 'ket', '2017-04-03 15:24:48', 'developer', '2017-04-03 15:24:48', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('18', '12', null, '134', '10000.00', '2000.00', 'pakai faktur pajak', '2017-04-05 10:08:50', 'developer', '2017-04-05 10:08:50', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('19', '13', null, '4', '10.00', '9927.00', '', '2017-04-11 21:55:31', 'developer', '2017-04-11 21:55:30', 'developer', '3', '1');
+INSERT INTO `t_po_customerdet` VALUES ('20', '13', null, '2', '9.00', '1201.00', '', '2017-04-11 21:55:31', 'developer', '2017-04-11 21:55:31', 'developer', '3', '1');
+INSERT INTO `t_po_customerdet` VALUES ('21', '13', null, '32', '8.00', '2102.00', '', '2017-04-11 21:55:31', 'developer', '2017-04-11 21:55:31', 'developer', '3', '1');
+INSERT INTO `t_po_customerdet` VALUES ('22', '14', null, '4', '120.00', '10.00', 'Kilogram', '2017-04-12 10:55:35', 'developer', '2017-04-12 10:55:26', 'developer', '3', '4');
+INSERT INTO `t_po_customerdet` VALUES ('23', '15', null, '2', '10000.00', '1233.30', '', '2017-04-11 23:32:36', 'developer', '2017-04-11 23:32:36', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('24', '16', null, '2', '100.00', '1000.00', 'Meter', '2017-04-12 11:09:16', 'developer', '2017-04-12 11:09:06', 'developer', '9', '5');
+INSERT INTO `t_po_customerdet` VALUES ('25', '17', null, '656', '100.00', '10000.00', 'Meter', '2017-04-19 16:53:51', 'developer', '2017-04-19 16:54:07', 'developer', '2', '4');
+INSERT INTO `t_po_customerdet` VALUES ('26', '18', null, '2', '11.00', '1111.00', 'Meter', '2017-04-13 17:05:44', 'developer', '2017-04-13 17:05:56', 'developer', '2', '4');
+INSERT INTO `t_po_customerdet` VALUES ('27', '18', null, '656', '10.00', '1250.00', 'Lembar', '2017-04-13 17:05:44', 'developer', '2017-04-13 17:05:56', 'developer', '2', '4');
+INSERT INTO `t_po_customerdet` VALUES ('28', '19', 'Barang ABC', '134', '100.00', '1000.00', '-', '2017-04-18 15:31:29', 'developer', '2017-04-18 15:31:28', 'developer', '3', '4');
+INSERT INTO `t_po_customerdet` VALUES ('29', '19', 'Barang BCA', '32', '200.00', '2000.00', '-', '2017-04-18 15:31:29', 'developer', '2017-04-18 15:31:28', 'developer', '3', '4');
+INSERT INTO `t_po_customerdet` VALUES ('30', '20', 'coil a b x c x d', null, '20.00', '2000.00', '', '2017-04-18 21:08:01', 'developer', '2017-04-18 21:08:01', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('31', '21', 'asad', null, '1231.00', '2200.00', '', '2017-04-19 09:28:08', 'developer', '2017-04-19 09:28:08', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('32', '22', 'coil abcd ', null, '10.00', '2000.00', '', '2017-04-19 09:59:54', 'developer', '2017-04-19 09:59:52', 'developer', '2', '4');
+INSERT INTO `t_po_customerdet` VALUES ('33', '23', 'trimdex 123', '411', '12.00', '2000.00', '', '2017-04-19 10:05:58', 'developer', '2017-04-19 10:05:56', 'developer', '3', '4');
+INSERT INTO `t_po_customerdet` VALUES ('34', '24', 'coil 123', null, '120.00', '20000.00', '', '2017-04-19 09:40:35', 'developer', '2017-04-19 09:40:35', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('35', '25', 'barang cus', null, '100.00', '1500.00', '-', '2017-04-19 15:09:22', 'developer', '2017-04-19 15:09:38', 'developer', '6', '4');
+INSERT INTO `t_po_customerdet` VALUES ('36', '25', 'barang cus 1', null, '15.00', '5000.00', '-', '2017-04-19 15:09:22', 'developer', '2017-04-19 15:09:39', 'developer', '6', '4');
+INSERT INTO `t_po_customerdet` VALUES ('37', '26', 'coil 123', null, '12.00', '2090.00', '', '2017-04-20 10:44:46', 'developer', '2017-04-20 10:44:46', 'developer', '2', '1');
+INSERT INTO `t_po_customerdet` VALUES ('38', '27', null, '2277', '0.00', '0.00', '', '2017-04-25 11:06:54', 'developer', '2017-04-25 11:06:54', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('39', '28', 'barang', null, '0.00', '0.00', '', '2017-04-25 11:10:44', 'developer', '2017-04-25 11:10:44', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('40', '29', 'a', null, '0.00', '0.00', '', '2017-04-25 11:23:55', 'developer', '2017-04-25 11:23:55', null, '0', '1');
+INSERT INTO `t_po_customerdet` VALUES ('41', '30', 'a', null, '0.00', '0.00', '', '2017-04-25 11:27:30', 'developer', '2017-04-25 11:27:30', null, '0', '1');
 
 -- ----------------------------
 -- Table structure for t_retur_pembelian
@@ -10698,14 +14593,25 @@ CREATE TABLE `t_so_customer` (
   `so_customer_updated_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `so_customer_updated_by` varchar(255) DEFAULT NULL,
   `so_customer_revised` int(11) DEFAULT NULL,
+  `so_customer_nama_cetak` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`so_customer_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_so_customer
 -- ----------------------------
-INSERT INTO `t_so_customer` VALUES ('1', '1', 'SO20170300001', '2017-03-19 21:10:39', '1', null, '5', null, '2017-03-18 15:06:49', 'developer', '2017-03-19 21:10:39', 'developer', '2');
-INSERT INTO `t_so_customer` VALUES ('2', '1', 'SO20170300002', '2017-03-20 11:35:46', '3', 'catatan', '3', null, '2017-03-20 10:52:37', 'developer', '2017-03-20 11:35:46', 'developer', '1');
+INSERT INTO `t_so_customer` VALUES ('1', '1', 'SO20170300001', '2017-03-19 21:10:39', '1', null, '5', null, '2017-03-18 15:06:49', 'developer', '2017-03-19 21:10:39', 'developer', '2', null);
+INSERT INTO `t_so_customer` VALUES ('2', '1', 'SO20170300002', '2017-03-20 11:35:46', '3', 'catatan', '3', null, '2017-03-20 10:52:37', 'developer', '2017-03-20 11:35:46', 'developer', '1', null);
+INSERT INTO `t_so_customer` VALUES ('3', '1', 'SO20170300003', '2017-03-29 10:42:24', '2', '-', '3', null, '2017-03-21 15:29:36', 'developer', '2017-03-29 10:42:24', 'developer', '1', null);
+INSERT INTO `t_so_customer` VALUES ('4', '1', 'SO20170300004', '2017-03-23 16:48:35', '4', '-', '3', null, '2017-03-23 13:38:47', 'developer', '2017-03-23 16:48:35', 'developer', '1', 'cust 1');
+INSERT INTO `t_so_customer` VALUES ('5', '1', 'SO20170300005', '2017-03-30 14:17:32', '5', '-', '3', null, '2017-03-23 13:53:55', 'developer', '2017-03-30 14:17:32', 'developer', '1', 'cust 1');
+INSERT INTO `t_so_customer` VALUES ('6', '1', 'SO20170300006', '2017-03-29 10:42:24', '8', '', '3', null, '2017-03-29 10:18:43', 'developer', '2017-03-29 10:42:24', 'developer', '1', null);
+INSERT INTO `t_so_customer` VALUES ('7', '1', 'SO20170400001', '2017-04-05 11:01:03', '8', '', '3', null, '2017-04-03 15:26:03', 'developer', '2017-04-05 11:01:03', 'developer', '1', 'alfa');
+INSERT INTO `t_so_customer` VALUES ('8', '1', 'SO20170400002', '2017-04-12 11:45:37', '12', '', '2', null, '2017-04-05 10:33:25', 'developer', '2017-04-12 11:45:28', 'developer', '1', 'cust 1');
+INSERT INTO `t_so_customer` VALUES ('9', '1', 'SO20170400003', '2017-04-05 10:51:16', '12', '', '4', null, '2017-04-05 10:33:33', 'developer', '2017-04-05 10:51:16', 'developer', '2', 'cust 1');
+INSERT INTO `t_so_customer` VALUES ('10', '1', 'SO20170400004', '2017-04-12 11:09:16', '16', '', '3', null, '2017-04-12 11:03:29', 'developer', '2017-04-12 11:09:16', 'developer', '1', 'cust 1');
+INSERT INTO `t_so_customer` VALUES ('11', '1', 'SO20170400005', '2017-04-12 11:50:27', '17', '', '2', null, '2017-04-12 11:50:00', 'developer', '2017-04-12 11:50:18', 'developer', '1', 'jasaweb 1');
+INSERT INTO `t_so_customer` VALUES ('12', '1', 'SO20170400006', '2017-04-18 00:00:00', '19', '', '1', null, '2017-04-18 15:31:28', 'developer', '2017-04-18 15:31:28', null, '0', 'cust 1');
 
 -- ----------------------------
 -- Table structure for t_stok_gudang
@@ -10733,7 +14639,7 @@ CREATE TABLE `t_stok_gudang` (
 -- ----------------------------
 INSERT INTO `t_stok_gudang` VALUES ('1', '1', '1', 'NO20170200215G,NO20170267821I,NO20170399212P,NO20170211234H,NO20170320045F,NO20170399032K', '100', '964', null, null, '2017-03-16 09:27:51', 'developer', '23');
 INSERT INTO `t_stok_gudang` VALUES ('2', '1', '2', '', null, '225', null, null, '2017-03-10 14:24:06', 'developer', '10');
-INSERT INTO `t_stok_gudang` VALUES ('3', '2', '1', '', null, '65', null, null, '2017-03-10 14:24:06', 'gudangbahan', '22');
+INSERT INTO `t_stok_gudang` VALUES ('3', '2', '1', '', null, '45', null, null, '2017-04-25 14:33:12', 'developer', '23');
 INSERT INTO `t_stok_gudang` VALUES ('4', '2', '2', '', null, '225', null, null, '2017-03-10 14:24:06', 'developer', '15');
 INSERT INTO `t_stok_gudang` VALUES ('5', '1', '5', '', null, '22890', null, null, '2017-03-10 14:24:06', 'developer', '8');
 INSERT INTO `t_stok_gudang` VALUES ('6', '1', '6', '', null, '538', null, null, '2017-03-10 14:24:06', 'developer', '5');
@@ -10758,7 +14664,7 @@ CREATE TABLE `t_surat_jalan` (
   `t_nota_debet_id` int(11) DEFAULT NULL,
   `m_partner_id` int(11) DEFAULT NULL,
   `t_order_id` int(11) DEFAULT NULL,
-  `t_so_customer_id` int(11) DEFAULT NULL,
+  `t_so_customer_id` varchar(255) DEFAULT NULL,
   `surat_jalan_status` int(11) DEFAULT NULL,
   `surat_jalan_status_date` datetime DEFAULT NULL,
   `surat_jalan_created_date` datetime DEFAULT NULL,
@@ -10767,14 +14673,50 @@ CREATE TABLE `t_surat_jalan` (
   `surat_jalan_update_by` varchar(255) DEFAULT NULL,
   `surat_jalan_revised` int(11) DEFAULT NULL,
   PRIMARY KEY (`surat_jalan_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_surat_jalan
 -- ----------------------------
 INSERT INTO `t_surat_jalan` VALUES ('8', 'SJ20170300001', '1', '0', '2017-03-01 00:00:00', '2017-03-03 00:00:00', 'ekspedisi 1', '1', '2', null, null, '1', '2017-03-01 14:25:51', '2017-03-01 14:25:51', 'developer', '2017-03-01 14:25:51', null, '0');
-INSERT INTO `t_surat_jalan` VALUES ('9', 'SJ20170300002', '1', '3', '2017-03-19 00:00:00', '2017-03-19 00:00:00', 'Truk', null, '1', null, '1', '1', '2017-03-19 17:56:03', '2017-03-19 17:56:03', 'developer', '2017-03-19 17:56:03', null, '0');
+INSERT INTO `t_surat_jalan` VALUES ('9', 'SJ20170300002', '1', '3', '2017-03-19 00:00:00', '2017-03-19 00:00:00', 'Truk', null, '1', null, '1', '2', '2017-03-19 17:56:03', '2017-03-19 17:56:03', 'developer', '2017-03-23 11:11:31', 'developer', '1');
 INSERT INTO `t_surat_jalan` VALUES ('11', 'SJ20170300003', '1', '3', '2017-03-20 00:00:00', '2017-03-30 00:00:00', 'abc', null, '1', null, '2', '1', '2017-03-20 11:35:31', '2017-03-20 11:35:31', 'developer', '2017-03-20 11:35:31', null, '0');
+INSERT INTO `t_surat_jalan` VALUES ('12', 'SJ20170300004', '1', '3', '2017-03-23 00:00:00', '2017-03-24 00:00:00', 'ekspedisi 1', null, '1', null, '0', '1', '2017-03-23 16:48:32', '2017-03-23 16:48:32', 'developer', '2017-03-23 16:48:32', null, '0');
+INSERT INTO `t_surat_jalan` VALUES ('13', 'SJ20170300005', '1', '3', '2017-03-29 00:00:00', '2017-03-29 00:00:00', 'express', null, '7', null, '[\"3\",\"6\"]', '1', '2017-03-29 10:42:17', '2017-03-29 10:42:17', 'developer', '2017-03-29 10:42:17', null, '0');
+INSERT INTO `t_surat_jalan` VALUES ('14', 'SJ20170300005', '1', '3', '2017-03-29 00:00:00', '2017-03-29 00:00:00', 'express', null, '7', null, '[\"3\",\"6\"]', '2', '2017-03-29 10:42:17', '2017-03-29 10:42:17', 'developer', '2017-03-30 11:01:24', 'developer', '1');
+INSERT INTO `t_surat_jalan` VALUES ('15', 'SJ20170300006', '1', '3', '2017-03-30 00:00:00', '2017-03-31 00:00:00', 'Ekspedisi 1', null, '1', null, '[\"5\"]', '2', '2017-03-30 14:17:30', '2017-03-30 14:17:30', 'developer', '2017-03-30 15:50:22', 'developer', '1');
+INSERT INTO `t_surat_jalan` VALUES ('16', 'SJ20170400001', '1', '0', '2017-04-03 00:00:00', '2017-04-04 00:00:00', 'kirim sendiri', '3', '2', null, null, '1', '2017-04-03 14:55:01', '2017-04-03 14:55:01', 'developer', '2017-04-03 14:55:01', null, '0');
+INSERT INTO `t_surat_jalan` VALUES ('17', 'SJ20170400002', '1', '3', '2017-04-05 00:00:00', '2017-04-05 00:00:00', 'expedisi', null, '7', null, '[\"7\"]', '2', '2017-04-05 10:58:34', '2017-04-05 10:58:34', 'developer', '2017-04-05 11:27:10', 'developer', '1');
+INSERT INTO `t_surat_jalan` VALUES ('18', 'SJ20170400003', '1', '3', '2017-04-05 00:00:00', '2017-04-05 00:00:00', 'expedisi', null, '7', null, '[\"7\"]', '1', '2017-04-05 11:03:08', '2017-04-05 11:03:08', 'developer', '2017-04-05 11:03:08', null, '0');
+INSERT INTO `t_surat_jalan` VALUES ('19', 'SJSO20170400002', '1', '3', '2017-04-12 00:00:00', '2017-04-12 00:00:00', 'ekspedisi a', null, '1', null, '[\"10\"]', '2', '2017-04-12 11:09:06', '2017-04-12 11:09:06', 'developer', '2017-04-12 11:30:40', 'developer', '1');
+INSERT INTO `t_surat_jalan` VALUES ('20', 'SJSO20170400003', '1', '3', '2017-04-12 00:00:00', '2017-04-12 00:00:00', 'ekspedisi abcd', null, '10', null, '[\"11\"]', '2', '2017-04-12 11:52:05', '2017-04-12 11:52:05', 'developer', '2017-04-12 11:52:47', 'developer', '1');
+INSERT INTO `t_surat_jalan` VALUES ('21', 'SJ20170400004', '1', '0', '2017-04-13 00:00:00', '2017-04-16 00:00:00', 'PT MUS', '3', '2', null, null, '1', '2017-04-13 15:03:30', '2017-04-13 15:03:30', 'developer', '2017-04-13 15:03:30', null, '0');
+INSERT INTO `t_surat_jalan` VALUES ('22', 'SJ20170400005', '1', '0', '2017-04-25 00:00:00', '2017-04-25 00:00:00', '1', '1', '2', null, null, '1', '2017-04-25 14:33:11', '2017-04-25 14:33:11', 'developer', '2017-04-25 14:33:11', null, '0');
+
+-- ----------------------------
+-- Table structure for t_surat_jalandet
+-- ----------------------------
+DROP TABLE IF EXISTS `t_surat_jalandet`;
+CREATE TABLE `t_surat_jalandet` (
+  `surat_jalandet_id` int(11) NOT NULL AUTO_INCREMENT,
+  `t_surat_jalan_id` int(11) DEFAULT NULL,
+  `t_po_customerdet_id` int(11) DEFAULT NULL,
+  `surat_jalandet_qty_kirim` decimal(20,2) DEFAULT '0.00',
+  `surat_jalandet_created_date` datetime DEFAULT NULL,
+  `surat_jalandet_created_by` varchar(255) DEFAULT NULL,
+  `surat_jalandet_update_date` datetime DEFAULT NULL,
+  `surat_jalandet_update_by` varchar(255) DEFAULT NULL,
+  `surat_jalandet_revised` int(11) DEFAULT NULL,
+  PRIMARY KEY (`surat_jalandet_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of t_surat_jalandet
+-- ----------------------------
+INSERT INTO `t_surat_jalandet` VALUES ('1', '17', '13', '20.00', '2017-04-05 10:58:41', 'developer', null, null, '0');
+INSERT INTO `t_surat_jalandet` VALUES ('2', '18', '13', '20.00', '2017-04-05 11:03:15', 'developer', null, null, '0');
+INSERT INTO `t_surat_jalandet` VALUES ('3', '19', '24', '100.00', '2017-04-12 11:09:06', 'developer', null, null, '0');
+INSERT INTO `t_surat_jalandet` VALUES ('4', '20', '25', '20.00', '2017-04-12 11:52:06', 'developer', null, null, '0');
 
 -- ----------------------------
 -- Table structure for t_tanda_terima
@@ -10850,205 +14792,356 @@ CREATE TABLE `villages` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for v_faktur_penjualan
+-- ----------------------------
+DROP TABLE IF EXISTS `v_faktur_penjualan`;
+CREATE TABLE `v_faktur_penjualan` (
+  `faktur_penjualan_id` int(11) DEFAULT NULL,
+  `faktur_penjualan_nomor` varchar(255) DEFAULT NULL,
+  `cabang_id` int(11) DEFAULT NULL,
+  `cabang_nama` varchar(255) DEFAULT NULL,
+  `faktur_penjualan_tanggal` datetime DEFAULT NULL,
+  `faktur_penjualan_jatuh_tempo` datetime DEFAULT NULL,
+  `surat_jalan_id` int(11) DEFAULT NULL,
+  `surat_jalan_nomor` varchar(255) DEFAULT NULL,
+  `faktur_penjualan_tujuan_transfer` text
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of v_faktur_penjualan
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for v_sj_retur
+-- ----------------------------
+DROP TABLE IF EXISTS `v_sj_retur`;
+CREATE TABLE `v_sj_retur` (
+  `sj_retur_id` int(11) DEFAULT NULL,
+  `sj_retur_nomor` varchar(255) DEFAULT NULL,
+  `cabang_id` int(11) DEFAULT NULL,
+  `cabang_nama` varchar(255) DEFAULT NULL,
+  `sj_retur_tanggal` datetime DEFAULT NULL,
+  `surat_jalan_id` int(11) DEFAULT NULL,
+  `surat_jalan_nomor` varchar(255) DEFAULT NULL,
+  `sj_retur_alasan` text,
+  `sj_retur_catatan` text
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of v_sj_retur
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for v_surat_jalan
+-- ----------------------------
+DROP TABLE IF EXISTS `v_surat_jalan`;
+CREATE TABLE `v_surat_jalan` (
+  `surat_jalan_id` int(11) DEFAULT NULL,
+  `surat_jalan_nomor` varchar(255) DEFAULT NULL,
+  `cabang_id` int(11) DEFAULT NULL,
+  `cabang_nama` varchar(255) DEFAULT NULL,
+  `surat_jalan_jenis` tinyint(1) DEFAULT NULL,
+  `surat_jalan_jenis_nama` varchar(23) DEFAULT NULL,
+  `nomor_referensi` varchar(255) DEFAULT NULL,
+  `surat_jalan_tanggal` datetime DEFAULT NULL,
+  `surat_jalan_tanggal_kirim` datetime DEFAULT NULL,
+  `surat_jalan_ekspedisi` varchar(255) DEFAULT NULL,
+  `so_customer_id` varchar(255) DEFAULT NULL,
+  `nota_debet_id` int(11) DEFAULT NULL,
+  `nota_debet_nomor` varchar(255) DEFAULT NULL,
+  `partner_id` int(11) DEFAULT NULL,
+  `partner_nama` varchar(255) DEFAULT NULL,
+  `order_id` int(11) DEFAULT NULL,
+  `order_nomor` varchar(255) DEFAULT NULL,
+  `surat_jalan_status` int(11) DEFAULT NULL,
+  `surat_jalan_status_date` datetime DEFAULT NULL,
+  `surat_jalan_created_date` datetime DEFAULT NULL,
+  `surat_jalan_created_by` varchar(255) DEFAULT NULL,
+  `surat_jalan_update_date` datetime DEFAULT NULL,
+  `surat_jalan_update_by` varchar(255) DEFAULT NULL,
+  `surat_jalan_revised` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of v_surat_jalan
+-- ----------------------------
+
+-- ----------------------------
 -- View structure for v_atribut
 -- ----------------------------
 DROP VIEW IF EXISTS `v_atribut`;
-CREATE VIEW `v_atribut` AS select `a`.`atribut_id` AS `atribut_id`,`a`.`m_barang_id` AS `m_barang_id`,`a`.`atribut_jenis` AS `atribut_jenis`,`a`.`atribut_nama` AS `atribut_nama`,`a`.`atribut_satuan` AS `atribut_satuan`,`a`.`atribut_default_value` AS `atribut_default_value`,`a`.`atribut_status_aktif` AS `atribut_status_aktif`,`a`.`atribut_create_date` AS `atribut_create_date`,`a`.`atribut_create_by` AS `atribut_create_by`,`a`.`atribut_update_date` AS `atribut_update_date`,`a`.`atribut_update_by` AS `atribut_update_by`,`a`.`atribut_revised` AS `atribut_revised`,`b`.`barang_nama` AS `barang_nama`,`c`.`satuan_nama` AS `satuan_nama` from ((`m_atribut_barang` `a` left join `m_barang` `b` on((`a`.`m_barang_id` = `b`.`barang_id`))) left join `m_satuan` `c` on((`a`.`atribut_satuan` = `c`.`satuan_id`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_atribut` AS select `a`.`atribut_id` AS `atribut_id`,`a`.`m_barang_id` AS `m_barang_id`,`a`.`atribut_jenis` AS `atribut_jenis`,`a`.`atribut_nama` AS `atribut_nama`,`a`.`atribut_satuan` AS `atribut_satuan`,`a`.`atribut_default_value` AS `atribut_default_value`,`a`.`atribut_status_aktif` AS `atribut_status_aktif`,`a`.`atribut_create_date` AS `atribut_create_date`,`a`.`atribut_create_by` AS `atribut_create_by`,`a`.`atribut_update_date` AS `atribut_update_date`,`a`.`atribut_update_by` AS `atribut_update_by`,`a`.`atribut_revised` AS `atribut_revised`,`b`.`barang_nama` AS `barang_nama`,`c`.`satuan_nama` AS `satuan_nama` from ((`m_atribut_barang` `a` left join `m_barang` `b` on((`a`.`m_barang_id` = `b`.`barang_id`))) left join `m_satuan` `c` on((`a`.`atribut_satuan` = `c`.`satuan_id`))) ;
 
 -- ----------------------------
 -- View structure for v_barang
 -- ----------------------------
 DROP VIEW IF EXISTS `v_barang`;
-CREATE VIEW `v_barang` AS (select `a`.`barang_id` AS `barang_id`,`a`.`m_jenis_barang_id` AS `m_jenis_barang_id`,`a`.`barang_kode` AS `barang_kode`,`a`.`barang_nomor` AS `barang_nomor`,`a`.`barang_nama` AS `barang_nama`,`a`.`barang_minimum_stok` AS `barang_minimum_stok`,`a`.`barang_status_aktif` AS `barang_status_aktif`,`a`.`barang_create_date` AS `barang_create_date`,`a`.`barang_create_by` AS `barang_create_by`,`a`.`barang_update_date` AS `barang_update_date`,`a`.`barang_update_by` AS `barang_update_by`,`a`.`barang_revised` AS `barang_revised`,`b`.`jenis_barang_nama` AS `jenis_barang_nama`,`c`.`satuan_nama` AS `satuan_nama` from ((`m_barang` `a` left join `m_jenis_barang` `b` on((`a`.`m_jenis_barang_id` = `b`.`jenis_barang_id`))) left join `m_satuan` `c` on((`a`.`m_satuan_id` = `c`.`satuan_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `v_barang` AS (
+	SELECT
+		`a`.`barang_id` AS `barang_id`,
+		`a`.`m_jenis_barang_id` AS `m_jenis_barang_id`,
+		`a`.`barang_kode` AS `barang_kode`,
+		`a`.`barang_nomor` AS `barang_nomor`,
+		`a`.`barang_nama` AS `barang_nama`,
+		`a`.`stok` AS `stok`,
+		`a`.`barang_minimum_stok` AS `barang_minimum_stok`,
+		`a`.`stok_maks` AS `stok_maks`,
+		`a`.`barang_status_aktif` AS `barang_status_aktif`,
+		`a`.`barang_create_date` AS `barang_create_date`,
+		`a`.`barang_create_by` AS `barang_create_by`,
+		`a`.`barang_update_date` AS `barang_update_date`,
+		`a`.`barang_update_by` AS `barang_update_by`,
+		`a`.`barang_revised` AS `barang_revised`,
+		`b`.`jenis_barang_nama` AS `jenis_barang_nama`,
+		`c`.`satuan_nama` AS `satuan_nama`
+	FROM
+		(
+			(
+				`m_barang` `a`
+				LEFT JOIN `m_jenis_barang` `b` ON (
+					(
+						`a`.`m_jenis_barang_id` = `b`.`jenis_barang_id`
+					)
+				)
+			)
+			LEFT JOIN `m_satuan` `c` ON (
+				(
+					`a`.`m_satuan_id` = `c`.`satuan_id`
+				)
+			)
+		)
+) ;
+
+-- ----------------------------
+-- View structure for v_barang_konsinyasi
+-- ----------------------------
+DROP VIEW IF EXISTS `v_barang_konsinyasi`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_barang_konsinyasi` AS SELECT
+m_barang.barang_id,
+m_jenis_barang.jenis_barang_id,
+m_category_2.category_2_id,
+m_barang.barang_kode,
+m_barang.barang_nomor,
+m_barang.barang_nama,
+m_barang.m_satuan_id,
+m_barang.m_brand_id,
+m_barang.harga_beli
+FROM
+m_barang ,
+m_jenis_barang ,
+m_category_2 ;
 
 -- ----------------------------
 -- View structure for v_bkb
 -- ----------------------------
 DROP VIEW IF EXISTS `v_bkb`;
-CREATE VIEW `v_bkb` AS (select `a`.`keluar_barang_id` AS `keluar_barang_id`,`a`.`keluar_barang_nomor` AS `keluar_barang_nomor`,if((`a`.`keluar_barang_jenis` = 1),'Bahan Baku',if((`a`.`keluar_barang_jenis` = 2),'Bahan Penolong','Lain Lain')) AS `keluar_barang_jenis`,`a`.`keluar_barang_tanggal` AS `keluar_barang_tanggal`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`c`.`departemen_id` AS `departemen_id`,`c`.`departemen_nama` AS `departemen_nama`,if((`a`.`keluar_barang_status` = 1),'BKB Baru',if((`a`.`keluar_barang_status` = 2),'BKB Diterima',if((`a`.`keluar_barang_status` = 3),'BKB Pending','BKB Terkirim'))) AS `keluar_barang_status` from ((`t_keluar_barang` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `m_departemen` `c` on((`c`.`departemen_id` = `a`.`m_departemen_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_bkb` AS (select `a`.`keluar_barang_id` AS `keluar_barang_id`,`a`.`keluar_barang_nomor` AS `keluar_barang_nomor`,if((`a`.`keluar_barang_jenis` = 1),'Bahan Baku',if((`a`.`keluar_barang_jenis` = 2),'Bahan Penolong','Lain Lain')) AS `keluar_barang_jenis`,`a`.`keluar_barang_tanggal` AS `keluar_barang_tanggal`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`c`.`departemen_id` AS `departemen_id`,`c`.`departemen_nama` AS `departemen_nama`,if((`a`.`keluar_barang_status` = 1),'BKB Baru',if((`a`.`keluar_barang_status` = 2),'BKB Diterima',if((`a`.`keluar_barang_status` = 3),'BKB Pending','BKB Terkirim'))) AS `keluar_barang_status` from ((`t_keluar_barang` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `m_departemen` `c` on((`c`.`departemen_id` = `a`.`m_departemen_id`)))) ;
+
+-- ----------------------------
+-- View structure for v_category_2
+-- ----------------------------
+DROP VIEW IF EXISTS `v_category_2`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `v_category_2` AS SELECT
+m_category_2.category_2_id,
+m_category_2.m_jenis_barang_id,
+m_jenis_barang.jenis_barang_nama,
+m_category_2.category_2_nama,
+m_category_2.category_2_status_aktif,
+m_category_2.category_2_create_date,
+m_category_2.category_2_create_by,
+m_category_2.category_2_update_date,
+m_category_2.category_2_update_by,
+m_category_2.category_2_revised
+FROM
+m_jenis_barang
+INNER JOIN m_category_2 ON m_category_2.m_jenis_barang_id = m_jenis_barang.jenis_barang_id ;
 
 -- ----------------------------
 -- View structure for v_estimasi_penjualan
 -- ----------------------------
 DROP VIEW IF EXISTS `v_estimasi_penjualan`;
-CREATE VIEW `v_estimasi_penjualan` AS select `a`.`estimasi_penjualan_id` AS `estimasi_penjualan_id`,`a`.`estimasi_penjualan_nomor` AS `estimasi_penjualan_nomor`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`estimasi_penjualan_periode` AS `estimasi_penjualan_periode`,`a`.`estimasi_penjualan_status` AS `estimasi_penjualan_status`,if((`a`.`estimasi_penjualan_status` = 1),'Estimasi Baru',if((`a`.`estimasi_penjualan_status` = 2),'Estimasi Diterima',if((`a`.`estimasi_penjualan_status` = 3),'Disetujui',if((`a`.`estimasi_penjualan_status` = 4),'Pembuatan Jadwal Produksi','Selesai')))) AS `estimasi_penjualan_status_nama`,`a`.`estimasi_penjualan_created_date` AS `estimasi_penjualan_created_date`,`a`.`estimasi_penjualan_created_by` AS `estimasi_penjualan_created_by`,`a`.`estimasi_penjualan_update_date` AS `estimasi_penjualan_update_date`,`a`.`estimasi_penjualan_update_by` AS `estimasi_penjualan_update_by`,`a`.`estimasi_penjualan_revised` AS `estimasi_penjualan_revised` from (`t_estimasi_penjualan` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) ;
-
--- ----------------------------
--- View structure for v_faktur_penjualan
--- ----------------------------
-DROP VIEW IF EXISTS `v_faktur_penjualan`;
-CREATE VIEW `v_faktur_penjualan` AS (select `a`.`faktur_penjualan_id` AS `faktur_penjualan_id`,`a`.`faktur_penjualan_nomor` AS `faktur_penjualan_nomor`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`faktur_penjualan_tanggal` AS `faktur_penjualan_tanggal`,`a`.`faktur_penjualan_jatuh_tempo` AS `faktur_penjualan_jatuh_tempo`,`c`.`so_customer_id` AS `so_customer_id`,`c`.`so_customer_nomor` AS `so_customer_nomor`,`a`.`faktur_penjualan_tujuan_transfer` AS `faktur_penjualan_tujuan_transfer` from ((`t_faktur_penjualan` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `t_so_customer` `c` on((`c`.`so_customer_id` = `a`.`t_so_customer_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_estimasi_penjualan` AS select `a`.`estimasi_penjualan_id` AS `estimasi_penjualan_id`,`a`.`estimasi_penjualan_nomor` AS `estimasi_penjualan_nomor`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`estimasi_penjualan_periode` AS `estimasi_penjualan_periode`,`a`.`estimasi_penjualan_status` AS `estimasi_penjualan_status`,if((`a`.`estimasi_penjualan_status` = 1),'Estimasi Baru',if((`a`.`estimasi_penjualan_status` = 2),'Estimasi Diterima',if((`a`.`estimasi_penjualan_status` = 3),'Disetujui',if((`a`.`estimasi_penjualan_status` = 4),'Pembuatan Jadwal Produksi','Selesai')))) AS `estimasi_penjualan_status_nama`,`a`.`estimasi_penjualan_created_date` AS `estimasi_penjualan_created_date`,`a`.`estimasi_penjualan_created_by` AS `estimasi_penjualan_created_by`,`a`.`estimasi_penjualan_update_date` AS `estimasi_penjualan_update_date`,`a`.`estimasi_penjualan_update_by` AS `estimasi_penjualan_update_by`,`a`.`estimasi_penjualan_revised` AS `estimasi_penjualan_revised` from (`t_estimasi_penjualan` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) ;
 
 -- ----------------------------
 -- View structure for v_gudang
 -- ----------------------------
 DROP VIEW IF EXISTS `v_gudang`;
-CREATE VIEW `v_gudang` AS select `a`.`gudang_id` AS `gudang_id`,`a`.`gudang_nama` AS `gudang_nama`,`a`.`gudang_alamat` AS `gudang_alamat`,`a`.`gudang_kota` AS `gudang_kota`,`a`.`gudang_telepon` AS `gudang_telepon`,`a`.`gudang_fax` AS `gudang_fax`,`a`.`gudang_email` AS `gudang_email`,`a`.`m_cabang_id` AS `m_cabang_id`,`a`.`m_jenis_gudang_id` AS `m_jenis_gudang_id`,`a`.`gudang_status_aktif` AS `gudang_status_aktif`,`a`.`gudang_create_date` AS `gudang_create_date`,`a`.`gudang_create_by` AS `gudang_create_by`,`a`.`gudang_update_date` AS `gudang_update_date`,`a`.`gudang_update_by` AS `gudang_update_by`,`a`.`gudang_revised` AS `gudang_revised`,`b`.`jenis_gudang_nama` AS `jenis_gudang_nama`,`c`.`cabang_nama` AS `cabang_nama` from ((`m_gudang` `a` left join `m_jenis_gudang` `b` on((`a`.`m_jenis_gudang_id` = `b`.`jenis_gudang_id`))) left join `m_cabang` `c` on((`a`.`m_cabang_id` = `c`.`cabang_id`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_gudang` AS select `a`.`gudang_id` AS `gudang_id`,`a`.`gudang_nama` AS `gudang_nama`,`a`.`gudang_alamat` AS `gudang_alamat`,`a`.`gudang_kota` AS `gudang_kota`,`a`.`gudang_telepon` AS `gudang_telepon`,`a`.`gudang_fax` AS `gudang_fax`,`a`.`gudang_email` AS `gudang_email`,`a`.`m_cabang_id` AS `m_cabang_id`,`a`.`m_jenis_gudang_id` AS `m_jenis_gudang_id`,`a`.`gudang_status_aktif` AS `gudang_status_aktif`,`a`.`gudang_create_date` AS `gudang_create_date`,`a`.`gudang_create_by` AS `gudang_create_by`,`a`.`gudang_update_date` AS `gudang_update_date`,`a`.`gudang_update_by` AS `gudang_update_by`,`a`.`gudang_revised` AS `gudang_revised`,`b`.`jenis_gudang_nama` AS `jenis_gudang_nama`,`c`.`cabang_nama` AS `cabang_nama` from ((`m_gudang` `a` left join `m_jenis_gudang` `b` on((`a`.`m_jenis_gudang_id` = `b`.`jenis_gudang_id`))) left join `m_cabang` `c` on((`a`.`m_cabang_id` = `c`.`cabang_id`))) ;
 
 -- ----------------------------
 -- View structure for v_jadwal_produksi
 -- ----------------------------
 DROP VIEW IF EXISTS `v_jadwal_produksi`;
-CREATE VIEW `v_jadwal_produksi` AS (select `a`.`jadwal_produksi_id` AS `jadwal_produksi_id`,`a`.`jadwal_produksi_nomor` AS `jadwal_produksi_nomor`,`a`.`jadwal_produksi_periode` AS `jadwal_produksi_periode`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`jadwal_produksi_shift` AS `jadwal_produksi_shift`,`a`.`jadwal_produksi_jenis` AS `jadwal_produksi_jenis`,`a`.`jadwal_produksi_kebutuhan` AS `jadwal_produksi_kebutuhan`,`c`.`estimasi_penjualan_id` AS `estimasi_penjualan_id`,`c`.`estimasi_penjualan_nomor` AS `estimasi_penjualan_nomor`,`a`.`t_so_customer_id` AS `so_customer_id`,`d`.`so_customer_nomor` AS `so_customer_nomor`,`a`.`jadwal_produksi_status` AS `jadwal_produksi_status`,if((`a`.`jadwal_produksi_status` = 1),'Jadwal Produksi Baru',if((`a`.`jadwal_produksi_status` = 2),'Jadwal Produksi Disetujui','Jadwal Produksi Direalisasi')) AS `jadwal_produksi_status_nama`,`a`.`jadwal_produksi_status_date` AS `jadwal_produksi_status_date`,`a`.`jadwal_produksi_created_date` AS `jadwal_produksi_created_date`,`a`.`jadwal_produksi_created_by` AS `jadwal_produksi_created_by`,`a`.`jadwal_produksi_update_date` AS `jadwal_produksi_update_date`,`a`.`jadwal_produksi_update_by` AS `jadwal_produksi_update_by`,`a`.`jadwal_produksi_revised` AS `jadwal_produksi_revised` from (((`t_jadwal_produksi` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) left join `t_estimasi_penjualan` `c` on((`c`.`estimasi_penjualan_id` = `a`.`t_estimasi_penjualan_id`))) left join `t_so_customer` `d` on((`d`.`so_customer_id` = `a`.`t_so_customer_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_jadwal_produksi` AS (select `a`.`jadwal_produksi_id` AS `jadwal_produksi_id`,`a`.`jadwal_produksi_nomor` AS `jadwal_produksi_nomor`,`a`.`jadwal_produksi_periode` AS `jadwal_produksi_periode`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`jadwal_produksi_shift` AS `jadwal_produksi_shift`,`a`.`jadwal_produksi_jenis` AS `jadwal_produksi_jenis`,`a`.`jadwal_produksi_kebutuhan` AS `jadwal_produksi_kebutuhan`,`c`.`estimasi_penjualan_id` AS `estimasi_penjualan_id`,`c`.`estimasi_penjualan_nomor` AS `estimasi_penjualan_nomor`,`a`.`t_so_customer_id` AS `so_customer_id`,`d`.`so_customer_nomor` AS `so_customer_nomor`,`a`.`jadwal_produksi_status` AS `jadwal_produksi_status`,if((`a`.`jadwal_produksi_status` = 1),'Jadwal Produksi Baru',if((`a`.`jadwal_produksi_status` = 2),'Jadwal Produksi Disetujui','Jadwal Produksi Direalisasi')) AS `jadwal_produksi_status_nama`,`a`.`jadwal_produksi_status_date` AS `jadwal_produksi_status_date`,`a`.`jadwal_produksi_created_date` AS `jadwal_produksi_created_date`,`a`.`jadwal_produksi_created_by` AS `jadwal_produksi_created_by`,`a`.`jadwal_produksi_update_date` AS `jadwal_produksi_update_date`,`a`.`jadwal_produksi_update_by` AS `jadwal_produksi_update_by`,`a`.`jadwal_produksi_revised` AS `jadwal_produksi_revised` from (((`t_jadwal_produksi` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) left join `t_estimasi_penjualan` `c` on((`c`.`estimasi_penjualan_id` = `a`.`t_estimasi_penjualan_id`))) left join `t_so_customer` `d` on((`d`.`so_customer_id` = `a`.`t_so_customer_id`)))) ;
 
 -- ----------------------------
 -- View structure for v_jenis_barang
 -- ----------------------------
 DROP VIEW IF EXISTS `v_jenis_barang`;
-CREATE VIEW `v_jenis_barang` AS select `a`.`jenis_barang_id` AS `jenis_barang_id`,`a`.`jenis_barang_nama` AS `jenis_barang_nama`,`a`.`m_jenis_gudang_id` AS `m_jenis_gudang_id`,`a`.`jenis_barang_status_aktif` AS `jenis_barang_status_aktif`,`a`.`jenis_barang_create_date` AS `jenis_barang_create_date`,`a`.`jenis_barang_create_by` AS `jenis_barang_create_by`,`a`.`jenis_barang_update_date` AS `jenis_barang_update_date`,`a`.`jenis_barang_update_by` AS `jenis_barang_update_by`,`a`.`jenis_barang_revised` AS `jenis_barang_revised`,`b`.`jenis_gudang_nama` AS `jenis_gudang_nama` from (`m_jenis_barang` `a` left join `m_jenis_gudang` `b` on((`a`.`m_jenis_gudang_id` = `b`.`jenis_gudang_id`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_jenis_barang` AS select `a`.`jenis_barang_id` AS `jenis_barang_id`,`a`.`jenis_barang_nama` AS `jenis_barang_nama`,`a`.`m_jenis_gudang_id` AS `m_jenis_gudang_id`,`a`.`jenis_barang_status_aktif` AS `jenis_barang_status_aktif`,`a`.`jenis_barang_create_date` AS `jenis_barang_create_date`,`a`.`jenis_barang_create_by` AS `jenis_barang_create_by`,`a`.`jenis_barang_update_date` AS `jenis_barang_update_date`,`a`.`jenis_barang_update_by` AS `jenis_barang_update_by`,`a`.`jenis_barang_revised` AS `jenis_barang_revised`,`b`.`jenis_gudang_nama` AS `jenis_gudang_nama` from (`m_jenis_barang` `a` left join `m_jenis_gudang` `b` on((`a`.`m_jenis_gudang_id` = `b`.`jenis_gudang_id`))) ;
 
 -- ----------------------------
 -- View structure for v_kartu_stok
 -- ----------------------------
 DROP VIEW IF EXISTS `v_kartu_stok`;
-CREATE VIEW `v_kartu_stok` AS (select `a`.`barang_id` AS `barang_id`,`b`.`jenis_barang_id` AS `jenis_barang_id`,`b`.`jenis_barang_nama` AS `jenis_barang_nama`,`a`.`barang_kode` AS `barang_kode`,`a`.`barang_nama` AS `barang_nama`,`c`.`satuan_id` AS `satuan_id`,`c`.`satuan_nama` AS `satuan_nama`,`a`.`barang_minimum_stok` AS `stok_minimum`,`d`.`stok_gudang_jumlah` AS `stok_gudang`,`e`.`gudang_id` AS `gudang_id`,`e`.`gudang_nama` AS `gudang_nama`,`f`.`cabang_id` AS `cabang_id`,`f`.`cabang_nama` AS `cabang_nama`,`g`.`kartu_stok_tanggal` AS `kartu_stok_tanggal`,`g`.`kartu_stok_id` AS `kartu_stok_id`,`g`.`kartu_stok_referensi` AS `kartu_stok_referensi`,`g`.`kartu_stok_saldo` AS `kartu_stok_saldo`,if((`g`.`kartu_stok_penyesuaian` = 0),`g`.`kartu_stok_masuk`,`g`.`kartu_stok_penyesuaian`) AS `kartu_stok_masuk`,`g`.`kartu_stok_keluar` AS `kartu_stok_keluar`,if((`g`.`kartu_stok_penyesuaian` = 0),((`g`.`kartu_stok_saldo` + `g`.`kartu_stok_masuk`) - `g`.`kartu_stok_keluar`),`g`.`kartu_stok_penyesuaian`) AS `kartu_stok_sisa`,`g`.`kartu_stok_penyesuaian` AS `kartu_stok_penyesuaian`,`g`.`kartu_stok_keterangan` AS `kartu_stok_keterangan` from ((((((`m_barang` `a` join `m_jenis_barang` `b` on((`b`.`jenis_barang_id` = `a`.`m_jenis_barang_id`))) join `m_satuan` `c` on((`c`.`satuan_id` = `a`.`m_satuan_id`))) join `t_stok_gudang` `d` on((`d`.`m_barang_id` = `a`.`barang_id`))) join `m_gudang` `e` on((`e`.`gudang_id` = `d`.`m_gudang_id`))) join `m_cabang` `f` on((`f`.`cabang_id` = `e`.`m_cabang_id`))) join `t_kartu_stok` `g` on(((`g`.`m_barang_id` = `a`.`barang_id`) and (`g`.`m_gudang_id` = `e`.`gudang_id`))))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_kartu_stok` AS (select `a`.`barang_id` AS `barang_id`,`b`.`jenis_barang_id` AS `jenis_barang_id`,`b`.`jenis_barang_nama` AS `jenis_barang_nama`,`a`.`barang_kode` AS `barang_kode`,`a`.`barang_nama` AS `barang_nama`,`c`.`satuan_id` AS `satuan_id`,`c`.`satuan_nama` AS `satuan_nama`,`a`.`barang_minimum_stok` AS `stok_minimum`,`d`.`stok_gudang_jumlah` AS `stok_gudang`,`e`.`gudang_id` AS `gudang_id`,`e`.`gudang_nama` AS `gudang_nama`,`f`.`cabang_id` AS `cabang_id`,`f`.`cabang_nama` AS `cabang_nama`,`g`.`kartu_stok_tanggal` AS `kartu_stok_tanggal`,`g`.`kartu_stok_id` AS `kartu_stok_id`,`g`.`kartu_stok_referensi` AS `kartu_stok_referensi`,`g`.`kartu_stok_saldo` AS `kartu_stok_saldo`,if((`g`.`kartu_stok_penyesuaian` = 0),`g`.`kartu_stok_masuk`,`g`.`kartu_stok_penyesuaian`) AS `kartu_stok_masuk`,`g`.`kartu_stok_keluar` AS `kartu_stok_keluar`,if((`g`.`kartu_stok_penyesuaian` = 0),((`g`.`kartu_stok_saldo` + `g`.`kartu_stok_masuk`) - `g`.`kartu_stok_keluar`),`g`.`kartu_stok_penyesuaian`) AS `kartu_stok_sisa`,`g`.`kartu_stok_penyesuaian` AS `kartu_stok_penyesuaian`,`g`.`kartu_stok_keterangan` AS `kartu_stok_keterangan` from ((((((`m_barang` `a` join `m_jenis_barang` `b` on((`b`.`jenis_barang_id` = `a`.`m_jenis_barang_id`))) join `m_satuan` `c` on((`c`.`satuan_id` = `a`.`m_satuan_id`))) join `t_stok_gudang` `d` on((`d`.`m_barang_id` = `a`.`barang_id`))) join `m_gudang` `e` on((`e`.`gudang_id` = `d`.`m_gudang_id`))) join `m_cabang` `f` on((`f`.`cabang_id` = `e`.`m_cabang_id`))) join `t_kartu_stok` `g` on(((`g`.`m_barang_id` = `a`.`barang_id`) and (`g`.`m_gudang_id` = `e`.`gudang_id`))))) ;
 
 -- ----------------------------
 -- View structure for v_karyawan
 -- ----------------------------
 DROP VIEW IF EXISTS `v_karyawan`;
-CREATE VIEW `v_karyawan` AS select `a`.`karyawan_id` AS `karyawan_id`,`a`.`karyawan_nip` AS `karyawan_nip`,`a`.`karyawan_nama` AS `karyawan_nama`,`a`.`karyawan_alamat` AS `karyawan_alamat`,`a`.`karyawan_telepon` AS `karyawan_telepon`,`a`.`m_type_karyawan_id` AS `m_type_karyawan_id`,`a`.`m_cabang_id` AS `m_cabang_id`,`a`.`m_departemen_id` AS `m_departemen_id`,`a`.`karyawan_status_aktif` AS `karyawan_status_aktif`,`a`.`karyawan_create_date` AS `karyawan_create_date`,`a`.`karyawan_create_by` AS `karyawan_create_by`,`a`.`karyawan_update_date` AS `karyawan_update_date`,`a`.`karyawan_update_by` AS `karyawan_update_by`,`a`.`karyawan_revised` AS `karyawan_revised`,`b`.`type_karyawan_nama` AS `type_karyawan_nama`,`c`.`cabang_nama` AS `cabang_nama` from (((`m_karyawan` `a` left join `m_type_karyawan` `b` on((`a`.`m_type_karyawan_id` = `b`.`type_karyawan_id`))) left join `m_cabang` `c` on((`a`.`m_cabang_id` = `c`.`cabang_id`))) left join `m_departemen` `d` on((`a`.`m_departemen_id` = `d`.`departemen_id`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_karyawan` AS select `a`.`karyawan_id` AS `karyawan_id`,`a`.`karyawan_nip` AS `karyawan_nip`,`a`.`karyawan_nama` AS `karyawan_nama`,`a`.`karyawan_alamat` AS `karyawan_alamat`,`a`.`karyawan_telepon` AS `karyawan_telepon`,`a`.`m_type_karyawan_id` AS `m_type_karyawan_id`,`a`.`m_cabang_id` AS `m_cabang_id`,`a`.`m_departemen_id` AS `m_departemen_id`,`a`.`karyawan_status_aktif` AS `karyawan_status_aktif`,`a`.`karyawan_create_date` AS `karyawan_create_date`,`a`.`karyawan_create_by` AS `karyawan_create_by`,`a`.`karyawan_update_date` AS `karyawan_update_date`,`a`.`karyawan_update_by` AS `karyawan_update_by`,`a`.`karyawan_revised` AS `karyawan_revised`,`b`.`type_karyawan_nama` AS `type_karyawan_nama`,`c`.`cabang_nama` AS `cabang_nama` from (((`m_karyawan` `a` left join `m_type_karyawan` `b` on((`a`.`m_type_karyawan_id` = `b`.`type_karyawan_id`))) left join `m_cabang` `c` on((`a`.`m_cabang_id` = `c`.`cabang_id`))) left join `m_departemen` `d` on((`a`.`m_departemen_id` = `d`.`departemen_id`))) ;
 
 -- ----------------------------
 -- View structure for v_keluar_barang
 -- ----------------------------
 DROP VIEW IF EXISTS `v_keluar_barang`;
-CREATE VIEW `v_keluar_barang` AS (select `a`.`keluar_barang_id` AS `keluar_barang_id`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`keluar_barang_nomor` AS `keluar_barang_nomor`,`a`.`keluar_barang_tanggal` AS `keluar_barang_tanggal`,`a`.`keluar_barang_jenis` AS `keluar_barang_jenis`,if((`a`.`keluar_barang_jenis` = 1),'Bahan Baku',if((`a`.`keluar_barang_jenis` = 2),'Bahan Penolong','Lain Lain')) AS `keluar_barang_jenis_nama`,`c`.`gudang_id` AS `gudang_id_permintaan`,`c`.`gudang_nama` AS `gudang_nama_permintaan`,`d`.`gudang_id` AS `gudang_id_tujuan`,`d`.`gudang_nama` AS `gudang_nama_tujuan`,`e`.`departemen_id` AS `departemen_id`,`e`.`departemen_nama` AS `departemen_nama`,`a`.`keluar_barang_status` AS `keluar_barang_status`,`f`.`status_nama` AS `keluar_barang_status_nama`,`a`.`keluar_barang_status_date` AS `keluar_barang_status_date`,`a`.`keluar_barang_penerima` AS `keluar_barang_penerima`,`a`.`keluar_barang_penyerah` AS `keluar_barang_penyerah`,`a`.`keluar_barang_pembuat` AS `keluar_barang_pembuat`,`a`.`keluar_barang_printed` AS `keluar_barang_printed`,`a`.`keluar_barang_created_date` AS `keluar_barang_created_date`,`a`.`keluar_barang_created_by` AS `keluar_barang_created_by`,`a`.`keluar_barang_update_date` AS `keluar_barang_update_date`,`a`.`keluar_barang_update_by` AS `keluar_barang_update_by`,`a`.`keluar_barang_revised` AS `keluar_barang_revised` from (((((`t_keluar_barang` `a` left join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) left join `m_gudang` `c` on((`c`.`gudang_id` = `a`.`m_gudang_id_permintaan`))) left join `m_gudang` `d` on((`d`.`gudang_id` = `a`.`m_gudang_id_tujuan`))) left join `m_departemen` `e` on((`e`.`departemen_id` = `a`.`m_departemen_id`))) left join `s_keluar_barangstatus` `f` on((`f`.`keluar_barangstatus_id` = `a`.`keluar_barang_status`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_keluar_barang` AS (select `a`.`keluar_barang_id` AS `keluar_barang_id`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`keluar_barang_nomor` AS `keluar_barang_nomor`,`a`.`keluar_barang_tanggal` AS `keluar_barang_tanggal`,`a`.`keluar_barang_jenis` AS `keluar_barang_jenis`,if((`a`.`keluar_barang_jenis` = 1),'Bahan Baku',if((`a`.`keluar_barang_jenis` = 2),'Bahan Penolong','Lain Lain')) AS `keluar_barang_jenis_nama`,`c`.`gudang_id` AS `gudang_id_permintaan`,`c`.`gudang_nama` AS `gudang_nama_permintaan`,`d`.`gudang_id` AS `gudang_id_tujuan`,`d`.`gudang_nama` AS `gudang_nama_tujuan`,`e`.`departemen_id` AS `departemen_id`,`e`.`departemen_nama` AS `departemen_nama`,`a`.`keluar_barang_status` AS `keluar_barang_status`,`f`.`status_nama` AS `keluar_barang_status_nama`,`a`.`keluar_barang_status_date` AS `keluar_barang_status_date`,`a`.`keluar_barang_penerima` AS `keluar_barang_penerima`,`a`.`keluar_barang_penyerah` AS `keluar_barang_penyerah`,`a`.`keluar_barang_pembuat` AS `keluar_barang_pembuat`,`a`.`keluar_barang_printed` AS `keluar_barang_printed`,`a`.`keluar_barang_created_date` AS `keluar_barang_created_date`,`a`.`keluar_barang_created_by` AS `keluar_barang_created_by`,`a`.`keluar_barang_update_date` AS `keluar_barang_update_date`,`a`.`keluar_barang_update_by` AS `keluar_barang_update_by`,`a`.`keluar_barang_revised` AS `keluar_barang_revised` from (((((`t_keluar_barang` `a` left join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) left join `m_gudang` `c` on((`c`.`gudang_id` = `a`.`m_gudang_id_permintaan`))) left join `m_gudang` `d` on((`d`.`gudang_id` = `a`.`m_gudang_id_tujuan`))) left join `m_departemen` `e` on((`e`.`departemen_id` = `a`.`m_departemen_id`))) left join `s_keluar_barangstatus` `f` on((`f`.`keluar_barangstatus_id` = `a`.`keluar_barang_status`)))) ;
 
 -- ----------------------------
 -- View structure for v_ketidaksesuaian_spesifikasi
 -- ----------------------------
 DROP VIEW IF EXISTS `v_ketidaksesuaian_spesifikasi`;
-CREATE VIEW `v_ketidaksesuaian_spesifikasi` AS (select `a`.`ketidaksesuaian_spesifikasi_id` AS `ketidaksesuaian_spesifikasi_id`,`a`.`ketidaksesuaian_spesifikasi_nomor` AS `ketidaksesuaian_spesifikasi_nomor`,`a`.`ketidaksesuaian_spesifikasi_tanggal` AS `ketidaksesuaian_spesifikasi_tanggal`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`c`.`perolehan_produksi_id` AS `perolehan_produksi_id`,`c`.`perolehan_produksi_nomor` AS `perolehan_produksi_nomor`,`a`.`ketidaksesuaian_spesifikasi_created_date` AS `ketidaksesuaian_spesifikasi_created_date`,`a`.`ketidaksesuaian_spesifikasi_created_by` AS `ketidaksesuaian_spesifikasi_created_by`,`a`.`ketidaksesuaian_spesifikasi_update_date` AS `ketidaksesuaian_spesifikasi_update_date`,`a`.`ketidaksesuaian_spesifikasi_update_by` AS `ketidaksesuaian_spesifikasi_update_by`,`a`.`ketidaksesuaian_spesifikasi_revised` AS `ketidaksesuaian_spesifikasi_revised` from ((`t_ketidaksesuaian_spesifikasi` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `t_perolehan_produksi` `c` on((`c`.`perolehan_produksi_id` = `a`.`t_jadwal_produksi_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_ketidaksesuaian_spesifikasi` AS (select `a`.`ketidaksesuaian_spesifikasi_id` AS `ketidaksesuaian_spesifikasi_id`,`a`.`ketidaksesuaian_spesifikasi_nomor` AS `ketidaksesuaian_spesifikasi_nomor`,`a`.`ketidaksesuaian_spesifikasi_tanggal` AS `ketidaksesuaian_spesifikasi_tanggal`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`c`.`perolehan_produksi_id` AS `perolehan_produksi_id`,`c`.`perolehan_produksi_nomor` AS `perolehan_produksi_nomor`,`a`.`ketidaksesuaian_spesifikasi_created_date` AS `ketidaksesuaian_spesifikasi_created_date`,`a`.`ketidaksesuaian_spesifikasi_created_by` AS `ketidaksesuaian_spesifikasi_created_by`,`a`.`ketidaksesuaian_spesifikasi_update_date` AS `ketidaksesuaian_spesifikasi_update_date`,`a`.`ketidaksesuaian_spesifikasi_update_by` AS `ketidaksesuaian_spesifikasi_update_by`,`a`.`ketidaksesuaian_spesifikasi_revised` AS `ketidaksesuaian_spesifikasi_revised` from ((`t_ketidaksesuaian_spesifikasi` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `t_perolehan_produksi` `c` on((`c`.`perolehan_produksi_id` = `a`.`t_jadwal_produksi_id`)))) ;
+
+-- ----------------------------
+-- View structure for v_konsinyasi
+-- ----------------------------
+DROP VIEW IF EXISTS `v_konsinyasi`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_konsinyasi` AS SELECT
+m_konsinyasi.konsinyasi_id,
+m_konsinyasi.m_jenis_barang_id,
+m_konsinyasi.m_category_2_id,
+m_jenis_barang.jenis_barang_nama,
+m_category_2.category_2_nama,
+m_konsinyasi.konsinyasi_nama,
+m_konsinyasi.konsinyasi_status_aktif,
+m_konsinyasi.konsinyasi_create_date,
+m_konsinyasi.konsinyasi_create_by,
+m_konsinyasi.konsinyasi_update_date,
+m_konsinyasi.konsinyasi_update_by,
+m_konsinyasi.konsinyasi_revised
+FROM
+m_konsinyasi
+INNER JOIN m_jenis_barang ON m_konsinyasi.m_jenis_barang_id = m_jenis_barang.jenis_barang_id
+INNER JOIN m_category_2 ON m_konsinyasi.m_category_2_id = m_category_2.category_2_id ;
 
 -- ----------------------------
 -- View structure for v_laporan_spp_belum_realisasi
 -- ----------------------------
 DROP VIEW IF EXISTS `v_laporan_spp_belum_realisasi`;
-CREATE VIEW `v_laporan_spp_belum_realisasi` AS (select `e`.`cabang_id` AS `cabang_id`,`e`.`cabang_nama` AS `cabang_nama`,`f`.`gudang_id` AS `gudang_id`,`f`.`gudang_nama` AS `gudang_nama`,`a`.`permintaan_pembelian_nomor` AS `permintaan_pembelian_nomor`,`a`.`permintaan_pembelian_tanggal` AS `permintaan_pembelian_tanggal`,`c`.`barang_kode` AS `barang_kode`,`c`.`barang_nama` AS `barang_nama`,`b`.`permintaan_pembeliandet_qty` AS `permintaan_pembelian_qty`,`d`.`satuan_nama` AS `satuan_nama`,`a`.`permintaan_pembelian_alasan` AS `permintaan_pembelian_alasan` from (((((`t_permintaan_pembelian` `a` join `t_permintaan_pembeliandet` `b` on((`b`.`t_permintaan_pembelian_id` = `a`.`permintaan_pembelian_id`))) join `m_barang` `c` on((`c`.`barang_id` = `b`.`m_barang_id`))) join `m_satuan` `d` on((`d`.`satuan_id` = `c`.`m_satuan_id`))) join `m_cabang` `e` on((`e`.`cabang_id` = `a`.`m_cabang_id`))) join `m_gudang` `f` on((`f`.`gudang_id` = `a`.`m_gudang_id_permintaan`))) where (`a`.`permintaan_pembelian_status` < 3)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_laporan_spp_belum_realisasi` AS (select `e`.`cabang_id` AS `cabang_id`,`e`.`cabang_nama` AS `cabang_nama`,`f`.`gudang_id` AS `gudang_id`,`f`.`gudang_nama` AS `gudang_nama`,`a`.`permintaan_pembelian_nomor` AS `permintaan_pembelian_nomor`,`a`.`permintaan_pembelian_tanggal` AS `permintaan_pembelian_tanggal`,`c`.`barang_kode` AS `barang_kode`,`c`.`barang_nama` AS `barang_nama`,`b`.`permintaan_pembeliandet_qty` AS `permintaan_pembelian_qty`,`d`.`satuan_nama` AS `satuan_nama`,`a`.`permintaan_pembelian_alasan` AS `permintaan_pembelian_alasan` from (((((`t_permintaan_pembelian` `a` join `t_permintaan_pembeliandet` `b` on((`b`.`t_permintaan_pembelian_id` = `a`.`permintaan_pembelian_id`))) join `m_barang` `c` on((`c`.`barang_id` = `b`.`m_barang_id`))) join `m_satuan` `d` on((`d`.`satuan_id` = `c`.`m_satuan_id`))) join `m_cabang` `e` on((`e`.`cabang_id` = `a`.`m_cabang_id`))) join `m_gudang` `f` on((`f`.`gudang_id` = `a`.`m_gudang_id_permintaan`))) where (`a`.`permintaan_pembelian_status` < 3)) ;
 
 -- ----------------------------
 -- View structure for v_nota_debet
 -- ----------------------------
 DROP VIEW IF EXISTS `v_nota_debet`;
-CREATE VIEW `v_nota_debet` AS (select `a`.`nota_debet_id` AS `nota_debet_id`,`a`.`nota_debet_nomor` AS `nota_debet_nomor`,`a`.`nota_debet_tanggal` AS `nota_debet_tanggal`,`e`.`retur_pembelian_id` AS `retur_pembelian_id`,`e`.`retur_pembelian_nomor` AS `retur_pembelian_nomor`,`e`.`retur_pembelian_tanggal` AS `retur_pembelian_tanggal`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`c`.`partner_id` AS `partner_id`,`c`.`partner_nama` AS `partner_nama`,`d`.`gudang_id` AS `gudang_id`,`d`.`gudang_nama` AS `gudang_nama`,`a`.`nota_debet_subtotal` AS `nota_debet_subtotal`,`a`.`nota_debet_ppn` AS `nota_debet_ppn`,`a`.`nota_debet_total` AS `nota_debet_total`,`a`.`nota_debet_catatan` AS `nota_debet_catatan`,`a`.`nota_debet_metode_pembayaran` AS `nota_debet_metode_pembayaran`,`a`.`nota_debet_status` AS `nota_debet_status`,if((`a`.`nota_debet_status` = 1),'Nota Debet Baru',if((`a`.`nota_debet_status` = 2),'Nota Debet Diterima','Nota Debet Disetujui')) AS `nota_debet_status_nama`,`a`.`nota_debet_status_date` AS `nota_debet_status_date`,`a`.`nota_debet_printed` AS `nota_debet_printed`,`a`.`nota_debet_created_date` AS `nota_debet_created_date`,`a`.`nota_debet_created_by` AS `nota_debet_created_by`,`a`.`nota_debet_update_date` AS `nota_debet_update_date`,`a`.`nota_debet_update_by` AS `nota_debet_update_by`,`a`.`nota_debet_revised` AS `nota_debet_revised` from ((((`t_nota_debet` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `m_partner` `c` on((`c`.`partner_id` = `a`.`m_partner_id`))) join `m_gudang` `d` on((`d`.`gudang_id` = `a`.`m_gudang_id`))) join `t_retur_pembelian` `e` on((`e`.`retur_pembelian_id` = `a`.`t_retur_pembelian_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_nota_debet` AS (select `a`.`nota_debet_id` AS `nota_debet_id`,`a`.`nota_debet_nomor` AS `nota_debet_nomor`,`a`.`nota_debet_tanggal` AS `nota_debet_tanggal`,`e`.`retur_pembelian_id` AS `retur_pembelian_id`,`e`.`retur_pembelian_nomor` AS `retur_pembelian_nomor`,`e`.`retur_pembelian_tanggal` AS `retur_pembelian_tanggal`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`c`.`partner_id` AS `partner_id`,`c`.`partner_nama` AS `partner_nama`,`d`.`gudang_id` AS `gudang_id`,`d`.`gudang_nama` AS `gudang_nama`,`a`.`nota_debet_subtotal` AS `nota_debet_subtotal`,`a`.`nota_debet_ppn` AS `nota_debet_ppn`,`a`.`nota_debet_total` AS `nota_debet_total`,`a`.`nota_debet_catatan` AS `nota_debet_catatan`,`a`.`nota_debet_metode_pembayaran` AS `nota_debet_metode_pembayaran`,`a`.`nota_debet_status` AS `nota_debet_status`,if((`a`.`nota_debet_status` = 1),'Nota Debet Baru',if((`a`.`nota_debet_status` = 2),'Nota Debet Diterima','Nota Debet Disetujui')) AS `nota_debet_status_nama`,`a`.`nota_debet_status_date` AS `nota_debet_status_date`,`a`.`nota_debet_printed` AS `nota_debet_printed`,`a`.`nota_debet_created_date` AS `nota_debet_created_date`,`a`.`nota_debet_created_by` AS `nota_debet_created_by`,`a`.`nota_debet_update_date` AS `nota_debet_update_date`,`a`.`nota_debet_update_by` AS `nota_debet_update_by`,`a`.`nota_debet_revised` AS `nota_debet_revised` from ((((`t_nota_debet` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `m_partner` `c` on((`c`.`partner_id` = `a`.`m_partner_id`))) join `m_gudang` `d` on((`d`.`gudang_id` = `a`.`m_gudang_id`))) join `t_retur_pembelian` `e` on((`e`.`retur_pembelian_id` = `a`.`t_retur_pembelian_id`)))) ;
 
 -- ----------------------------
 -- View structure for v_nota_kredit
 -- ----------------------------
 DROP VIEW IF EXISTS `v_nota_kredit`;
-CREATE VIEW `v_nota_kredit` AS (select `a`.`nota_kredit_id` AS `nota_kredit_id`,`a`.`nota_kredit_nomor` AS `nota_kredit_nomor`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`nota_kredit_tanggal` AS `nota_kredit_tanggal`,`a`.`nota_kredit_jenis` AS `nota_kredit_jenis`,if((`a`.`nota_kredit_jenis` = 0),`c`.`sj_retur_nomor`,`d`.`bpbr_nomor`) AS `nomor_refrensi`,`c`.`sj_retur_id` AS `sj_retur_id`,`c`.`sj_retur_nomor` AS `sj_retur_nomor`,`a`.`nota_kredit_netto` AS `nota_kredit_netto`,`a`.`nota_kredit_potongan_harga` AS `nota_kredit_potongan_harga`,`a`.`nota_kredit_uang_muka` AS `nota_kredit_uang_muka`,`a`.`nota_kredit_ppn` AS `nota_kredit_ppn`,`a`.`nota_kredit_total` AS `nota_kredit_total`,`a`.`nota_kredit_catatan` AS `nota_kredit_catatan` from (((`t_nota_kredit` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) left join `t_sj_retur` `c` on((`c`.`sj_retur_id` = `a`.`referensi_id`))) left join `t_bpbr` `d` on((`d`.`bpbr_id` = `a`.`referensi_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_nota_kredit` AS (select `a`.`nota_kredit_id` AS `nota_kredit_id`,`a`.`nota_kredit_nomor` AS `nota_kredit_nomor`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`nota_kredit_tanggal` AS `nota_kredit_tanggal`,`a`.`nota_kredit_jenis` AS `nota_kredit_jenis`,if((`a`.`nota_kredit_jenis` = 0),`c`.`sj_retur_nomor`,`d`.`bpbr_nomor`) AS `nomor_refrensi`,`c`.`sj_retur_id` AS `sj_retur_id`,`c`.`sj_retur_nomor` AS `sj_retur_nomor`,`a`.`nota_kredit_netto` AS `nota_kredit_netto`,`a`.`nota_kredit_potongan_harga` AS `nota_kredit_potongan_harga`,`a`.`nota_kredit_uang_muka` AS `nota_kredit_uang_muka`,`a`.`nota_kredit_ppn` AS `nota_kredit_ppn`,`a`.`nota_kredit_total` AS `nota_kredit_total`,`a`.`nota_kredit_catatan` AS `nota_kredit_catatan` from (((`t_nota_kredit` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) left join `t_sj_retur` `c` on((`c`.`sj_retur_id` = `a`.`referensi_id`))) left join `t_bpbr` `d` on((`d`.`bpbr_id` = `a`.`referensi_id`)))) ;
 
 -- ----------------------------
 -- View structure for v_order
 -- ----------------------------
 DROP VIEW IF EXISTS `v_order`;
-CREATE VIEW `v_order` AS (select `a`.`order_id` AS `order_id`,`a`.`order_nomor` AS `order_nomor`,`a`.`order_type` AS `order_type`,if((`a`.`order_type` = 0),'PO','WO') AS `order_jenis_nama`,`a`.`order_tanggal` AS `order_tanggal`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`c`.`penawaran_id` AS `penawaran_id`,`c`.`penawaran_nomor` AS `penawaran_nomor`,`d`.`partner_id` AS `partner_id`,`d`.`partner_nama` AS `partner_nama`,`a`.`order_nama_dikirim` AS `order_nama_dikirim`,`a`.`order_alamat_dikirim` AS `order_alamat_dikirim`,`a`.`order_hp_fax` AS `order_hp_fax`,`a`.`order_subtotal` AS `order_subtotal`,`a`.`order_ppn` AS `order_ppn`,`a`.`order_total` AS `order_total`,`a`.`order_tanggal_kirim` AS `order_tanggal_kirim`,`a`.`order_pembayaran` AS `order_pembayaran`,if((`a`.`order_pembayaran` = 1),'Tunai','Kredit') AS `order_pembayaran_nama`,`a`.`order_status` AS `order_status`,if((`a`.`order_type` = 0),if((`a`.`order_status` = 1),'PO Baru',if((`a`.`order_status` = 2),'PO Diterima ',if((`a`.`order_status` = 3),'PO Disetujui',if((`a`.`order_status` = 4),'PO Berjalan',if((`a`.`order_status` = 5),'PO Selesai',if((`a`.`order_status` = -(1)),'PO Tidak Disetujui','PO Edited')))))),if((`a`.`order_status` = 1),'WO Baru',if((`a`.`order_status` = 2),'WO Diterima ',if((`a`.`order_status` = 3),'WO Disetujui',if((`a`.`order_status` = 4),'WO Berjalan',if((`a`.`order_status` = 5),'WO Selesai',if((`a`.`order_status` = -(1)),'WO Tidak Disetujui','WO Edited'))))))) AS `order_status_nama`,`a`.`order_status_date` AS `order_status_date`,`a`.`order_printed` AS `order_printed`,`a`.`order_created_date` AS `order_created_date`,`a`.`order_created_by` AS `order_created_by`,`a`.`order_update_date` AS `order_update_date`,`a`.`order_update_by` AS `order_update_by`,`a`.`order_revised` AS `order_revised` from (((`t_order` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `t_penawaran` `c` on((`c`.`penawaran_id` = `a`.`order_referensi_id`))) join `m_partner` `d` on((`d`.`partner_id` = `a`.`m_supplier_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_order` AS (select `a`.`order_id` AS `order_id`,`a`.`order_nomor` AS `order_nomor`,`a`.`order_type` AS `order_type`,if((`a`.`order_type` = 0),'PO','WO') AS `order_jenis_nama`,`a`.`order_tanggal` AS `order_tanggal`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`c`.`penawaran_id` AS `penawaran_id`,`c`.`penawaran_nomor` AS `penawaran_nomor`,`d`.`partner_id` AS `partner_id`,`d`.`partner_nama` AS `partner_nama`,`a`.`order_nama_dikirim` AS `order_nama_dikirim`,`a`.`order_alamat_dikirim` AS `order_alamat_dikirim`,`a`.`order_hp_fax` AS `order_hp_fax`,`a`.`order_subtotal` AS `order_subtotal`,`a`.`order_ppn` AS `order_ppn`,`a`.`order_total` AS `order_total`,`a`.`order_tanggal_kirim` AS `order_tanggal_kirim`,`a`.`order_pembayaran` AS `order_pembayaran`,if((`a`.`order_pembayaran` = 1),'Tunai','Kredit') AS `order_pembayaran_nama`,`a`.`order_status` AS `order_status`,if((`a`.`order_type` = 0),if((`a`.`order_status` = 1),'PO Baru',if((`a`.`order_status` = 2),'PO Diterima ',if((`a`.`order_status` = 3),'PO Disetujui',if((`a`.`order_status` = 4),'PO Berjalan',if((`a`.`order_status` = 5),'PO Selesai',if((`a`.`order_status` = -(1)),'PO Tidak Disetujui','PO Edited')))))),if((`a`.`order_status` = 1),'WO Baru',if((`a`.`order_status` = 2),'WO Diterima ',if((`a`.`order_status` = 3),'WO Disetujui',if((`a`.`order_status` = 4),'WO Berjalan',if((`a`.`order_status` = 5),'WO Selesai',if((`a`.`order_status` = -(1)),'WO Tidak Disetujui','WO Edited'))))))) AS `order_status_nama`,`a`.`order_status_date` AS `order_status_date`,`a`.`order_printed` AS `order_printed`,`a`.`order_created_date` AS `order_created_date`,`a`.`order_created_by` AS `order_created_by`,`a`.`order_update_date` AS `order_update_date`,`a`.`order_update_by` AS `order_update_by`,`a`.`order_revised` AS `order_revised` from (((`t_order` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `t_penawaran` `c` on((`c`.`penawaran_id` = `a`.`order_referensi_id`))) join `m_partner` `d` on((`d`.`partner_id` = `a`.`m_supplier_id`)))) ;
 
 -- ----------------------------
 -- View structure for v_penawaran
 -- ----------------------------
 DROP VIEW IF EXISTS `v_penawaran`;
-CREATE VIEW `v_penawaran` AS (select `a`.`penawaran_id` AS `penawaran_id`,`a`.`penawaran_nomor` AS `penawaran_nomor`,`a`.`penawaran_jenis` AS `penawaran_jenis`,if((`a`.`penawaran_jenis` = 1),'Pembelian','Maklon') AS `penawaran_jenis_nama`,`a`.`penawaran_tanggal` AS `penawaran_tanggal`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`penawaran_step` AS `penawaran_step`,`a`.`penawaran_status` AS `penawaran_status`,if((`a`.`penawaran_status` = 1),'Penawaran Baru',if((`a`.`penawaran_status` = 2),'Pemilihan Supplier',if((`a`.`penawaran_status` = 3),'Pengisian Harga',if((`a`.`penawaran_status` = 4),'Penawaran Selesai','Penawaran Dibatalkan')))) AS `penawaran_status_nama`,`a`.`penawaran_status_date` AS `penawaran_status_date`,`a`.`penawaran_printed` AS `penawaran_printed`,`a`.`penawaran_create_date` AS `penawaran_create_date`,`a`.`penawaran_create_by` AS `penawaran_create_by`,`a`.`penawaran_update_date` AS `penawaran_update_date`,`a`.`penawaran_update_by` AS `penawaran_update_by`,`a`.`penawaran_revised` AS `penawaran_revised` from (`t_penawaran` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_penawaran` AS (select `a`.`penawaran_id` AS `penawaran_id`,`a`.`penawaran_nomor` AS `penawaran_nomor`,`a`.`penawaran_jenis` AS `penawaran_jenis`,if((`a`.`penawaran_jenis` = 1),'Pembelian','Maklon') AS `penawaran_jenis_nama`,`a`.`penawaran_tanggal` AS `penawaran_tanggal`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`penawaran_step` AS `penawaran_step`,`a`.`penawaran_status` AS `penawaran_status`,if((`a`.`penawaran_status` = 1),'Penawaran Baru',if((`a`.`penawaran_status` = 2),'Pemilihan Supplier',if((`a`.`penawaran_status` = 3),'Pengisian Harga',if((`a`.`penawaran_status` = 4),'Penawaran Selesai','Penawaran Dibatalkan')))) AS `penawaran_status_nama`,`a`.`penawaran_status_date` AS `penawaran_status_date`,`a`.`penawaran_printed` AS `penawaran_printed`,`a`.`penawaran_create_date` AS `penawaran_create_date`,`a`.`penawaran_create_by` AS `penawaran_create_by`,`a`.`penawaran_update_date` AS `penawaran_update_date`,`a`.`penawaran_update_by` AS `penawaran_update_by`,`a`.`penawaran_revised` AS `penawaran_revised` from (`t_penawaran` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`)))) ;
 
 -- ----------------------------
 -- View structure for v_penerimaan_barang
 -- ----------------------------
 DROP VIEW IF EXISTS `v_penerimaan_barang`;
-CREATE VIEW `v_penerimaan_barang` AS (select `a`.`penerimaan_barang_id` AS `penerimaan_barang_id`,`a`.`penerimaan_barang_nomor` AS `penerimaan_barang_nomor`,`a`.`penerimaan_barang_tanggal` AS `penerimaan_barang_tanggal`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`c`.`order_id` AS `order_id`,`c`.`order_nomor` AS `order_nomor`,`a`.`penerimaan_barang_tanggal_terima` AS `penerimaan_barang_tanggal_terima`,`a`.`penerimaan_barang_status` AS `penerimaan_barang_status`,if((`a`.`penerimaan_barang_status` = 1),'BPB Baru',if((`a`.`penerimaan_barang_status` = 2),'BPB Berjalan','BPB Selesai')) AS `penerimaan_barang_status_nama`,`a`.`penerimaan_barang_status_date` AS `penerimaan_barang_status_date`,`a`.`penerimaan_barang_printed` AS `penerimaan_barang_printed`,`a`.`penerimaan_barang_created_date` AS `penerimaan_barang_created_date`,`a`.`penerimaan_barang_created_by` AS `penerimaan_barang_created_by`,`a`.`penerimaan_barang_update_date` AS `penerimaan_barang_update_date`,`a`.`penerimaan_barang_update_by` AS `penerimaan_barang_update_by`,`a`.`penerimaan_barang_revised` AS `penerimaan_barang_revised` from ((`t_penerimaan_barang` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `t_order` `c` on((`c`.`order_id` = `a`.`t_order_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_penerimaan_barang` AS (select `a`.`penerimaan_barang_id` AS `penerimaan_barang_id`,`a`.`penerimaan_barang_nomor` AS `penerimaan_barang_nomor`,`a`.`penerimaan_barang_tanggal` AS `penerimaan_barang_tanggal`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`c`.`order_id` AS `order_id`,`c`.`order_nomor` AS `order_nomor`,`a`.`penerimaan_barang_tanggal_terima` AS `penerimaan_barang_tanggal_terima`,`a`.`penerimaan_barang_status` AS `penerimaan_barang_status`,if((`a`.`penerimaan_barang_status` = 1),'BPB Baru',if((`a`.`penerimaan_barang_status` = 2),'BPB Berjalan','BPB Selesai')) AS `penerimaan_barang_status_nama`,`a`.`penerimaan_barang_status_date` AS `penerimaan_barang_status_date`,`a`.`penerimaan_barang_printed` AS `penerimaan_barang_printed`,`a`.`penerimaan_barang_created_date` AS `penerimaan_barang_created_date`,`a`.`penerimaan_barang_created_by` AS `penerimaan_barang_created_by`,`a`.`penerimaan_barang_update_date` AS `penerimaan_barang_update_date`,`a`.`penerimaan_barang_update_by` AS `penerimaan_barang_update_by`,`a`.`penerimaan_barang_revised` AS `penerimaan_barang_revised` from ((`t_penerimaan_barang` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `t_order` `c` on((`c`.`order_id` = `a`.`t_order_id`)))) ;
 
 -- ----------------------------
 -- View structure for v_penerimaan_barang_retur
 -- ----------------------------
 DROP VIEW IF EXISTS `v_penerimaan_barang_retur`;
-CREATE VIEW `v_penerimaan_barang_retur` AS (select `a`.`bpbr_id` AS `bpbr_id`,`a`.`bpbr_nomor` AS `bpbr_nomor`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`bpbr_tanggal` AS `bpbr_tanggal`,`c`.`retur_penjualan_id` AS `retur_penjualan_id`,`c`.`retur_penjualan_nomor` AS `retur_penjualan_nomor`,`a`.`bpbr_pengecekan` AS `bpbr_pengecekan`,`a`.`bpbr_catatan` AS `bpbr_catatan` from ((`t_bpbr` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) left join `t_retur_penjualan` `c` on((`c`.`retur_penjualan_id` = `a`.`t_retur_penjualan_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_penerimaan_barang_retur` AS (select `a`.`bpbr_id` AS `bpbr_id`,`a`.`bpbr_nomor` AS `bpbr_nomor`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`bpbr_tanggal` AS `bpbr_tanggal`,`c`.`retur_penjualan_id` AS `retur_penjualan_id`,`c`.`retur_penjualan_nomor` AS `retur_penjualan_nomor`,`a`.`bpbr_pengecekan` AS `bpbr_pengecekan`,`a`.`bpbr_catatan` AS `bpbr_catatan` from ((`t_bpbr` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) left join `t_retur_penjualan` `c` on((`c`.`retur_penjualan_id` = `a`.`t_retur_penjualan_id`)))) ;
 
 -- ----------------------------
 -- View structure for v_pengembalian_barang
 -- ----------------------------
 DROP VIEW IF EXISTS `v_pengembalian_barang`;
-CREATE VIEW `v_pengembalian_barang` AS select `a`.`pengembalian_barang_id` AS `pengembalian_barang_id`,`a`.`pengembalian_barang_nomor` AS `pengembalian_barang_nomor`,`a`.`pengembalian_barang_awal` AS `pengembalian_barang_awal`,`a`.`pengembalian_barang_tujuan` AS `pengembalian_barang_tujuan`,`a`.`pengembalian_barang_status` AS `pengembalian_barang_status`,if((`a`.`pengembalian_barang_status` = '1'),'Pengembalian Barang Baru','Pengembalian Barang Diterima') AS `pengembalian_barang_status_nama`,`a`.`pengembalian_barang_created_date` AS `pengembalian_barang_created_date`,`a`.`pengembalian_barang_created_by` AS `pengembalian_barang_created_by`,`a`.`pengembalian_barang_update_date` AS `pengembalian_barang_update_date`,`a`.`pengembalian_barang_update_by` AS `pengembalian_barang_update_by`,`a`.`pengembalian_barang_revised` AS `pengembalian_barang_revised`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama` from (`t_pengembalian_barang` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_pengembalian_barang` AS select `a`.`pengembalian_barang_id` AS `pengembalian_barang_id`,`a`.`pengembalian_barang_nomor` AS `pengembalian_barang_nomor`,`a`.`pengembalian_barang_awal` AS `pengembalian_barang_awal`,`a`.`pengembalian_barang_tujuan` AS `pengembalian_barang_tujuan`,`a`.`pengembalian_barang_status` AS `pengembalian_barang_status`,if((`a`.`pengembalian_barang_status` = '1'),'Pengembalian Barang Baru','Pengembalian Barang Diterima') AS `pengembalian_barang_status_nama`,`a`.`pengembalian_barang_created_date` AS `pengembalian_barang_created_date`,`a`.`pengembalian_barang_created_by` AS `pengembalian_barang_created_by`,`a`.`pengembalian_barang_update_date` AS `pengembalian_barang_update_date`,`a`.`pengembalian_barang_update_by` AS `pengembalian_barang_update_by`,`a`.`pengembalian_barang_revised` AS `pengembalian_barang_revised`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama` from (`t_pengembalian_barang` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) ;
 
 -- ----------------------------
 -- View structure for v_pengubahan_bahan
 -- ----------------------------
 DROP VIEW IF EXISTS `v_pengubahan_bahan`;
-CREATE VIEW `v_pengubahan_bahan` AS select `a`.`pengubahan_bahan_id` AS `pengubahan_bahan_id`,`a`.`pengubahan_bahan_nomor` AS `pengubahan_bahan_nomor`,`a`.`pengubahan_bahan_tanggal` AS `pengubahan_bahan_tanggal`,`a`.`pengubahan_bahan_status` AS `pengubahan_bahan_status`,if((`a`.`pengubahan_bahan_status` = '1'),'Pengubahan Bahan Baru',if((`a`.`pengubahan_bahan_status` = '2'),'Pengubahan Bahan Diverifikasi',if((`a`.`pengubahan_bahan_status` = '3'),'Pengubahan Bahan Diterima','Pengubahan Bahan Disetujui'))) AS `pengubahan_bahan_status_nama`,`a`.`pengubahan_bahan_created_date` AS `pengubahan_bahan_created_date`,`a`.`pengubahan_bahan_created_by` AS `pengubahan_bahan_created_by`,`a`.`pengubahan_bahan_update_date` AS `pengubahan_bahan_update_date`,`a`.`pengubahan_bahan_update_by` AS `pengubahan_bahan_update_by`,`a`.`pengubahan_bahan_revised` AS `pengubahan_bahan_revised`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama` from (`t_pengubahan_bahan` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_pengubahan_bahan` AS select `a`.`pengubahan_bahan_id` AS `pengubahan_bahan_id`,`a`.`pengubahan_bahan_nomor` AS `pengubahan_bahan_nomor`,`a`.`pengubahan_bahan_tanggal` AS `pengubahan_bahan_tanggal`,`a`.`pengubahan_bahan_status` AS `pengubahan_bahan_status`,if((`a`.`pengubahan_bahan_status` = '1'),'Pengubahan Bahan Baru',if((`a`.`pengubahan_bahan_status` = '2'),'Pengubahan Bahan Diverifikasi',if((`a`.`pengubahan_bahan_status` = '3'),'Pengubahan Bahan Diterima','Pengubahan Bahan Disetujui'))) AS `pengubahan_bahan_status_nama`,`a`.`pengubahan_bahan_created_date` AS `pengubahan_bahan_created_date`,`a`.`pengubahan_bahan_created_by` AS `pengubahan_bahan_created_by`,`a`.`pengubahan_bahan_update_date` AS `pengubahan_bahan_update_date`,`a`.`pengubahan_bahan_update_by` AS `pengubahan_bahan_update_by`,`a`.`pengubahan_bahan_revised` AS `pengubahan_bahan_revised`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama` from (`t_pengubahan_bahan` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) ;
 
 -- ----------------------------
 -- View structure for v_perhitungan_kebutuhan
 -- ----------------------------
 DROP VIEW IF EXISTS `v_perhitungan_kebutuhan`;
-CREATE VIEW `v_perhitungan_kebutuhan` AS (select `a`.`perhitungan_kebutuhan_id` AS `perhitungan_kebutuhan_id`,`a`.`perhitungan_kebutuhan_nomor` AS `perhitungan_kebutuhan_nomor`,`a`.`perhitungan_kebutuhan_tanggal` AS `perhitungan_kebutuhan_tanggal`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`c`.`jadwal_produksi_id` AS `jadwal_produksi_id`,`c`.`jadwal_produksi_nomor` AS `jadwal_produksi_nomor`,`a`.`perhitungan_kebutuhan_status` AS `perhitungan_kebutuhan_status`,if((`a`.`perhitungan_kebutuhan_status` = 1),'Perhitungan Kebutuhan Baru',if((`a`.`perhitungan_kebutuhan_status` = 2),'Perhitungan Kebutuhan Diterima','Perhitungan Kebutuhan Direalisasi')) AS `perhitungan_kebutuhan_status_nama`,`a`.`perhitungan_kebutuhan_status_date` AS `perhitungan_kebutuhan_status_date`,`a`.`perhitungan_kebutuhan_created_date` AS `perhitungan_kebutuhan_created_date`,`a`.`perhitungan_kebutuhan_created_by` AS `perhitungan_kebutuhan_created_by`,`a`.`perhitungan_kebutuhan_update_date` AS `perhitungan_kebutuhan_update_date`,`a`.`perhitungan_kebutuhan_update_by` AS `perhitungan_kebutuhan_update_by`,`a`.`perhitungan_kebutuhan_revised` AS `perhitungan_kebutuhan_revised` from ((`t_perhitungan_kebutuhan` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `t_jadwal_produksi` `c` on((`c`.`jadwal_produksi_id` = `a`.`t_jadwal_produksi_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_perhitungan_kebutuhan` AS (select `a`.`perhitungan_kebutuhan_id` AS `perhitungan_kebutuhan_id`,`a`.`perhitungan_kebutuhan_nomor` AS `perhitungan_kebutuhan_nomor`,`a`.`perhitungan_kebutuhan_tanggal` AS `perhitungan_kebutuhan_tanggal`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`c`.`jadwal_produksi_id` AS `jadwal_produksi_id`,`c`.`jadwal_produksi_nomor` AS `jadwal_produksi_nomor`,`a`.`perhitungan_kebutuhan_status` AS `perhitungan_kebutuhan_status`,if((`a`.`perhitungan_kebutuhan_status` = 1),'Perhitungan Kebutuhan Baru',if((`a`.`perhitungan_kebutuhan_status` = 2),'Perhitungan Kebutuhan Diterima','Perhitungan Kebutuhan Direalisasi')) AS `perhitungan_kebutuhan_status_nama`,`a`.`perhitungan_kebutuhan_status_date` AS `perhitungan_kebutuhan_status_date`,`a`.`perhitungan_kebutuhan_created_date` AS `perhitungan_kebutuhan_created_date`,`a`.`perhitungan_kebutuhan_created_by` AS `perhitungan_kebutuhan_created_by`,`a`.`perhitungan_kebutuhan_update_date` AS `perhitungan_kebutuhan_update_date`,`a`.`perhitungan_kebutuhan_update_by` AS `perhitungan_kebutuhan_update_by`,`a`.`perhitungan_kebutuhan_revised` AS `perhitungan_kebutuhan_revised` from ((`t_perhitungan_kebutuhan` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `t_jadwal_produksi` `c` on((`c`.`jadwal_produksi_id` = `a`.`t_jadwal_produksi_id`)))) ;
 
 -- ----------------------------
 -- View structure for v_permintaan_jasa
 -- ----------------------------
 DROP VIEW IF EXISTS `v_permintaan_jasa`;
-CREATE VIEW `v_permintaan_jasa` AS (select `a`.`permintaan_jasa_id` AS `permintaan_jasa_id`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`permintaan_jasa_nomor` AS `permintaan_jasa_nomor`,`c`.`departemen_id` AS `departemen_id`,`c`.`departemen_nama` AS `departemen_nama`,`a`.`permintaan_jasa_tanggal` AS `permintaan_jasa_tanggal`,`a`.`permintaan_jasa_tanggal_dibutuhkan` AS `permintaan_jasa_tanggal_dibutuhkan`,`a`.`permintaan_jasa_status` AS `permintaan_jasa_status`,if((`a`.`permintaan_jasa_status` = 1),'PJ Baru',if((`a`.`permintaan_jasa_status` = 2),'PJ Diterima',if((`a`.`permintaan_jasa_status` = 3),'PJ Ditawarkan',if((`a`.`permintaan_jasa_status` = 4),'PJ Disetujui','PJ Selesai')))) AS `permintaan_jasa_status_nama`,`a`.`permintaan_jasa_status_date` AS `permintaan_jasa_status_date`,`a`.`permintaan_jasa_printed` AS `permintaan_jasa_printed`,`a`.`permintaan_jasa_created_date` AS `permintaan_jasa_created_date`,`a`.`permintaan_jasa_created_by` AS `permintaan_jasa_created_by`,`a`.`permintaan_jasa_update_date` AS `permintaan_jasa_update_date`,`a`.`permintaan_jasa_update_by` AS `permintaan_jasa_update_by`,`a`.`permintaan_jasa_revised` AS `permintaan_jasa_revised` from ((`t_permintaan_jasa` `a` left join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) left join `m_departemen` `c` on((`c`.`departemen_id` = `a`.`m_departemen_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_permintaan_jasa` AS (select `a`.`permintaan_jasa_id` AS `permintaan_jasa_id`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`permintaan_jasa_nomor` AS `permintaan_jasa_nomor`,`c`.`departemen_id` AS `departemen_id`,`c`.`departemen_nama` AS `departemen_nama`,`a`.`permintaan_jasa_tanggal` AS `permintaan_jasa_tanggal`,`a`.`permintaan_jasa_tanggal_dibutuhkan` AS `permintaan_jasa_tanggal_dibutuhkan`,`a`.`permintaan_jasa_status` AS `permintaan_jasa_status`,if((`a`.`permintaan_jasa_status` = 1),'PJ Baru',if((`a`.`permintaan_jasa_status` = 2),'PJ Diterima',if((`a`.`permintaan_jasa_status` = 3),'PJ Ditawarkan',if((`a`.`permintaan_jasa_status` = 4),'PJ Disetujui','PJ Selesai')))) AS `permintaan_jasa_status_nama`,`a`.`permintaan_jasa_status_date` AS `permintaan_jasa_status_date`,`a`.`permintaan_jasa_printed` AS `permintaan_jasa_printed`,`a`.`permintaan_jasa_created_date` AS `permintaan_jasa_created_date`,`a`.`permintaan_jasa_created_by` AS `permintaan_jasa_created_by`,`a`.`permintaan_jasa_update_date` AS `permintaan_jasa_update_date`,`a`.`permintaan_jasa_update_by` AS `permintaan_jasa_update_by`,`a`.`permintaan_jasa_revised` AS `permintaan_jasa_revised` from ((`t_permintaan_jasa` `a` left join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) left join `m_departemen` `c` on((`c`.`departemen_id` = `a`.`m_departemen_id`)))) ;
 
 -- ----------------------------
 -- View structure for v_permintaan_pembelian
 -- ----------------------------
 DROP VIEW IF EXISTS `v_permintaan_pembelian`;
-CREATE VIEW `v_permintaan_pembelian` AS (select `a`.`permintaan_pembelian_id` AS `permintaan_pembelian_id`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`permintaan_pembelian_nomor` AS `permintaan_pembelian_nomor`,`a`.`permintaan_pembelian_tanggal` AS `permintaan_pembelian_tanggal`,`a`.`permintaan_pembelian_tanggal_dibutuhkan` AS `permintaan_pembelian_tanggal_dibutuhkan`,`a`.`permintaan_pembelian_jenis` AS `permintaan_pembelian_jenis`,if((`a`.`permintaan_pembelian_jenis` = 1),'Penting','Biasa') AS `permintaan_pembelian_jenis_nama`,`c`.`gudang_id` AS `gudang_id_permintaan`,`c`.`gudang_nama` AS `gudang_nama_permintaan`,`a`.`permintaan_pembelian_status` AS `permintaan_pembelian_status`,if((`a`.`permintaan_pembelian_status` = 1),'SPP Baru',if((`a`.`permintaan_pembelian_status` = 2),'SPP Diterima',if((`a`.`permintaan_pembelian_status` = 3),'SPP Ditawarkan',if((`a`.`permintaan_pembelian_status` = 4),'SPP Disetujui','SPP Selesai')))) AS `permintaan_pembelian_status_nama`,`a`.`permintaan_pembelian_status_date` AS `permintaan_pembelian_status_date`,`a`.`permintaan_pembelian_penerima` AS `permintaan_pembelian_penerima`,`a`.`permintaan_pembelian_penyetuju` AS `permintaan_pembelian_penyetuju`,`a`.`permintaan_pembelian_pembuat` AS `permintaan_pembelian_pembuat`,`a`.`permintaan_pembelian_printed` AS `permintaan_pembelian_printed`,`a`.`permintaan_pembelian_created_date` AS `permintaan_pembelian_created_date`,`a`.`permintaan_pembelian_created_by` AS `permintaan_pembelian_created_by`,`a`.`permintaan_pembelian_update_date` AS `permintaan_pembelian_update_date`,`a`.`permintaan_pembelian_update_by` AS `permintaan_pembelian_update_by`,`a`.`permintaan_pembelian_revised` AS `permintaan_pembelian_revised` from ((`t_permintaan_pembelian` `a` left join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) left join `m_gudang` `c` on((`c`.`gudang_id` = `a`.`m_gudang_id_permintaan`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_permintaan_pembelian` AS (select `a`.`permintaan_pembelian_id` AS `permintaan_pembelian_id`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`permintaan_pembelian_nomor` AS `permintaan_pembelian_nomor`,`a`.`permintaan_pembelian_tanggal` AS `permintaan_pembelian_tanggal`,`a`.`permintaan_pembelian_tanggal_dibutuhkan` AS `permintaan_pembelian_tanggal_dibutuhkan`,`a`.`permintaan_pembelian_jenis` AS `permintaan_pembelian_jenis`,if((`a`.`permintaan_pembelian_jenis` = 1),'Penting','Biasa') AS `permintaan_pembelian_jenis_nama`,`c`.`gudang_id` AS `gudang_id_permintaan`,`c`.`gudang_nama` AS `gudang_nama_permintaan`,`a`.`permintaan_pembelian_status` AS `permintaan_pembelian_status`,if((`a`.`permintaan_pembelian_status` = 1),'SPP Baru',if((`a`.`permintaan_pembelian_status` = 2),'SPP Diterima',if((`a`.`permintaan_pembelian_status` = 3),'SPP Ditawarkan',if((`a`.`permintaan_pembelian_status` = 4),'SPP Disetujui','SPP Selesai')))) AS `permintaan_pembelian_status_nama`,`a`.`permintaan_pembelian_status_date` AS `permintaan_pembelian_status_date`,`a`.`permintaan_pembelian_penerima` AS `permintaan_pembelian_penerima`,`a`.`permintaan_pembelian_penyetuju` AS `permintaan_pembelian_penyetuju`,`a`.`permintaan_pembelian_pembuat` AS `permintaan_pembelian_pembuat`,`a`.`permintaan_pembelian_printed` AS `permintaan_pembelian_printed`,`a`.`permintaan_pembelian_created_date` AS `permintaan_pembelian_created_date`,`a`.`permintaan_pembelian_created_by` AS `permintaan_pembelian_created_by`,`a`.`permintaan_pembelian_update_date` AS `permintaan_pembelian_update_date`,`a`.`permintaan_pembelian_update_by` AS `permintaan_pembelian_update_by`,`a`.`permintaan_pembelian_revised` AS `permintaan_pembelian_revised` from ((`t_permintaan_pembelian` `a` left join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) left join `m_gudang` `c` on((`c`.`gudang_id` = `a`.`m_gudang_id_permintaan`)))) ;
 
 -- ----------------------------
 -- View structure for v_perolehan_produksi
 -- ----------------------------
 DROP VIEW IF EXISTS `v_perolehan_produksi`;
-CREATE VIEW `v_perolehan_produksi` AS select `a`.`perolehan_produksi_id` AS `perolehan_produksi_id`,`a`.`perolehan_produksi_nomor` AS `perolehan_produksi_nomor`,`a`.`perolehan_produksi_total` AS `perolehan_produksi_total`,`a`.`perolehan_produksi_afalan` AS `perolehan_produksi_afalan`,`a`.`perolehan_produksi_created_date` AS `perolehan_produksi_created_date`,`a`.`perolehan_produksi_created_by` AS `perolehan_produksi_created_by`,`a`.`perolehan_produksi_update_date` AS `perolehan_produksi_update_date`,`a`.`perolehan_produksi_update_by` AS `perolehan_produksi_update_by`,`a`.`perolehan_produksi_revised` AS `perolehan_produksi_revised`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`c`.`gudang_id` AS `gudang_id`,`c`.`gudang_nama` AS `gudang_nama` from ((`t_perolehan_produksi` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) left join `m_gudang` `c` on((`c`.`gudang_id` = `a`.`m_gudang_id`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_perolehan_produksi` AS select `a`.`perolehan_produksi_id` AS `perolehan_produksi_id`,`a`.`perolehan_produksi_nomor` AS `perolehan_produksi_nomor`,`a`.`perolehan_produksi_total` AS `perolehan_produksi_total`,`a`.`perolehan_produksi_afalan` AS `perolehan_produksi_afalan`,`a`.`perolehan_produksi_created_date` AS `perolehan_produksi_created_date`,`a`.`perolehan_produksi_created_by` AS `perolehan_produksi_created_by`,`a`.`perolehan_produksi_update_date` AS `perolehan_produksi_update_date`,`a`.`perolehan_produksi_update_by` AS `perolehan_produksi_update_by`,`a`.`perolehan_produksi_revised` AS `perolehan_produksi_revised`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`c`.`gudang_id` AS `gudang_id`,`c`.`gudang_nama` AS `gudang_nama` from ((`t_perolehan_produksi` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) left join `m_gudang` `c` on((`c`.`gudang_id` = `a`.`m_gudang_id`))) ;
 
 -- ----------------------------
 -- View structure for v_po_customer
 -- ----------------------------
 DROP VIEW IF EXISTS `v_po_customer`;
-CREATE VIEW `v_po_customer` AS (select `a`.`po_customer_id` AS `po_customer_id`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`po_customer_nomor` AS `po_customer_nomor`,`a`.`po_customer_tanggal` AS `po_customer_tanggal`,`c`.`partner_id` AS `partner_id`,`c`.`partner_nama` AS `partner_nama`,`a`.`po_customer_kontak_person` AS `po_customer_kontak_person`,`a`.`po_customer_nama_pelanggan` AS `po_customer_nama_pelanggan`,`a`.`po_customer_perjanjian_bayar` AS `po_customer_perjanjian_bayar`,`a`.`po_customer_jasaangkut_jenis` AS `po_customer_jasaangkut_jenis`,if((`a`.`po_customer_jasaangkut_jenis` = 1),'Ekspedisi','Kirim Sendiri') AS `po_customer_jasaangkut_jenis_nama`,`a`.`po_customer_ekspedisi` AS `po_customer_ekspedisi`,`a`.`po_customer_jasaangkut_bayar` AS `po_customer_jasaangkut_bayar`,if((`a`.`po_customer_jasaangkut_bayar` = 1),'Bayar Kantor','Bayar Toko') AS `po_customer_jasaangkut_bayar_nama`,`a`.`po_customer_catatan` AS `po_customer_catatan`,`a`.`po_customer_step` AS `po_customer_step`,`a`.`po_customer_status` AS `po_customer_status`,if((`a`.`po_customer_status` = 1),'Draft PO',if((`a`.`po_customer_status` = 2),'Cek Stok Barang',if((`a`.`po_customer_status` = 3),'Cek Kredit Limit',if((`a`.`po_customer_status` = 4),'Menunggu Persetujuan',if((`a`.`po_customer_status` = 5),'PO Diterima',if((`a`.`po_customer_status` = 6),'Terbit SO','PO Tidak Diterima')))))) AS `po_customer_status_nama` from ((`t_po_customer` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `m_partner` `c` on((`c`.`partner_id` = `a`.`m_partner_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_po_customer` AS (select `a`.`po_customer_id` AS `po_customer_id`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`po_customer_nomor` AS `po_customer_nomor`,`a`.`po_customer_tanggal` AS `po_customer_tanggal`,`c`.`partner_id` AS `partner_id`,`c`.`partner_nama` AS `partner_nama`,`a`.`po_customer_kontak_person` AS `po_customer_kontak_person`,`a`.`po_customer_nama_pelanggan` AS `po_customer_nama_pelanggan`,`a`.`po_customer_perjanjian_bayar` AS `po_customer_perjanjian_bayar`,`a`.`po_customer_jasaangkut_jenis` AS `po_customer_jasaangkut_jenis`,if((`a`.`po_customer_jasaangkut_jenis` = 1),'Ekspedisi','Kirim Sendiri') AS `po_customer_jasaangkut_jenis_nama`,`a`.`po_customer_ekspedisi` AS `po_customer_ekspedisi`,`a`.`po_customer_jasaangkut_bayar` AS `po_customer_jasaangkut_bayar`,if((`a`.`po_customer_jasaangkut_bayar` = 1),'Bayar Kantor','Bayar Toko') AS `po_customer_jasaangkut_bayar_nama`,`a`.`po_customer_catatan` AS `po_customer_catatan`,`a`.`po_customer_step` AS `po_customer_step`,`a`.`po_customer_status` AS `po_customer_status`,if((`a`.`po_customer_status` = 1),'Draft PO',if((`a`.`po_customer_status` = 2),'Cek Stok Barang',if((`a`.`po_customer_status` = 3),'Cek Kredit Limit',if((`a`.`po_customer_status` = 4),'Menunggu Persetujuan',if((`a`.`po_customer_status` = 5),'PO Diterima',if((`a`.`po_customer_status` = 6),'Terbit SO','PO Tidak Diterima')))))) AS `po_customer_status_nama` from ((`t_po_customer` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `m_partner` `c` on((`c`.`partner_id` = `a`.`m_partner_id`)))) ;
 
 -- ----------------------------
 -- View structure for v_retur_pembelian
 -- ----------------------------
 DROP VIEW IF EXISTS `v_retur_pembelian`;
-CREATE VIEW `v_retur_pembelian` AS (select `a`.`retur_pembelian_id` AS `retur_pembelian_id`,`a`.`retur_pembelian_nomor` AS `retur_pembelian_nomor`,`a`.`retur_pembelian_tanggal` AS `retur_pembelian_tanggal`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`c`.`penerimaan_barang_id` AS `penerimaan_barang_id`,`c`.`penerimaan_barang_nomor` AS `penerimaan_barang_nomor`,`a`.`retur_pembelian_status` AS `retur_pembelian_status`,if((`a`.`retur_pembelian_status` = 1),'Retur Pembelian Baru',if((`a`.`retur_pembelian_status` = 2),'Retur Pembelian Diterima',if((`a`.`retur_pembelian_status` = 3),'Retur Pembelian Disetujui','Pembuatan Nota Debet'))) AS `retur_pembelian_status_nama`,`a`.`retur_pembelian_status_date` AS `retur_pembelian_status_date`,`a`.`retur_pembelian_printed` AS `retur_pembelian_printed`,`a`.`retur_pembelian_created_date` AS `retur_pembelian_created_date`,`a`.`retur_pembelian_created_by` AS `retur_pembelian_created_by`,`a`.`retur_pembelian_update_date` AS `retur_pembelian_update_date`,`a`.`retur_pembelian_update_by` AS `retur_pembelian_update_by`,`a`.`retur_pembelian_revised` AS `retur_pembelian_revised` from ((`t_retur_pembelian` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `t_penerimaan_barang` `c` on((`c`.`penerimaan_barang_id` = `a`.`t_penerimaan_barang_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_retur_pembelian` AS (select `a`.`retur_pembelian_id` AS `retur_pembelian_id`,`a`.`retur_pembelian_nomor` AS `retur_pembelian_nomor`,`a`.`retur_pembelian_tanggal` AS `retur_pembelian_tanggal`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`c`.`penerimaan_barang_id` AS `penerimaan_barang_id`,`c`.`penerimaan_barang_nomor` AS `penerimaan_barang_nomor`,`a`.`retur_pembelian_status` AS `retur_pembelian_status`,if((`a`.`retur_pembelian_status` = 1),'Retur Pembelian Baru',if((`a`.`retur_pembelian_status` = 2),'Retur Pembelian Diterima',if((`a`.`retur_pembelian_status` = 3),'Retur Pembelian Disetujui','Pembuatan Nota Debet'))) AS `retur_pembelian_status_nama`,`a`.`retur_pembelian_status_date` AS `retur_pembelian_status_date`,`a`.`retur_pembelian_printed` AS `retur_pembelian_printed`,`a`.`retur_pembelian_created_date` AS `retur_pembelian_created_date`,`a`.`retur_pembelian_created_by` AS `retur_pembelian_created_by`,`a`.`retur_pembelian_update_date` AS `retur_pembelian_update_date`,`a`.`retur_pembelian_update_by` AS `retur_pembelian_update_by`,`a`.`retur_pembelian_revised` AS `retur_pembelian_revised` from ((`t_retur_pembelian` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `t_penerimaan_barang` `c` on((`c`.`penerimaan_barang_id` = `a`.`t_penerimaan_barang_id`)))) ;
 
 -- ----------------------------
 -- View structure for v_retur_penjualan
 -- ----------------------------
 DROP VIEW IF EXISTS `v_retur_penjualan`;
-CREATE VIEW `v_retur_penjualan` AS (select `a`.`retur_penjualan_id` AS `retur_penjualan_id`,`a`.`retur_penjualan_nomor` AS `retur_penjualan_nomor`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`retur_penjualan_tanggal` AS `retur_penjualan_tanggal`,`a`.`retur_penjualan_status_pengembalianbarang` AS `retur_penjualan_status_pengembalianbarang`,`c`.`sj_retur_id` AS `sj_retur_id`,`c`.`sj_retur_nomor` AS `sj_retur_nomor`,`a`.`retur_penjualan_aksi_bayar` AS `retur_penjualan_aksi_bayar`,`a`.`retur_penjualan_alasan` AS `retur_penjualan_alasan`,`a`.`retur_penjualan_status` AS `retur_penjualan_status`,if((`a`.`retur_penjualan_status` = 1),'Draft Permintaan Retur',if((`a`.`retur_penjualan_status` = 2),'Pengecekan Kebijakan',if((`a`.`retur_penjualan_status` = 3),'Otorisasi Manajer',if((`a`.`retur_penjualan_status` = 4),'Retur Diterima','Retur Ditolak')))) AS `retur_penjualan_status_nama` from ((`t_retur_penjualan` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) left join `t_sj_retur` `c` on((`c`.`sj_retur_id` = `a`.`t_sj_retur_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_retur_penjualan` AS (select `a`.`retur_penjualan_id` AS `retur_penjualan_id`,`a`.`retur_penjualan_nomor` AS `retur_penjualan_nomor`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`retur_penjualan_tanggal` AS `retur_penjualan_tanggal`,`a`.`retur_penjualan_status_pengembalianbarang` AS `retur_penjualan_status_pengembalianbarang`,`c`.`sj_retur_id` AS `sj_retur_id`,`c`.`sj_retur_nomor` AS `sj_retur_nomor`,`a`.`retur_penjualan_aksi_bayar` AS `retur_penjualan_aksi_bayar`,`a`.`retur_penjualan_alasan` AS `retur_penjualan_alasan`,`a`.`retur_penjualan_status` AS `retur_penjualan_status`,if((`a`.`retur_penjualan_status` = 1),'Draft Permintaan Retur',if((`a`.`retur_penjualan_status` = 2),'Pengecekan Kebijakan',if((`a`.`retur_penjualan_status` = 3),'Otorisasi Manajer',if((`a`.`retur_penjualan_status` = 4),'Retur Diterima','Retur Ditolak')))) AS `retur_penjualan_status_nama` from ((`t_retur_penjualan` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) left join `t_sj_retur` `c` on((`c`.`sj_retur_id` = `a`.`t_sj_retur_id`)))) ;
 
 -- ----------------------------
 -- View structure for v_serah_terima
 -- ----------------------------
 DROP VIEW IF EXISTS `v_serah_terima`;
-CREATE VIEW `v_serah_terima` AS select `a`.`serah_terima_id` AS `serah_terima_id`,`a`.`serah_terima_nomor` AS `serah_terima_nomor`,`a`.`serah_terima_daribagian` AS `serah_terima_daribagian`,`a`.`serah_terima_darishift` AS `serah_terima_darishift`,`a`.`serah_terima_kebagian` AS `serah_terima_kebagian`,`a`.`serah_terima_keshift` AS `serah_terima_keshift`,`a`.`serah_terima_status` AS `serah_terima_status`,if((`a`.`serah_terima_status` = '1'),'Serah Terima Baru','Serah Terima Diterima') AS `serah_terima_status_nama`,`a`.`serah_terima_created_date` AS `serah_terima_created_date`,`a`.`serah_terima_created_by` AS `serah_terima_created_by`,`a`.`serah_terima_update_date` AS `serah_terima_update_date`,`a`.`serah_terima_update_by` AS `serah_terima_update_by`,`a`.`serah_terima_revised` AS `serah_terima_revised`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama` from (`t_serah_terima` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) ;
-
--- ----------------------------
--- View structure for v_sj_retur
--- ----------------------------
-DROP VIEW IF EXISTS `v_sj_retur`;
-CREATE VIEW `v_sj_retur` AS (select `a`.`sj_retur_id` AS `sj_retur_id`,`a`.`sj_retur_nomor` AS `sj_retur_nomor`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`sj_retur_tanggal` AS `sj_retur_tanggal`,`c`.`faktur_penjualan_id` AS `faktur_penjualan_id`,`c`.`faktur_penjualan_nomor` AS `faktur_penjualan_nomor`,`a`.`sj_retur_alasan` AS `sj_retur_alasan`,`a`.`sj_retur_catatan` AS `sj_retur_catatan` from ((`t_sj_retur` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `t_faktur_penjualan` `c` on((`c`.`faktur_penjualan_id` = `a`.`t_faktur_penjualan_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_serah_terima` AS select `a`.`serah_terima_id` AS `serah_terima_id`,`a`.`serah_terima_nomor` AS `serah_terima_nomor`,`a`.`serah_terima_daribagian` AS `serah_terima_daribagian`,`a`.`serah_terima_darishift` AS `serah_terima_darishift`,`a`.`serah_terima_kebagian` AS `serah_terima_kebagian`,`a`.`serah_terima_keshift` AS `serah_terima_keshift`,`a`.`serah_terima_status` AS `serah_terima_status`,if((`a`.`serah_terima_status` = '1'),'Serah Terima Baru','Serah Terima Diterima') AS `serah_terima_status_nama`,`a`.`serah_terima_created_date` AS `serah_terima_created_date`,`a`.`serah_terima_created_by` AS `serah_terima_created_by`,`a`.`serah_terima_update_date` AS `serah_terima_update_date`,`a`.`serah_terima_update_by` AS `serah_terima_update_by`,`a`.`serah_terima_revised` AS `serah_terima_revised`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama` from (`t_serah_terima` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) ;
 
 -- ----------------------------
 -- View structure for v_so_customer
 -- ----------------------------
 DROP VIEW IF EXISTS `v_so_customer`;
-CREATE VIEW `v_so_customer` AS (select `a`.`so_customer_id` AS `so_customer_id`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`so_customer_nomor` AS `so_customer_nomor`,`a`.`so_customer_tanggal` AS `so_customer_tanggal`,`c`.`po_customer_id` AS `po_customer_id`,`c`.`po_customer_nomor` AS `po_customer_nomor`,`a`.`so_customer_status` AS `so_customer_status`,if((`a`.`so_customer_status` = 1),'SO Baru',if((`a`.`so_customer_status` = 2),'SO Disetujui',if((`a`.`so_customer_status` = 3),'Terbit SJ',if((`a`.`so_customer_status` = 4),'SO Tidak Disetujui','Terbit Faktur')))) AS `so_customer_status_nama` from ((`t_so_customer` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `t_po_customer` `c` on((`c`.`po_customer_id` = `a`.`t_po_customer_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_so_customer` AS (select `a`.`so_customer_id` AS `so_customer_id`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`so_customer_nomor` AS `so_customer_nomor`,`a`.`so_customer_tanggal` AS `so_customer_tanggal`,`c`.`po_customer_id` AS `po_customer_id`,`c`.`po_customer_nomor` AS `po_customer_nomor`,`a`.`so_customer_status` AS `so_customer_status`,if((`a`.`so_customer_status` = 1),'SO Baru',if((`a`.`so_customer_status` = 2),'SO Disetujui',if((`a`.`so_customer_status` = 3),'Terbit SJ',if((`a`.`so_customer_status` = 4),'SO Tidak Disetujui','Terbit Faktur')))) AS `so_customer_status_nama` from ((`t_so_customer` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `t_po_customer` `c` on((`c`.`po_customer_id` = `a`.`t_po_customer_id`)))) ;
 
 -- ----------------------------
 -- View structure for v_stok_gudang
 -- ----------------------------
 DROP VIEW IF EXISTS `v_stok_gudang`;
-CREATE VIEW `v_stok_gudang` AS (select `a`.`barang_id` AS `barang_id`,`b`.`jenis_barang_id` AS `jenis_barang_id`,`b`.`jenis_barang_nama` AS `jenis_barang_nama`,`a`.`barang_kode` AS `barang_kode`,`a`.`barang_nama` AS `barang_nama`,`a`.`barang_status_aktif` AS `barang_status_aktif`,`c`.`satuan_id` AS `satuan_id`,`c`.`satuan_nama` AS `satuan_nama`,`a`.`barang_minimum_stok` AS `stok_minimum`,`d`.`stok_gudang_jumlah` AS `stok_gudang`,`e`.`gudang_id` AS `gudang_id`,`e`.`gudang_nama` AS `gudang_nama`,`f`.`cabang_id` AS `id_cabang`,`f`.`cabang_nama` AS `cabang_nama` from (((((`m_barang` `a` join `m_jenis_barang` `b` on((`b`.`jenis_barang_id` = `a`.`m_jenis_barang_id`))) join `m_satuan` `c` on((`c`.`satuan_id` = `a`.`m_satuan_id`))) join `t_stok_gudang` `d` on((`d`.`m_barang_id` = `a`.`barang_id`))) join `m_gudang` `e` on((`e`.`gudang_id` = `d`.`m_gudang_id`))) join `m_cabang` `f` on((`f`.`cabang_id` = `e`.`m_cabang_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_stok_gudang` AS (select `a`.`barang_id` AS `barang_id`,`b`.`jenis_barang_id` AS `jenis_barang_id`,`b`.`jenis_barang_nama` AS `jenis_barang_nama`,`a`.`barang_kode` AS `barang_kode`,`a`.`barang_nama` AS `barang_nama`,`a`.`barang_status_aktif` AS `barang_status_aktif`,`c`.`satuan_id` AS `satuan_id`,`c`.`satuan_nama` AS `satuan_nama`,`a`.`barang_minimum_stok` AS `stok_minimum`,`d`.`stok_gudang_jumlah` AS `stok_gudang`,`e`.`gudang_id` AS `gudang_id`,`e`.`gudang_nama` AS `gudang_nama`,`f`.`cabang_id` AS `id_cabang`,`f`.`cabang_nama` AS `cabang_nama` from (((((`m_barang` `a` join `m_jenis_barang` `b` on((`b`.`jenis_barang_id` = `a`.`m_jenis_barang_id`))) join `m_satuan` `c` on((`c`.`satuan_id` = `a`.`m_satuan_id`))) join `t_stok_gudang` `d` on((`d`.`m_barang_id` = `a`.`barang_id`))) join `m_gudang` `e` on((`e`.`gudang_id` = `d`.`m_gudang_id`))) join `m_cabang` `f` on((`f`.`cabang_id` = `e`.`m_cabang_id`)))) ;
 
 -- ----------------------------
 -- View structure for v_sub_atribut
 -- ----------------------------
 DROP VIEW IF EXISTS `v_sub_atribut`;
-CREATE VIEW `v_sub_atribut` AS (select `a`.`sub_atribut_id` AS `sub_atribut_id`,`a`.`m_atribut_id` AS `m_atribut_id`,`a`.`sub_atribut_jenis` AS `sub_atribut_jenis`,`a`.`sub_atribut_nama` AS `sub_atribut_nama`,`a`.`sub_atribut_satuan` AS `sub_atribut_satuan`,`a`.`sub_atribut_default_value` AS `sub_atribut_default_value`,`a`.`sub_atribut_status_aktif` AS `sub_atribut_status_aktif`,`a`.`sub_atribut_create_date` AS `sub_atribut_create_date`,`a`.`sub_atribut_create_by` AS `sub_atribut_create_by`,`a`.`sub_atribut_update_date` AS `sub_atribut_update_date`,`a`.`sub_atribut_update_by` AS `sub_atribut_update_by`,`a`.`sub_atribut_revised` AS `sub_atribut_revised`,`b`.`atribut_nama` AS `atribut_nama`,`b`.`m_barang_id` AS `m_barang_id`,`e`.`barang_nama` AS `barang_nama`,`f`.`satuan_nama` AS `satuan_nama` from (((`m_sub_atribut_barang` `a` left join `m_atribut_barang` `b` on((`a`.`m_atribut_id` = `b`.`atribut_id`))) left join `m_barang` `e` on((`b`.`m_barang_id` = `e`.`barang_id`))) left join `m_satuan` `f` on((`a`.`sub_atribut_satuan` = `f`.`satuan_id`)))) ;
-
--- ----------------------------
--- View structure for v_surat_jalan
--- ----------------------------
-DROP VIEW IF EXISTS `v_surat_jalan`;
-CREATE VIEW `v_surat_jalan` AS (select `a`.`surat_jalan_id` AS `surat_jalan_id`,`a`.`surat_jalan_nomor` AS `surat_jalan_nomor`,`b`.`cabang_id` AS `cabang_id`,`b`.`cabang_nama` AS `cabang_nama`,`a`.`surat_jalan_jenis` AS `surat_jalan_jenis`,if((`a`.`surat_jalan_jenis` = 0),'Surat Jalan Retur',if((`a`.`surat_jalan_jenis` = 2),'Surat Jalan Work Order','Surat Jalan Sales Order')) AS `surat_jalan_jenis_nama`,if((`a`.`surat_jalan_jenis` = 0),`e`.`nota_debet_nomor`,if((`a`.`surat_jalan_jenis` = 2),`d`.`order_nomor`,`f`.`so_customer_nomor`)) AS `nomor_referensi`,`a`.`surat_jalan_tanggal` AS `surat_jalan_tanggal`,`a`.`surat_jalan_tanggal_kirim` AS `surat_jalan_tanggal_kirim`,`a`.`surat_jalan_ekspedisi` AS `surat_jalan_ekspedisi`,`e`.`nota_debet_id` AS `nota_debet_id`,`e`.`nota_debet_nomor` AS `nota_debet_nomor`,`c`.`partner_id` AS `partner_id`,`c`.`partner_nama` AS `partner_nama`,`d`.`order_id` AS `order_id`,`d`.`order_nomor` AS `order_nomor`,`a`.`surat_jalan_status` AS `surat_jalan_status`,`a`.`surat_jalan_status_date` AS `surat_jalan_status_date`,`a`.`surat_jalan_created_date` AS `surat_jalan_created_date`,`a`.`surat_jalan_created_by` AS `surat_jalan_created_by`,`a`.`surat_jalan_update_date` AS `surat_jalan_update_date`,`a`.`surat_jalan_update_by` AS `surat_jalan_update_by`,`a`.`surat_jalan_revised` AS `surat_jalan_revised` from (((((`t_surat_jalan` `a` join `m_cabang` `b` on((`b`.`cabang_id` = `a`.`m_cabang_id`))) join `m_partner` `c` on((`c`.`partner_id` = `a`.`m_partner_id`))) left join `t_order` `d` on((`d`.`order_id` = `a`.`t_order_id`))) left join `t_nota_debet` `e` on((`e`.`nota_debet_id` = `a`.`t_nota_debet_id`))) left join `t_so_customer` `f` on((`f`.`so_customer_id` = `a`.`t_so_customer_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `v_sub_atribut` AS (select `a`.`sub_atribut_id` AS `sub_atribut_id`,`a`.`m_atribut_id` AS `m_atribut_id`,`a`.`sub_atribut_jenis` AS `sub_atribut_jenis`,`a`.`sub_atribut_nama` AS `sub_atribut_nama`,`a`.`sub_atribut_satuan` AS `sub_atribut_satuan`,`a`.`sub_atribut_default_value` AS `sub_atribut_default_value`,`a`.`sub_atribut_status_aktif` AS `sub_atribut_status_aktif`,`a`.`sub_atribut_create_date` AS `sub_atribut_create_date`,`a`.`sub_atribut_create_by` AS `sub_atribut_create_by`,`a`.`sub_atribut_update_date` AS `sub_atribut_update_date`,`a`.`sub_atribut_update_by` AS `sub_atribut_update_by`,`a`.`sub_atribut_revised` AS `sub_atribut_revised`,`b`.`atribut_nama` AS `atribut_nama`,`b`.`m_barang_id` AS `m_barang_id`,`e`.`barang_nama` AS `barang_nama`,`f`.`satuan_nama` AS `satuan_nama` from (((`m_sub_atribut_barang` `a` left join `m_atribut_barang` `b` on((`a`.`m_atribut_id` = `b`.`atribut_id`))) left join `m_barang` `e` on((`b`.`m_barang_id` = `e`.`barang_id`))) left join `m_satuan` `f` on((`a`.`sub_atribut_satuan` = `f`.`satuan_id`)))) ;

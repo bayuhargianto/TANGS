@@ -63,13 +63,13 @@ class C_partner extends MY_Controller {
 			foreach ($query->result() as $val) {
 				$button = '';
 				if($val->partner_status == '1') {
-					$partnerStatus = 'Supplier';
+					$partnerStatus = 'Vendor';
 				}
 				elseif ($val->partner_status == '2') {
-					$partnerStatus = 'Customer';
+					$partnerStatus = 'Member';
 				}
 				else {
-					$partnerStatus = 'Supplier dan Customer';
+					$partnerStatus = 'Vendor dan Member';
 				}
 				if ($val->partner_status_aktif == 'y') {
 					$status = '<span class="label bg-green-jungle bg-font-green-jungle"> Aktif </span>';
@@ -129,7 +129,15 @@ class C_partner extends MY_Controller {
 	}
 
 	public function getForm(){
+		$this->check_session();
 		$this->load->view("partner/V_form_partner");
+	}
+
+	public function getFormLogin(){
+		$id = $this->input->post('id');
+		$data = array('id_partner' => $id);
+		$this->load->view("partner/V_form_login", $data);
+		// echo $data['id_partner'];
 	}
 
 	public function loadDataWhere(){
@@ -198,6 +206,21 @@ class C_partner extends MY_Controller {
 						'text' 	=> $array_faxCetak[$i]
 					);
 				}
+				$hasil9['val2'] = array();
+				$where_kota['data'][] = array(
+					'column' => 'id',
+					'param'	 => $val->partner_kota
+				);
+				$query_kota = $this->mod->select('*','regencies',NULL,$where_kota);
+				if($query_kota)
+				{
+					foreach ($query_kota->result() as $val2) {
+						$hasil9['val2'][] = array(
+							'id' 	=> $val2->id,
+							'text' 	=> $val2->name
+						);
+					}
+				}
 				$response['val'][] = array(
 					'kode' 							=> $val->partner_id,
 					'partner_status' 				=> $val->partner_status,
@@ -207,6 +230,7 @@ class C_partner extends MY_Controller {
 					'partner_nama_cetak2'			=> implode(', ', $array_namaCetak),
 					'jml_namaCetak'					=> sizeof(json_decode($val->partner_nama_cetak)),
 					'partner_alamat' 				=> $val->partner_alamat,
+					'partner_kota'					=> $hasil9,
 					// 'partner_alamat_cetak'			=> $val->partner_alamat_cetak,
 					'partner_alamat_cetak' 			=> $hasil8,
 					'partner_alamat_cetak2'			=> implode(', ', $array_alamatCetak),
@@ -243,22 +267,22 @@ class C_partner extends MY_Controller {
 		$join['data'][] = array(
 			'table' => 't_po_customer b',
 			'join'	=> 'b.m_partner_id = a.partner_id',
-			'type'	=> 'inner'
+			'type'	=> 'left'
 		);
 		$join['data'][] = array(
 			'table' => 't_so_customer c',
 			'join'	=> 'c.t_po_customer_id = b.po_customer_id',
-			'type'	=> 'inner'
+			'type'	=> 'left'
 		);
 		$join['data'][] = array(
 			'table' => 't_surat_jalan d',
 			'join'	=> 'd.t_so_customer_id = c.so_customer_id',
-			'type'	=> 'inner'
+			'type'	=> 'left'
 		);
 		$join['data'][] = array(
 			'table' => 't_faktur_penjualan e',
 			'join'	=> 'e.t_surat_jalan_id = d.surat_jalan_id',
-			'type'	=> 'inner'
+			'type'	=> 'left'
 		);
 		$where['data'][] = array(
 			'column' => 'partner_id',
@@ -266,7 +290,7 @@ class C_partner extends MY_Controller {
 		);
 		$query = $this->mod->select($select, 'm_partner a', $join, $where);
 		if ($query<>false) {
-
+			$response['query'] = $query;
 			foreach ($query->result() as $val) {
 				if (($val->partner_limit_kredit - $val->jumlah) > 0) {
 					$jumlah_sisa = $val->partner_limit_kredit - $val->jumlah;
@@ -281,9 +305,8 @@ class C_partner extends MY_Controller {
 					'partner_sisa_kredit'	=> $jumlah_sisa,
 				);
 			}
-
-			echo json_encode($response);
 		}
+		echo json_encode($response);
 	}
 
 	// SELECT SUPPLIER
@@ -460,6 +483,7 @@ class C_partner extends MY_Controller {
 				'partner_nama_cetak' 		=> $namCetak,
 				'partner_alamat' 			=> $this->input->post('partner_alamat', TRUE),
 				'partner_alamat_cetak' 		=> $alamatCetak,
+				'partner_kota' 				=> $this->input->post('partner_kota', TRUE),
 				'partner_telepon' 			=> $telp,
 				'partner_telepon_cetak' 	=> $telpCetak,
 				'partner_email' 			=> $email,
@@ -498,6 +522,7 @@ class C_partner extends MY_Controller {
 				'partner_nama_cetak' 		=> $namCetak,
 				'partner_alamat' 			=> $this->input->post('partner_alamat', TRUE),
 				'partner_alamat_cetak' 		=> $alamatCetak,
+				'partner_kota' 				=> $this->input->post('partner_kota', TRUE),
 				'partner_telepon' 			=> $telp,
 				'partner_telepon_cetak' 	=> $telpCetak,
 				'partner_email' 			=> $email,

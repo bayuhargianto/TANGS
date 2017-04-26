@@ -160,6 +160,7 @@ class C_sales_order_customer extends MY_Controller {
 	}
 
 	public function getForm1($id = null){
+		$this->check_session();
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Penjualan',
@@ -170,6 +171,7 @@ class C_sales_order_customer extends MY_Controller {
 	}
 
 	public function getForm2($id = null){
+		$this->check_session();
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Persetujuan',
@@ -180,6 +182,7 @@ class C_sales_order_customer extends MY_Controller {
 	}
 
 	public function getForm3($id = null){
+		$this->check_session();
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Produksi',
@@ -191,6 +194,7 @@ class C_sales_order_customer extends MY_Controller {
 
 	public function loadDataWhere($type){
 		$response['type'] = $type;
+		$response['ppn'] = $this->input->get('ppn');
 		if($type == 2)
 		{
 			$select = 'a.*, b.*';
@@ -207,11 +211,15 @@ class C_sales_order_customer extends MY_Controller {
 				'column' => 'a.so_customer_status',
 				'param'	 => 2
 			);
+			$where['data'][] = array(
+				'column' => 'b.po_customer_ppn',
+				'param'	 => $this->input->get('ppn')
+			);
 			$query = $this->mod->select($select, 't_so_customer a', $join, $where);
 			// $response['query'] = $query;
 			if ($query<>false) {
 
-				foreach ($query->result() as $val) {
+					foreach ($query->result() as $val) {
 
 					// CARI PO CUSTOMER
 					// $hasil['val2'] = array();
@@ -237,6 +245,8 @@ class C_sales_order_customer extends MY_Controller {
 						'so_customer_catatan'			=> $val->so_customer_catatan,
 						'so_customer_nama_cetak'		=> $val->so_customer_nama_cetak,
 						'so_customer_status'			=> $val->so_customer_status,
+						'so_customer_dp'				=> $val->so_customer_dp,
+						'so_customer_sisa_dp'			=> $val->so_customer_sisa_dp,
 					);
 				}
 
@@ -262,8 +272,9 @@ class C_sales_order_customer extends MY_Controller {
 					$query_pocustomer = $this->mod->select('*','t_po_customer',NULL,$where_pocustomer);
 					foreach ($query_pocustomer->result() as $val2) {
 						$hasil['val2'][] = array(
-							'id' 	=> $val2->po_customer_id,
-							'text' 	=> $val2->po_customer_nomor
+							'id' 				=> $val2->po_customer_id,
+							'text' 				=> $val2->po_customer_nomor,
+							'po_customer_ppn'	=> $val2->po_customer_ppn,
 						);
 					}
 					// END CARI PO CUSTOMER
@@ -277,6 +288,8 @@ class C_sales_order_customer extends MY_Controller {
 						'so_customer_catatan'			=> $val->so_customer_catatan,
 						'so_customer_nama_cetak'		=> $val->so_customer_nama_cetak,
 						'so_customer_status'			=> $val->so_customer_status,
+						// 'so_customer_dp'				=> $val->so_customer_dp,
+						// 'so_customer_sisa_dp'			=> $val->so_customer_sisa_dp,
 					);
 				}
 
@@ -419,11 +432,32 @@ class C_sales_order_customer extends MY_Controller {
 				);
 				$query_partner = $this->mod->select('*','m_partner',NULL,$where_partner);
 				foreach ($query_partner->result() as $val2) {
+					// CARI KOTA
+					$hasil7['val3'] = array();
+					if(@$where_kota['data'])
+					{
+						unset($where_kota['data']);
+					}
+					$where_kota['data'][] = array(
+						'column' => 'id',
+						'param'	 => $val2->partner_kota
+					);
+					$query_kota = $this->mod->select('*','regencies',NULL,$where_kota);
+					if ($query_kota) {
+						foreach ($query_kota->result() as $val3) {
+							$hasil7['val3'][] = array(
+								'id' 		=> $val3->id,
+								'text' 		=> $val3->name,
+							);
+						}
+					}
+					// END CARI KOTA
 					$hasil['val2'][] = array(
 						'id' 			=> $val2->partner_id,
 						'text' 			=> $val2->partner_nama,
 						'alamat' 		=> $val2->partner_alamat,
 						'telp' 			=> json_decode($val2->partner_telepon),
+						'kota'			=> $hasil7,
 					);
 				}
 				// END CARI PARTNER
@@ -437,7 +471,11 @@ class C_sales_order_customer extends MY_Controller {
 				if ($query_cabang) {
 					foreach ($query_cabang->result() as $val2) {
 						// CARI KOTA
-						$hasil7['val2'] = array();
+						$hasil7['val3'] = array();
+						if(@$where_kota['data'])
+						{
+							unset($where_kota['data']);
+						}
 						$where_kota['data'][] = array(
 							'column' => 'id',
 							'param'	 => $val2->cabang_kota
@@ -462,7 +500,31 @@ class C_sales_order_customer extends MY_Controller {
 					}
 				}
 				// END CARI CABANG
+				// CARI Sales
+				$hasil2['val2'] = array();
+				$where_Sales['data'][] = array(
+					'column' => 'karyawan_id',
+					'param'	 => $val->m_karyawan_id
+				);
+				$query_sales = $this->mod->select('*','m_karyawan',NULL,$where_Sales);
+				if ($query_sales) {
+					foreach ($query_sales->result() as $val2) {
+						$hasil2['val2'][] = array(
+							'id' 	=> $val2->karyawan_id,
+							'text' 	=> $val2->karyawan_nama,
+						);
+					}
+				}
+				// END CARI Sales
 				$name = $val->so_customer_nomor;
+				$queryheader = $this->mod->select('*', 'm_header');
+				$header = '';
+				if($queryheader)
+				{
+					foreach ($queryheader->result() as $val3) {
+						$header = $val3->header_text;
+					}
+				}
 				$response['val'][] = array(
 					'cabang'						=> $hasil6,
 					'kode' 							=> $val->so_customer_id,
@@ -472,10 +534,15 @@ class C_sales_order_customer extends MY_Controller {
 					't_po_customer_id'				=> $val->po_customer_id,
 					'po_customer_nomor'				=> $val->po_customer_nomor,
 					'po_customer_perjanjian_bayar'	=> $val->po_customer_perjanjian_bayar,
+					'po_customer_alamat_kirim'		=> $val->po_customer_alamat_kirim,
 					'po_customer_jasaangkut_jenis'	=> $val->po_customer_jasaangkut_jenis,
 					'po_customer_ekspedisi'			=> $val->po_customer_ekspedisi,
 					'po_customer_jasaangkut_bayar'	=> $val->po_customer_jasaangkut_bayar,
 					'm_partner_id' 					=> $hasil,
+					'header'						=> $header,
+					'sales'							=> $hasil2,
+					'po_customer_sejarah'			=> $val->po_customer_sejarah,
+					'po_customer_ppn'				=> $val->po_customer_ppn,
 					'so_customer_catatan'			=> $val->so_customer_catatan,
 					'so_customer_nama_cetak'		=> $val->so_customer_nama_cetak,
 					'so_customer_status'			=> $val->so_customer_status,
@@ -514,6 +581,32 @@ class C_sales_order_customer extends MY_Controller {
 				} else {
 					$response['status'] = '204';
 				}
+			} else {
+				$data = $this->general_post_data(3, $id);
+				$where['data'][] = array(
+					'column' => 'so_customer_id',
+					'param'	 => $id
+				);
+				$update = $this->mod->update_data_table($this->tbl, $where, $data);
+				if($update->status) {
+					$response['status'] = '200';
+					for($i = 0; $i < sizeof($this->input->post('po_customerdet_id', TRUE)); $i++)
+					{
+						$data_det = $this->general_post_data2(1, $i, $this->input->post('po_customerdet_id', TRUE)[$i]);
+						if(@$where_det['data'])
+						{
+							unset($where_det['data']);
+						}
+						$where_det['data'][] = array(
+							'column' => 'po_customerdet_id',
+							'param'  => $this->input->post('po_customerdet_id', TRUE)[$i]
+						);
+						// $response['det'][] = $where_det;
+						$update_det = $this->mod->update_data_table('t_po_customerdet', $where_det, $data_det);
+					}
+				} else {
+					$response['status'] = '204';
+				}
 			}
 		} else {
 			//INSERT
@@ -521,19 +614,33 @@ class C_sales_order_customer extends MY_Controller {
 			$insert = $this->mod->insert_data_table($this->tbl, NULL, $data);
 			if($insert->status) {
 				$response['status'] = '200';
-					//UPDATE
-					$data_pocustomer = array(
-						'po_customer_status' => 6,
+				//UPDATE
+				$data_pocustomer = array(
+					'po_customer_status' => 11,
+				);
+				$where_pocustomer['data'][] = array(
+					'column' => 'po_customer_id',
+					'param'	 => $data['t_po_customer_id']
+				);
+				$update_pocustomer = $this->mod->update_data_table('t_po_customer', $where_pocustomer, $data_pocustomer);
+				for($i = 0; $i < sizeof($this->input->post('po_customerdet_id', TRUE)); $i++)
+				{
+					$data_det = $this->general_post_data2(1, $i, $this->input->post('po_customerdet_id', TRUE)[$i]);
+					if(@$where_det['data'])
+					{
+						unset($where_det['data']);
+					}
+					$where_det['data'][] = array(
+						'column' => 'po_customerdet_id',
+						'param'  => $this->input->post('po_customerdet_id', TRUE)[$i]
 					);
-					$where_pocustomer['data'][] = array(
-						'column' => 'po_customer_id',
-						'param'	 => $data['t_po_customer_id']
-					);
-					$update_pocustomer = $this->mod->update_data_table('t_po_customer', $where_pocustomer, $data_pocustomer);
+					// $response['det'][] = $where_det;
+					$update_det = $this->mod->update_data_table('t_po_customerdet', $where_det, $data_det);
+				}
 			} else {
 				$response['status'] = '204';
 			}
-			$response['id'] = $insert->output;
+			// $response['id'] = $insert->output;
 		}
 		echo json_encode($response);
 	}
@@ -561,6 +668,9 @@ class C_sales_order_customer extends MY_Controller {
 				't_po_customer_id'				=> $this->input->post('t_po_customer_id', TRUE),
 				'so_customer_catatan'			=> $this->input->post('so_customer_catatan', TRUE),
 				'so_customer_nama_cetak'		=> $this->input->post('nama_cetak', TRUE),
+				'so_customer_dp'				=> $this->input->post('so_customer_dp', TRUE),
+				'so_customer_sisa_dp'			=> $this->input->post('so_customer_dp', TRUE),
+				'so_customer_total'				=> $this->input->post('so_customer_total', TRUE),
 				'so_customer_status' 			=> 1,
 				'so_customer_created_date'		=> date('Y-m-d H:i:s'),
 				'so_customer_updated_date'		=> date('Y-m-d H:i:s'),
@@ -569,12 +679,55 @@ class C_sales_order_customer extends MY_Controller {
 			);
 		} else if ($type == 2) {
 			$data = array(
-				'so_customer_status' 		=> $this->input->post('so_customer_status', TRUE),
-				'so_customer_updated_date'	=> date('Y-m-d H:i:s'),
-				'so_customer_updated_by'	=> $this->session->userdata('user_username'),
-				'so_customer_revised' 		=> $rev,
+				'so_customer_status' 			=> $this->input->post('so_customer_status', TRUE),
+				'so_customer_updated_date'		=> date('Y-m-d H:i:s'),
+				'so_customer_updated_by'		=> $this->session->userdata('user_username'),
+				'so_customer_revised' 			=> $rev,
+			);
+		} else if ($type == 3) {
+			$data = array(
+				'so_customer_dp'				=> $this->input->post('so_customer_dp', TRUE),
+				'so_customer_sisa_dp'			=> $this->input->post('so_customer_dp', TRUE),
+				'so_customer_total'				=> $this->input->post('so_customer_total', TRUE),
+				'so_customer_catatan'			=> $this->input->post('so_customer_catatan', TRUE),
+				'so_customer_nama_cetak'		=> $this->input->post('nama_cetak', TRUE),
+				'so_customer_updated_date'		=> date('Y-m-d H:i:s'),
+				'so_customer_updated_by'		=> $this->session->userdata('user_username'),
+				'so_customer_revised' 			=> $rev,
 			);
 		}
+
+		return $data;
+	}
+
+	function general_post_data2($type, $seq, $id = null){
+		// 1 Insert, 2 Update, 3 Delete / Non Aktif
+		// $arrDate = explode('/', $this->input->post('so_customer_tanggal', TRUE));
+		$where['data'][] = array(
+			'column' => 'po_customerdet_id',
+			'param'	 => $id
+		);
+		$queryRevised = $this->mod->select('po_customerdet_revised', 't_po_customerdet', NULL, $where);
+		if ($queryRevised) {
+			$revised = $queryRevised->row_array();
+			$rev = $revised['po_customerdet_revised'] + 1;
+		}
+		if ($type == 1) {
+			$data = array(
+				'm_barang_id' 					=> $this->input->post('m_barang_id', TRUE)[$seq],
+				'po_customerdet_updated_date' 	=> date('Y-m-d H:i:s'),
+				'po_customerdet_updated_by'		=> $this->session->userdata('user_username'),
+				'po_customerdet_revised'		=> $rev,
+			);
+		} 
+		// else if ($type == 2) {
+		// 	$data = array(
+		// 		'so_customer_status' 		=> $this->input->post('so_customer_status', TRUE),
+		// 		'so_customer_updated_date'	=> date('Y-m-d H:i:s'),
+		// 		'so_customer_updated_by'	=> $this->session->userdata('user_username'),
+		// 		'so_customer_revised' 		=> $rev,
+		// 	);
+		// }
 
 		return $data;
 	}

@@ -178,6 +178,10 @@
                         document.getElementById('supplier_customer').setAttribute("checked", "checked");
                       }
                       document.getElementsByName("partner_nama")[0].value = data.val[i].partner_nama;
+                      for(var j=0; j<data.val[i].partner_kota.val2.length; j++){
+                        $("#partner_kota").append('<option value="'+data.val[i].partner_kota.val2[j].id+'" selected>'+data.val[i].partner_kota.val2[j].text+'</option>');
+                      }
+                      // selectList_Kota('#partner_kota', 'Master-Data/Cabang/loadDataSelectKota');
                       // document.getElementsByName("partner_nama_cetak")[0].value = data.val[i].partner_nama_cetak;
                       // nama cetak
                        document.getElementsByName("jml_itemOptionNama")[0].value = data.val[i].jml_namaCetak;
@@ -280,32 +284,52 @@
               }
 
               function deleteData(id) {
-                swal({
-                  title: "Apakah anda yakin?",
-                  text: "Data akan dinonaktifkan !",
-                  type: "warning",
-                  showCancelButton: true,
-                  cancelButtonClass: "btn-raised btn-warning",
-                  cancelButtonText: "Batal!",
-                  confirmButtonClass: "btn-raised btn-danger",
-                  confirmButtonText: "Ya!",
-                  closeOnConfirm: false
-                }, function() {
-                  $.ajax({
-                    url: '<?php echo base_url();?>Master-Data/Partner/deleteData/',
-                    data: 'id='+id,
-                    type: 'POST',
-                    dataType: 'json',
-                    success: function (data) {
-                      if (data.status=='200') {
-                        alert_success_nonaktif();
-                        searchData();
-                      } else if (data.status=='204') {
-                        alert_fail_nonaktif();
+                $.ajax({
+                  type : 'GET',
+                  url  : $base_url+'Master-Data/Partner/getFormLogin/',
+                  data : { id : id },
+                  dataType : "html",
+                  success:function(data){
+                    $("#modaladd .modal-body").html();
+                    $("#modaladd .modal-body").html(data);
+                    $('#modaladd').modal('show');
+                    MyFormValidation.init();
+                    rules();
+                    $("#formAdd").submit(function(event){
+                      if ($("#formAdd").valid() == true) {
+                        actionDataFile();
                       }
-                    }
-                  });
-                })
+                      return false;
+                    });
+                  }
+                });
+
+              //   swal({
+              //     title: "Apakah anda yakin?",
+              //     text: "Data akan dinonaktifkan !",
+              //     type: "warning",
+              //     showCancelButton: true,
+              //     cancelButtonClass: "btn-raised btn-warning",
+              //     cancelButtonText: "Batal!",
+              //     confirmButtonClass: "btn-raised btn-danger",
+              //     confirmButtonText: "Ya!",
+              //     closeOnConfirm: false
+              //   }, function() {
+              //     $.ajax({
+              //       url: '<?php echo base_url();?>Master-Data/Partner/deleteData/',
+              //       data: 'id='+id,
+              //       type: 'POST',
+              //       dataType: 'json',
+              //       success: function (data) {
+              //         if (data.status=='200') {
+              //           alert_success_nonaktif();
+              //           searchData();
+              //         } else if (data.status=='204') {
+              //           alert_fail_nonaktif();
+              //         }
+              //       }
+              //     });
+              //   })
               }
 
               function aktifData(id) {

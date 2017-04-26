@@ -34,27 +34,27 @@
   <body>
 	<table width="100%">
 		<tr>
-		  <td><b><?= strtoupper($val[0]['cabang']['val2'][0]['text'])?></b></td>
+		  <td><b><?= strtoupper(@$val[0]['cabang']['val2'][0]['text'])?></b></td>
 		  <td align="right">No :</td>
-		  <td width="30%"><?= $val[0]['retur_penjualan_nomor'] ?></td>
+		  <td width="30%"><?= @$val[0]['retur_penjualan_nomor'] ?></td>
 		</tr>
 		<tr>
-		  <td><?= $val[0]['cabang']['val2'][0]['alamat']?>, <?= $val[0]['cabang']['val2'][0]['kota']['val3'][0]['text']?><br>
+		  <td><?= @$val[0]['cabang']['val2'][0]['alamat']?>, <?= @$val[0]['cabang']['val2'][0]['kota']['val3'][0]['text']?><br>
       Telp. <?php 
-      for($i=0; $i < count($val[0]['cabang']['val2'][0]['telp']); $i++)
+      for($i=0; $i < count(@$val[0]['cabang']['val2'][0]['telp']); $i++)
       {
-        if($i == count($val[0]['cabang']['val2'][0]['telp'])-1)
+        if($i == count(@$val[0]['cabang']['val2'][0]['telp'])-1)
         {
-          echo $val[0]['cabang']['val2'][0]['telp'][$i];
+          echo @$val[0]['cabang']['val2'][0]['telp'][$i];
         }
         else
         {
-          echo $val[0]['cabang']['val2'][0]['telp'][$i].', ';
+          echo @$val[0]['cabang']['val2'][0]['telp'][$i].', ';
         }
       }
       ?></td>
 		  <td align="right" valign="top">Tgl :</td>
-		  <td width="30%" valign="top"><?= $val[0]['retur_penjualan_tanggal'] ?></td>
+		  <td width="30%" valign="top"><?= @$val[0]['retur_penjualan_tanggal'] ?></td>
 		</tr>
   </table>
   <h3 align="center">PERMINTAAN KLAIM/RETUR-CUSTOMER</h3>
@@ -62,10 +62,10 @@
   <tr>
     <td width="20%" align="left">Nama Customer</td>
     <td width="3%">:</td>
-    <td width="30%" colspan="2"><?= $val[0]['t_surat_jalan_id']['val2'][0]['m_partner_id']['val2'][0]['text'] ?></td>
+    <td width="30%" colspan="2"><?= @$val[0]['t_surat_jalan_id']['val2'][0]['m_partner_id']['val2'][0]['text'] ?></td>
     <td>
       <?php
-        if($val[0]['retur_penjualan_status_pengembalianbarang'] == '1')
+        if(@$val[0]['retur_penjualan_status_pengembalianbarang'] == '1')
         {
           echo '<td width="10%"><input type="checkbox" name="" checked="true"/></td>';
           echo '<td width="40%">Potong Tagihan</td>';
@@ -76,10 +76,10 @@
   <tr>
     <td scope="row" rowspan="2" valign="top"><div align="left">Alamat Customer</div></td>
     <td rowspan="2" valign="top">:</td>
-    <td rowspan="2" valign="top" colspan="2"><?= $val[0]['t_surat_jalan_id']['val2'][0]['m_partner_id']['val2'][0]['alamat'] ?></td>
+    <td rowspan="2" valign="top" colspan="2"><?= @$val[0]['t_surat_jalan_id']['val2'][0]['m_partner_id']['val2'][0]['alamat'] ?></td>
     <td>
       <?php
-        if($val[0]['retur_penjualan_status_pengembalianbarang'] == '1')
+        if(@$val[0]['retur_penjualan_status_pengembalianbarang'] == '1')
         {
           echo '<td width="6%"><input type="checkbox" name=""/></td>';
           echo '<td>......</td>';
@@ -95,19 +95,19 @@
   <tr>
     <td scope="row" valign="top">No. SJ</td>
     <td valign="top">:</td>
-    <td colspan="2" valign="top"><?= $val[0]['t_surat_jalan_id']['val2'][0]['text'] ?></td>
+    <td colspan="2" valign="top"><?= @$val[0]['t_surat_jalan_id']['val2'][0]['text'] ?></td>
     <td scope="row" align="right" colspan="2" valign="top">No. SO :</td>
     <td valign="top">
       <?php 
-        for($i = 0; $i < sizeof($val[0]['t_surat_jalan_id']['val2'][0]['so_customer_id']['val2']); $i++)
+        for($i = 0; $i < sizeof(@$val[0]['t_surat_jalan_id']['val2'][0]['so_customer_id']['val2']); $i++)
         {
           if($i == 0)
           {
-            echo $val[0]['t_surat_jalan_id']['val2'][0]['so_customer_id']['val2'][$i]['text'];
+            echo @$val[0]['t_surat_jalan_id']['val2'][0]['so_customer_id']['val2'][$i]['text'];
           }
           else
           {
-            echo ', '.$val[0]['t_surat_jalan_id']['val2'][0]['so_customer_id']['val2'][$i]['text'];
+            echo ', '.@$val[0]['t_surat_jalan_id']['val2'][0]['so_customer_id']['val2'][$i]['text'];
           }
         }
       ?>
@@ -116,19 +116,19 @@
   <tr>
     <td scope="row" valign="top">Tgl. SJ</td>
     <td valign="top">:</td>
-    <td colspan="2" valign="top"><?= $val[0]['t_surat_jalan_id']['val2'][0]['tanggal'] ?></td>
+    <td colspan="2" valign="top"><?= @$val[0]['t_surat_jalan_id']['val2'][0]['tanggal'] ?></td>
     <td scope="row" align="right" colspan="2" valign="top">Tgl. SO : </td>
     <td>
       <?php 
-        for($i = 0; $i < sizeof($val[0]['t_surat_jalan_id']['val2'][0]['so_customer_id']['val2']); $i++)
+        for($i = 0; $i < sizeof(@$val[0]['t_surat_jalan_id']['val2'][0]['so_customer_id']['val2']); $i++)
         {
           if($i == 0)
           {
-            echo $val[0]['t_surat_jalan_id']['val2'][0]['so_customer_id']['val2'][$i]['tanggal'];
+            echo @$val[0]['t_surat_jalan_id']['val2'][0]['so_customer_id']['val2'][$i]['tanggal'];
           }
           else
           {
-            echo ', '.$val[0]['t_surat_jalan_id']['val2'][0]['so_customer_id']['val2'][$i]['tanggal'];
+            echo ', '.@$val[0]['t_surat_jalan_id']['val2'][0]['so_customer_id']['val2'][$i]['tanggal'];
           }
         }
       ?>
@@ -146,7 +146,7 @@
   </tr>
   <?php
     $no = 1;
-    foreach ($val2 as $barang => $itemBarang) {
+    foreach (@$val2 as $barang => $itemBarang) {
       echo '<tr align="left">';
       echo '<td align="center"  width="5%">'.$no.'</td>';
       echo '<td width="13%">'.$itemBarang['barang_kode'].'</td>';
@@ -162,7 +162,7 @@
 <table align="left" width="100%" cellspacing="0" cellpadding="6">
     <tr>
       <td valign="top" width="17%">Alasan/maksud : </td>
-      <td valign="top" rowspan="2"><?= $val[0]['retur_penjualan_alasan'] ?></td>
+      <td valign="top" rowspan="2"><?= @$val[0]['retur_penjualan_alasan'] ?></td>
     </tr>
     <tr>
       <td height="8%"></td>

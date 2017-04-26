@@ -62,7 +62,7 @@ class C_faktur_penjualan extends MY_Controller {
 		);
 		//WHERE LIKE
 		$where_like['data'][] = array(
-			'column' => 'cabang_nama, faktur_penjualan_nomor, surat_jalan_nomor, faktur_penjualan_tanggal',
+			'column' => 'cabang_nama, faktur_penjualan_nomor, faktur_penjualan_tanggal',
 			'param'	 => $this->input->get('search[value]')
 		);
 		//ORDER
@@ -111,7 +111,7 @@ class C_faktur_penjualan extends MY_Controller {
 					$no,
 					$val->cabang_nama,
 					$val->faktur_penjualan_nomor,
-					$val->surat_jalan_nomor,
+					$val->so_customer_nomor,
 					date("d/m/Y",strtotime($val->faktur_penjualan_tanggal)),
 					$button
 				);

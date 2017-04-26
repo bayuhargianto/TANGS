@@ -17,16 +17,16 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-md-4">Kode Barang
+                <label class="control-label col-md-4">Artikel
                     <span class="required"> * </span>
                 </label>
                 <div class="col-md-8">
                     <div class="input-icon right">
                         <i class="fa"></i>
-                        <input type="text" class="form-control kode" name="barang_kode" required /> </div>
+                        <input type="text" class="form-control kode" id="barang_kode" name="barang_nomor" readonly required /> </div>
                 </div>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label class="control-label col-md-4">Nomor Barang
                 </label>
                 <div class="col-md-8">
@@ -34,7 +34,7 @@
                         <i class="fa"></i>
                         <input type="text" class="form-control" name="barang_nomor" /> </div>
                 </div>
-            </div>
+            </div> -->
             <div class="form-group">
                 <label class="control-label col-md-4">Nama Barang
                     <span class="required"> * </span>
@@ -76,7 +76,7 @@
                 <div class="col-md-8">
                     <div class="input-icon right">
                         <i class="fa"></i>
-                        <input type="text" class="form-control num2" name="barang_minimum_stok" required /> </div>
+                        <input type="text" class="form-control num2" name="stok" required /> </div>
                 </div>
             </div>
             <div class="form-group">
@@ -135,7 +135,7 @@
             <div class="col-md-8">
                 <div class="input-icon right">
                     <i class="fa"></i>
-                    <input type="text" class="form-control num2" name="harga_jual" required /> </div>
+                    <input type="text" class="form-control num2" name="harga_jual" id="harga_jual" required /> </div>
             </div>
         </div>
         <div class="form-group">
@@ -145,7 +145,7 @@
             <div class="col-md-8">
                 <div class="input-icon right">
                     <i class="fa"></i>
-                    <input type="text" class="form-control num2" name="harga_jual_pajak" required /> </div>
+                    <input type="text" class="form-control num2" name="harga_jual_pajak" id="harga_jual_pajak" readonly /> </div>
             </div>
         </div>
         <div class="form-actions">
@@ -161,4 +161,42 @@
     <script type="text/javascript">
         $(document).ready(function(){
         });
+
+        $("#harga_jual").change(function(){
+          harga_jual_pajak();
+        });
+
+        $("#m_jenis_barang_id").change(function(){
+          generate_artikel();
+          // get_last_id();
+        });
+        $("#m_category_2_id").change(function(){
+          generate_artikel();
+        });
+
+        function harga_jual_pajak() {
+            subTotal = parseFloat(document.getElementById('harga_jual').value.replace(/\,/g, ""));
+            document.getElementById('harga_jual_pajak').value = subTotal + (subTotal * 10 / 100);
+            $('.num2').number( true, 2, '.', ',' );
+            $('.num2').css('text-align', 'right');
+        }
+
+        function generate_artikel() {
+            var cat1 = document.getElementById('m_jenis_barang_id').value;
+            var cat2 = document.getElementById('m_category_2_id').value;
+            if(cat1 < 10){
+                cat1 = "0"+cat1;
+            }
+            if(cat2 < 10){
+                cat2 = "0"+cat2;
+            }
+            $.ajax({
+              type : 'GET',
+              url  : $base_url+'Master-Data/Barang/getLastId',
+              success:function(data){
+                document.getElementById('barang_kode').value = cat1+cat2+data;
+              }
+            });
+        }
+
     </script>
