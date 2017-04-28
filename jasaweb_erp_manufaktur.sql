@@ -10,7 +10,7 @@ Target Server Type    : MariaDB
 Target Server Version : 100109
 File Encoding         : 65001
 
-Date: 2017-04-28 00:11:18
+Date: 2017-04-28 09:47:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -11195,10 +11195,10 @@ CREATE TABLE `m_partner` (
 -- Records of m_partner
 -- ----------------------------
 INSERT INTO `m_partner` VALUES ('1', '3', 'Partner 1', '[\"cust 1\"]', 'jalan surabaya', '[\"margomulyo\"]', '3575', '[\"03435258235\"]', '[\"03435258235\"]', '[\"a@s\"]', '[\"\"]', '[\"2223\"]', '[\"\"]', '12345', 'Order_P6586300_-_www_seagm_com2.pdf', '100.00', 'y', '2017-02-15 18:03:04', 'developer', '2017-03-30 11:45:42', 'developer', '7');
-INSERT INTO `m_partner` VALUES ('2', '1', 'Partner 2', '[\"Partner 2\"]', 'Alamat', '[\"Alamat Cetak\"]', '1107', '[\"03435258235\"]', '[\"03483932\"]', '[\"partner2@partner.com\",\"partner@gmail.com\"]', '[\"partner@partner.com\",\"partner2@gmail.com\"]', '[\"333333\"]', '[\"\"]', '1212324221', '10-BekerjaDenganDatabase.pdf', '0.00', 'y', '2017-02-17 13:47:27', 'developer', '2017-04-28 00:09:57', 'developer', '14');
-INSERT INTO `m_partner` VALUES ('3', '1', 'Partner 3', '[\"Partner 3\"]', 'Alamat partner', '[\"Alamat cetak\"]', null, '[\"085645321152\"]', '[\"89638\"]', '[\"partner3@gmail.com\"]', '[\"partner@gmail.com\"]', '[]', '[]', '63853', '', '0.00', 'y', '2017-03-06 13:21:36', 'developer', '2017-04-03 14:54:28', 'pembelian', '4');
-INSERT INTO `m_partner` VALUES ('4', '1', 'dsd', '[\"\"]', 'ww', '[\"\"]', null, '[\"333\"]', '[\"\"]', '[\"awa@sese\"]', '[\"\"]', '[\"444\"]', '[\"\"]', '', '', '0.00', 'n', '2017-03-08 08:32:50', 'developer', '2017-03-23 14:07:53', 'pembelian', '1');
-INSERT INTO `m_partner` VALUES ('5', '1', 'aaaa', '[\"\"]', 'waws', '[\"\"]', null, '[\"4322\"]', '[\"\"]', '[\"asas@asa\"]', '[\"\"]', '[\"2233\"]', '[\"\"]', '', '', '0.00', 'n', '2017-03-08 08:37:13', 'developer', '2017-03-23 14:07:53', 'pembelian', '1');
+INSERT INTO `m_partner` VALUES ('2', '1', 'Partner 2', '[\"Partner 2\"]', 'Alamat', '[\"Alamat Cetak\"]', '1107', '[\"03435258235\"]', '[\"03483932\"]', '[\"partner2@partner.com\",\"partner@gmail.com\"]', '[\"partner@partner.com\",\"partner2@gmail.com\"]', '[\"333333\"]', '[\"\"]', '1212324221', '10-BekerjaDenganDatabase.pdf', '0.00', 'y', '2017-02-17 13:47:27', 'developer', '2017-04-28 02:26:35', 'developer', '18');
+INSERT INTO `m_partner` VALUES ('3', '1', 'Partner 3', '[\"Partner 3\"]', 'Alamat partner', '[\"Alamat cetak\"]', null, '[\"085645321152\"]', '[\"89638\"]', '[\"partner3@gmail.com\"]', '[\"partner@gmail.com\"]', '[]', '[]', '63853', '', '0.00', 'y', '2017-03-06 13:21:36', 'developer', '2017-04-28 02:26:39', 'developer', '6');
+INSERT INTO `m_partner` VALUES ('4', '1', 'dsd', '[\"\"]', 'ww', '[\"\"]', null, '[\"333\"]', '[\"\"]', '[\"awa@sese\"]', '[\"\"]', '[\"444\"]', '[\"\"]', '', '', '0.00', 'y', '2017-03-08 08:32:50', 'developer', '2017-04-28 02:26:47', 'developer', '2');
+INSERT INTO `m_partner` VALUES ('5', '1', 'aaaa', '[\"\"]', 'waws', '[\"\"]', null, '[\"4322\"]', '[\"\"]', '[\"asas@asa\"]', '[\"\"]', '[\"2233\"]', '[\"\"]', '', '', '0.00', 'y', '2017-03-08 08:37:13', 'developer', '2017-04-28 02:26:51', 'developer', '2');
 INSERT INTO `m_partner` VALUES ('6', '1', 'Great Fortune, PT', '[\"a\"]', 'Raya pakal No. 1 - A RT.05/RW.01', '[\"a\"]', '1107', '[\"0317422241\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"0317422245\"]', '[\"\"]', '', '', '0.00', 'y', '2017-03-20 16:06:36', 'pembelian', '2017-04-25 11:30:27', 'developer', '1');
 INSERT INTO `m_partner` VALUES ('7', '2', 'alfamart', '[\"alfa\",\"alfa1\"]', 'adad', '[\"alfa2\",\"alfa2\"]', '3578', '[\"88\"]', '[\"\"]', '[\"\"]', '[\"\"]', '[\"2343\"]', '[\"\"]', '', '', '30.00', 'y', '2017-03-29 09:50:13', 'developer', '2017-03-30 10:29:10', 'developer', '7');
 INSERT INTO `m_partner` VALUES ('8', '2', 'alfamart', '[\"alfa\",\"alfa1\"]', 'adad', '[\"asdasd\",\"asasdada\"]', null, '[\"3434\"]', '[\"23344\",\"543341\"]', '[\"slfa@ddf\"]', '[\"\"]', '[\"3434335\"]', '[\"3355\"]', '', '', '10.00', 'n', '2017-03-29 09:50:14', 'developer', '2017-03-29 10:03:17', 'developer', '5');
@@ -11961,7 +11961,7 @@ CREATE TABLE `s_menu` (
   `menu_link` varchar(255) DEFAULT NULL,
   `menu_icon` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of s_menu
@@ -13152,7 +13152,7 @@ CREATE TABLE `t_order` (
   `order_update_by` varchar(0) DEFAULT NULL,
   `order_revised` int(255) DEFAULT NULL,
   PRIMARY KEY (`order_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_order
@@ -13166,6 +13166,7 @@ INSERT INTO `t_order` VALUES ('12', 'PO20170300003', '2017-03-13 00:00:00', '16'
 INSERT INTO `t_order` VALUES ('13', 'PO20170400001', '2017-04-16 00:00:00', '19', '1', '0', '1', '', '', '', '8000000', '10', '8800000', '1970-01-01 00:00:00', '0', '500', '0', '1', '2017-04-16 21:33:40', null, '2017-04-16 21:33:40', 'developer', '2017-04-16 21:33:40', null, '0');
 INSERT INTO `t_order` VALUES ('14', 'PO20170400002', '2017-04-16 00:00:00', '28', '1', '0', '1', 'A', '', '', '0', '10', '0', '1970-01-01 00:00:00', '0', '1000000', '0', '1', '2017-04-16 23:49:49', null, '2017-04-16 23:49:49', 'developer', '2017-04-16 23:49:49', null, '0');
 INSERT INTO `t_order` VALUES ('15', 'PO20170400003', '2017-04-17 00:00:00', '32', '1', '0', '1', 'nama', 'alamat', 'fax', '16120', '10', '17732', '1970-01-01 00:00:00', '0', '1500000', '0', '-2', '2017-04-25 00:00:28', null, '2017-04-17 12:49:17', 'developer', '2017-04-25 00:00:28', '', '4');
+INSERT INTO `t_order` VALUES ('16', 'PO20170400004', '2017-04-28 00:00:00', '45', '1', '0', '1', '', '', '', '1000000', '10', '1100000', '2017-04-28 00:00:00', '0', '1100000', '0', '3', '2017-04-28 09:24:09', null, '2017-04-28 09:21:07', 'developer', '2017-04-28 09:24:38', '', '3');
 
 -- ----------------------------
 -- Table structure for t_orderdet
@@ -13186,7 +13187,7 @@ CREATE TABLE `t_orderdet` (
   `orderdet_update_by` varchar(0) DEFAULT NULL,
   `orderdet_revised` int(255) DEFAULT NULL,
   PRIMARY KEY (`orderdet_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_orderdet
@@ -13206,6 +13207,7 @@ INSERT INTO `t_orderdet` VALUES ('12', '14', '2401', '10', '0', '0', '300', '0',
 INSERT INTO `t_orderdet` VALUES ('13', '14', '2525', '0', '0', '0', '0', '0', '2017-04-16 23:49:49', 'developer', '2017-04-16 23:49:49', null, '0');
 INSERT INTO `t_orderdet` VALUES ('14', '15', '2278', '21', '0', '0', '310', '6510', '2017-04-17 12:49:17', 'developer', '2017-04-25 00:00:28', '', '4');
 INSERT INTO `t_orderdet` VALUES ('15', '15', '2295', '31', '0', '0', '310', '9610', '2017-04-17 12:49:17', 'developer', '2017-04-17 12:49:17', null, '0');
+INSERT INTO `t_orderdet` VALUES ('16', '16', '2209', '10', '0', '0', '100000', '1000000', '2017-04-28 09:21:07', 'developer', '2017-04-28 09:21:07', null, '0');
 
 -- ----------------------------
 -- Table structure for t_orderlog
@@ -13219,7 +13221,7 @@ CREATE TABLE `t_orderlog` (
   `orderlog_status_update_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `orderlog_status_update_by` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`orderlog_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_orderlog
@@ -13231,6 +13233,7 @@ INSERT INTO `t_orderlog` VALUES ('4', '8', '3', '3', '2017-03-01 10:30:59', 'dev
 INSERT INTO `t_orderlog` VALUES ('5', '1', '3', '3', '2017-03-02 16:09:56', 'developer');
 INSERT INTO `t_orderlog` VALUES ('6', '9', '1', '2', '2017-03-04 10:52:23', 'developer');
 INSERT INTO `t_orderlog` VALUES ('7', '11', '1', '2', '2017-03-08 09:02:22', 'developer');
+INSERT INTO `t_orderlog` VALUES ('8', '16', '1', '2', '2017-04-28 09:24:10', 'developer');
 
 -- ----------------------------
 -- Table structure for t_penawaran
@@ -13253,7 +13256,7 @@ CREATE TABLE `t_penawaran` (
   `penawaran_update_by` varchar(255) DEFAULT NULL,
   `penawaran_revised` int(255) DEFAULT NULL,
   PRIMARY KEY (`penawaran_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_penawaran
@@ -13295,7 +13298,11 @@ INSERT INTO `t_penawaran` VALUES ('37', 'SRC20170400020', '1', '2017-04-17 13:02
 INSERT INTO `t_penawaran` VALUES ('38', 'SRC20170400021', '1', '2017-04-18 09:37:57', '1', '[\"34\"]', '4', '4', '2017-04-18 09:37:57', null, '2017-04-18 09:37:57', 'developer', '2017-04-18 09:37:57', 'developer', '7');
 INSERT INTO `t_penawaran` VALUES ('39', 'SRC20170400022', '1', '2017-04-18 11:32:21', '1', '[\"35\"]', '4', '4', '2017-04-18 11:32:21', null, '2017-04-18 11:32:21', 'developer', '2017-04-18 11:32:21', 'developer', '6');
 INSERT INTO `t_penawaran` VALUES ('40', 'SRC20170400023', '1', '2017-04-18 11:38:17', '1', '[\"36\"]', '4', '4', '2017-04-18 11:38:17', null, '2017-04-18 11:38:17', 'developer', '2017-04-18 11:38:17', 'developer', '7');
-INSERT INTO `t_penawaran` VALUES ('41', 'SRC20170400024', '1', '2017-04-18 11:41:25', '1', '[\"37\"]', '4', '4', '2017-04-18 11:41:25', null, '2017-04-18 11:41:25', 'developer', '2017-04-18 11:41:25', 'developer', '5');
+INSERT INTO `t_penawaran` VALUES ('41', 'SRC20170400024', '1', '2017-04-28 01:46:38', '1', '[\"37\"]', '4', '4', '2017-04-28 01:46:38', null, '2017-04-28 01:46:38', 'developer', '2017-04-28 01:46:38', 'developer', '12');
+INSERT INTO `t_penawaran` VALUES ('42', 'SRC20170400025', '1', '2017-04-28 01:36:41', '1', '[\"38\"]', '4', '4', '2017-04-28 01:36:41', null, '2017-04-28 01:36:41', 'developer', '2017-04-28 01:36:41', 'developer', '6');
+INSERT INTO `t_penawaran` VALUES ('43', 'SRC20170400026', '1', '2017-04-28 09:13:39', '1', '[\"40\"]', '4', '4', '2017-04-28 09:13:39', null, '2017-04-28 09:13:39', 'developer', '2017-04-28 09:13:39', 'developer', '15');
+INSERT INTO `t_penawaran` VALUES ('44', 'SRC20170400027', '1', '2017-04-28 09:14:16', '1', '[\"41\"]', '4', '4', '2017-04-28 09:14:16', null, '2017-04-28 09:14:16', 'developer', '2017-04-28 09:14:16', 'developer', '10');
+INSERT INTO `t_penawaran` VALUES ('45', 'SRC20170400028', '1', '2017-04-28 09:20:25', '1', '[\"42\"]', '4', '4', '2017-04-28 09:20:25', null, '2017-04-28 09:20:25', 'developer', '2017-04-28 09:20:25', 'developer', '6');
 
 -- ----------------------------
 -- Table structure for t_penawaran_barang
@@ -13313,7 +13320,7 @@ CREATE TABLE `t_penawaran_barang` (
   `penawaran_barang_update_by` varchar(255) DEFAULT NULL,
   `penawaran_barang_revised` int(11) DEFAULT NULL,
   PRIMARY KEY (`penawaran_barang_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_penawaran_barang
@@ -13362,6 +13369,11 @@ INSERT INTO `t_penawaran_barang` VALUES ('46', '39', '35', '14', '0', '2017-04-1
 INSERT INTO `t_penawaran_barang` VALUES ('47', '40', '36', '19', '0', '2017-04-18 11:34:52', 'developer', '2017-04-18 11:34:52', null, '0');
 INSERT INTO `t_penawaran_barang` VALUES ('48', '40', '36', '1', '0', '2017-04-18 11:34:52', 'developer', '2017-04-18 11:34:52', null, '0');
 INSERT INTO `t_penawaran_barang` VALUES ('49', '41', '37', '14', '0', '2017-04-18 11:39:57', 'developer', '2017-04-18 11:39:57', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('50', '42', '38', '2215', '0', '2017-04-28 01:34:09', 'developer', '2017-04-28 01:34:09', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('51', '43', '40', '903', '0', '2017-04-28 01:37:56', 'developer', '2017-04-28 01:37:56', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('52', '44', '41', '2578', '20', '2017-04-28 09:11:16', 'developer', '2017-04-28 09:11:16', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('53', '44', '41', '2599', '20', '2017-04-28 09:11:16', 'developer', '2017-04-28 09:11:16', null, '0');
+INSERT INTO `t_penawaran_barang` VALUES ('54', '45', '42', '2209', '10', '2017-04-28 09:18:24', 'developer', '2017-04-28 09:18:24', null, '0');
 
 -- ----------------------------
 -- Table structure for t_penawaran_harga
@@ -13377,7 +13389,7 @@ CREATE TABLE `t_penawaran_harga` (
   `penawaran_harga_nominal` float DEFAULT NULL,
   `penawaran_harga_ppn` tinyint(1) DEFAULT '0' COMMENT '0 Exclude, 1 Include, 2 Tanpa',
   PRIMARY KEY (`t_penawaran_harga_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_penawaran_harga
@@ -13475,6 +13487,15 @@ INSERT INTO `t_penawaran_harga` VALUES ('109', '40', '50', '48', '1', '31', '200
 INSERT INTO `t_penawaran_harga` VALUES ('110', '40', '51', '48', '1', '32', '300', null);
 INSERT INTO `t_penawaran_harga` VALUES ('111', '41', '53', '49', '1', '10', '10', '0');
 INSERT INTO `t_penawaran_harga` VALUES ('112', '41', '52', '49', '1', '20', '10', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('113', '42', '54', '50', '1', '30', '3000', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('114', '42', '55', '50', '1', '10', '100', '0');
+INSERT INTO `t_penawaran_harga` VALUES ('115', '43', '56', '51', '1', '10', '100', '1');
+INSERT INTO `t_penawaran_harga` VALUES ('116', '43', '57', '51', '1', '3', '300', '1');
+INSERT INTO `t_penawaran_harga` VALUES ('117', '44', '58', '52', '1', '20', '100000', '2');
+INSERT INTO `t_penawaran_harga` VALUES ('118', '44', '59', '52', '1', '20', '50000', '1');
+INSERT INTO `t_penawaran_harga` VALUES ('119', '44', '58', '53', '1', '20', '100000', null);
+INSERT INTO `t_penawaran_harga` VALUES ('120', '44', '59', '53', '1', '20', '50000', null);
+INSERT INTO `t_penawaran_harga` VALUES ('121', '45', '60', '54', '1', '10', '100000', '1');
 
 -- ----------------------------
 -- Table structure for t_penawaran_supplier
@@ -13496,7 +13517,7 @@ CREATE TABLE `t_penawaran_supplier` (
   `penawaran_supplier_update_by` varchar(255) DEFAULT NULL,
   `penawaran_supplier_revised` int(11) DEFAULT NULL,
   PRIMARY KEY (`penawaran_supplier_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_penawaran_supplier
@@ -13546,6 +13567,13 @@ INSERT INTO `t_penawaran_supplier` VALUES ('50', '40', '1', 'Partner 1', '0000-0
 INSERT INTO `t_penawaran_supplier` VALUES ('51', '40', '2', 'Partner 2', '0000-00-00 00:00:00', '0', null, '0', '', '2017-04-18 11:38:17', 'developer', '2017-04-18 11:38:17', 'developer', '2');
 INSERT INTO `t_penawaran_supplier` VALUES ('52', '41', '2', 'Partner 2', '0000-00-00 00:00:00', '0', '10', '1', '', '2017-04-18 11:41:25', 'developer', '2017-04-18 11:41:25', 'developer', '2');
 INSERT INTO `t_penawaran_supplier` VALUES ('53', '41', '1', 'Partner 1', '0000-00-00 00:00:00', '0', '10', '1', '', '2017-04-18 11:41:25', 'developer', '2017-04-18 11:41:25', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('54', '42', '13', 'Sup3', '2017-04-27 00:00:00', '0', '30', '1', '', '2017-04-28 01:36:24', 'developer', '2017-04-28 01:36:24', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('55', '42', '1', 'Partner 1', '2017-04-28 00:00:00', '0', '10', '1', '', '2017-04-28 01:36:24', 'developer', '2017-04-28 01:36:24', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('56', '43', '1', 'Partner 1', '0000-00-00 00:00:00', '0', '5', '0', null, '2017-04-28 01:38:56', 'developer', '2017-04-28 01:38:56', 'developer', '1');
+INSERT INTO `t_penawaran_supplier` VALUES ('57', '43', '13', 'Sup3', '0000-00-00 00:00:00', '0', '30', '0', null, '2017-04-28 01:38:56', 'developer', '2017-04-28 01:38:56', 'developer', '1');
+INSERT INTO `t_penawaran_supplier` VALUES ('58', '44', '1', 'Partner 1', '2017-04-28 00:00:00', '0', '10', '0', '', '2017-04-28 09:14:16', 'developer', '2017-04-28 09:14:16', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('59', '44', '2', 'Partner 2', '2017-04-28 00:00:00', '0', null, '1', '', '2017-04-28 09:14:16', 'developer', '2017-04-28 09:14:16', 'developer', '2');
+INSERT INTO `t_penawaran_supplier` VALUES ('60', '45', '1', 'Partner 1', '2017-04-28 00:00:00', '0', '10', '1', '', '2017-04-28 09:20:25', 'developer', '2017-04-28 09:20:25', 'developer', '2');
 
 -- ----------------------------
 -- Table structure for t_penerimaan_barang
@@ -13576,7 +13604,7 @@ CREATE TABLE `t_penerimaan_barang` (
   `penerimaan_barang_update_by` varchar(0) DEFAULT NULL,
   `penerimaan_barang_revised` int(255) DEFAULT NULL,
   PRIMARY KEY (`penerimaan_barang_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_penerimaan_barang
@@ -13589,6 +13617,29 @@ INSERT INTO `t_penerimaan_barang` VALUES ('7', '1', 'BPB20170300003', '2017-03-0
 INSERT INTO `t_penerimaan_barang` VALUES ('8', '1', 'BPB20170300004', '2017-03-08 00:00:00', '0', 'a234', '11', '2017-03-08', '0', '0', '0', '1', '2017-03-08 09:04:00', '10', '8', '1', 'atatan', null, '2017-03-08 09:04:00', 'developer', '2017-03-08 09:04:00', null, '0');
 INSERT INTO `t_penerimaan_barang` VALUES ('9', '1', 'BPB20170300005', '2017-03-08 09:06:04', '0', 'a234', '11', '2017-03-08', '0', '0', '0', '3', '2017-03-08 09:06:04', '10', '8', '1', 'atatan', null, '2017-03-08 09:04:01', 'developer', '2017-03-08 09:06:03', '', '2');
 INSERT INTO `t_penerimaan_barang` VALUES ('10', '1', 'BPB20170300006', '2017-03-10 00:00:00', '0', 'SJ12345', '9', '2017-03-10', '0', '0', '0', '1', '2017-03-10 14:28:37', '7', '9', '1', '-', null, '2017-03-10 14:28:37', 'developer', '2017-03-10 14:28:37', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('12', '1', 'BPB20170400001', '2017-04-28 00:00:00', '0', '1111', '11', '2017-04-27', '0', '0', '0', '1', '2017-04-28 00:53:14', '7', '7', '1', '', null, '2017-04-28 00:53:14', 'developer', '2017-04-28 00:53:14', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('13', '1', 'BPBJ20170400001', '2017-04-28 00:00:00', '1', '11111', '8', '2017-04-27', '0', '0', '0', '1', '2017-04-28 01:59:20', '12', '7', '1', 'a', null, '2017-04-28 01:59:20', 'developer', '2017-04-28 01:59:20', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('14', '1', 'BPBJ20170400001', '2017-04-28 00:00:00', '1', '11111', '8', '2017-04-27', '0', '0', '0', '1', '2017-04-28 02:00:52', '12', '7', '1', 'a', null, '2017-04-28 02:00:52', 'developer', '2017-04-28 02:00:52', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('15', '1', 'BPBJ20170400001', '2017-04-28 00:00:00', '1', '1', '8', '2017-04-28', '0', '0', '0', '1', '2017-04-28 02:02:22', '7', '7', '1', '', null, '2017-04-28 02:02:22', 'developer', '2017-04-28 02:02:22', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('16', '1', 'BPBJ20170400001', '2017-04-28 00:00:00', '1', '1', '8', '2017-04-27', '0', '0', '0', '1', '2017-04-28 02:03:48', '12', '12', '1', '', null, '2017-04-28 02:03:48', 'developer', '2017-04-28 02:03:48', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('17', '1', 'BPBJ20170400001', '2017-04-28 00:00:00', '1', '1111', '8', '2017-04-27', '0', '0', '0', '1', '2017-04-28 02:11:07', '7', '7', '1', '', null, '2017-04-28 02:11:07', 'developer', '2017-04-28 02:11:07', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('18', '1', 'BPBJ20170400001', '2017-04-28 00:00:00', '1', '1111', '8', '2017-04-27', '0', '0', '0', '1', '2017-04-28 02:11:12', '7', '7', '1', '', null, '2017-04-28 02:11:12', 'developer', '2017-04-28 02:11:12', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('19', '1', 'BPB20170400002', '2017-04-28 00:00:00', '0', 'SJ00001', '16', '2017-04-28', '0', '0', '0', '1', '2017-04-28 09:26:57', '7', '7', '1', '', null, '2017-04-28 09:26:57', 'developer', '2017-04-28 09:26:57', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('20', '1', 'BPB20170400003', '2017-04-28 00:00:00', '0', 'SJ00001', '16', '2017-04-28', '0', '0', '0', '1', '2017-04-28 09:27:01', '7', '7', '1', '', null, '2017-04-28 09:27:01', 'developer', '2017-04-28 09:27:01', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('21', '1', 'BPB20170400004', '2017-04-28 00:00:00', '0', 'SJ00001', '16', '2017-04-28', '0', '0', '0', '1', '2017-04-28 09:27:01', '7', '7', '1', '', null, '2017-04-28 09:27:01', 'developer', '2017-04-28 09:27:01', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('22', '1', 'BPB20170400005', '2017-04-28 00:00:00', '0', 'SJ00001', '16', '2017-04-28', '0', '0', '0', '1', '2017-04-28 09:27:02', '7', '7', '1', '', null, '2017-04-28 09:27:02', 'developer', '2017-04-28 09:27:02', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('23', '1', 'BPB20170400006', '2017-04-28 00:00:00', '0', 'SJ00001', '16', '2017-04-28', '0', '0', '0', '1', '2017-04-28 09:27:02', '7', '7', '1', '', null, '2017-04-28 09:27:02', 'developer', '2017-04-28 09:27:02', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('24', '1', 'BPB20170400007', '2017-04-28 00:00:00', '0', 'SJ00001', '16', '2017-04-28', '0', '0', '0', '1', '2017-04-28 09:27:02', '7', '7', '1', '', null, '2017-04-28 09:27:02', 'developer', '2017-04-28 09:27:02', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('25', '1', 'BPB20170400008', '2017-04-28 00:00:00', '0', 'SJ00001', '16', '2017-04-28', '0', '0', '0', '1', '2017-04-28 09:27:02', '7', '7', '1', '', null, '2017-04-28 09:27:02', 'developer', '2017-04-28 09:27:02', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('26', '1', 'BPB20170400009', '2017-04-28 00:00:00', '0', 'SJ00001', '16', '2017-04-28', '0', '0', '0', '1', '2017-04-28 09:27:02', '7', '7', '1', '', null, '2017-04-28 09:27:02', 'developer', '2017-04-28 09:27:02', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('27', '1', 'BPB20170400010', '2017-04-28 00:00:00', '0', 'SJ00001', '16', '2017-04-28', '0', '0', '0', '1', '2017-04-28 09:27:03', '7', '7', '1', '', null, '2017-04-28 09:27:03', 'developer', '2017-04-28 09:27:03', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('28', '1', 'BPB20170400011', '2017-04-28 00:00:00', '0', 'SJ00001', '16', '2017-04-28', '0', '0', '0', '1', '2017-04-28 09:27:03', '7', '7', '1', '', null, '2017-04-28 09:27:03', 'developer', '2017-04-28 09:27:03', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('29', '1', 'BPB20170400012', '2017-04-28 00:00:00', '0', 'SJ00001', '16', '2017-04-28', '0', '0', '0', '1', '2017-04-28 09:27:03', '7', '7', '1', '', null, '2017-04-28 09:27:03', 'developer', '2017-04-28 09:27:03', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('30', '1', 'BPB20170400013', '2017-04-28 00:00:00', '0', 'SJ00001', '16', '2017-04-28', '0', '0', '0', '1', '2017-04-28 09:27:03', '7', '7', '1', '', null, '2017-04-28 09:27:03', 'developer', '2017-04-28 09:27:03', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('31', '1', 'BPB20170400014', '2017-04-28 00:00:00', '0', 'SJ00001', '16', '2017-04-28', '0', '0', '0', '1', '2017-04-28 09:27:03', '7', '7', '1', '', null, '2017-04-28 09:27:03', 'developer', '2017-04-28 09:27:03', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('32', '1', 'BPB20170400015', '2017-04-28 00:00:00', '0', 'SJ00001', '16', '2017-04-28', '0', '0', '0', '1', '2017-04-28 09:27:17', '7', '7', '1', '', null, '2017-04-28 09:27:17', 'developer', '2017-04-28 09:27:17', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('33', '1', 'BPB20170400016', '2017-04-28 00:00:00', '0', 'SJ00001', '16', '2017-04-28', '0', '0', '0', '1', '2017-04-28 09:32:29', '7', '7', '1', '', null, '2017-04-28 09:32:29', 'developer', '2017-04-28 09:32:29', null, '0');
+INSERT INTO `t_penerimaan_barang` VALUES ('34', '1', 'BPB20170400017', '2017-04-28 00:00:00', '0', '111', '16', '2017-04-28', '0', '0', '0', '1', '2017-04-28 09:35:21', '9', '9', '1', '', null, '2017-04-28 09:35:21', 'developer', '2017-04-28 09:35:21', null, '0');
 
 -- ----------------------------
 -- Table structure for t_penerimaan_barangdet
@@ -13599,12 +13650,12 @@ CREATE TABLE `t_penerimaan_barangdet` (
   `t_penerimaan_barang_id` int(11) DEFAULT NULL,
   `m_barang_id` int(11) DEFAULT NULL,
   `penerimaan_barang_no_seri` text,
-  `penerimaan_barangdet_qty` int(11) DEFAULT NULL,
-  `penerimaan_barangdet_qty_retur` int(11) DEFAULT '0',
+  `penerimaan_barangdet_qty` decimal(20,2) DEFAULT '0.00',
+  `penerimaan_barangdet_qty_retur` decimal(20,2) DEFAULT '0.00',
   `penerimaan_barangdet_verifikasi` int(11) DEFAULT '0' COMMENT '0 Tidak, 1 Verifikasi',
-  `penerimaan_barangdet_harga_satuan` int(255) DEFAULT NULL,
-  `penerimaan_barangdet_potongan` int(255) DEFAULT NULL,
-  `penerimaan_barangdet_total` int(255) DEFAULT NULL,
+  `penerimaan_barangdet_harga_satuan` decimal(20,2) DEFAULT '0.00',
+  `penerimaan_barangdet_potongan` decimal(20,2) DEFAULT '0.00',
+  `penerimaan_barangdet_total` decimal(20,2) DEFAULT '0.00',
   `penerimaan_barangdet_keterangan` varchar(255) DEFAULT NULL,
   `penerimaan_barangdet_status` int(255) DEFAULT NULL,
   `penerimaan_barangdet_status_date` datetime DEFAULT NULL,
@@ -13613,24 +13664,28 @@ CREATE TABLE `t_penerimaan_barangdet` (
   `penerimaan_barangdet_update_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `penerimaan_barangdet_update_by` varchar(0) DEFAULT NULL,
   `penerimaan_barangdet_revised` int(255) DEFAULT NULL,
+  `penerimaan_barangdet_qty_no_seri` text,
   PRIMARY KEY (`penerimaan_barangdet_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_penerimaan_barangdet
 -- ----------------------------
-INSERT INTO `t_penerimaan_barangdet` VALUES ('1', '1', '1', '', '150', '20', '1', '130000', '0', '19500000', '-', '1', '2017-02-27 10:02:11', '2017-02-27 10:02:11', 'developer', '2017-03-10 14:23:50', '', '5');
-INSERT INTO `t_penerimaan_barangdet` VALUES ('2', '1', '2', '', '155', '0', '1', '135000', '100000', '20825000', '-', '1', '2017-02-27 10:02:11', '2017-02-27 10:02:11', 'developer', '2017-03-10 14:23:50', '', '5');
-INSERT INTO `t_penerimaan_barangdet` VALUES ('8', '4', '2', '', '50', '0', '1', '10000', '1000', '499000', '-', '1', '2017-03-01 16:34:01', '2017-03-01 16:34:01', 'developer', '2017-03-10 14:23:50', '', '1');
-INSERT INTO `t_penerimaan_barangdet` VALUES ('9', '5', '1', '', '149', '10', '0', '11818', '0', '1760882', 'null', '1', '2017-03-04 10:54:32', '2017-03-04 10:54:32', 'developer', '2017-03-10 14:23:50', '', '1');
-INSERT INTO `t_penerimaan_barangdet` VALUES ('7', '4', '1', '', '100', '0', '1', '9000', '500', '899500', '-', '1', '2017-03-01 16:34:00', '2017-03-01 16:34:00', 'developer', '2017-03-10 14:23:50', '', '1');
-INSERT INTO `t_penerimaan_barangdet` VALUES ('10', '7', '5', '', '7500', '0', '0', null, null, null, null, '1', '2017-03-08 09:03:56', '2017-03-08 09:03:56', 'developer', '2017-03-10 14:23:50', null, '0');
-INSERT INTO `t_penerimaan_barangdet` VALUES ('11', '7', '6', '', '50', '0', '0', null, null, null, null, '1', '2017-03-08 09:03:56', '2017-03-08 09:03:56', 'developer', '2017-03-10 14:23:50', null, '0');
-INSERT INTO `t_penerimaan_barangdet` VALUES ('12', '8', '5', '', '7500', '0', '0', null, null, null, null, '1', '2017-03-08 09:04:00', '2017-03-08 09:04:00', 'developer', '2017-03-10 14:23:50', null, '0');
-INSERT INTO `t_penerimaan_barangdet` VALUES ('13', '8', '6', '', '50', '0', '0', null, null, null, null, '1', '2017-03-08 09:04:00', '2017-03-08 09:04:00', 'developer', '2017-03-10 14:23:50', null, '0');
-INSERT INTO `t_penerimaan_barangdet` VALUES ('14', '9', '5', '', '7500', '7500', '1', '0', '0', '0', 'null', '1', '2017-03-08 09:04:02', '2017-03-08 09:04:02', 'developer', '2017-03-10 14:23:50', '', '1');
-INSERT INTO `t_penerimaan_barangdet` VALUES ('15', '9', '6', '', '50', '0', '1', '0', '0', '0', 'null', '1', '2017-03-08 09:04:02', '2017-03-08 09:04:02', 'developer', '2017-03-10 14:23:50', '', '1');
-INSERT INTO `t_penerimaan_barangdet` VALUES ('16', '10', '1', 'NO20170200215G,NO20170267821I,NO20170399212P,NO20170211234H,NO20170320045F,NO20170399032K', '150', '0', '0', null, null, null, null, '1', '2017-03-10 14:28:38', '2017-03-10 14:28:38', 'developer', '2017-03-10 14:28:38', null, '0');
+INSERT INTO `t_penerimaan_barangdet` VALUES ('1', '1', '1', '', '150.00', '20.00', '1', '130000.00', '0.00', '19500000.00', '-', '1', '2017-02-27 10:02:11', '2017-02-27 10:02:11', 'developer', '2017-03-10 14:23:50', '', '5', null);
+INSERT INTO `t_penerimaan_barangdet` VALUES ('2', '1', '2', '', '155.00', '0.00', '1', '135000.00', '100000.00', '20825000.00', '-', '1', '2017-02-27 10:02:11', '2017-02-27 10:02:11', 'developer', '2017-03-10 14:23:50', '', '5', null);
+INSERT INTO `t_penerimaan_barangdet` VALUES ('8', '4', '2', '', '50.00', '0.00', '1', '10000.00', '1000.00', '499000.00', '-', '1', '2017-03-01 16:34:01', '2017-03-01 16:34:01', 'developer', '2017-03-10 14:23:50', '', '1', null);
+INSERT INTO `t_penerimaan_barangdet` VALUES ('9', '5', '1', '', '149.00', '10.00', '0', '11818.00', '0.00', '1760882.00', 'null', '1', '2017-03-04 10:54:32', '2017-03-04 10:54:32', 'developer', '2017-03-10 14:23:50', '', '1', null);
+INSERT INTO `t_penerimaan_barangdet` VALUES ('7', '4', '1', '', '100.00', '0.00', '1', '9000.00', '500.00', '899500.00', '-', '1', '2017-03-01 16:34:00', '2017-03-01 16:34:00', 'developer', '2017-03-10 14:23:50', '', '1', null);
+INSERT INTO `t_penerimaan_barangdet` VALUES ('10', '7', '5', '', '7500.00', '0.00', '0', null, null, null, null, '1', '2017-03-08 09:03:56', '2017-03-08 09:03:56', 'developer', '2017-03-10 14:23:50', null, '0', null);
+INSERT INTO `t_penerimaan_barangdet` VALUES ('11', '7', '6', '', '50.00', '0.00', '0', null, null, null, null, '1', '2017-03-08 09:03:56', '2017-03-08 09:03:56', 'developer', '2017-03-10 14:23:50', null, '0', null);
+INSERT INTO `t_penerimaan_barangdet` VALUES ('12', '8', '5', '', '7500.00', '0.00', '0', null, null, null, null, '1', '2017-03-08 09:04:00', '2017-03-08 09:04:00', 'developer', '2017-03-10 14:23:50', null, '0', null);
+INSERT INTO `t_penerimaan_barangdet` VALUES ('13', '8', '6', '', '50.00', '0.00', '0', null, null, null, null, '1', '2017-03-08 09:04:00', '2017-03-08 09:04:00', 'developer', '2017-03-10 14:23:50', null, '0', null);
+INSERT INTO `t_penerimaan_barangdet` VALUES ('14', '9', '5', '', '7500.00', '7500.00', '1', '0.00', '0.00', '0.00', 'null', '1', '2017-03-08 09:04:02', '2017-03-08 09:04:02', 'developer', '2017-03-10 14:23:50', '', '1', null);
+INSERT INTO `t_penerimaan_barangdet` VALUES ('15', '9', '6', '', '50.00', '25.00', '1', '0.00', '0.00', '0.00', 'null', '1', '2017-03-08 09:04:02', '2017-03-08 09:04:02', 'developer', '2017-04-03 14:45:31', '', '1', null);
+INSERT INTO `t_penerimaan_barangdet` VALUES ('16', '10', '1', 'NO20170200215G,NO20170267821I,NO20170399212P,NO20170211234H,NO20170320045F,NO20170399032K', '150.00', '0.00', '0', null, null, null, null, '1', '2017-03-10 14:28:38', '2017-03-10 14:28:38', 'developer', '2017-03-10 14:28:38', null, '0', null);
+INSERT INTO `t_penerimaan_barangdet` VALUES ('20', '24', '32', 'dfskdsdasd sjdksdskd,sdsds,dsdsd', '0.00', '0.00', '0', '0.00', '0.00', '0.00', null, '1', '2017-04-03 14:33:27', '2017-04-03 14:33:27', 'developer', '2017-04-03 14:33:27', null, '0', '100,230,300');
+INSERT INTO `t_penerimaan_barangdet` VALUES ('21', '25', '656', '14564,14545', '700.00', '0.00', '1', '50000.00', '0.00', '35000000.00', '-', '1', '2017-04-13 10:36:13', '2017-04-13 10:36:13', 'developer', '2017-04-13 10:44:53', '', '1', '200,500');
+INSERT INTO `t_penerimaan_barangdet` VALUES ('22', '26', '32', '1424,17867', '722.00', '2.50', '1', '0.00', '0.00', '0.00', 'null', '1', '2017-04-13 14:13:18', '2017-04-13 14:13:18', 'developer', '2017-04-13 14:22:40', '', '1', '500,222');
 
 -- ----------------------------
 -- Table structure for t_penerimaan_baranglog
@@ -14020,7 +14075,7 @@ CREATE TABLE `t_permintaan_pembelian` (
   `permintaan_pembelian_update_by` varchar(0) DEFAULT NULL,
   `permintaan_pembelian_revised` int(255) DEFAULT NULL,
   PRIMARY KEY (`permintaan_pembelian_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_permintaan_pembelian
@@ -14062,6 +14117,11 @@ INSERT INTO `t_permintaan_pembelian` VALUES ('34', '1', 'SPP20170400019', null, 
 INSERT INTO `t_permintaan_pembelian` VALUES ('35', '1', 'SPP20170400020', null, '2017-04-18 00:00:00', '2017-04-18 00:00:00', '1', '2', '1', '3', '2017-04-18 11:05:09', null, null, '1', null, '-', '-', '2017-04-18 11:04:50', 'developer', '2017-04-18 11:05:09', null, '0');
 INSERT INTO `t_permintaan_pembelian` VALUES ('36', '1', 'SPP20170400021', null, '2017-04-18 00:00:00', '2017-04-18 00:00:00', '1', '2', '1', '3', '2017-04-18 11:34:52', null, null, '1', null, 'test lagi', 'test lagi', '2017-04-18 11:34:34', 'developer', '2017-04-18 11:34:52', null, '0');
 INSERT INTO `t_permintaan_pembelian` VALUES ('37', '1', 'SPP20170400022', null, '2017-04-18 00:00:00', '2017-04-18 00:00:00', '1', '2', '1', '3', '2017-04-18 11:39:57', null, null, '1', null, 'a', 'a', '2017-04-18 11:39:29', 'developer', '2017-04-18 11:39:57', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('38', '1', 'SPP20170400023', null, '2017-04-28 00:00:00', '2017-04-27 00:00:00', '1', '2', '1', '3', '2017-04-28 01:34:08', null, null, '1', null, 'a', '', '2017-04-28 01:33:33', 'developer', '2017-04-28 01:34:08', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('39', '1', 'SPP20170400024', null, '2017-04-28 00:00:00', '2017-04-27 00:00:00', '1', '2', '1', '0', '2017-04-28 01:37:16', null, null, '1', null, 'a', '', '2017-04-28 01:37:16', 'developer', '2017-04-28 01:37:16', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('40', '1', 'SPP20170400025', null, '2017-04-28 00:00:00', '2017-04-28 00:00:00', '1', '2', '1', '3', '2017-04-28 01:37:56', null, null, '1', null, 'a', '', '2017-04-28 01:37:31', 'developer', '2017-04-28 01:37:56', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('41', '1', 'SPP20170400026', null, '2017-04-28 00:00:00', '2017-04-28 00:00:00', '1', '2', '1', '3', '2017-04-28 09:11:15', null, null, '1', null, 'ok', 'ok', '2017-04-28 09:10:49', 'developer', '2017-04-28 09:11:16', null, '0');
+INSERT INTO `t_permintaan_pembelian` VALUES ('42', '1', 'SPP20170400027', null, '2017-04-28 00:00:00', '2017-04-28 00:00:00', '1', '2', '1', '3', '2017-04-28 09:18:24', null, null, '1', null, 'hh', 'hh', '2017-04-28 09:17:47', 'developer', '2017-04-28 09:18:24', null, '0');
 
 -- ----------------------------
 -- Table structure for t_permintaan_pembeliandet
@@ -14080,7 +14140,7 @@ CREATE TABLE `t_permintaan_pembeliandet` (
   `permintaan_pembeliandet_update_by` varchar(255) DEFAULT NULL,
   `permintaan_pembeliandet_revised` int(11) DEFAULT NULL,
   PRIMARY KEY (`permintaan_pembeliandet_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_permintaan_pembeliandet
@@ -14130,6 +14190,12 @@ INSERT INTO `t_permintaan_pembeliandet` VALUES ('42', '35', '14', '0', null, '1'
 INSERT INTO `t_permintaan_pembeliandet` VALUES ('43', '36', '19', '0', null, '1', '2017-04-18 11:34:34', 'developer', '2017-04-18 11:34:52', null, '0');
 INSERT INTO `t_permintaan_pembeliandet` VALUES ('44', '36', '1', '0', null, '1', '2017-04-18 11:34:34', 'developer', '2017-04-18 11:34:52', null, '0');
 INSERT INTO `t_permintaan_pembeliandet` VALUES ('45', '37', '14', '0', null, '1', '2017-04-18 11:39:29', 'developer', '2017-04-18 11:39:57', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('46', '38', '2215', '0', null, '1', '2017-04-28 01:33:33', 'developer', '2017-04-28 01:34:09', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('47', '39', '2', null, null, '0', '2017-04-28 01:37:16', 'developer', '2017-04-28 01:37:16', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('48', '40', '903', '0', null, '1', '2017-04-28 01:37:31', 'developer', '2017-04-28 01:37:56', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('49', '41', '2578', '20', null, '1', '2017-04-28 09:10:50', 'developer', '2017-04-28 09:11:16', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('50', '41', '2599', '20', null, '1', '2017-04-28 09:10:50', 'developer', '2017-04-28 09:11:16', null, '0');
+INSERT INTO `t_permintaan_pembeliandet` VALUES ('51', '42', '2209', '10', null, '1', '2017-04-28 09:17:47', 'developer', '2017-04-28 09:18:24', null, '0');
 
 -- ----------------------------
 -- Table structure for t_permintaan_pembelianlog
@@ -14143,7 +14209,7 @@ CREATE TABLE `t_permintaan_pembelianlog` (
   `permintaan_pembelianlog_status_update_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `permintaan_pembelianlog_status_update_by` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`permintaan_pembelianlog_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of t_permintaan_pembelianlog
@@ -14205,6 +14271,10 @@ INSERT INTO `t_permintaan_pembelianlog` VALUES ('56', '34', '0', '3', '2017-04-1
 INSERT INTO `t_permintaan_pembelianlog` VALUES ('57', '35', '0', '3', '2017-04-18 11:05:09', 'developer');
 INSERT INTO `t_permintaan_pembelianlog` VALUES ('58', '36', '0', '3', '2017-04-18 11:34:52', 'developer');
 INSERT INTO `t_permintaan_pembelianlog` VALUES ('59', '37', '0', '3', '2017-04-18 11:39:57', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('60', '38', '0', '3', '2017-04-28 01:34:08', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('61', '40', '0', '3', '2017-04-28 01:37:56', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('62', '41', '0', '3', '2017-04-28 09:11:15', 'developer');
+INSERT INTO `t_permintaan_pembelianlog` VALUES ('63', '42', '0', '3', '2017-04-28 09:18:24', 'developer');
 
 -- ----------------------------
 -- Table structure for t_perolehan_produksi
