@@ -134,8 +134,9 @@ class C_partner extends MY_Controller {
 	}
 
 	public function getFormLogin(){
-		$id = $this->input->post('id');
-		$data = array('id_partner' => $id);
+		$id = $this->input->get('id');
+		$s = $this->input->get('s');
+		$data = array('id_partner' => $id, 's' => $s);
 		$this->load->view("partner/V_form_login", $data);
 		// echo $data['id_partner'];
 	}

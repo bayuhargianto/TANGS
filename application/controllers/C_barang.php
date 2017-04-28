@@ -160,13 +160,15 @@ class C_barang extends MY_Controller {
 			$sheet = $objPHPExcel->getSheet(0);
 			$highestRow = $sheet->getHighestRow();
 			$highestColumn = $sheet->getHighestColumn();
-			 
-			for ($row = 2; $row <= $highestRow; $row++){                  //  Read a row of data into an array                 
+
+			$no = 1;
+			for ($row = 2; $row <= $highestRow; $row++){//  Read a row of data into an array                 
 			    $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
 			                                    NULL,
 			                                    TRUE,
 			                                    FALSE);
 			    
+			    	
 			    $cat1_id = $this->db->query("SELECT jenis_barang_id FROM m_jenis_barang WHERE jenis_barang_nama = '".$rowData[0][0]."'")->row();
 				$cat2_id = $this->db->query("SELECT category_2_id FROM m_category_2 WHERE category_2_nama = '".$rowData[0][1]."'")->row();
 				$sat_id = $this->db->query("SELECT satuan_id FROM m_satuan WHERE satuan_nama = '".$rowData[0][5]."'")->row();
@@ -187,7 +189,6 @@ class C_barang extends MY_Controller {
 			        "jenis_barang_update_by"		=> $this->session->userdata('user_username'),
 			        "jenis_barang_revised"			=> 0
 			    );
-			    
 			    $data_category2 = array(
 			        "category_2_id"				=> $category_2_id,
 			        "category_2_nama"			=> $this->db->escape_str($rowData[0][1]),
@@ -198,9 +199,6 @@ class C_barang extends MY_Controller {
 			        "category_2_update_by"		=> $this->session->userdata('user_username'),
 			        "category_2_revised"		=> 0
 			    );
-
-				
-				
 			    $data_satuan = array(
 			        "satuan_id"				=> $satuan_id,
 			        "satuan_nama"			=> $this->db->escape_str($rowData[0][5]),
@@ -211,7 +209,6 @@ class C_barang extends MY_Controller {
 			        "satuan_update_by"		=> $this->session->userdata('user_username'),
 			        "satuan_revised"		=> 0
 			    );
-
 			    $data_brand = array(
 			        "brand_id"				=> $brand_id,
 			        "brand_nama"			=> $this->db->escape_str($rowData[0][6]),
@@ -260,22 +257,41 @@ class C_barang extends MY_Controller {
 					$q = $this->db->query("select brand_id from m_brand where brand_nama = '".$rowData[0][6]."'")->row();
 					$hasil_brand_id = $q->brand_id;
 				}
+				$barang_nama = $this->db->escape_str(preg_replace('/[^A-Za-z0-9\  ]/', '', $rowData[0][4]));
 
+				if($hasil_jenis_barang_id < 10){
+	                $cat1 = "0".$hasil_jenis_barang_id;
+	            }else{
+	            	$cat1 = $hasil_jenis_barang_id;
+	            }
+	            if($hasil_category_2_id < 10){
+	                $cat2 = "0".$hasil_category_2_id;
+	            }else{
+	            	$cat2 = $hasil_category_2_id;
+	            }
+	            if($no < 10){
+	                $no = "000".$no;
+	            }else if($no < 100){
+	                $no = "00".$no;
+	            }else if($no < 1000){
+	                $no = "0".$no;
+	            }
+				$barang_nomor = $cat1.$cat2.$no;
 			    $data_barang = array(
 			 		"barang_id"				=> '',
 			 		"m_jenis_barang_id"		=> $hasil_jenis_barang_id,
 			 		"m_category_2_id"		=> $hasil_category_2_id,
 			        "barang_kode"			=> '',
-			        "barang_nomor"			=> $this->db->escape_str($rowData[0][3]),
-			        "barang_nama"			=> $this->db->escape_str($rowData[0][4]),
+			        "barang_nomor"			=> $barang_nomor,
+			        "barang_nama"			=> $barang_nama,
 			        "m_satuan_id"			=> $hasil_satuan_id,
 			        "brand_id"				=> $hasil_brand_id,
 			        "harga_beli"			=> $this->db->escape_str($rowData[0][7]),
 			        "harga_jual"			=> $this->db->escape_str($rowData[0][8]),
 			        "harga_jual_pajak"		=> $this->db->escape_str($rowData[0][8]) + $this->db->escape_str($rowData[0][8]) * 10 / 100,
-			        "stok"					=> $this->db->escape_str($rowData[0][10]),
-			        "barang_minimum_stok"	=> $this->db->escape_str($rowData[0][11]),
-			        "stok_maks"				=> $this->db->escape_str($rowData[0][12]),
+			        "stok"					=> '',
+			        "barang_minimum_stok"	=> $this->db->escape_str($rowData[0][9]),
+			        "stok_maks"				=> '',
 			        "barang_status_aktif"	=> 'y',
 			        "barang_create_date"	=> date('Y-m-d H:i:s'),
 			        "barang_create_by"		=> $this->session->userdata('user_username'),
@@ -284,12 +300,34 @@ class C_barang extends MY_Controller {
 			        "barang_revised"		=> 0
 			    );
 			    $this->db->query("insert ignore into m_barang values('".implode("', '", $data_barang)."')");
+
+			    $brg_id = $this->db->query("SELECT barang_id FROM m_barang WHERE barang_nama = '".$barang_nama."'")->row();
+				$hasil_barang_id 			= $brg_id->barang_id;
+
+			    $konsinyasi=substr($rowData[0][4], 0, 1);
+			    if($konsinyasi == "*" || $konsinyasi == "&" || $konsinyasi == "$"){
+			    	$this->db->query("insert ignore into m_konsinyasi 
+			    						values(
+			    								'',
+			    								'".$hasil_jenis_barang_id."', 
+			    								'".$hasil_category_2_id."',
+			    								'".$hasil_barang_id."',
+			    								'y',
+			    								'".date('Y-m-d H:i:s')."',
+												'".$this->session->userdata('user_username')."',
+												'',
+												'',
+												0
+												)
+			    					");
+			    }
 			    // echo "<br><br>insert ignore into m_barang values('".implode("', '", $data_barang)."')";
 
 			    delete_files('./assets/upload/');
+				$no++;
 			}
 			// $this->session->set_flashdata('msg', 'Data Berhasil Di Import');
-			redirect('Master-Data/Barang');
+			// redirect('Master-Data/Barang');
 		}
 	}
 
@@ -637,8 +675,6 @@ class C_barang extends MY_Controller {
 
 					}
 				}
-				// END CARI ATRIBUT BARANG
-				// END ATRIBUT BARANG
 			}
 
 			echo json_encode($response);
@@ -1092,6 +1128,50 @@ class C_barang extends MY_Controller {
 		}
 
         return true;
+	}
+
+	public function loadDataSelectWhere(){
+		$param = $this->input->get('q');
+		$m_category_2_id = $this->input->get('parameter');
+		if ($param!=NULL) {
+			$param = $this->input->get('q');
+		} else {
+			$param = "";
+		}
+		
+		$select = '*';
+		$join['data'][] = array(
+			'table' => 'm_konversi_satuan b',
+			'join'	=> 'b.m_satuan_id = a.satuan_id',
+			'type'	=> 'left'
+		);
+		$where['data'][] = array(
+			'column' => 'm_category_2_id',
+			'param'	 => $m_category_2_id
+		);
+		$where_like['data'][] = array(
+			'column' => 'barang_nama',
+			'param'	 => $this->input->get('q')
+		);
+		$order['data'][] = array(
+			'column' => 'barang_nama',
+			'type'	 => 'ASC'
+		);
+		$query = $this->mod->select($select, $this->tbl, null, $where, null, $where_like, $order);
+
+		// print_r($this->db->last_query());
+		$response['items'] = array();
+		if ($query<>false) {
+			foreach ($query->result() as $val) {
+				$response['items'][] = array(
+					'id'	=> $val->barang_id,
+					'text'	=> $val->barang_nama
+				);
+			}
+			$response['status'] = '200';
+		}
+
+		echo json_encode($response);
 	}
 
 	function get_last_id(){

@@ -5,6 +5,7 @@
                 <button class="close" data-close="alert"></button> You have some form errors. Please check below. </div>
             <div class="alert alert-success display-hide">
                 <button class="close" data-close="alert"></button> Your form validation is successful! </div>
+            <input type="hidden" id="barang_kode" name="barang_nomor">
             <input type="hidden" id="url" value="Master-Data/Barang/postData/">
             <div class="form-group" hidden="true">
                 <label class="control-label col-md-4">ID Barang (Auto)
@@ -23,7 +24,7 @@
                 <div class="col-md-8">
                     <div class="input-icon right">
                         <i class="fa"></i>
-                        <input type="text" class="form-control kode" id="barang_kode" name="barang_nomor" readonly required /> </div>
+                        <input type="text" class="form-control kode" readonly/> </div>
                 </div>
             </div>
             <!-- <div class="form-group">
@@ -76,7 +77,7 @@
                 <div class="col-md-8">
                     <div class="input-icon right">
                         <i class="fa"></i>
-                        <input type="text" class="form-control num2" name="stok" required /> </div>
+                        <input type="text" class="form-control num2" name="stok" value="0" required /> </div>
                 </div>
             </div>
             <div class="form-group">
@@ -151,7 +152,7 @@
         <div class="form-actions">
             <div class="row">
                 <div class="col-md-offset-4 col-md-8 text-right">
-                    <button type="submit" class="btn green-jungle">Submit</button>
+                    <button type="submit" class="btn green-jungle" id="submit">Submit</button>
                     <button type="button" class="btn default reset" onclick="reset()">Reset</button>
                 </div>
             </div>
@@ -162,16 +163,17 @@
         $(document).ready(function(){
         });
 
-        $("#harga_jual").change(function(){
-          harga_jual_pajak();
+        $("#m_jenis_barang_id").change(function(){
+            var m_jenis_barang_id = document.getElementById("m_jenis_barang_id").value;
+            select2List('#m_category_2_id', 'Master-Data/Master-Kategori/loadDataSelectWhere', 'Pilih Category 2', m_jenis_barang_id);
         });
 
-        $("#m_jenis_barang_id").change(function(){
-          generate_artikel();
-          // get_last_id();
-        });
         $("#m_category_2_id").change(function(){
-          generate_artikel();
+            generate_artikel();
+        });
+
+        $("#harga_jual").change(function(){
+          harga_jual_pajak();
         });
 
         function harga_jual_pajak() {

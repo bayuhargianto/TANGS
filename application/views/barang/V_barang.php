@@ -58,9 +58,16 @@
                                                       <form action="'.site_url('Master-Data/Barang/Import').'" class="dropzone dropzone-file-area" id="contoh1" style="width: 1000px;">
                                                         <h3 class="sbold">Drop files here or click to import excel files</h3>
                                                         <div class="fallback">
-                                                          <input name="file" type="file" multiple />
+                                                          <input name="file" type="file"/>
                                                         </div>
                                                       </form>';
+
+                                                      // echo '<form action="'.site_url('Master-Data/Barang/Import').'" method="post" enctype="multipart/form-data">
+                                                        
+                                                      //     <input name="file" type="file" multiple />
+                                                      //     <input name="submit" type="submit"/>
+                                                        
+                                                      // </form>';
                                                     }
                                                   ?>
                                                     

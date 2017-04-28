@@ -194,18 +194,13 @@ class C_kategori extends MY_Controller {
 
 	public function loadDataSelectWhere(){
 		$param = $this->input->get('q');
+		$m_jenis_barang_id = $this->input->get('parameter');
 		if ($param!=NULL) {
 			$param = $this->input->get('q');
 		} else {
 			$param = "";
 		}
-		$param2 = $this->input->get('parameter');
-		if ($param2!=NULL) {
-			$where['data'][] = array(
-				'column' => 'b.m_barang_id',
-				'param'	 => $this->input->get('parameter')
-			);
-		}
+		
 		$select = '*';
 		$join['data'][] = array(
 			'table' => 'm_konversi_satuan b',
@@ -213,8 +208,8 @@ class C_kategori extends MY_Controller {
 			'type'	=> 'left'
 		);
 		$where['data'][] = array(
-			'column' => 'a.satuan_status_aktif',
-			'param'	 => 'y'
+			'column' => 'm_jenis_barang_id',
+			'param'	 => $m_jenis_barang_id
 		);
 		$where_like['data'][] = array(
 			'column' => 'category_2_nama',
@@ -224,7 +219,7 @@ class C_kategori extends MY_Controller {
 			'column' => 'category_2_nama',
 			'type'	 => 'ASC'
 		);
-		$query = $this->mod->select($select, $this->tbl, null, null, NULL, $where_like, $order);
+		$query = $this->mod->select($select, $this->tbl, null, $where, null, $where_like, $order);
 		$response['items'] = array();
 		if ($query<>false) {
 			foreach ($query->result() as $val) {

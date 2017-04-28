@@ -282,27 +282,48 @@
                 });
 
               }
-
               function deleteData(id) {
-                $.ajax({
-                  type : 'GET',
-                  url  : $base_url+'Master-Data/Partner/getFormLogin/',
-                  data : { id : id },
-                  dataType : "html",
-                  success:function(data){
-                    $("#modaladd .modal-body").html();
-                    $("#modaladd .modal-body").html(data);
-                    $('#modaladd').modal('show');
-                    MyFormValidation.init();
-                    rules();
-                    $("#formAdd").submit(function(event){
-                      if ($("#formAdd").valid() == true) {
-                        actionDataFile();
+                swal({
+                  title: "Apakah anda yakin?",
+                  text: "Data akan dinonaktifkan !",
+                  type: "warning",
+                  showCancelButton: true,
+                  cancelButtonClass: "btn-raised btn-warning",
+                  cancelButtonText: "Batal!",
+                  confirmButtonClass: "btn-raised btn-danger",
+                  confirmButtonText: "Ya!",
+                  closeOnConfirm: false
+                }, function() {
+                  $.ajax({
+                    url: '<?php echo base_url();?>Master-Data/Partner/deleteData/',
+                    data: 'id='+id,
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data) {
+                      if (data.status=='200') {
+                        alert_success_nonaktif();
+                        searchData();
+                      } else if (data.status=='204') {
+                        alert_fail_nonaktif();
                       }
-                      return false;
-                    });
-                  }
-                });
+                    }
+                  });
+                })
+              }
+
+              // function deleteData(id) {
+              //   $id = document.getElementById(id);
+              //   $.ajax({
+              //     type : 'GET',
+              //     url  : $base_url+'Master-Data/Partner/getFormLogin/',
+              //     data : { id : id, s : 'aktif'},
+              //     dataType : "html",
+              //     success:function(data){
+              //       $("#modaladd .modal-body").html();
+              //       $("#modaladd .modal-body").html(data);
+              //       $('#modaladd').modal('show');
+              //     }
+              //   });
 
               //   swal({
               //     title: "Apakah anda yakin?",
@@ -330,7 +351,7 @@
               //       }
               //     });
               //   })
-              }
+              // }
 
               function aktifData(id) {
                 swal({
@@ -360,6 +381,21 @@
                   });
                 })
               }
+
+              // function aktifData(id) {
+              //   $id = document.getElementById(id);
+              //   $.ajax({
+              //     type : 'GET',
+              //     url  : $base_url+'Master-Data/Partner/getFormLogin/',
+              //     data : { id: id, s: 'aktif' },
+              //     dataType : "html",
+              //     success:function(data){
+              //       $("#modaladd .modal-body").html();
+              //       $("#modaladd .modal-body").html(data);
+              //       $('#modaladd').modal('show');
+              //     }
+              //   });
+              // }
 
         </script>
 

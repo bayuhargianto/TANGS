@@ -1247,22 +1247,39 @@ function openFormKonsinyasi(id = null) {
         rules();
         $("#formAdd").submit(function(event){
           if ($("#formAdd").valid() == true) {
-            actionData();
+            var m_barang_id = document.getElementById("m_barang_id").value;
+            $.ajax({
+                url: $base_url+'Master-Data/Konsinyasi/cekStok/',
+                data: 'id='+m_barang_id,
+                type: 'POST',
+                success: function (data) {
+                    if (data > 0) {
+                      // alert("TERHAPUS");
+                      swal({
+                        title: "Warning",
+                        text: "Data Tidak Bisa ditambah Karena Stok Masih Belum Kosong !",
+                        type: "warning",
+                        confirmButtonClass: "btn-raised btn-danger",
+                        confirmButtonText: "OK"
+                        })
+                    } else {
+                      // alert(data);
+                      actionData();
+                    }
+                }
+            });
           }
           return false;
         });
         $('#m_jenis_barang_id').css('width', '100%');
         $('#m_category_2_id').css('width', '100%');
         $('#m_barang_id').css('width', '100%');
-        selectList_barang();
         selectList_jenisBarang();
-        select2List('#m_category_2_id', 'Master-Data/Master-Kategori/loadDataSelectWhere', 'Pilih Category 2');
-        select2List('#m_barang_id', 'Master-Data/Konsinyasi/loadDataSelectWhere', 'Pilih Barang Konsinyasi');
         if (id) {
             setTimeout(function(){
-                $('#m_barang_id').select2('destroy');
                 $('#m_jenis_barang_id').select2('destroy');
-                $('#m_category_2_id').select2('destroy');
+                // $('#m_category_2_id').select2('destroy');
+                // $('#m_barang_id').select2('destroy');
               editData(id);
               setTimeout(function(){
                 $('#m_jenis_barang_id').select2();
@@ -1335,7 +1352,6 @@ function openFormBarang(id = null) {
         selectList_Satuan('#m_satuan_id');
         selectList_Satuan('#konversi_akhir_satuan');
         select2List('#m_brand_id', 'Master-Data/Master-Brand/loadDataSelectWhere', 'Pilih Brand');
-        select2List('#m_category_2_id', 'Master-Data/Master-Kategori/loadDataSelectWhere', 'Pilih Category 2');
         if (id) {
             setTimeout(function(){
               $('#m_jenis_barang_id').select2('destroy');

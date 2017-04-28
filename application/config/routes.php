@@ -200,6 +200,7 @@ $route['Master-Data/Barang/Import']								= 'C_barang/import';
 $route['Master-Data/Barang/loadDataSelect']						= 'C_barang/loadData_select';
 $route['Master-Data/Barang/loadDataSelectKode']					= 'C_barang/loadData_select2';
 $route['Master-Data/Barang/loadDataSelectUraian']				= 'C_barang/loadData_select3';
+$route['Master-Data/Barang/loadDataSelectWhere']				= 'C_barang/loadDataSelectWhere';
 $route['Master-Data/Barang/getLastId']							= 'C_barang/get_last_id';
 // End Barang
 // Atribut Barang
@@ -270,6 +271,7 @@ $route['Master-Data/Konsinyasi/aktifData']						= 'C_konsinyasi/aktifData';
 $route['Master-Data/Konsinyasi/loadDataWhere']					= 'C_konsinyasi/loadDataWhere';
 $route['Master-Data/Konsinyasi/loadDataSelect']					= 'C_konsinyasi/loadData_select';
 $route['Master-Data/Konsinyasi/loadDataSelectWhere']			= 'C_konsinyasi/loadDataSelectWhere';
+$route['Master-Data/Konsinyasi/cekStok']						= 'C_konsinyasi/cekStok';
 // End BANK
 // END ROUTE MASTER
 
