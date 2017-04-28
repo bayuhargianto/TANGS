@@ -165,7 +165,7 @@
                                                                     <thead>
                                                                         <tr>
                                                                             <th> No </th>
-                                                                            <th> Kode Barang </th>
+                                                                            <th> Artikel </th>
                                                                             <th> Uraian dan Spesifikasi Barang/Jasa </th>
                                                                             <th> Qty </th>
                                                                             <th> Satuan </th>
@@ -545,7 +545,7 @@
                                         <input type="hidden" name="t_permintaan_pembelian[]" value="'+id+'"/>\
                                         <input type="hidden" name="m_barang_id[]" value="'+data.val2[i].m_barang_id+'"/>\
                                         <input type="hidden" name="penawaran_barang_id[]" value="'+data.val2[i].permintaan_pembeliandet_id+'"/>\
-                                        '+data.val2[i].barang_kode+'\
+                                        '+data.val2[i].barang_nomor+'\
                                     </td>\
                                     <td id="td2'+last_num+'">\
                                         '+data.val2[i].barang_nama+' ('+data.val2[i].barang_nomor+' , '+data.val2[i].jenis_barang_nama+')\
@@ -735,7 +735,7 @@
                                     <input type="hidden" name="t_permintaan_pembelian[]" value="'+data.step1[i].t_permintaan_pembelian+'"/>\
                                     <input type="hidden" name="m_barang_id[]" value="'+data.step1[i].m_barang_id+'"/>\
                                     <input type="hidden" name="penawaran_barang_id[]" value="'+data.step1[i].penawaran_barang_id+'"/>\
-                                    '+data.step1[i].barang_kode+'\
+                                    '+data.step1[i].barang_nomor+'\
                                 </td>\
                                 <td id="td2'+last_num+'">\
                                     '+data.step1[i].barang_uraian+'\

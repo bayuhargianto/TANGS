@@ -67,7 +67,7 @@
                                 '.$no.' 
                             </td>
                             <td> 
-                                '.$row->barang_kode.' 
+                                '.$row->barang_nomor.' 
                             </td>
                             <td> 
                                 '.$row->barang_nama.'('.$row->barang_nomor.', '.$row->jenis_barang_nama.')'.' 

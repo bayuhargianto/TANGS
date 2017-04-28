@@ -321,7 +321,7 @@
                                 <td>\
                                     <input type="hidden" name="m_barang_id[]" value="'+data.val[i].kode+'"/>\
                                     <input type="hidden" name="permintaan_pembeliandet_id[]" value=""/>\
-                                    '+data.val[i].barang_kode+'\
+                                    '+data.val[i].barang_nomor+'\
                                 </td>\
                                 <td>\
                                     '+data.val[i].barang_nama+' ('+data.val[i].barang_nomor+' , '+data.val[i].m_jenis_barang_id.val2[i].text+')\
@@ -359,7 +359,7 @@
                                 <td>\
                                     <input type="hidden" name="m_barang_id[]" value="'+data.val2[i].m_barang_id+'"/>\
                                     <input type="hidden" name="permintaan_pembeliandet_id[]" value=""/>\
-                                    '+data.val2[i].barang_kode+'\
+                                    '+data.val2[i].barang_nomor+'\
                                 </td>\
                                 <td>\
                                     '+data.val2[i].barang_nama+' ('+data.val2[i].barang_nomor+' , '+data.val2[i].jenis_barang_nama+')\
@@ -451,7 +451,7 @@
                                     <input type="hidden" name="permintaan_pembeliandet_id[]" value="'+data.val2[i].permintaan_pembeliandet_id+'"/>\
                                 </td>\
                                 <td id="kode'+(i+1)+'">\
-                                    '+data.val2[i].barang_kode+'\
+                                    '+data.val2[i].barang_nomor+'\
                                 </td>\
                                 <td id="uraian'+(i+1)+'">\
                                     <select class="form-control" id="m_barang_iddet'+(i+1)+'" name="m_barang_id[]" aria-required="true" aria-describedby="select-error" onchange="changeUraian('+(i+1)+')" style="width:100%;" '+disabled_inp+' >\
@@ -483,7 +483,7 @@
                   dataType : "json",
                   success:function(data){
                     for(var i = 0; i < data.val.length; i++){
-                        document.getElementById("kode"+idx).innerHTML = data.val[i].barang_kode;
+                        document.getElementById("kode"+idx).innerHTML = data.val[i].barang_nomor;
                         document.getElementById("satuan"+idx).innerHTML = data.val[i].m_satuan_id.val2[0].text;
                     }
                   }

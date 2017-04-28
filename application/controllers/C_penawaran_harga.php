@@ -167,7 +167,7 @@ class C_penawaran_harga extends MY_Controller {
 							'penawaran_barang_id'				=> $val2->penawaran_barang_id,
 							't_permintaan_pembelian'			=> $val2->t_permintaan_pembelian,
 							'm_barang_id'						=> $val2->m_barang_id,
-							'barang_kode'						=> $val2->barang_kode,
+							'barang_nomor'						=> $val2->barang_nomor,
 							'barang_uraian'						=> $val2->barang_nama.'('.$val2->barang_nomor.', '.$val2->jenis_barang_nama.')',
 							'penawaran_barang_qty'				=> $val2->penawaran_barang_qty,
 							'satuan_nama'						=> $val2->satuan_nama,
@@ -421,7 +421,7 @@ class C_penawaran_harga extends MY_Controller {
 							'penawaran_barang_id'		=> $val2->penawaran_barang_id,
 							't_permintaan_pembelian'	=> $val2->t_permintaan_pembelian,
 							'm_barang_id'				=> $val2->m_barang_id,
-							'barang_kode'				=> $val2->barang_kode,
+							'barang_nomor'				=> $val2->barang_nomor,
 							'barang_uraian'				=> $val2->barang_nama.'('.$val2->barang_nomor.', '.$val2->jenis_barang_nama.')',
 							'penawaran_barang_qty'		=> $val2->penawaran_barang_qty,
 							'satuan_nama'				=> $val2->satuan_nama,
@@ -471,7 +471,7 @@ class C_penawaran_harga extends MY_Controller {
 					foreach ($query_hrg->result() as $val4) {
 						$response['step3'][] = array(
 							'supplier_kode'				=> $val4->t_penawaran_supplier_id,
-							'barang_kode'				=> $val4->t_penawaran_barang_id,
+							'barang_nomor'				=> $val4->t_penawaran_barang_id,
 							'harga'						=> $val4->penawaran_harga_nominal
 						);
 					}
