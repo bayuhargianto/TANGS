@@ -684,6 +684,7 @@
             }
 
             function editData(id) {
+                $( "#formAdd" ).validate().destroy();
                 $.ajax({
                   type : "GET",
                   url  : '<?php echo base_url();?>Pembelian/Penawaran-Harga/loadDataWhere/',
