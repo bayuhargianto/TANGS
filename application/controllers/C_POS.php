@@ -12,6 +12,112 @@ class C_POS extends MY_Controller{
 
   function index()
   {
+    // $this->get_header();
+    // $this->penjualan_list();
+    // $this->get_footer();
+  }
+
+  public function view()
+  {
+    $this->check_session();
+    $priv = $this->cekUser(28);
+    $data = array(
+      'aplikasi'		=> $this->app_name,
+      'title_page' 	=> 'Penjualan',
+      'title_page2' 	=> 'Point Of Sales',
+      'priv_add'		=> $priv['create']
+      );
+    $this->open_page('transaksi/penjualan/V_penjualan_list', $data);
+  }
+
+  function loadData($type)
+  {
+    $privPenjualan = $this->cekUser(76);
+    $priv = $this->cekUser(76);
+    $select = 'a.*, b.cabang_nama, c.user_username, d.partner_nama';
+    $table  = 'tb_penjualan a';
+		//LIMIT
+		$limit = array(
+			'start'  => $this->input->get('start'),
+			'finish' => $this->input->get('length')
+		);
+
+    $where_like['data'][] = array(
+			'column' => 'cabang_nama, penjualan_code, penjualan_date, penjualan_total, penjualan_payment',
+			'param'	 => $this->input->get('search[value]')
+		);
+
+    $join['data'][] = array(
+      'table' => 'm_cabang b',
+      'join'  => 'b.cabang_id = a.branch',
+      'type'  => 'left'
+    );
+
+    $join['data'][] = array(
+      'table' => 's_user c',
+      'join'  => 'c.user_id = a.user',
+      'type'  => 'left'
+    );
+
+    $join['data'][] = array(
+      'table' => 'm_partner d',
+      'join'  => 'd.partner_id = a.customer',
+      'type'  => 'left'
+    );
+
+    // $query_total = $this->M_penjualan->select_transaction();
+    $query_total  = $this->mod->select($select, $table, $join);
+    $query        = $this->mod->select($select, $table, $join);
+    // $query        = $this->mod->select($select, $table, $join, '', NULL, $where_like, '', $limit);
+    // $query = $this->M_penjualan->select_transaction_details();
+    $query_filter =  $this->mod->select($select, $table, $join, '', NULL, $where_like, '');
+    // echo $this->db->last_query();
+    // <a href="'.base_url().'Penjualan/print/'.$val->penjualan_id.'">
+
+    if ($query<>false) {
+      $no = $limit['start']+1;
+      foreach ($query->result() as $val) {
+        $button = '';
+					$button = $button.'
+					<a href="'.base_url().'Penjualan/penjualan_details/'.$val->penjualan_id.'">
+					<button class="btn blue-ebonyclay" type="button" title="Lihat PO">
+						<i class="icon-eye text-center"></i>
+					</button>
+					</a>
+					<button class="btn green-jungle" type="button" title="Print Struk Penjualan" onclick="print_struk('.$val->penjualan_id.')">
+						<i class="icon-printer text-center"></i>
+					</button>';
+
+        $response['data'][] = array(
+          $no,
+          $val->cabang_nama,
+          $val->penjualan_code,
+          date("d/m/Y",strtotime($val->penjualan_date)),
+          number_format($val->penjualan_total),
+          number_format($val->penjualan_payment),
+          $button
+        );
+
+        $no++;
+      }
+    }
+
+
+    $response['recordsTotal'] = 0;
+		if ($query_total<>false) {
+			$response['recordsTotal'] = $query_total->num_rows();
+		}
+
+		$response['recordsFiltered'] = 0;
+		if ($query_filter<>false) {
+			$response['recordsFiltered'] = $query_filter->num_rows();
+		}
+
+    echo json_encode($response);
+  }
+
+  function open_page_penjualan()
+  {
     $this->get_header();
     $this->penjualan_form();
     $this->get_footer();
@@ -20,8 +126,13 @@ class C_POS extends MY_Controller{
   function penjualan_form(){
     // $this->get_all_item();
     $where = '';
-    $data = array('all_item' => $this->select_config('m_barang', $where));
+    $where_user_id = array('user_id' =>  $this->session->userdata('user_id'));
 
+    $data = array(
+        'back_to_pos_list' => "C_POS",
+        'all_item' => $this->select_config('m_barang', $where),
+        'user'     => $this->select_config('s_user', $where)->row()
+      );
     $this->load->view('transaksi/penjualan/V_penjualan', $data);
   }
 
@@ -62,6 +173,7 @@ class C_POS extends MY_Controller{
         'promo_qty' => $row->promo_qty,
         // 'promo_harga' => $row->promo_harga,
         'promo_status_aktif' => $row->promo_status_aktif,
+        'stok_gudang_jumlah' => $row->stok_gudang_jumlah,
         'aktif' => $aktif
      );
     }
@@ -92,6 +204,7 @@ class C_POS extends MY_Controller{
       $input_cashback = $this->input->post('input-cashback');
       $item_price = $this->input->post('item_price');
 
+      $user_id = $this->session->userdata('user_id');
       $penjualan_code = "INV_".time();
 
       $data = array(
@@ -112,6 +225,7 @@ class C_POS extends MY_Controller{
                     'bank_atas_name' => $sales_nama,
                     'bank' => $sales_nama_bank,
                     'bank_number' => $sales_nomor_kartu,
+                    'user' => $user_id,
                     'status' => ''
                   );
       $id = $this->create_config('tb_penjualan', $data);
@@ -135,6 +249,13 @@ class C_POS extends MY_Controller{
                             );
 
         $this->create_config('tb_penjualan_details', $data_detail);
+
+        $where_barang_id = array('m_barang_id' => $item_s[$row]);
+        // $data_update = "stok_gudang_jumlah = stok_gudang_jumlah - '".$qty_s[$row]."'";
+        $stock_gudang_now = $this->select_config_one('t_stok_gudang', 'stok_gudang_jumlah',$where_barang_id);
+        $data_update = array('stok_gudang_jumlah' => $stock_gudang_now->stok_gudang_jumlah - $qty_s[$row] );
+        $this->update_config('t_stok_gudang', $data_update, $where_barang_id);
+        // echo $this->db->last_query();
       }
       echo json_encode($id);
   }
@@ -172,5 +293,101 @@ class C_POS extends MY_Controller{
     echo json_encode($data);
 
   }
+
+  function penjualan_details($id)
+  {
+    $this->check_session();
+    $priv = $this->cekUser(28);
+    $data = array(
+      'aplikasi'		=> $this->app_name,
+      'title_page' 	=> 'List Penjualan',
+      'title_page2' 	=> 'Detil Penjualan',
+      'penjualan_id' => $id
+      );
+
+    $this->open_page('transaksi/penjualan/V_penjualan_details', $data);
+  }
+
+  function loadDatadetail($id)
+    {
+      $privPenjualan = $this->cekUser(76);
+      $priv = $this->cekUser(76);
+      $select = '*';
+  		//LIMIT
+  		$limit = array(
+  			'start'  => $this->input->get('start'),
+  			'finish' => $this->input->get('length')
+  		);
+      $where_like['data'][] = array(
+  			'column' => 'cabang_nama, penjualan_code, penjualan_date, penjualan_total, penjualan_payment',
+  			'param'	 => $this->input->get('search[value]')
+  		);
+      $where = array('penjualan_id' => $id );
+
+      $query_total = $this->M_penjualan->select_transaction_details();
+      $query = $this->M_penjualan->select_transaction_details($select, '', NULL, $where, NULL, $where_like, '');
+      $query_filter = $this->M_penjualan->select_transaction_details($select, '', NULL, '', NULL, $where_like, '');
+
+      if ($query<>false) {
+        $no = $limit['start']+1;
+        foreach ($query->result() as $val) {
+          $button = '';
+  					// $button = $button.'
+  					// <a href="'.base_url().'Penjualan/penjualan_details/'.$val->penjualan_id.'">
+  					// <button class="btn blue-ebonyclay" type="button" title="Lihat PO">
+  					// 	<i class="icon-eye text-center"></i>
+  					// </button>
+  					// </a>
+  					// <a href="'.base_url().'Penjualan/print/'.$val->penjualan_id.'">
+  					// <button class="btn green-jungle" type="button" title="Print PO">
+  					// 	<i class="icon-printer text-center"></i>
+  					// </button>
+  					// </a>';
+
+          $response['data'][] = array(
+            $no,
+            number_format($val->barang_price),
+            $val->barang_nama,
+            number_format($val->barang_qty),
+            number_format($val->barang_total),
+            number_format($val->barang_discount_nominal),
+            number_format($val->barang_grand_total)
+          );
+
+          $no++;
+        }
+      }
+
+      // echo $this->db->last_query();
+
+      $response['recordsTotal'] = 0;
+  		if ($query_total<>false) {
+  			$response['recordsTotal'] = $query->num_rows();
+  		}
+      echo json_encode($response);
+    }
+
+    function popmodal_form_login()
+    {
+      $data['action'] = "C_POS/checklogin";
+      $this->load->view('transaksi/penjualan/popmodal_check_login', $data);
+    }
+
+    function checklogin()
+  	{
+  		$user = $this->input->post('i_username', TRUE);
+  		$pass = md5(base64_decode($this->input->post('i_password', TRUE)));
+  		$user_data = $this->mod->check_exist_user($user,$pass);
+  		if(!$user_data)
+  			{
+          $response['status'] = '204';
+        }
+  		  else {
+  			  $response['status'] = '200';
+          $response['type_karyawan'] = $user_data->m_type_karyawan_id;
+  		  }
+
+  		echo json_encode($response);
+  	}
 
 }
