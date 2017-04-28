@@ -125,6 +125,7 @@ class C_penerimaan_barang extends MY_Controller {
 	}
 
 	public function getForm1($id = null){
+		$this->check_session();
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Gudang',
@@ -135,6 +136,7 @@ class C_penerimaan_barang extends MY_Controller {
 	}
 
 	public function getForm2($id = null){
+		$this->check_session();
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Pembelian',
@@ -184,10 +186,12 @@ class C_penerimaan_barang extends MY_Controller {
 							't_penerimaan_barang'				=> $val2->t_penerimaan_barang_id,
 							'm_barang_id'						=> $val2->m_barang_id,
 							'barang_kode'						=> $val2->barang_kode,
+							'barang_nama'						=> $val2->barang_nama,
 							'barang_uraian'						=> $val2->barang_nama.'('.$val2->barang_nomor.', '.$val2->jenis_barang_nama.')',
 							'jenis_barang_nama'					=> $val2->jenis_barang_nama,
 							'satuan_nama'						=> $val2->satuan_nama,
-							'penerimaan_barang_no_seri'			=> $val2->penerimaan_barang_no_seri,
+							'penerimaan_barang_no_seri'			=> '',
+							'penerimaan_barangdet_qty_no_seri'	=> '',
 							'penerimaan_barangdet_qty'			=> $val2->penerimaan_barangdet_qty,
 							'penerimaan_barangdet_qty_retur'	=> $val2->penerimaan_barangdet_qty_retur,
 							'penerimaan_barangdet_verifikasi'	=> $val2->penerimaan_barangdet_verifikasi,
@@ -261,21 +265,24 @@ class C_penerimaan_barang extends MY_Controller {
 				}
 
 				$response['val'][] = array(
-					'kode' 								=> $val->penerimaan_barang_id,
-					'penerimaan_barang_nomor' 			=> $val->penerimaan_barang_nomor,
-					'penerimaan_barang_jenis' 			=> $val->penerimaan_barang_jenis,
-					'penerimaan_barang_tanggal'			=> date("d/m/Y",strtotime($val->penerimaan_barang_tanggal)),
-					'penerimaan_barang_tanggal_terima'	=> date("d/m/Y",strtotime($val->penerimaan_barang_tanggal_terima)),
-					'penerimaan_barang_pemeriksa'		=> $hasil1,
-					'penerimaan_barang_penyetuju'		=> $hasil2,
-					'm_gudang_id'						=> $hasil3,
-					'penerimaan_barang_sj' 				=> $val->penerimaan_barang_sj,
-					't_order_id'						=> $hasil4,
-					'penerimaan_barang_status' 			=> $val->penerimaan_barang_status,
-					'penerimaan_barang_catatan'			=> $val->penerimaan_barang_catatan,
-					'penerimaan_barang_subtotal'		=> $val->penerimaan_barang_subtotal,
-					'penerimaan_barang_ppn'				=> $val->penerimaan_barang_ppn,
-					'penerimaan_barang_total'			=> $val->penerimaan_barang_total,
+					'kode' 									=> $val->penerimaan_barang_id,
+					'penerimaan_barang_nomor' 				=> $val->penerimaan_barang_nomor,
+					'penerimaan_barang_jenis' 				=> $val->penerimaan_barang_jenis,
+					'penerimaan_barang_tanggal'				=> date("d/m/Y",strtotime($val->penerimaan_barang_tanggal)),
+					'penerimaan_barang_tanggal_terima'		=> date("d/m/Y",strtotime($val->penerimaan_barang_tanggal_terima)),
+					'penerimaan_barang_pemeriksa'			=> $hasil1,
+					'penerimaan_barang_penyetuju'			=> $hasil2,
+					'm_gudang_id'							=> $hasil3,
+					'penerimaan_barang_sj' 					=> $val->penerimaan_barang_sj,
+					't_order_id'							=> $hasil4,
+					'penerimaan_barang_status' 				=> $val->penerimaan_barang_status,
+					'penerimaan_barang_catatan'				=> $val->penerimaan_barang_catatan,
+					'penerimaan_barang_subtotal'			=> $val->penerimaan_barang_subtotal,
+					'penerimaan_barang_ppn'					=> $val->penerimaan_barang_ppn,
+					'penerimaan_barang_total'				=> $val->penerimaan_barang_total,
+					'penerimaan_barang_status_pembayaran'	=> $val->penerimaan_barang_status_pembayaran,
+					'penerimaan_barang_nominal_pembayaran'	=> $val->penerimaan_barang_nominal_pembayaran,
+					'penerimaan_barang_kekurangan'			=> floatval(floatval($val->penerimaan_barang_total) - floatval($val->penerimaan_barang_nominal_pembayaran)),
 				);
 			}
 
@@ -355,6 +362,62 @@ class C_penerimaan_barang extends MY_Controller {
 		echo json_encode($response);
 	}
 
+	public function loadData_selectPembayaran(){
+		$param = $this->input->get('q');
+		if ($param!=NULL) {
+			$param = $this->input->get('q');
+		} else {
+			$param = "";
+		}
+		$select = 'a.*, b.*';
+		$join['data'][] = array(
+			'table' => 't_order b',
+			'join'	=> 'b.order_id = a.t_order_id',
+			'type'	=> 'left'
+		);
+		$where['data'][] = array(
+			'column' => 'a.penerimaan_barang_jenis',
+			'param'	 => 0
+		);
+		$where['data'][] = array(
+			'column' => 'a.penerimaan_barang_status',
+			'param'	 => 3
+		);
+		$where['data'][] = array(
+			'column' => 'a.penerimaan_barang_status_pembayaran',
+			'param'	 => 1
+		);
+		$where['data'][] = array(
+			'column' => 'b.m_supplier_id',
+			'param'	 => $this->input->get('idsup')
+		);
+		$where['data'][] = array(
+			'column' => 'b.order_type',
+			'param'	 => 0
+		);
+		$where_like['data'][] = array(
+			'column' => 'a.penerimaan_barang_nomor',
+			'param'	 => $this->input->get('q')
+		);
+		$order['data'][] = array(
+			'column' => 'a.penerimaan_barang_nomor',
+			'type'	 => 'ASC'
+		);
+		$query = $this->mod->select($select, 't_penerimaan_barang a', $join, $where, NULL, $where_like, $order);
+		$response['items'] = array();
+		if ($query<>false) {
+			foreach ($query->result() as $val) {
+				$response['items'][] = array(
+					'id'	=> $val->penerimaan_barang_id,
+					'text'	=> $val->penerimaan_barang_nomor
+				);
+			}
+			$response['status'] = '200';
+		}
+
+		echo json_encode($response);
+	}
+
 	// Function Insert & Update
 	public function postData($type){
 		$id = $this->input->post('kode');
@@ -403,20 +466,21 @@ class C_penerimaan_barang extends MY_Controller {
 				// INSERT DETAIL
 				for ($i = 0; $i < sizeof($this->input->post('m_barang_id', TRUE)); $i++) {
 					$response['m_barang_id'][] = $this->input->post('m_barang_id', TRUE)[$i];
-					unset($noSeri);
-					unset($qtyNoSeri);
+					$noSeri = array();
+					$qtyNoSeri = array();
 					$data_det = $this->general_post_data2(1, $insert->output, $i);
 					$insert_det = $this->mod->insert_data_table('t_penerimaan_barangdet', NULL, $data_det);
 					if($insert_det->status) {
 						$response['status'] = '200';
-						$noSeri = explode(",", $this->input->post('penerimaan_barang_no_seri', TRUE)[$i]);
-						$qtyNoSeri = explode(",", $this->input->post('penerimaan_barang_qty_no_seri', TRUE)[$i]);
-						$response['testSeri'][] = $this->input->post('penerimaan_barang_no_seri', TRUE)[$i];
+						$noSeri = '';
+						$qtyNoSeri = '';
+						$response['qtyNoSeri'][] = $qtyNoSeri;
+						$response['testSeri'][] = '';
 						$response['qty'][] = sizeof($noSeri);
 						for($j = 0; $j < sizeof($noSeri); $j++)
 						{
-							if($noSeri[$j] != '')
-							{
+							// if($noSeri[$j] != '')
+							// {
 								// STOK GUDANG DAN KARTU STOK
 								if (@$where_gudang2['data']) {
 									unset($where_gudang2['data']);
@@ -473,8 +537,9 @@ class C_penerimaan_barang extends MY_Controller {
 										$dataStok2 = array(
 											'm_gudang_id' 				=> $data['m_gudang_id'],
 											'm_barang_id' 				=> $this->input->post('m_barang_id', TRUE)[$i],
-											'stok_gudang_jumlah' 		=> $qtyNoSeri[$j],
-											'stok_gudang_no_seri' 		=> $noSeri[$j],
+											'stok_gudang_jumlah' 		=> $this->input->post('penerimaan_barangdet_qty', TRUE)[$i],
+											// 'stok_gudang_no_seri' 		=> $noSeri[$j],
+											'stok_gudang_no_seri' 		=> '',
 											'stok_gudang_created_date'	=> date('Y-m-d H:i:s'),
 											'stok_gudang_created_by'	=> $this->session->userdata('user_username'),
 											'stok_gudang_revised' 		=> 0,
@@ -515,7 +580,7 @@ class C_penerimaan_barang extends MY_Controller {
 										$dataStok2 = array(
 											'm_gudang_id' 				=> $data['m_gudang_id'],
 											'm_barang_id' 				=> $this->input->post('m_barang_id', TRUE)[$i],
-											'stok_gudang_jumlah' 		=> $qtyNoSeri,
+											'stok_gudang_jumlah' 		=> $this->input->post('penerimaan_barangdet_qty', TRUE)[$seq],
 											'stok_gudang_no_seri' 		=> $noSeri[$j],
 											'stok_gudang_created_date'	=> date('Y-m-d H:i:s'),
 											'stok_gudang_created_by'	=> $this->session->userdata('user_username'),
@@ -527,7 +592,7 @@ class C_penerimaan_barang extends MY_Controller {
 								// END PENAMBAHAN STOK GUDANG
 								// END STOK GUDANG DAN KARTU STOK
 								// $ulang2++;
-							}
+							// }
 						}
 						// $ulang3++;
 						// $response['ulang'] = $ulang;
@@ -836,8 +901,8 @@ class C_penerimaan_barang extends MY_Controller {
 			$data = array(
 				't_penerimaan_barang_id' 			=> $idHdr,
 				'm_barang_id' 						=> $this->input->post('m_barang_id', TRUE)[$seq],
-				'penerimaan_barang_no_seri'			=> $this->input->post('penerimaan_barang_no_seri', TRUE)[$seq],
-				'penerimaan_barang_qty_no_seri'			=> $this->input->post('penerimaan_barang_qty_no_seri', TRUE)[$seq],
+				'penerimaan_barang_no_seri'			=> '',
+				'penerimaan_barangdet_qty_no_seri'			=> '',
 				'penerimaan_barangdet_qty' 			=> $this->input->post('penerimaan_barangdet_qty', TRUE)[$seq],
 				'penerimaan_barangdet_status'		=> 1,
 				'penerimaan_barangdet_status_date'	=> date('Y-m-d H:i:s'),

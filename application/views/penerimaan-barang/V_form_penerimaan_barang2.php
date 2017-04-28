@@ -186,7 +186,7 @@
                                         <div class="form-group" id="tblInsert">
                                             <div class="col-md-12">
                                                 <input type="hidden" name="jml_itemBarang" id="jml_itemBarang" value="0" />
-                                                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="default-table">
+                                                <table class="table table-striped table-bordered table-hover table-checkable order-column" style="display: block; overflow: auto;" id="default-table">
                                                     <thead>
                                                         <tr>
                                                             <th> No </th>
@@ -395,13 +395,17 @@
                                     <input type="text" class="form-control money" id="penerimaan_barangdet_total'+(i+1)+'" name="penerimaan_barangdet_total[]" value="'+data.val2[i].penerimaan_barangdet_total+'" readonly required/>\
                                 </td>\
                                 <td id="td9'+(i+1)+'">\
-                                    <textarea class="form-control" rows="3" name="penerimaan_barangdet_keterangan[]">'+data.val2[i].penerimaan_barangdet_keterangan+'</textarea>\
+                                    <textarea style="width:200px;" class="form-control" rows="3" name="penerimaan_barangdet_keterangan[]">'+data.val2[i].penerimaan_barangdet_keterangan+'</textarea>\
                                 </td>\
                             </tr>\
                         ');
                         $('.num2').number( true, 2, '.', ',' );
+                        $('.num2').css('text-align', 'right');
+                        $('.num2').css('width', '150px');
                     }
                     $('.money').number( true, 2, '.', ',' );
+                    $('.money').css('text-align', 'right');
+                    $('.money').css('width', '150px');
                   }
                 });
                 
@@ -411,21 +415,23 @@
                 subTotal = 0;
                 for (var i = 1; i <= itemBarang; i++) {
                     qty = document.getElementById('penerimaan_barangdet_qty'+i).value;
-                    hrg = parseInt(document.getElementById('penerimaan_barangdet_harga_satuan'+i).value.replace(/\./g, ""));
-                    pot = parseInt(document.getElementById('penerimaan_barangdet_potongan'+i).value.replace(/\./g, ""));
+                    hrg = parseFloat(document.getElementById('penerimaan_barangdet_harga_satuan'+i).value.replace(/\,/g, ""));
+                    pot = parseFloat(document.getElementById('penerimaan_barangdet_potongan'+i).value.replace(/\,/g, ""));
                     document.getElementById('penerimaan_barangdet_total'+i).value = qty * hrg - pot;
                     subTotal += qty * hrg - pot;
                 }
                 document.getElementById('penerimaan_barang_subtotal').value = subTotal;
                 $('.money').number( true, 2, '.', ',' );
+                $('.money').css('text-align', 'right');
                 sumTotal();
             }
 
             function sumTotal() {
-                subTotal = parseInt(document.getElementById('penerimaan_barang_subtotal').value.replace(/\./g, ""));
-                ppn = parseInt(document.getElementById('penerimaan_barang_ppn').value.replace(/\./g, ""));
+                subTotal = parseFloat(document.getElementById('penerimaan_barang_subtotal').value.replace(/\,/g, ""));
+                ppn = parseFloat(document.getElementById('penerimaan_barang_ppn').value.replace(/\,/g, ""));
                 document.getElementById('penerimaan_barang_total').value = subTotal + (subTotal * ppn / 100);
                 $('.money').number( true, 2, '.', ',' );
+                $('.money').css('text-align', 'right');
             }
         </script>
 
