@@ -34,7 +34,7 @@
   			<td align="center">No.WO</td>
   			<td align="center">Tanggal WO</td>
   			<td align="center">Nama Supplier</td>
-  			<td align="center">Kode Barang</td>
+  			<td align="center">Artikel</td>
   			<td align="center">Nama Barang/Jasa</td>
 			<td align="center">Qty</td>
 			<td align="center">Satuan</td>

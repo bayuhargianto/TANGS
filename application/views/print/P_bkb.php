@@ -87,7 +87,7 @@
   <table width="100%" border="1" cellspacing="0" cellpadding="6">
     <tr>
       <th>No.</th>
-      <th>Kode Barang</th>
+      <th>Artikel</th>
       <th>Jenis Barang</th>
       <th>Nomor Bahan</th>
       <th>Qty</th>

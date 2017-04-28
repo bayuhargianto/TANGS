@@ -37,7 +37,7 @@
 			<td align="center">No. BKB</td>
 			<td align="center">Tgl BKB</td>
 			<td align="center">Departement</td>
-			<td align="center">Kode Barang</td>
+			<td align="center">Artikel</td>
 			<td align="center">Nama Barang</td>
 			<td align="center">Qty</td>
 			<td align="center">Satuan</td>

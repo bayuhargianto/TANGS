@@ -138,7 +138,7 @@
 <table width="100%" border="1" cellspacing="0" cellpadding="4">
   <tr align="center">
     <th scope="col" >No.</th>
-    <th scope="col" >Kode Barang</th>
+    <th scope="col" >Artikel</th>
     <th scope="col" >Uraian dan Spesifikasi Barang/Jasa</th>
     <th scope="col" >Batch No.</th>
     <th scope="col" >Qty</th>

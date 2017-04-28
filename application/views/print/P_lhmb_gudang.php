@@ -19,7 +19,7 @@
   			<td>No.SJ</td>
   			<td>Nama Supplier</td>
   			<td>Group</td>
-			<td>Kode barang</td>
+			<td>Artikel</td>
 			<td>Nama Barang</td>
 			<td>Qty</td>
 			<td>Satuan</td>

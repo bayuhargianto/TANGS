@@ -132,7 +132,7 @@
 <table width="101%" border="1" cellspacing="0" rules="all" cellpadding="6">
 	<tr>
 		<th width="5%" scope="col">No.</th>
-		<th width="14%" scope="col">Kode Barang</th>
+		<th width="14%" scope="col">Artikel</th>
 		<th width="35%" scope="col">Uraian dan Spesifikasi Barang/Jasa</th>
 		<th width="5%" scope="col">Qty</th>
 		<th width="8%" scope="col">Satuan</th>
@@ -145,7 +145,7 @@
       {
         echo '<tr align="left">';
         echo '<td>'.$no.'</td>';
-        echo '<td>'.$itemBarang['barang_kode'].'</td>';
+        echo '<td>'.$itemBarang['barang_nomor'].'</td>';
         echo '<td>'.$itemBarang['barang_uraian'].'</td>';
         // echo '<td></td>';
         echo '<td>'.$itemBarang['orderdet_qty'].'</td>';

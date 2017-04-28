@@ -23,7 +23,7 @@
 			<td align="center" width="13%">No. PO</td>
 			<td align="center" width="13%">Tgl PO</td>
 			<td align="center" width="13%">Nama Suplier</td>
-			<td align="center" width="13%">Kode Barang</td>
+			<td align="center" width="13%">Artikel</td>
 			<td align="center" width="18%">Nama Barang/Jasa</td>
 			<td align="center" width="13%">Qty</td>
 			<td align="center" width="13%">Satuan</td>

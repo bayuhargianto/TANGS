@@ -88,7 +88,7 @@
 <table width="100%" border="1" cellspacing="0" cellpadding="4">
   <tr align="left">
     <th scope="col" >No.</th>
-    <th scope="col" >Kode Barang</th>
+    <th scope="col" >Artikel</th>
     <th scope="col" >Jenis Barang</th>
     <th scope="col" >Qty</th>
     <th scope="col" >Satuan</th>

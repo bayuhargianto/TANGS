@@ -191,7 +191,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th> No </th>
-                                                            <th> Kode Barang </th>
+                                                            <th> Artikel </th>
                                                             <th> Uraian dan Spesifikasi Barang/Jasa </th>
                                                             <th id="qty-po"> Qty </th>
                                                             <th> Qty Terima </th>

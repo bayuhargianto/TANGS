@@ -40,7 +40,7 @@
 	<table border="1" width="100%" rules="all" cellpadding="5">
 		<tr>
 			<td align="center">No</td>
-			<td align="center">Kode Barang</td>
+			<td align="center">Artikel</td>
 			<td align="center">Nama Barang</td>
 			<td align="center">No Seri</td>
 			<td align="center">Qty</td>
@@ -67,7 +67,7 @@
 	<table border="1" width="100%" rules="all" cellpadding="5">
 		<tr>
 			<td align="center">No</td>
-			<td align="center">Kode Barang</td>
+			<td align="center">Artikel</td>
 			<td align="center">Nama Barang</td>
 			<td align="center">Total</td>
 			<td align="center">Satuan</td>
