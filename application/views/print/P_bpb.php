@@ -102,7 +102,7 @@
     foreach ($val2 as $barang => $itemBarang) {
       echo '<tr align="left">';
       echo '<td>'.$no.'</td>';
-      echo '<td>'.$itemBarang['barang_kode'].'</td>';
+      echo '<td>'.$itemBarang['barang_nomor'].'</td>';
       echo '<td>'.$itemBarang['jenis_barang_nama'].'</td>';
       echo '<td>'.$itemBarang['penerimaan_barangdet_qty'].'</td>';
       echo '<td>'.$itemBarang['satuan_nama'].'</td>';

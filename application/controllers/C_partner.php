@@ -476,6 +476,7 @@ class C_partner extends MY_Controller {
 		echo json_encode($response);
 	}
 
+
 	/* Saving $data as array to database */
 	function general_post_data($type, $id = null){
 		// 1 Insert, 2 Update, 3 Delete / Non Aktif
@@ -575,6 +576,9 @@ class C_partner extends MY_Controller {
 
 		return $data;
 	}
+
+
+
 
 	/* end Function */
 

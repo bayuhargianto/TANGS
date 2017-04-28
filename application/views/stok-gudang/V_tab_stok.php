@@ -4,7 +4,7 @@
             <th> No </th>
             <th> Cabang </th>
             <th> Gudang </th>
-            <th> Kode Barang </th>
+            <th> Artikel </th>
             <th> Nama Barang </th>
             <th> Jenis Barang </th>
             <th> Minimum Stok </th>

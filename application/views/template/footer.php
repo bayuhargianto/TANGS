@@ -20,6 +20,7 @@
     var base_url = "<?php echo base_url(); ?>";
     var sales_id = 1;
     var discount_percent = 0;
+    var stok_gudang_jumlah = 0;
 
 
     var sales_shift = 1;
@@ -502,23 +503,46 @@
 
         $("#input-discount").keyup(function () {
             var this_value = $(this).autoNumeric('get');
+            var type_karyawan = $('#type_karyawan').val();
             var persen = this_value/total_sales_detail*100;
+
+            if (persen>=5) {
+              if (type_karyawan!=2) {
+                $("#input-discount").val(0);
+                persen = '';
+              }
+            }
+
             $("#input-discount-percent").autoNumeric('set', persen);
+
         });
 
         $("#input-discount-percent").keyup(function () {
             var this_value = $(this).autoNumeric('get');
-            var nominal = this_value/100*total_sales_detail;
+            var type_karyawan = $('#type_karyawan').val();
+            var nominal = '';
+
+            if (this_value>=5) {
+              if (type_karyawan!=1) {
+                $("#input-discount-percent").val();
+                var nominal = 0;
+              } else {
+                $("#input-discount-percent").val(this_value);
+                var nominal = this_value/100*total_sales_detail;
+              }
+            }
+
             $("#input-discount").autoNumeric('set', nominal);
+
         });
 
         $("#input-pay-currency").keyup(function () {
             sales_pay = $(this).autoNumeric('get');
 
-      			var total_fee = sales_fee / 100 * intTotal;
-      			var tot = intTotal + total_fee;
+      			// var total_fee = sales_fee / 100 * intTotal;
+      			// var tot = intTotal + total_fee;
 
-            sales_cashback = sales_pay - tot;
+            sales_cashback = sales_pay - intTotal;
             var cashback2 = Intl.NumberFormat().format(sales_cashback);
             $("#input-pay").val(sales_pay);
             $("#my-modal-pay").find("input:text#input-cashback-currency").val(cashback2);
@@ -530,9 +554,17 @@
               var html = '';
               $.each(JSON.parse(data), function (index, value) {
                   items.push(value);
+                  stok_gudang_jumlah = value.stok_gudang_jumlah;
+                  if (stok_gudang_jumlah>0) {
+                    var icon = '<i class="glyphicon glyphicon-ok-circle"></i>';
+                  } else {
+                    var icon = '<i class="glyphicon glyphicon-remove-circle"></i>';
+                  }
                   html += '<tr>\
-                            <td id="item-name">'+value.barang_nama+'\
-                            <td class="text-right">'+Intl.NumberFormat().format(value.harga_jual_pajak)+'</td><td class="text-center">\
+                            <td class="text-center">'+icon+'</td>\
+                            <td id="item-name">'+value.barang_nama+'</td>\
+                            <td class="text-right">'+Intl.NumberFormat().format(value.harga_jual_pajak)+'</td>\
+                            <td class="text-center">\
                               <button data-disc="" data-price="'+value.harga_jual_pajak+'" \
                               data-qty="1" data-name="'+value.barang_nama+' EXP." \
                               data-id="'+value.barang_id+'" data-has-promo="'+value.aktif+'" data-promo-harga="" data-promo-type=""\
@@ -545,7 +577,6 @@
                           </tr>';
                     });
               $("#data-items").html(html);
-              // alert(data);
           }).fail(function(data){
                 alert(data);
             });
@@ -560,9 +591,9 @@
             var i =1;
             $.each(items, function (index, value) {
                 var name = value.barang_nama.toLowerCase();
-                var barang_kode = value.barang_kode.toLowerCase();
+                var barang_kode = value.barang_kode;
                 // // console.log(name);
-                if(barang_kode.search(word) > -1 || name.search(word) > -1){
+                if(name.search(word) > -1){
                 //   // console.log(name);
                     this_data = {
                         'barang_id' : value.barang_id,
@@ -584,18 +615,26 @@
                         'barang_create_by' : value.barang_create_by,
                         'barang_update_date' : value.barang_update_date,
                         'barang_update_by' : value.barang_update_by,
-                        'barang_revised': value.barang_revised
+                        'barang_revised': value.barang_revised,
+                        'stok_gudang_jumlah': value.stok_gudang_jumlah
                     };
                     // console.log(this_data);
                     new_data.push(this_data);
-                    // alert();
+                    // console.log(new_data);
                 }
             });
 
             var html = '';
             $.each(new_data, function (index, value) {
+              stok_gudang_jumlah = value.stok_gudang_jumlah;
+              if (stok_gudang_jumlah>0) {
+                var icon = '<i class="glyphicon glyphicon-ok-circle"></i>';
+              } else {
+                var icon = '<i class="glyphicon glyphicon-remove-circle"></i>';
+              }
               html += '<tr>\
-                        <td id="item-name">'+value.barang_nama+'\
+                        <td></td>\
+                        <td id="item-name">'+value.barang_nama+'</td>\
                         <td class="text-right">'+Intl.NumberFormat().format(value.harga_jual_pajak)+'</td><td class="text-center">\
                           <button data-disc="" data-price="'+value.harga_jual_pajak+'" \
                           data-qty="1" data-name="'+value.barang_nama+' EXP." \
@@ -609,68 +648,6 @@
                       </tr>';
             });
             $("#data-items").html(html);
-        });
-
-
-
-        $("#search").keyup(function () {
-            var new_data = [];
-            var word = $(this).val();
-            word = word.toLowerCase();
-            // console.log(word);
-            $.each(items, function (index, value) {
-                var name = value.barang_nama.toLowerCase();
-                var barang_kode = value.barang_kode.toLowerCase();
-
-                if(barang_kode.search(word) > -1 || name.search(word) > -1){
-                  this_data = {
-                      'barang_id' : value.barang_id,
-                      'm_jenis_barang_id' : value.m_jenis_barang_id,
-                      'category_2_id' : value.category_2_id,
-                      'barang_kode' : value.barang_kode,
-                      'barang_nomor' : value.barang_nomor,
-                      'barang_nama' : value.barang_nama,
-                      'm_satuan_id' : value.m_satuan_id,
-                      'brand_id' : value.brand_id,
-                      'harga_beli' : value.harga_beli,
-                      'harga_jual' : value.harga_jual,
-                      'harga_jual_pajak' : value.harga_jual_pajak,
-                      'stok' : value.stok,
-                      'barang_minimum_stok' : value.barang_minimum_stok,
-                      'stok_maks' : value.stok_maks,
-                      'barang_status_aktif' : value.barang_status_aktif,
-                      'barang_create_date' : value.barang_create_date,
-                      'barang_create_by' : value.barang_create_by,
-                      'barang_update_date' : value.barang_update_date,
-                      'barang_update_by' : value.barang_update_by,
-                      'barang_revised': value.barang_revised,
-                      'det_promo_status_aktif' :  value.det_promo_status_aktif,
-                      'promo_nama' : value.promo_nama,
-                      'promo_qty' :  value.promo_qty,
-                      'promo_harga' :  value.promo_harga,
-                      'promo_status_aktif' :  value.promo_status_aktif
-                  };
-                    new_data.push(this_data);
-                }
-            });
-
-            var html = '';
-            $.each(new_data, function (index, value) {
-              html += '<tr>\
-                        <td id="item-name">'+value.barang_nama+'\
-                        <td class="text-right">'+Intl.NumberFormat().format(value.harga_jual_pajak)+'</td><td class="text-center">\
-                          <button data-disc="" data-price="'+value.harga_jual_pajak+'" \
-                          data-qty="1" data-name="'+value.barang_nama+' EXP." \
-                          data-id="'+value.barang_id+'" data-has-promo="'+value.aktif+'" data-promo-harga="'+value.promo_harga+'" data-promo-type=""\
-                          data-status-aktif=""\
-                          data-promo-item-name="'+value.promo_nama+'" data-promo-gratis="" data-promo-qty="'+value.promo_qty+'" \
-                          class="btn btn-success btn-xs btn-add-cart">\
-                            <i class="fa fa-plus"></i>\
-                          </button>\
-                        </td>\
-                      </tr>';
-            });
-            $("#data-diskon").html(html);
         });
 
 
@@ -914,11 +891,12 @@
                 $.ajax({
                     type: 'post',
                     data: $(this).serialize(),
-                    url: url, success: function (result) {
+                    url: url,
+                    success: function (result) {
                         var obj = JSON.parse(result);
                         console.log( obj );
                         console.log( obj );
-                        window.open(base_url+'C_POS/print_struk/'+obj);
+                        window.open(base_url+'Penjualan/print/'+obj);
                         // if( obj.status ){
                         //     $('#my-modal-pay').modal('toggle');
                         //     /*window.print();*/
@@ -927,6 +905,11 @@
                         // } else {
                         //     console.log( 'error' );
                         // }
+                        // $('#input-pay-currency').val();
+                        // $('#input-pay').val();
+                        $('#my-modal-pay').find('input').val(0);
+                        $('#my-modal-pay').modal('hide');
+                        $.fn.resetSales();
                     }
                 });
             } else {
@@ -1027,11 +1010,25 @@
                 $('.nav-tabs a[href="#tab-D"]').trigger('click');
                 $("#search").trigger('focus');
             }
+            if ((e.metaKey || e.altKey) && ( String.fromCharCode(e.which).toLowerCase() === '7') ) {
+                $("#btn-sales-batal").trigger('click');
+                console.log(e.metaKey);
+            }
 
         });
+
+        $('#btn-sales-batal').click(function(){
+          // a = confirm('Apakah anda yakin keluar dari halaman ini ??');
+          // if (a == true) {
+            window.location.href='../Penjualan/Point-of-Sale';
+          // }
+        });
+
         $.fn.getItems();
         $.fn.getCustomers();
     });
+
+
 </script>
 
 </body></html>
