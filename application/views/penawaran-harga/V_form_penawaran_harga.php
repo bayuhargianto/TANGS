@@ -336,6 +336,8 @@
 
             function checkPosition(index) {
                 stepPosition = index+1;
+                console.log(stepPosition);
+                console.log(index);
                 if (stepPosition == 1) {
                     $("#lanjut").removeClass("hidden");
                     $("#lanjut2").addClass("hidden");
@@ -388,9 +390,11 @@
                       }
                     });
                     checkItem();
-                    if (document.getElementById("statusHarga").value == 0) {
-                        getDetailHarga(document.getElementsByName("kode")[0].value);
-                    }
+                    setTimeout(function(){
+                        if (document.getElementById("statusHarga").value == 0) {
+                            getDetailHarga(document.getElementsByName("kode")[0].value);
+                        }
+                    }, 400);
                 } else if (index == 3) {
                     $.ajax({
                       type : "POST",
@@ -410,9 +414,11 @@
                         }
                       }
                     });
-                    if (document.getElementById("statusPemenang").value == 0) {
-                        getDetailPemenang(document.getElementsByName("kode")[0].value);
-                    }
+                    setTimeout(function(){
+                        if (document.getElementById("statusPemenang").value == 0) {
+                            getDetailPemenang(document.getElementsByName("kode")[0].value);
+                        }
+                    }, 400);
                 } else if (index == 4) {
                     $.ajax({
                       type : "POST",

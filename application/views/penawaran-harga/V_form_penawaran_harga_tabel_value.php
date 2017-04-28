@@ -95,18 +95,28 @@
                             );
                             $harga = $this->mod->select('*','t_penawaran_harga', NULL, $where_det);
                             foreach ($harga->result() as $val) {
-                                $harga_value = $val->penawaran_harga_nominal;
-                                $qty_value = $val->penawaran_harga_qty_ditawarkan;
-                                $mata_uang_value = $val->m_mata_uang_id;
-                                $include_ppn = "";
-                                $exclude_ppn = "";
-                                $tanpa_ppn = "";
-                                if ($val->penawaran_harga_ppn == 0) {
-                                    $exclude_ppn = "checked";
-                                } else if ($val->penawaran_harga_ppn == 1) {
-                                    $include_ppn = "checked";
-                                } else if ($val->penawaran_harga_ppn == 2) {
-                                    $tanpa_ppn = "checked";
+                                if ($harga) {
+                                    $harga_value2 = 0;
+                                    $qty_value2 = 0;
+                                    $mata_uang_value2 = "";
+                                    $include_ppn2 = "";
+                                    $exclude_ppn2 = "";
+                                    $tanpa_ppn2 = "";
+                                    foreach ($harga->result() as $val) {
+                                        $harga_value2 = $val->penawaran_harga_nominal;
+                                        $qty_value2 = $val->penawaran_harga_qty_ditawarkan;
+                                        $mata_uang_value2 = $val->m_mata_uang_id;
+                                        $include_ppn2 = "";
+                                        $exclude_ppn2 = "";
+                                        $tanpa_ppn2 = "";
+                                        if ($val->penawaran_harga_ppn == 0) {
+                                            $exclude_ppn2 = "checked";
+                                        } else if ($val->penawaran_harga_ppn == 1) {
+                                            $include_ppn2 = "checked";
+                                        } else if ($val->penawaran_harga_ppn == 2) {
+                                            $tanpa_ppn2 = "checked";
+                                        }
+                                    }
                                 }
                             }
 

@@ -104,15 +104,15 @@
                                 </td>
                                 <td>
                                     <label class="mt-radio"> Exclude
-                                        <input type="radio" value="0" onchange="ppn(this)" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" id="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" checked required />
+                                        <input type="radio" value="0" onchange="ppn(this)" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$row2->penawaran_supplier_id.'" id="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" checked required />
                                         <span></span>
                                     </label>
                                     <label class="mt-radio"> Include
-                                        <input type="radio" value="1" onchange="ppn(this)" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" id="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" />
+                                        <input type="radio" value="1" onchange="ppn(this)" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$row2->penawaran_supplier_id.'" id="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" />
                                         <span></span>
                                     </label>
                                     <label class="mt-radio"> Tanpa
-                                        <input type="radio" value="2" onchange="ppn(this)" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" id="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" />
+                                        <input type="radio" value="2" onchange="ppn(this)" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$row2->penawaran_supplier_id.'" id="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" />
                                         <span></span>
                                     </label>
                                 </td>
@@ -225,15 +225,15 @@
         var no = id.charAt(id.length-1);
         if(element.value == 0)
         {
-            document.getElementById('penawaran_supplier_ppn'+no).disabled = false;
+            document.getElementById('penawaran_supplier_ppn'+no).readOnly = false;
         }
         else if(element.value == 1)
         {
-            document.getElementById('penawaran_supplier_ppn'+no).disabled = false;
+            document.getElementById('penawaran_supplier_ppn'+no).readOnly = false;
         }
         else if(element.value == 2)
         {
-            document.getElementById('penawaran_supplier_ppn'+no).disabled = true;
+            document.getElementById('penawaran_supplier_ppn'+no).readOnly = true;
         }
         
     }

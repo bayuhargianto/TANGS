@@ -665,6 +665,7 @@ class C_penawaran_harga extends MY_Controller {
 					if($update->status) {
 						// $response['test'] = 'OK';
 						$response['status'] = '200';
+						$response['data_post'] = $_POST;
 
 						// for ($i = 0; $i < sizeof($this->input->post('t_penawaran_barang_id', TRUE)); $i++) { 
 						// 	// UPDATE BARANG
@@ -705,7 +706,7 @@ class C_penawaran_harga extends MY_Controller {
 						for ($i = 0; $i < sizeof($this->input->post('penawaran_harga_nominal', TRUE)); $i++) { 
 							$data_det2 = $this->general_post_data4(1, $id, $i);
 							$insert_det2 = $this->mod->insert_data_table('t_penawaran_harga', NULL, $data_det2);
-							print_r($this->db->last_query());
+							// print_r($this->db->last_query());
 							if($insert_det2->status) {
 								$response['status'] = '200';
 							} else {
@@ -720,6 +721,7 @@ class C_penawaran_harga extends MY_Controller {
 				} else if (@$data['penawaran_step'] == 4) {
 					if($update->status) {
 						$response['status'] = '200';
+						// print_r($_POST);
 
 						// UPDATE DETAIL SUPPLIER
 						for ($i = 0; $i < sizeof($this->input->post('t_penawaran_supplier_id_pemenang', TRUE)); $i++) { 
@@ -987,7 +989,7 @@ class C_penawaran_harga extends MY_Controller {
 				'm_mata_uang_id' 					=> $this->input->post('m_mata_uang', TRUE)[$seq],
 				'penawaran_harga_qty_ditawarkan'	=> $this->input->post('penawaran_harga_qty_ditawarkan', TRUE)[$seq],
 				'penawaran_harga_nominal' 			=> $this->input->post('penawaran_harga_nominal', TRUE)[$seq],
-				'penawaran_harga_ppn' 				=> $this->input->post('penawaran_harga_ppn'.$this->input->post('t_penawaran_barang_id2', TRUE)[$seq].($seq+1), TRUE),
+				'penawaran_harga_ppn' 				=> $this->input->post('penawaran_harga_ppn'.$this->input->post('t_penawaran_barang_id2', TRUE)[$seq].$this->input->post('t_penawaran_supplier_id2', TRUE)[$seq], TRUE),
 			);
 		}
 
