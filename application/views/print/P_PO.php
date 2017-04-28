@@ -216,7 +216,7 @@
     <td>Pembayaran</td>
     <td>:</td>
     <td><?php
-    if($val[0]['order_pembayaran'] == 1)
+    if($val[0]['order_pembayaran'] == 0)
     {
       echo 'Tunai';
     }
