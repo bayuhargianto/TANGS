@@ -509,7 +509,13 @@ $route['Penjualan/Surat-Jalan/loadData']					= 'C_surat_jalan/loadData/2';
 $route['Penjualan/Surat-Jalan/loadDataSelect']				= 'C_surat_jalan/loadData_selectFaktur';
 $route['Penjualan/Surat-Jalan/loadDataWhere']				= 'C_surat_jalan/loadDataWhere';
 $route['Penjualan/Surat-Jalan/loadDataSelect2']				= 'C_surat_jalan/loadData_selectSJRetur';
-$route['Penjualan/Point-of-Sale']							= 'C_POS/index';
+
+$route['Penjualan/Point-of-Sale']							                      = 'C_POS/view';
+$route['Penjualan/Point-of-Sale/loadData']						              = 'C_POS/loadData/1';
+$route['Penjualan/Point-of-Sale/loadDatadetail/(:any)']						  = 'C_POS/loadDatadetail/$1';
+$route['Penjualan/form_penjualan']						                      = 'C_POS/open_page_penjualan';
+$route['Penjualan/penjualan_details/(:any)']						            = 'C_POS/penjualan_details/$1';
+$route['Penjualan/print/(:any)']						                        = 'C_POS/print_struk/$1';
 
 // $route['Gudang/Surat-Jalan/checkStokSO']					= 'C_surat_jalan/checkStokSO';
 // end Surat Jalan
