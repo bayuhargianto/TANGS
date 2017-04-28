@@ -52,7 +52,7 @@
                                                       </button>';
                                                     }
                                                   ?>
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -83,7 +83,13 @@
             <!-- END CONTENT -->
         </div>
         <!-- END CONTAINER -->
+        <div class="modal fade" id="modal_login">
+          <div class="modal-dialog">
+            <div class="modal-content">
 
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
         <?php $this->load->view('layout/V_footer');?>
 
         <script type="text/javascript">
@@ -91,7 +97,7 @@
                 searchData();
             });
 
-            function searchData() { 
+            function searchData() {
                 $('#default-table').DataTable({
                     destroy: true,
                     "processing": true,
@@ -129,8 +135,8 @@
                     },
 
                     // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                    // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js). 
-                    // So when dropdowns used the scrollable div should be removed. 
+                    // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js).
+                    // So when dropdowns used the scrollable div should be removed.
                     //"dom": "<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r>t<'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
 
                     "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
@@ -282,48 +288,52 @@
                 });
 
               }
-              function deleteData(id) {
-                swal({
-                  title: "Apakah anda yakin?",
-                  text: "Data akan dinonaktifkan !",
-                  type: "warning",
-                  showCancelButton: true,
-                  cancelButtonClass: "btn-raised btn-warning",
-                  cancelButtonText: "Batal!",
-                  confirmButtonClass: "btn-raised btn-danger",
-                  confirmButtonText: "Ya!",
-                  closeOnConfirm: false
-                }, function() {
-                  $.ajax({
-                    url: '<?php echo base_url();?>Master-Data/Partner/deleteData/',
-                    data: 'id='+id,
-                    type: 'POST',
-                    dataType: 'json',
-                    success: function (data) {
-                      if (data.status=='200') {
-                        alert_success_nonaktif();
-                        searchData();
-                      } else if (data.status=='204') {
-                        alert_fail_nonaktif();
-                      }
-                    }
-                  });
-                })
-              }
 
-              // function deleteData(id) {
-              //   $id = document.getElementById(id);
-              //   $.ajax({
-              //     type : 'GET',
-              //     url  : $base_url+'Master-Data/Partner/getFormLogin/',
-              //     data : { id : id, s : 'aktif'},
-              //     dataType : "html",
-              //     success:function(data){
-              //       $("#modaladd .modal-body").html();
-              //       $("#modaladd .modal-body").html(data);
-              //       $('#modaladd').modal('show');
-              //     }
-              //   });
+              function deleteData(id) {
+                $.ajax({
+                  type : 'POST',
+                  url  : $base_url+'Master-Data/Partner/getFormLogin/',
+                  data : { id : id },
+                  dataType : "html",
+                  success:function(data){
+                    $("#modal_login .modal-content").html();
+                    $("#modal_login .modal-content").html(data);
+                    $('#modal_login').modal('show');
+                    MyFormValidation.init();
+                    rules();
+                    $("#formAdd").submit(function(event){
+                      if ($("#formAdd").valid() == true) {
+                      $.ajax({
+                        type : "POST",
+                        url  : $base_url+''+$("#formAdd").attr('action'),
+                        data : $( "#formAdd" ).serialize(),
+                        dataType : "json",
+                        success : function(data){
+                          if (data.status=='200') {
+                            $.ajax({
+                              url: '<?php echo base_url();?>Master-Data/Partner/deleteData/',
+                              data: 'id='+id,
+                              type: 'POST',
+                              dataType: 'json',
+                              success: function (data) {
+                                if (data.status=='200') {
+                                  alert_success_nonaktif();
+                                  searchData();
+                                } else if (data.status=='204') {
+                                  alert_fail_aktif();
+                                }
+                              }
+                            });
+                          } else if (data.status=='204') {
+                            // alert_fail_aktif();
+                          }
+                        }
+                      })
+                      }
+                      return false;
+                    });
+                  }
+                });
 
               //   swal({
               //     title: "Apakah anda yakin?",
@@ -351,7 +361,7 @@
               //       }
               //     });
               //   })
-              // }
+              }
 
               function aktifData(id) {
                 swal({
@@ -381,21 +391,6 @@
                   });
                 })
               }
-
-              // function aktifData(id) {
-              //   $id = document.getElementById(id);
-              //   $.ajax({
-              //     type : 'GET',
-              //     url  : $base_url+'Master-Data/Partner/getFormLogin/',
-              //     data : { id: id, s: 'aktif' },
-              //     dataType : "html",
-              //     success:function(data){
-              //       $("#modaladd .modal-body").html();
-              //       $("#modaladd .modal-body").html(data);
-              //       $('#modaladd').modal('show');
-              //     }
-              //   });
-              // }
 
         </script>
 
