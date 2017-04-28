@@ -134,7 +134,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th> No </th>
-                                                            <th> Kode Barang </th>
+                                                            <th> Artikel </th>
                                                             <th> Jenis Barang </th>
                                                             <th> Qty </th>
                                                             <th> Satuan </th>

@@ -91,7 +91,7 @@
                                         <th> Tanggal </th>
                                         <th> No Bukti </th>
                                         <th> Departemen </th>
-                                        <th> Kode Barang </th>
+                                        <th> Artikel </th>
                                         <th> Nama Barang </th>
                                         <th> Qty </th>
                                         <th> Satuan </th>

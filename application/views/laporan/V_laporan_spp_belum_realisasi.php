@@ -90,8 +90,8 @@
                                         <th> No </th>
                                         <th> No SPP </th>
                                         <th> Tgl SPP </th>
-                                        <th> Kode Barang/Jasa </th>
-                                        <th> Nama Barang/Jasa </th>
+                                        <th> Artikel </th>
+                                        <th> Nama Barang </th>
                                         <th> Qty </th>
                                         <th> Satuan </th>
                                         <th> Keterangan </th>

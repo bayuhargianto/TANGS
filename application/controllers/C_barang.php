@@ -259,6 +259,13 @@ class C_barang extends MY_Controller {
 				}
 				$barang_nama = $this->db->escape_str(preg_replace('/[^A-Za-z0-9\  ]/', '', $rowData[0][4]));
 
+				// $barang_kode = str_split('abcdefghijklmnopqrstuvwxyz'
+    //              .'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    //              .'0123456789');
+				// shuffle($barang_kode);
+				// $rand = '';
+				// foreach (array_rand($barang_kode, 5) as $k) $rand .= $barang_kode[$k];
+
 				if($hasil_jenis_barang_id < 10){
 	                $cat1 = "0".$hasil_jenis_barang_id;
 	            }else{
@@ -281,7 +288,7 @@ class C_barang extends MY_Controller {
 			 		"barang_id"				=> '',
 			 		"m_jenis_barang_id"		=> $hasil_jenis_barang_id,
 			 		"m_category_2_id"		=> $hasil_category_2_id,
-			        "barang_kode"			=> '',
+			        "barang_kode"			=> $barang_kode,
 			        "barang_nomor"			=> $barang_nomor,
 			        "barang_nama"			=> $barang_nama,
 			        "m_satuan_id"			=> $hasil_satuan_id,

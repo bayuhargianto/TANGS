@@ -178,7 +178,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th> No </th>
-                                                            <th> Kode Barang </th>
+                                                            <th> Artikel </th>
                                                             <th> Uraian dan Spesifikasi Barang </th>
                                                             <th> Qty PO Customer </th>
                                                             <th> Satuan </th>
@@ -426,7 +426,7 @@
                             $("#default-table thead").empty();
                             $("#default-table thead").append('<tr>\
                                 <th rowspan="2" align="center"> No </th>\
-                                <th rowspan="2" align="center"> Kode Barang </th>\
+                                <th rowspan="2" align="center"> Artikel </th>\
                                 <th rowspan="2" align="center"> Uraian dan Spesifikasi Barang </th>\
                                 <th rowspan="2" align="center"> Qty PO Customer </th>\
                                 <th rowspan="2" align="center"> Satuan </th>\
@@ -449,7 +449,7 @@
                             $("#default-table thead").empty();
                             $("#default-table thead").append('<tr>\
                                 <th> No </th>\
-                                <th> Kode Barang </th>\
+                                <th> Artikel </th>\
                                 <th> Uraian dan Spesifikasi Barang </th>\
                                 <th> Qty PO Customer </th>\
                                 <th> Satuan </th>\

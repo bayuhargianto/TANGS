@@ -181,7 +181,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th valign="center"> No </th>
-                                                            <th style="text-align: center;"> Kode Barang </th>
+                                                            <th style="text-align: center;"> Artikel </th>
                                                             <th style="text-align: center;"> Deskripsi </th>
                                                             <th style="text-align: center;"> Qty </th>
                                                             <th style="text-align: center;"> Satuan </th>

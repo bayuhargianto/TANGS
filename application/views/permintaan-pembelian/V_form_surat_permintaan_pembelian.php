@@ -211,7 +211,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th> No </th>
-                                                            <th> Kode Barang </th>
+                                                            <th> Artikel </th>
                                                             <th> Uraian dan Spesifikasi Barang/Jasa </th>
                                                             <th> Qty </th>
                                                             <th> Satuan </th>
