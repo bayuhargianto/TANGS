@@ -226,14 +226,17 @@
         if(element.value == 0)
         {
             document.getElementById('penawaran_supplier_ppn'+no).readOnly = false;
+            document.getElementById('penawaran_supplier_ppn'+no).value = 10;
         }
         else if(element.value == 1)
         {
             document.getElementById('penawaran_supplier_ppn'+no).readOnly = false;
+            document.getElementById('penawaran_supplier_ppn'+no).value = 10;
         }
         else if(element.value == 2)
         {
             document.getElementById('penawaran_supplier_ppn'+no).readOnly = true;
+            document.getElementById('penawaran_supplier_ppn'+no).value = 0;
         }
         
     }
