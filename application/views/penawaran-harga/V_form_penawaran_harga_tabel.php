@@ -37,7 +37,7 @@
         </tr>
         <tr>
             <th style="vertical-align: middle; text-align: center;"> No </th>
-            <th style="vertical-align: middle; text-align: center;"> Kode Barang </th>
+            <th style="vertical-align: middle; text-align: center;"> Artikel </th>
             <th style="vertical-align: middle; text-align: center;"> Uraian dan Spesifikasi Barang/Jasa </th>
             <th style="vertical-align: middle; text-align: center;"> Qty </th>
             <th style="vertical-align: middle; text-align: center;"> Satuan </th>
@@ -67,7 +67,7 @@
                                 '.$no.' 
                             </td>
                             <td> 
-                                '.$row->barang_kode.' 
+                                '.$row->barang_nomor.' 
                             </td>
                             <td> 
                                 '.$row->barang_nama.'('.$row->barang_nomor.', '.$row->jenis_barang_nama.')'.' 

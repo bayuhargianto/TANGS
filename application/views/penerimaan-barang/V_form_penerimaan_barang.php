@@ -103,7 +103,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <!-- <div class="form-group">
                                             <label class="control-label col-md-4">Jenis BPB
                                                 <span class="required"> * </span>
                                             </label>
@@ -120,7 +120,8 @@
                                                     </label>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
+                                        <input type="hidden" value="0" name="penerimaan_barang_jenis" id="penerimaan_barang_jenis1" onchange="getRef( this)" required />
                                         <div class="form-group">
                                             <label class="control-label col-md-4">Nama Pemeriksa
                                                 <span class="required"> * </span>
@@ -192,8 +193,6 @@
                                                             <th> No </th>
                                                             <th> Kode Barang </th>
                                                             <th> Uraian dan Spesifikasi Barang/Jasa </th>
-                                                            <th> Nomor Seri </th>
-                                                            <th> Qty Nomor Seri </th>
                                                             <th id="qty-po"> Qty </th>
                                                             <th> Qty Terima </th>
                                                             <th> Satuan </th>
@@ -246,6 +245,7 @@
             $(document).ready(function(){
                 rules();
                 itemBarang = 0;
+                isDisabledVar = true;
                 $("#formAdd").submit(function(event){
                   if ($("#formAdd").valid() == true) {
                     actionData2();
@@ -261,6 +261,7 @@
                 selectList_purchaseOrder("#t_order_id");
                 selectList_gudangCabang("#m_gudang_id");
                 if (document.getElementsByName("kode")[0].value != null) {
+                    isDisabledVar = false;
                     editData(document.getElementsByName("kode")[0].value);
                 }
             });
@@ -324,21 +325,15 @@
                                         '+data.val2[i].barang_uraian+'\
                                     </td>\
                                     <td id="td3'+(i+1)+'">\
-                                        <input type="text" class="form-control" id="penerimaan_barang_no_seri'+(i+1)+'" name="penerimaan_barang_no_seri[]"  data-role="tagsinput" required />\
+                                        <input type="text" class="form-control num2" id="orderdet_qty'+(i+1)+'" name="orderdet_qty[]" value="'+(data.val2[i].orderdet_qty - data.val2[i].orderdet_qty_realisasi)+'" required readonly />\
                                     </td>\
                                     <td id="td4'+(i+1)+'">\
-                                        <input type="text" class="form-control" id="penerimaan_barang_qty_no_seri'+(i+1)+'" name="penerimaan_barang_qty_no_seri[]"  data-role="tagsinput" required />\
-                                    </td>\
-                                    <td id="td5'+(i+1)+'">\
-                                        <input type="text" class="form-control num2" id="orderdet_qty'+(i+1)+'" name="orderdet_qty[]" value="'+(data.val2[i].orderdet_qty - data.val2[i].orderdet_qty_realisasi)+'" required readonly/>\
-                                    </td>\
-                                    <td id="td6'+(i+1)+'">\
                                         <input type="text" class="form-control num2" id="penerimaan_barangdet_qty'+(i+1)+'" name="penerimaan_barangdet_qty[]" value="0" required />\
                                     </td>\
-                                    <td id="td7'+(i+1)+'">\
+                                    <td id="td5'+(i+1)+'">\
                                         '+data.val2[i].satuan_nama+'\
                                     </td>\
-                                    <td id="td8'+(i+1)+'">\
+                                    <td id="td6'+(i+1)+'">\
                                         <button type="button" id="removeBtn'+(i+1)+'" class="btn red-thunderbird" onclick="removePO('+(i+1)+')">\
                                             <i class="icon-close"></i>\
                                         </button>\
@@ -346,8 +341,11 @@
                                 </tr>\
                             ');
                             $("#penerimaan_barang_no_seri"+(i+1)).tagsinput();
-                            $("#penerimaan_barang_qty_no_seri"+(i+1)).tagsinput();
+                            $("#penerimaan_barang_qty_no_seri"+(i+1)).tagsinput({
+                                allowDuplicates: true
+                            });
                             $('.num2').number( true, 2, '.', ',' );
+                            $('.num2').css('text-align', 'right');
                         }
                     }
                   }
@@ -371,6 +369,21 @@
                 $("#t_order_id").select2();
                 selectList_workOrder("#t_order_id");
               }
+            }
+
+            function qtyTerima()
+            {
+                for(var j = 0; j < itemBarang; j++)
+                {
+                    var qtyTerima = 0;
+                    var qty = document.getElementById('penerimaan_barang_qty_no_seri'+(j+1)).value.split(',');
+                    for(var i = 0; i < qty.length; i++)
+                    {
+                        // alert(qty[i]);
+                        qtyTerima = qtyTerima + parseFloat(qty[i]);
+                    }
+                    document.getElementById('penerimaan_barangdet_qty'+(j+1)).value = qtyTerima;
+                }
             }
 
             function editData(id) {
@@ -452,22 +465,12 @@
                                     '+data.val2[i].barang_uraian+'\
                                 </td>\
                                 <td id="td3'+(i+1)+'">\
-                                    <fieldset disabled>\
-                                        <input type="text" class="form-control" id="penerimaan_barang_no_seri'+(i+1)+'" name="penerimaan_barang_no_seri[]" value="'+data.val2[i].penerimaan_barang_no_seri+'" required readonly>\
-                                    </fieldset>\
-                                </td>\
-                                <td id="td4'+(i+1)+'">\
-                                    <fieldset disabled>\
-                                        <input type="text" class="form-control" id="penerimaan_barang_qty_no_seri'+(i+1)+'" name="penerimaan_barang_qty_no_seri[]" value="'+data.val2[i].penerimaan_barang_qty_no_seri+'" required readonly>\
-                                    </fieldset>\
-                                </td>\
-                                <td id="td4'+(i+1)+'">\
                                         <input type="text" class="form-control num2" id="penerimaan_barangdet_qty'+(i+1)+'" name="penerimaan_barangdet_qty[]" value="'+data.val2[i].penerimaan_barangdet_qty+'" required readonly />\
                                 </td>\
-                                <td id="td5'+(i+1)+'">\
+                                <td id="td4'+(i+1)+'">\
                                     '+data.val2[i].satuan_nama+'\
                                 </td>\
-                                <td id="td7'+(i+1)+'">\
+                                <td id="td5'+(i+1)+'">\
                                     <button type="button" id="removeBtn'+(i+1)+'" class="btn red-thunderbird" onclick="removePO('+(i+1)+')" disabled>\
                                         <i class="icon-close"></i>\
                                     </button>\
@@ -479,6 +482,7 @@
                         $("#penerimaan_barang_no_seri"+(i+1)).attr('disabled','disabled');
                         $("#penerimaan_barang_qty_no_seri"+(i+1)).attr('disabled','disabled');
                         $('.num2').number( true, 2, '.', ',' );
+                        $('.num2').css('text-align', 'right');
                         if(isDisabledVar !== true){
                             $("#penerimaan_barang_no_seri"+(i+1)).removeAttr('disabled');
                         }

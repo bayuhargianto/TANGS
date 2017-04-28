@@ -196,7 +196,7 @@
                                 <td>\
                                     <input type="hidden" name="m_barang_id[]" value="'+data.val2[i].m_barang_id+'"/>\
                                     <input type="hidden" name="permintaan_pembeliandet_id[]" value="'+data.val2[i].permintaan_pembeliandet_id+'"/>\
-                                    '+data.val2[i].barang_kode+'\
+                                    '+data.val2[i].barang_nomor+'\
                                 </td>\
                                 <td>\
                                     <textarea class="form-control" rows="2" name="permintaan_pembeliandet_uraian[]" required readonly>'+data.val2[i].permintaan_pembeliandet_uraian+'</textarea>\

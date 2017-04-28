@@ -110,7 +110,7 @@
   </tr>
   <tr>
     <td rowspan="2"><div align="center">No.</div></td>
-    <td rowspan="2"><div align="center">Kode Barang</div></td>
+    <td rowspan="2"><div align="center">Artikel</div></td>
     <td rowspan="2"><div align="center">Uraian dan Spesifikasi Barang/Jasa</div></td>
     <td rowspan="2"><div align="center">Qty</div></td>
     <td rowspan="2"><div align="center">Satuan</div></td>
@@ -138,7 +138,7 @@
         $penawaran = $itemBarang['penawaran_barang_id']; 
         echo '<tr>';
         echo '<td align="center">'.$noBarang.'</td>';
-        echo '<td>'.$itemBarang['barang_kode'].'</td>';
+        echo '<td>'.$itemBarang['barang_nomor'].'</td>';
         echo '<td>'.$itemBarang['barang_uraian'].'</td>';
         echo '<td align="center">'.$itemBarang['penawaran_barang_qty'].'</td>';
         echo '<td align="center">'.$itemBarang['satuan_nama'].'</td>';
@@ -146,7 +146,7 @@
         if(isset($step3))
         {
           foreach ($step3 as $harga => $itemHarga) {
-            if($itemHarga['barang_kode'] == $penawaran)
+            if($itemHarga['barang_nomor'] == $penawaran)
             {
               echo '<td><table width="100%">
                 <tr>
