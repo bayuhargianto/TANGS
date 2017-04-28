@@ -522,16 +522,10 @@
             var type_karyawan = $('#type_karyawan').val();
             var nominal = '';
 
-<<<<<<< HEAD
             console.log(this_value);
             if (this_value>5) {
               if (type_karyawan!=1) {
                 $("#input-discount-percent").val(0);
-=======
-            if (this_value>=5) {
-              if (type_karyawan!=1) {
-                $("#input-discount-percent").val();
->>>>>>> refs/remotes/origin/master
                 var nominal = 0;
               } else {
                 $("#input-discount-percent").val(this_value);
