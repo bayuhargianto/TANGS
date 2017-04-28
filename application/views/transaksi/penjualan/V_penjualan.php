@@ -46,12 +46,12 @@
                             <tbody>
                             <tr>
                                 <td>USER :</td>
-                                <td class="text-right sales-user">admin</td>
+                                <td class="text-right sales-user"><?php echo strtoupper($user->user_username)?></td>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <td>SHIFT :</td>
                                 <td class="text-right sales-shift">1</td>
-                            </tr>
+                            </tr> -->
                             </tbody>
                         </table>
                     </div>
@@ -70,6 +70,7 @@
                             <table id="table-recent-item" class="table table-hover table-striped my-item" style="font-size: 12px;">
                                 <thead>
                                 <tr>
+                                    <th width="80%">STATUS</th>
                                     <th width="80%">NAMA ITEM</th>
                                     <th class="text-right">HARGA</th>
                                     <th class="text-center"><i class="fa fa-th"></i></th>
@@ -93,6 +94,7 @@
                             <table id="table-item" class="table table-hover table-striped my-item" style="font-size: 12px;">
                                 <thead>
                                   <tr>
+                                    <th width="5%">STATUS</th>
                                     <th width="80%">NAMA ITEM</th>
                                     <th class="text-right">HARGA</th>
                                     <th class="text-center"><i class="fa fa-th"></i></th>
@@ -127,38 +129,6 @@
                                     <td class="text-center">
                                       <button data-name="Umum" data-id="1" class="btn btn-success btn-xs btn-add-customer">
                                         <i class="fa fa-check"></i>
-                                      </button>
-                                    </td>
-                                  </tr>
-                            </table>
-                        </div>
-                        <div class="tab-pane fade" id="tab-D">
-                            <br>
-                            <div class="input-group">
-                                <input type="text" id="search" class="form-control input-sm" placeholder="Cari produk">
-                                <span class="input-group-btn">
-                                  <button class="btn btn-default btn-sm" type="button"><i class="fa fa-search"></i>
-                                  </button>
-                                </span>
-                            </div><!-- /input-group -->
-                            <br>
-                            <table id="table-item" class="table table-hover table-striped my-item" style="font-size: 12px;">
-                                <thead>
-                                <tr>
-                                    <th width="80%">NAMA ITEM</th>
-                                    <th class="text-right">HARGA</th>
-                                    <th class="text-center"><i class="fa fa-th"></i></th>
-                                </tr>
-                                </thead>
-                                <tbody class="fbody" id="data-diskon">
-                                  <tr>
-                                    <td id="item-name">Abon Roll EXP.10/12/2016</td>
-                                    <td class="text-right">5.500</td>
-                                    <td class="text-center">
-                                      <button data-disc="0" data-price="5500" data-qty="1" data-name="Abon Roll EXP.10/12/2016"
-                                      data-id="1" data-has-promo="0" data-promo-type="null" data-promo-item-name="null"
-                                      data-promo-gratis="null" data-promo-qty="null" class="btn btn-success btn-xs btn-add-cart">
-                                        <i class="fa fa-plus"></i>
                                       </button>
                                     </td>
                                   </tr>
@@ -221,10 +191,14 @@
                     <button class="btn btn-default" data-toggle="modal" data-target=".bs-modal-hold" disabled>HOLD</button>-->
                     <!-- <button title="ALT+3" class="btn btn-default" id="btn-sales-opsi"
                     data-toggle="modal" data-target=".bs-modal-sales">OPSI</button> -->
-                    <button title="ALT+2" class="btn btn-warning" id="btn-sales-diskon"
-                    data-toggle="modal" data-target=".bs-modal-disc" disabled="disabled">DISKON</button>
+
+                    <!-- <button title="ALT+2" class="btn btn-warning" id="btn-sales-diskon"
+                    data-toggle="modal" data-target=".bs-modal-disc" disabled="disabled">DISKON</button> -->
+
+                    <button title="ALT+2" class="btn btn-warning" id="btn-sales-diskon" disabled="disabled" onclick="form_login()">DISKON</button>
                     <button title="ALT+1" class="btn btn-success" id="btn-sales-bayar"
                     data-toggle="modal" data-target=".bs-modal-pay" disabled="disabled">BAYAR</button>
+                    <button title="ALT+C" class="btn btn-danger" id="btn-sales-batal">KELUAR</button>
 
                     <div id="my-modal-hold" class="modal fade bs-modal bs-modal-hold" tabindex="-1" role="dialog"
                     aria-labelledby="mySmallModalLabel">
@@ -260,6 +234,7 @@
                                     <h4 class="modal-title">DISKON ITEM</h4>
                                 </div>
                                 <div class="modal-body">
+                                    <input type="text" id="type_karyawan" name="type_karyawan" value="">
                                     <label for="input-discount-item">Diskon(Rp) :</label>
                                     <input type="text" class="form-control input-lg numeric" id="input-discount-item" value="">
                                     <label for="input-discount-item-percent">Diskon(%) :</label>
@@ -404,3 +379,18 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modal_login">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script type="text/javascript">
+  function form_login()
+  {
+    var url = "<?php echo base_url()?>C_POS/popmodal_form_login";
+    $('#modal_login').modal('show').find('.modal-content').load(url);
+  }
+
+</script>

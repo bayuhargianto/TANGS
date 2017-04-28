@@ -94,42 +94,41 @@
                                 'param'  => $row2->penawaran_supplier_id
                             );
                             $harga = $this->mod->select('*','t_penawaran_harga', NULL, $where_det);
-                            foreach ($harga->result() as $val) {
-                                if ($harga) {
-                                    $harga_value2 = 0;
-                                    $qty_value2 = 0;
-                                    $mata_uang_value2 = "";
+                            if ($harga) {
+                                foreach ($harga->result() as $val) {
+                                    $harga_value2 = $val->penawaran_harga_nominal;
+                                    $qty_value2 = $val->penawaran_harga_qty_ditawarkan;
+                                    $mata_uang_value2 = $val->m_mata_uang_id;
                                     $include_ppn2 = "";
                                     $exclude_ppn2 = "";
                                     $tanpa_ppn2 = "";
-                                    foreach ($harga->result() as $val) {
-                                        $harga_value2 = $val->penawaran_harga_nominal;
-                                        $qty_value2 = $val->penawaran_harga_qty_ditawarkan;
-                                        $mata_uang_value2 = $val->m_mata_uang_id;
-                                        $include_ppn2 = "";
-                                        $exclude_ppn2 = "";
-                                        $tanpa_ppn2 = "";
-                                        if ($val->penawaran_harga_ppn == 0) {
-                                            $exclude_ppn2 = "checked";
-                                        } else if ($val->penawaran_harga_ppn == 1) {
-                                            $include_ppn2 = "checked";
-                                        } else if ($val->penawaran_harga_ppn == 2) {
-                                            $tanpa_ppn2 = "checked";
-                                        }
+                                    if ($val->penawaran_harga_ppn == 0) {
+                                        $exclude_ppn2 = "checked";
+                                    } else if ($val->penawaran_harga_ppn == 1) {
+                                        $include_ppn2 = "checked";
+                                    } else if ($val->penawaran_harga_ppn == 2) {
+                                        $tanpa_ppn2 = "checked";
                                     }
                                 }
+                            } else {
+                                $harga_value2 = 0;
+                                $qty_value2 = 0;
+                                $mata_uang_value2 = "";
+                                $include_ppn2 = "";
+                                $exclude_ppn2 = "";
+                                $tanpa_ppn2 = "";
                             }
 
                             echo '
                                 <td> 
-                                    <input type="text" class="form-control num2" name="penawaran_harga_qty_ditawarkan[]" value="'.$qty_value.'" readonly required>
+                                    <input type="text" class="form-control num2" name="penawaran_harga_qty_ditawarkan[]" value="'.$qty_value2.'" readonly required>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control money" name="penawaran_harga_nominal[]" id="penawaran_harga_nominal'.$no.''.$no2.'"value="'.$harga_value.'" readonly>
+                                    <input type="text" class="form-control money" name="penawaran_harga_nominal[]" id="penawaran_harga_nominal'.$no.''.$no2.'"value="'.$harga_value2.'" readonly>
                                 <td>
                                     <select class="form-control" id="m_mata_uang" name="m_mata_uang[]" aria-required="true" aria-describedby="select-error" style="width: 100%" disabled>';
                                         foreach ($mata_uang->result() as $row3) {
-                                            if ($mata_uang_value == $row3->mata_uang_id) {
+                                            if ($mata_uang_value2 == $row3->mata_uang_id) {
                                                 $selected = 'selected="selected"';
                                             } else {
                                                 $selected = '';
@@ -141,15 +140,15 @@
                                 </td>
                                 <td>
                                     <label class="mt-radio"> Exclude
-                                        <input type="radio" value="0" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" '.$exclude_ppn.' required disabled  />
+                                        <input type="radio" value="0" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" '.$exclude_ppn2.' required disabled  />
                                         <span></span>
                                     </label>
                                     <label class="mt-radio"> Include
-                                        <input type="radio" value="1" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" '.$include_ppn.' disabled />
+                                        <input type="radio" value="1" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" '.$include_ppn2.' disabled />
                                         <span></span>
                                     </label>
                                     <label class="mt-radio"> Tanpa
-                                        <input type="radio" value="2" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" '.$tanpa_ppn.' disabled />
+                                        <input type="radio" value="2" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" '.$tanpa_ppn2.' disabled />
                                         <span></span>
                                     </label>
                                 </td>

@@ -85,7 +85,7 @@ class C_partner extends MY_Controller {
 						<i class="icon-power text-center"></i>
 					</button>';
 					}
-					
+
 				} else {
 					$status = '<span class="label bg-red-thunderbird bg-font-red-thunderbird"> Non Aktif </span>';
 					if($priv['update'] == 1)
@@ -100,7 +100,7 @@ class C_partner extends MY_Controller {
 						<i class="icon-power text-center"></i>
 					</button>';
 					}
-					
+
 				}
 				$array_value = json_decode($val->partner_nama_cetak, TRUE);
 				$default_value = implode(', ', $array_value);
@@ -134,12 +134,31 @@ class C_partner extends MY_Controller {
 	}
 
 	public function getFormLogin(){
-		$id = $this->input->get('id');
-		$s = $this->input->get('s');
-		$data = array('id_partner' => $id, 's' => $s);
+		$id = $this->input->post('id');
+		$data = array(
+				'id_partner' => $id,
+				'action'		 => 'C_partner/checklogin'
+			);
 		$this->load->view("partner/V_form_login", $data);
 		// echo $data['id_partner'];
 	}
+
+	function checklogin()
+	{
+		$user = $this->input->post('i_username', TRUE);
+		$pass = md5(base64_decode($this->input->post('i_password', TRUE)));
+		$user_data = $this->mod->check_exist_user($user,$pass);
+
+		if(!$user_data)
+			$response['status'] = '204';
+		else{
+			$response['status'] = '200';
+		}
+
+		echo json_encode($response);
+	}
+
+
 
 	public function loadDataWhere(){
 		$select = '*';
@@ -153,56 +172,56 @@ class C_partner extends MY_Controller {
 			foreach ($query->result() as $val) {
 				$array_namaCetak = json_decode($val->partner_nama_cetak);
 				$hasil7['val2'] = array();
-				for ($i = 0; $i < sizeof($array_namaCetak); $i++) { 
+				for ($i = 0; $i < sizeof($array_namaCetak); $i++) {
 					$hasil7['val2'][] = array(
 						'text' 	=> $array_namaCetak[$i]
 					);
 				}
 				$array_alamatCetak = json_decode($val->partner_alamat_cetak);
 				$hasil8['val2'] = array();
-				for ($i = 0; $i < sizeof($array_alamatCetak); $i++) { 
+				for ($i = 0; $i < sizeof($array_alamatCetak); $i++) {
 					$hasil8['val2'][] = array(
 						'text' 	=> $array_alamatCetak[$i]
 					);
 				}
 				$array_telp = json_decode($val->partner_telepon);
 				$hasil1['val2'] = array();
-				for ($i = 0; $i < sizeof($array_telp); $i++) { 
+				for ($i = 0; $i < sizeof($array_telp); $i++) {
 					$hasil1['val2'][] = array(
 						'text' 	=> $array_telp[$i]
 					);
 				}
 				$array_telpCetak = json_decode($val->partner_telepon_cetak);
 				$hasil2['val2'] = array();
-				for ($i = 0; $i < sizeof($array_telpCetak); $i++) { 
+				for ($i = 0; $i < sizeof($array_telpCetak); $i++) {
 					$hasil2['val2'][] = array(
 						'text' 	=> $array_telpCetak[$i]
 					);
 				}
 				$array_email = json_decode($val->partner_email);
 				$hasil3['val2'] = array();
-				for ($i = 0; $i < sizeof($array_email); $i++) { 
+				for ($i = 0; $i < sizeof($array_email); $i++) {
 					$hasil3['val2'][] = array(
 						'text' 	=> $array_email[$i]
 					);
 				}
 				$array_emailCetak = json_decode($val->partner_email_cetak);
 				$hasil4['val2'] = array();
-				for ($i = 0; $i < sizeof($array_emailCetak); $i++) { 
+				for ($i = 0; $i < sizeof($array_emailCetak); $i++) {
 					$hasil4['val2'][] = array(
 						'text' 	=> $array_emailCetak[$i]
 					);
 				}
 				$array_fax = json_decode($val->partner_fax);
 				$hasil5['val2'] = array();
-				for ($i = 0; $i < sizeof($array_fax); $i++) { 
+				for ($i = 0; $i < sizeof($array_fax); $i++) {
 					$hasil5['val2'][] = array(
 						'text' 	=> $array_fax[$i]
 					);
 				}
 				$array_faxCetak = json_decode($val->partner_fax_cetak);
 				$hasil6['val2'] = array();
-				for ($i = 0; $i < sizeof($array_faxCetak); $i++) { 
+				for ($i = 0; $i < sizeof($array_faxCetak); $i++) {
 					$hasil6['val2'][] = array(
 						'text' 	=> $array_faxCetak[$i]
 					);
@@ -319,8 +338,8 @@ class C_partner extends MY_Controller {
 			$param = "";
 		}
 		$select = '*';
-		$where = 'partner_status = 1 AND  CONCAT_WS(" ", partner_nama) LIKE "%'.$param.'%" ESCAPE "!" 
-		AND partner_status_aktif = "y" 
+		$where = 'partner_status = 1 AND  CONCAT_WS(" ", partner_nama) LIKE "%'.$param.'%" ESCAPE "!"
+		AND partner_status_aktif = "y"
 		OR partner_status = 3 AND  CONCAT_WS(" ", partner_nama) LIKE "%'.$param.'%" ESCAPE "!"
 		AND partner_status_aktif = "y" ';
 		$order['data'][] = array(
@@ -351,8 +370,8 @@ class C_partner extends MY_Controller {
 			$param = "";
 		}
 		$select = '*';
-		$where = 'partner_status = 2 AND  CONCAT_WS(" ", partner_nama) LIKE "%'.$param.'%" ESCAPE "!" 
-		AND partner_status_aktif = "y" 
+		$where = 'partner_status = 2 AND  CONCAT_WS(" ", partner_nama) LIKE "%'.$param.'%" ESCAPE "!"
+		AND partner_status_aktif = "y"
 		OR partner_status = 3 AND  CONCAT_WS(" ", partner_nama) LIKE "%'.$param.'%" ESCAPE "!"
 		AND partner_status_aktif = "y" ';
 		$order['data'][] = array(
@@ -418,7 +437,7 @@ class C_partner extends MY_Controller {
 			}
 		}
 		$response['data'] = $data;
-		
+
 		echo json_encode($response);
 	}
 
