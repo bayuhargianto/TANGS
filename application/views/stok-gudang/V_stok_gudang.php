@@ -95,7 +95,7 @@
                       {"name": "no","orderable": false,"searchable": false,  "className": "text-center", "width": "5%"},
                       {"name": "cabang_nama"},
                       {"name": "gudang_nama"},
-                      {"name": "barang_kode"},
+                      {"name": "barang_nomor"},
                       {"name": "barang_nama"},
                       {"name": "jenis_barang_nama"},
                       {"name": "stok_minimum", "className": "text-right"},

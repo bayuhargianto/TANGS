@@ -82,10 +82,10 @@ table{
 </div>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="padding-top: 5;font-size:12px;width:100%;">
 	<tr>
-		<td><?= $transaksi->penjualan_code?></td>
+		<td><?php echo $transaksi->penjualan_code?></td>
 	</tr>
   <tr>
-    <td align="right" ><?= $transaksi->penjualan_date ?></td>
+    <td align="right" ><?php echo $transaksi->penjualan_date ?></td>
   </tr>
 </table>
 <table style="width:100%;">
@@ -95,42 +95,42 @@ table{
 		$total_diskon_item = 0;
     foreach ($transaksi_detail->result() as $r_transaksi_detail) {?>
 			<tr>
-				<td style="text-align:center;width:5%;"><?= $no_item; ?></td>
-        <td><?= $r_transaksi_detail->barang_nama?></td>
-				<td style="text-align:center;"><?= $r_transaksi_detail->barang_qty?> X <?= number_format($r_transaksi_detail->barang_price)?></td>
-				<td style="text-align:right;"><?= number_format($r_transaksi_detail->barang_price*$r_transaksi_detail->barang_qty)?></td>
+				<td style="text-align:center;width:5%;"><?php echo $no_item; ?></td>
+        <td><?php echo $r_transaksi_detail->barang_nama?></td>
+				<td style="text-align:center;"><?php echo $r_transaksi_detail->barang_qty?> X <?php echo number_format($r_transaksi_detail->barang_price)?></td>
+				<td style="text-align:right;"><?php echo number_format($r_transaksi_detail->barang_price*$r_transaksi_detail->barang_qty)?></td>
       </tr>
       <tr>
         <td style="text-align:center;">&nbsp;</td>
 				<td style="text-align:center;">&nbsp;</td>
 				<td style="text-align:center;"></td>
-				<td style="text-align:right;"><?= number_format($r_transaksi_detail->barang_discount_nominal)?></td>
+				<td style="text-align:right;"><?php echo number_format($r_transaksi_detail->barang_discount_nominal)?></td>
       </tr>
-    <?
+    <?php
 		$total_diskon_item = $total_diskon_item + $r_transaksi_detail->barang_discount_nominal;
 		$no_item++;} ?>
 </table>
 <table style="width:100%;">
 	<tr>
 		<td	><strong>Total</strong></td>
-		<td align="right"><strong><?= number_format($transaksi->penjualan_total)?></strong></td>
+		<td align="right"><strong><?php echo number_format($transaksi->penjualan_total)?></strong></td>
 	</tr>
 	<tr>
 		<td	><strong>Discount All</strong></td>
-		<td align="right"><strong><?= number_format($transaksi->penjualan_all_discount_nominal)?></strong></td>
+		<td align="right"><strong><?php echo number_format($transaksi->penjualan_all_discount_nominal)?></strong></td>
 	</tr>
 	<tr>
 		<td	><strong>Total Discount Item</strong></td>
-		<td align="right"><strong><?= number_format($total_diskon_item)?></strong></td>
+		<td align="right"><strong><?php echo number_format($total_diskon_item)?></strong></td>
 	</tr>
 	<?php $discount = $transaksi->penjualan_all_discount_nominal + $total_diskon_item;?>
 	<tr>
 		<td><strong>Total All Discount</strong></td>
-		<td align="right"><strong><?= number_format($discount)?></strong></td>
+		<td align="right"><strong><?php echo number_format($discount)?></strong></td>
 	</tr>
 	<tr>
 		<td><strong>Bayar</strong></td>
-		<td align="right"><strong><?= number_format($transaksi->penjualan_grand_total)?></strong></td>
+		<td align="right"><strong><?php echo number_format($transaksi->penjualan_grand_total)?></strong></td>
 	</tr>
 </table>
   <div class=""  style="text-align:center;">

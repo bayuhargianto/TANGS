@@ -160,7 +160,7 @@
                                                     <thead>
                                                         <tr style="text-align: center;">
                                                             <th> No </th>
-                                                            <th> Kode Barang </th>
+                                                            <th> Artikel </th>
                                                             <th> Nama Barang </th>
                                                             <th style="width: 30%"> No Seri </th>
                                                             <th> Qty </th>
@@ -181,7 +181,7 @@
                                                     <thead>
                                                         <tr style="text-align: center;">
                                                             <th> No </th>
-                                                            <th> Kode Barang </th>
+                                                            <th> Artikel </th>
                                                             <th> Nama Barang </th>
                                                             <th> Total </th>
                                                             <th> Satuan </th>

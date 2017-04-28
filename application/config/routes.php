@@ -420,7 +420,12 @@ $route['Master-Data/surat-jalan/getForm']						= 'C_surat_jalan/getForm';
 $route['Master-Data/surat-jalan/postData']						= 'C_surat_jalan/postData';
 $route['Gudang/Surat-Jalan']									= 'C_surat_jalan/view/1';
 //END SURAT JALAN
-
+$route['Penjualan/Point-of-Sale']							                  = 'C_POS/view';
+$route['Penjualan/Point-of-Sale/loadData']						              = 'C_POS/loadData/1';
+$route['Penjualan/Point-of-Sale/loadDatadetail/(:any)']						  = 'C_POS/loadDatadetail/$1';
+$route['Penjualan/form_penjualan']						                      = 'C_POS/open_page_penjualan';
+$route['Penjualan/penjualan_details/(:any)']						            = 'C_POS/penjualan_details/$1';
+$route['Penjualan/print/(:any)']						                        = 'C_POS/print_struk/$1';
 // Satuan
 $route['Master-Data/Satuan']									= 'C_satuan';
 $route['Master-Data/Satuan/getForm']							= 'C_satuan/getForm';

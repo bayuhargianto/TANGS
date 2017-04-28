@@ -191,7 +191,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th> No </th>
-                                                            <th> Kode Barang </th>
+                                                            <th> Artikel </th>
                                                             <th> Uraian dan Spesifikasi Barang/Jasa </th>
                                                             <th id="qty-po"> Qty </th>
                                                             <th> Qty Terima </th>
@@ -319,7 +319,7 @@
                                     <td id="td1'+(i+1)+'">\
                                         <input type="hidden" name="orderdet_id[]" value="'+data.val2[i].orderdet_id+'"/>\
                                         <input type="hidden" name="m_barang_id[]" value="'+data.val2[i].m_barang_id+'"/>\
-                                        '+data.val2[i].barang_kode+'\
+                                        '+data.val2[i].barang_nomor+'\
                                     </td>\
                                     <td id="td2'+(i+1)+'">\
                                         '+data.val2[i].barang_uraian+'\
@@ -459,7 +459,7 @@
                                 </td>\
                                 <td id="td1'+(i+1)+'">\
                                     <input type="hidden" name="m_barang_id[]" value="'+data.val2[i].m_barang_id+'"/>\
-                                    '+data.val2[i].barang_kode+'\
+                                    '+data.val2[i].barang_nomor+'\
                                 </td>\
                                 <td id="td2'+(i+1)+'">\
                                     '+data.val2[i].barang_uraian+'\

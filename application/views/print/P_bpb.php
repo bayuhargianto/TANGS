@@ -88,7 +88,7 @@
 <table width="100%" border="1" cellspacing="0" cellpadding="4">
   <tr align="left">
     <th scope="col" >No.</th>
-    <th scope="col" >Kode Barang</th>
+    <th scope="col" >Artikel</th>
     <th scope="col" >Jenis Barang</th>
     <th scope="col" >Qty</th>
     <th scope="col" >Satuan</th>
@@ -102,7 +102,7 @@
     foreach ($val2 as $barang => $itemBarang) {
       echo '<tr align="left">';
       echo '<td>'.$no.'</td>';
-      echo '<td>'.$itemBarang['barang_kode'].'</td>';
+      echo '<td>'.$itemBarang['barang_nomor'].'</td>';
       echo '<td>'.$itemBarang['jenis_barang_nama'].'</td>';
       echo '<td>'.$itemBarang['penerimaan_barangdet_qty'].'</td>';
       echo '<td>'.$itemBarang['satuan_nama'].'</td>';

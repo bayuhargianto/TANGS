@@ -39,7 +39,7 @@
   	<thead>
    		<tr>
   			<td><center>No</center></td>
-  			<td><center>Kode Barang</center></td>
+  			<td><center>Artikel</center></td>
   			<td><center>Jenis Barang</center></td>
   			<td><center>Qty</center></td>
   			<td><center>Satuan</center></td>

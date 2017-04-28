@@ -314,6 +314,7 @@
                         if (itemBarang > 0) {
                             document.getElementById('lanjut').disabled = false;
                         } else {
+                            alert();
                             document.getElementById('lanjut').disabled = true;
                         }   
                     } else if (stepPosition == 2) {
@@ -684,6 +685,7 @@
             }
 
             function editData(id) {
+                $( "#formAdd" ).validate().destroy();
                 $.ajax({
                   type : "GET",
                   url  : '<?php echo base_url();?>Pembelian/Penawaran-Harga/loadDataWhere/',

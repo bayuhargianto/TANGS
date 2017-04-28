@@ -149,7 +149,7 @@
                                                             <th rowspan="3" valign="center"> Action </th>
                                                         </tr>
                                                         <tr align="center">
-                                                            <th rowspan="2"> Kode Barang </th>
+                                                            <th rowspan="2"> Artikel </th>
                                                             <th rowspan="2"> Berat (Kg) </th>
                                                             <th rowspan="2"> Panjang (m) </th>
                                                             <th rowspan="2"> Tebal (mm) </th>

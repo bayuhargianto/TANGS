@@ -47,7 +47,7 @@ class C_stok_gudang extends MY_Controller {
 		);
 		//WHERE LIKE
 		$where_like['data'][] = array(
-			'column' => 'cabang_nama, gudang_nama, barang_kode, barang_nama, jenis_barang_nama, stok_minimum, stok_gudang, satuan_nama',
+			'column' => 'cabang_nama, gudang_nama, barang_nomor, barang_nama, jenis_barang_nama, stok_minimum, stok_gudang, satuan_nama',
 			'param'	 => $this->input->get('search[value]')
 		);
 		//ORDER
@@ -74,7 +74,7 @@ class C_stok_gudang extends MY_Controller {
 					$no,
 					$val->cabang_nama,
 					$val->gudang_nama,
-					$val->barang_kode,
+					$val->barang_nomor,
 					$val->barang_nama,
 					$val->jenis_barang_nama,
 					number_format($val->stok_minimum, 2, ',', '.'),
@@ -151,7 +151,7 @@ class C_stok_gudang extends MY_Controller {
 						'type'	=> 'inner'
 					);
 					$where_det['data'][] = array(
-						'column' => 'a.penerimaan_barang_nomor',
+						'column' => 'a.penerimaan_barang_kode',
 						'param'	 => $val->kartu_stok_referensi
 					);
 					$where_det['data'][] = array(
