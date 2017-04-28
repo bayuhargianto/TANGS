@@ -569,7 +569,7 @@
                               <button data-disc="" data-price="'+value.harga_jual_pajak+'" \
                               data-qty="1" data-name="'+value.barang_nama+' EXP." \
                               data-id="'+value.barang_id+'" data-has-promo="'+value.aktif+'" data-promo-harga="" data-promo-type=""\
-                              data-status-aktif=""\
+                              data-status-aktif="" data-stok-gudang="'+value.stok_gudang_jumlah+'"\
                               data-promo-item-name="'+value.promo_nama+'" data-promo-gratis="" data-promo-qty="'+value.promo_qty+'" \
                               class="btn btn-success btn-xs btn-add-cart">\
                                 <i class="fa fa-plus"></i>\
@@ -634,13 +634,13 @@
                 var icon = '<i class="glyphicon glyphicon-remove-circle"></i>';
               }
               html += '<tr>\
-                        <td></td>\
+                        <td class="text-center">'+icon+'</td>\
                         <td id="item-name">'+value.barang_nama+'</td>\
                         <td class="text-right">'+Intl.NumberFormat().format(value.harga_jual_pajak)+'</td><td class="text-center">\
                           <button data-disc="" data-price="'+value.harga_jual_pajak+'" \
                           data-qty="1" data-name="'+value.barang_nama+' EXP." \
                           data-id="'+value.barang_id+'" data-has-promo="'+value.aktif+'" data-promo-harga="'+value.promo_harga+'" data-promo-type=""\
-                          data-status-aktif=""\
+                          data-status-aktif="" data-stok-gudang="'+value.stok_gudang_jumlah+'"\
                           data-promo-item-name="'+value.promo_nama+'" data-promo-gratis="" data-promo-qty="'+value.promo_qty+'" \
                           class="btn btn-success btn-xs btn-add-cart">\
                             <i class="fa fa-plus"></i>\
@@ -653,7 +653,12 @@
 
 
         $('body').on('click', '.btn-add-cart', function (e) {
-            $.fn.addCart($(this));
+              var stok_gudang = $(this).attr('data-stok-gudang');
+              if (stok_gudang > 0) {
+                $.fn.addCart($(this));
+              } else {
+                
+              }
             e.preventDefault();
         });
 
