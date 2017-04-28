@@ -550,6 +550,14 @@
             $("#input-cashback").val(sales_cashback);
         });
 
+        $.fn.bookingItem = function(elem)
+        {
+          var bookingItem = '<div class="mycontent">\
+                              Co-President <br/>\
+                              sample@uic.edu\
+                            </div>'
+        }
+
         $.fn.getItems = function () {
           $.get( base_url+'C_POS/get_items',function(data){
               var html = '';
@@ -571,11 +579,13 @@
                               data-id="'+value.barang_id+'" data-has-promo="'+value.aktif+'" data-promo-harga="" data-promo-type=""\
                               data-status-aktif="" data-stok-gudang="'+value.stok_gudang_jumlah+'"\
                               data-promo-item-name="'+value.promo_nama+'" data-promo-gratis="" data-promo-qty="'+value.promo_qty+'" \
-                              class="btn btn-success btn-xs btn-add-cart">\
+                              class="btn btn-success btn-xs btn-add-cart" data-contentwrapper=".mycontent" rel="popover">\
                                 <i class="fa fa-plus"></i>\
                               </button>\
                             </td>\
-                          </tr>';
+                          </tr>\
+                          ';
+                  $.fn.bookingItem();
                     });
               $("#data-items").html(html);
           }).fail(function(data){
@@ -646,7 +656,8 @@
                             <i class="fa fa-plus"></i>\
                           </button>\
                         </td>\
-                      </tr>';
+                      </tr>\
+                      ';
             });
             $("#data-items").html(html);
         });
@@ -654,13 +665,43 @@
 
         $('body').on('click', '.btn-add-cart', function (e) {
               var stok_gudang = $(this).attr('data-stok-gudang');
-              if (stok_gudang > 0) {
+              if (stok_gudang>0) {
                 $.fn.addCart($(this));
               } else {
-                
+                  // $.fn.bookingItem(this);
+                  $('[rel=popover]').popover({
+                      html:true,
+                      placement:'right',
+                      content:function(){
+                          return $($(this).data('contentwrapper')).html();
+                      }
+                  });
+                  console.log(1);
               }
             e.preventDefault();
         });
+
+        $.fn.bookItem = function(elem)
+        {
+          $('[rel=popover]').popover({
+              html:true,
+              placement:'right',
+              content:function(){
+                  return $($(this).data('contentwrapper')).html();
+              }
+          });
+
+          // $('table[data-type="invoices"] a.payments').popover({
+          //   live: true,
+          //   placement: 'left',
+          //   offset: 5,
+          //   html: true,
+          //   content: function() {
+          //     return $(this).attr('class');
+          //   },
+          //   trigger: 'manual'
+          // });
+        }
 
         $('body').on('click', '.btn-add-customer', function (e) {
             sales_customer_id = $(this).attr("data-id");

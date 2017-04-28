@@ -1,4 +1,8 @@
-
+<style media="screen">
+  .mycontent {
+    display: block;
+  }
+</style>
 <div id="struk">
     <table class="struk" width="100%">
             <tbody>
@@ -288,11 +292,11 @@
                                         <input type="hidden" class="form-control" id="input-total" name="input-total" value="0" readonly="">
                                         <label for="sales_type">Jenis Pembayaran :</label>
                                         <select name="sales_type" id="sales_type" class="form-control">
-                                            <option value="cash" selected="">Cash</option>
-                                            <option value="debit">Debit</option>
-                                            <option value="kredit">Kredit</option>
-                                            <option value="transfer">Transfer</option>
-                                            <option value="kartu_kredit">Kartu Kredit</option>
+                                            <option value="1" selected="">Cash</option>
+                                            <option value="2">Kartu Debit</option>
+                                            <option value="3">Kredit</option>
+                                            <option value="4">Transfer</option>
+                                            <option value="5">Kartu Kredit</option>
                                         </select>
                                         <div class="box-sales" id="box-sales-pay">
                                             <label for="input-pay">Bayar :</label>
@@ -392,5 +396,7 @@
     var url = "<?php echo base_url()?>C_POS/popmodal_form_login";
     $('#modal_login').modal('show').find('.modal-content').load(url);
   }
-
+  $(document).ready(function(){
+    $('#datetimepicker1').datepicker();
+  });
 </script>

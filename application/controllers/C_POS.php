@@ -204,8 +204,16 @@ class C_POS extends MY_Controller{
       $input_cashback = $this->input->post('input-cashback');
       $item_price = $this->input->post('item_price');
 
+      $sales_dp = $this->input->post('sales-dp');
+      $tgl_jatuh_tempo = $this->input->post('tgl_jatuh_tempo');
+
       $user_id = $this->session->userdata('user_id');
       $penjualan_code = "INV_".time();
+
+      $status = '';
+      if ($sales_type == 3) {
+        $status = 1;
+      }
 
       $data = array(
                     'penjualan_id' => '',
@@ -226,7 +234,7 @@ class C_POS extends MY_Controller{
                     'bank' => $sales_nama_bank,
                     'bank_number' => $sales_nomor_kartu,
                     'user' => $user_id,
-                    'status' => ''
+                    'status' => $status
                   );
       $id = $this->create_config('tb_penjualan', $data);
 
@@ -256,6 +264,15 @@ class C_POS extends MY_Controller{
         $data_update = array('stok_gudang_jumlah' => $stock_gudang_now->stok_gudang_jumlah - $qty_s[$row] );
         $this->update_config('t_stok_gudang', $data_update, $where_barang_id);
         // echo $this->db->last_query();
+      }
+      if ($sales_type==3) {
+      $data_kredit = array(
+        'penjualan_id' => $id,
+        'penjualan_code'=> $penjualan_code,
+        'tanggal_batas'=> $tgl_jatuh_tempo,
+        'customer' => $sales_nama,
+        'user' => $user_id
+      );
       }
       echo json_encode($id);
   }
@@ -389,5 +406,10 @@ class C_POS extends MY_Controller{
 
   		echo json_encode($response);
   	}
+
+    function booking_popmodal()
+    {
+
+    }
 
 }
