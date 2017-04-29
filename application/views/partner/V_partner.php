@@ -301,12 +301,12 @@
                     $('#modal_login').modal('show');
                     MyFormValidation.init();
                     rules();
-                    $("#formAdd").submit(function(event){
-                      if ($("#formAdd").valid() == true) {
+                    $("#formLogin").submit(function(event){
+                      if ($("#formLogin").valid() == true) {
                       $.ajax({
                         type : "POST",
-                        url  : $base_url+''+$("#formAdd").attr('action'),
-                        data : $( "#formAdd" ).serialize(),
+                        url  : $base_url+''+$("#formLogin").attr('action'),
+                        data : $( "#formLogin" ).serialize(),
                         dataType : "json",
                         success : function(data){
                           if (data.status=='200') {
