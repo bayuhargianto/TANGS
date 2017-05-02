@@ -293,7 +293,7 @@ class C_purchase_order extends MY_Controller {
 					// 'order_status_pembayaran'	=> $val->order_status_pembayaran,
 					// 'order_nominal_pembayaran'	=> $val->order_nominal_pembayaran,
 					// 'order_kekurangan'			=> floatval(floatval($val->order_total) - floatval($val->order_nominal_pembayaran)),
-					'order_dp'					=> $val->order_dp,
+					// 'order_dp'					=> $val->order_dp,
 					'order_top'					=> $val->order_top,
 				);
 			}
@@ -464,6 +464,7 @@ class C_purchase_order extends MY_Controller {
 					'order_terbilang' 			=> $this->terbilang($val->order_total),
 					'order_tanggal_kirim'		=> date("d/m/Y",strtotime($val->order_tanggal_kirim)),
 					'order_pembayaran'			=> $val->order_pembayaran,
+					'order_top'					=> $val->order_top,
 					'order_dp'					=> $val->order_dp,
 				);
 			}
@@ -474,6 +475,7 @@ class C_purchase_order extends MY_Controller {
 			'title_page2' 	=> 'Print PO',
 		);
 		
+		// $this->load->view('print/P_PO', $response);
 		$this->pdf->load_view('print/P_PO', $response);
 		$this->pdf->render();
 		$this->pdf->stream($name,array("Attachment"=>false));

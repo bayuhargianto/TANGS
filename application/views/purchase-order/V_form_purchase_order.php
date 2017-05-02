@@ -245,7 +245,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group" id="order_dp">
                                         <label class="control-label col-md-4">DP
                                             <span class="required"> * </span>
                                         </label>
@@ -260,7 +260,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="form-actions">
                                         <div class="row">
                                             <div class="col-md-offset-4 col-md-8 text-right">
@@ -316,8 +316,10 @@
             function checkPembayaran() {
                 if (document.getElementsByName('order_pembayaran')[0].value == 1) {
                     $("#order_hari").removeClass("hidden");
+                    $("#order_dp").addClass("hidden");
                 } else {
                     $("#order_hari").addClass("hidden");
+                    $("#order_dp").removeClass("hidden");
                 }
             }
 
@@ -479,7 +481,7 @@
                       $('#order_pembayaran').css('width', '100%');
                       $("#order_pembayaran").select2();
                       checkPembayaran();
-                      document.getElementsByName("order_dp")[0].value = data.val[i].order_dp;
+                      // document.getElementsByName("order_dp")[0].value = data.val[i].order_dp;
                       document.getElementsByName("order_top")[0].value = data.val[i].order_top;
                       
                       $("#m_supplier_id").select2('destroy');

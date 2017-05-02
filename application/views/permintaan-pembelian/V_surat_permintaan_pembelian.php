@@ -64,9 +64,9 @@
                                             <tr>
                                                 <th> No </th>
                                                 <th> Cabang </th>
-                                                <th> No SPP </th>
-                                                <th> Jenis SPP </th>
-                                                <th> Tanggal SPP </th>
+                                                <th> No PPB </th>
+                                                <th> Jenis PPB </th>
+                                                <th> Tanggal PPB </th>
                                                 <th> Status </th>
                                                 <th> Action </th>
                                             </tr>

@@ -28,13 +28,11 @@
   <body>
     <table width="100%">
     <tr>
-      <td><b><?= strtoupper($val[0]['cabang']['val2'][0]['text'])?></b></td>
-      <td align="right">No :</td>
-      <td width="30%"><?= $val[0]['order_nomor'] ?></td>
+      <td colspan="3" align="center"><b><?= strtoupper($val[0]['cabang']['val2'][0]['text'])?></b></td>
     </tr>
     <tr>
-      <td><?= $val[0]['cabang']['val2'][0]['alamat']?>, <?= $val[0]['cabang']['val2'][0]['kota']['val3'][0]['text']?><br>
-      Telp. <?php 
+      <td colspan="3" align="center"><?= $val[0]['cabang']['val2'][0]['alamat']?>, <?= $val[0]['cabang']['val2'][0]['kota']['val3'][0]['text']?><br>
+      <?php 
       for($i=0; $i < count($val[0]['cabang']['val2'][0]['telp']); $i++)
       {
         if($i == count($val[0]['cabang']['val2'][0]['telp'])-1)
@@ -46,9 +44,16 @@
           echo $val[0]['cabang']['val2'][0]['telp'][$i].', ';
         }
       }
-      ?></td>
-      <td align="right" valign="top">Tgl :</td>
-      <td width="30%" valign="top"><?= $val[0]['order_tanggal'] ?></td>
+      ?>
+      </td>
+    </tr>
+    <tr>
+      <td align="right" width="80%">No :</td>
+      <td width="20%"><?= $val[0]['order_nomor'] ?></td>
+    </tr>
+    <tr>
+      <td align="right" width="80%">Tgl :</td>
+      <td width="20%"><?= $val[0]['order_tanggal'] ?></td>
     </tr>
   </table>
 
@@ -210,7 +215,7 @@
   <tr>
     <td width="28%">Tanggal Kirim</td>
     <td width="2%">:</td>
-    <td width="70%"><?= $val[0]['order_tanggal_kirim'] ?></td>
+    <td width="70%"><?= $val[0]['order_tanggal'] ?></td>
   </tr>
   <tr>
     <td>Pembayaran</td>
@@ -222,10 +227,21 @@
     }
     else
     {
-      echo 'Kredit';
+      echo 'Term of Payment';
     }
     ?></td>
   </tr>
+  <?php
+    if($val[0]['order_pembayaran'] == 1)
+    {
+      echo "<tr>
+          <td>Term of Payment</td>
+          <td>:</td>
+          <td>".$val[0]['order_top']." Hari</td>
+        </tr>";
+    }
+    ?>
+  
 </table>
 <p>&nbsp;</p>
 <table width="81%" border="1" cellspacing="0">

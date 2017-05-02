@@ -314,7 +314,7 @@
                         if (itemBarang > 0) {
                             document.getElementById('lanjut').disabled = false;
                         } else {
-                            alert();
+                            // alert();
                             document.getElementById('lanjut').disabled = true;
                         }   
                     } else if (stepPosition == 2) {

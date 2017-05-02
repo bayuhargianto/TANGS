@@ -143,11 +143,11 @@
                                         <input type="radio" value="0" name="penawaran_harga_ppn_penawaran'.$row->penawaran_barang_id.$no2.'" '.$exclude_ppn2.' required disabled  />
                                         <span></span>
                                     </label>
-                                    <label class="mt-radio"> Include
+                                    <!--<label class="mt-radio"> Include
                                         <input type="radio" value="1" name="penawaran_harga_ppn_penawaran'.$row->penawaran_barang_id.$no2.'" '.$include_ppn2.' disabled />
-                                        <span></span>
+                                        <span></span>-->
                                     </label>
-                                    <label class="mt-radio"> Tanpa
+                                    <label class="mt-radio"> Include
                                         <input type="radio" value="2" name="penawaran_harga_ppn_penawaran'.$row->penawaran_barang_id.$no2.'" '.$tanpa_ppn2.' disabled />
                                         <span></span>
                                     </label>

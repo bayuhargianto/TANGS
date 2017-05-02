@@ -107,11 +107,11 @@
                                         <input type="radio" value="0" onchange="ppn(this)" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$row2->penawaran_supplier_id.'" id="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" checked required />
                                         <span></span>
                                     </label>
-                                    <label class="mt-radio"> Include
+                                    <!--<label class="mt-radio"> Include
                                         <input type="radio" value="1" onchange="ppn(this)" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$row2->penawaran_supplier_id.'" id="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" />
                                         <span></span>
-                                    </label>
-                                    <label class="mt-radio"> Tanpa
+                                    </label>-->
+                                    <label class="mt-radio"> Include
                                         <input type="radio" value="2" onchange="ppn(this)" name="penawaran_harga_ppn'.$row->penawaran_barang_id.$row2->penawaran_supplier_id.'" id="penawaran_harga_ppn'.$row->penawaran_barang_id.$no2.'" />
                                         <span></span>
                                     </label>

@@ -301,12 +301,12 @@
                     $('#modal_login').modal('show');
                     MyFormValidation.init();
                     rules();
-                    $("#formAdd").submit(function(event){
-                      if ($("#formAdd").valid() == true) {
+                    $("#formLogin").submit(function(event){
+                      if ($("#formLogin").valid() == true) {
                       $.ajax({
                         type : "POST",
-                        url  : $base_url+''+$("#formAdd").attr('action'),
-                        data : $( "#formAdd" ).serialize(),
+                        url  : $base_url+''+$("#formLogin").attr('action'),
+                        data : $( "#formLogin" ).serialize(),
                         dataType : "json",
                         success : function(data){
                           if (data.status=='200') {
@@ -319,6 +319,7 @@
                                 if (data.status=='200') {
                                   alert_success_nonaktif();
                                   searchData();
+                                  $('#modal_login').modal('hide');
                                 } else if (data.status=='204') {
                                   alert_fail_aktif();
                                 }
@@ -364,32 +365,77 @@
               }
 
               function aktifData(id) {
-                swal({
-                  title: "Apakah anda yakin?",
-                  text: "Data akan diaktifkan !",
-                  type: "warning",
-                  showCancelButton: true,
-                  cancelButtonClass: "btn-raised btn-warning",
-                  cancelButtonText: "Batal!",
-                  confirmButtonClass: "btn-raised btn-danger",
-                  confirmButtonText: "Ya!",
-                  closeOnConfirm: false
-                }, function() {
-                  $.ajax({
-                    url: '<?php echo base_url();?>Master-Data/Partner/aktifData/',
-                    data: 'id='+id,
-                    type: 'POST',
-                    dataType: 'json',
-                    success: function (data) {
-                      if (data.status=='200') {
-                        alert_success_aktif();
-                        searchData();
-                      } else if (data.status=='204') {
-                        alert_fail_aktif();
+                // swal({
+                //   title: "Apakah anda yakin?",
+                //   text: "Data akan diaktifkan !",
+                //   type: "warning",
+                //   showCancelButton: true,
+                //   cancelButtonClass: "btn-raised btn-warning",
+                //   cancelButtonText: "Batal!",
+                //   confirmButtonClass: "btn-raised btn-danger",
+                //   confirmButtonText: "Ya!",
+                //   closeOnConfirm: false
+                // }, function() {
+                //   $.ajax({
+                //     url: '<?php echo base_url();?>Master-Data/Partner/aktifData/',
+                //     data: 'id='+id,
+                //     type: 'POST',
+                //     dataType: 'json',
+                //     success: function (data) {
+                //       if (data.status=='200') {
+                //         alert_success_aktif();
+                //         searchData();
+                //       } else if (data.status=='204') {
+                //         alert_fail_aktif();
+                //       }
+                //     }
+                //   });
+                // })
+                $.ajax({
+                  type : 'POST',
+                  url  : $base_url+'Master-Data/Partner/getFormLogin/',
+                  data : { id : id },
+                  dataType : "html",
+                  success:function(data){
+                    $("#modal_login .modal-content").html();
+                    $("#modal_login .modal-content").html(data);
+                    $('#modal_login').modal('show');
+                    MyFormValidation.init();
+                    rules();
+                    $("#formLogin").submit(function(event){
+                      if ($("#formLogin").valid() == true) {
+                      $.ajax({
+                        type : "POST",
+                        url  : $base_url+''+$("#formLogin").attr('action'),
+                        data : $( "#formLogin" ).serialize(),
+                        dataType : "json",
+                        success : function(data){
+                          if (data.status=='200') {
+                            $.ajax({
+                              url: '<?php echo base_url();?>Master-Data/Partner/aktifData/',
+                              data: 'id='+id,
+                              type: 'POST',
+                              dataType: 'json',
+                              success: function (data) {
+                                if (data.status=='200') {
+                                  alert_success_nonaktif();
+                                  searchData();
+                                  $('#modal_login').modal('hide');
+                                } else if (data.status=='204') {
+                                  alert_fail_aktif();
+                                }
+                              }
+                            });
+                          } else if (data.status=='204') {
+                            // alert_fail_aktif();
+                          }
+                        }
+                      })
                       }
-                    }
-                  });
-                })
+                      return false;
+                    });
+                  }
+                });
               }
 
         </script>
