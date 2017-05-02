@@ -173,6 +173,23 @@
                                                     <textarea class="form-control" rows="3" name="permintaan_pembelian_catatan"></textarea> </div>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4">Jenis Barang
+                                            </label>
+                                                <div class="col-md-8">
+                                                    <div class="mt-radio-inline">
+                                                        <label class="mt-radio"> Biasa
+                                                            <input type="radio" value="0" name="jenis_barang" id="jenis_barang" />
+                                                            <span></span>
+                                                        </label>
+                                                        <label class="mt-radio"> Konsinyasi
+                                                            <input type="radio" value="1" name="jenis_barang" id="jenis_barang" />
+                                                            <span></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="form-group" id="pilihBarang">
                                             <label class="control-label col-md-4">Nama Barang
                                                 <span class="required"> * </span>
@@ -268,6 +285,12 @@
                 if (document.getElementsByName("kode")[0].value != null) {
                     editData(document.getElementsByName("kode")[0].value);
                 }
+            });
+
+            $("#jenis_barang").change(function(){
+                var m_jenis_barang_id = document.getElementById("jenis_barang").value;
+                // select2List('#m_barang_id', 'Master-Data/Master-Kategori/loadDataSelectWhere', 'Pilih Category 2', m_jenis_barang_id);
+                alert(m_jenis_barang_id);
             });
 
             function ubahKeBarangJasa(element)
