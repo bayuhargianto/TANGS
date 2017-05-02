@@ -383,13 +383,24 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="modal_login">
   <div class="modal-dialog">
     <div class="modal-content">
 
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="booking_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+    </div>
+  </div>
+</div>
+
+
 <script type="text/javascript">
   function form_login()
   {

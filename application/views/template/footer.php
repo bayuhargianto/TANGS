@@ -539,24 +539,12 @@
 
         $("#input-pay-currency").keyup(function () {
             sales_pay = $(this).autoNumeric('get');
-
-      			// var total_fee = sales_fee / 100 * intTotal;
-      			// var tot = intTotal + total_fee;
-
             sales_cashback = sales_pay - intTotal;
             var cashback2 = Intl.NumberFormat().format(sales_cashback);
             $("#input-pay").val(sales_pay);
             $("#my-modal-pay").find("input:text#input-cashback-currency").val(cashback2);
             $("#input-cashback").val(sales_cashback);
         });
-
-        $.fn.bookingItem = function(elem)
-        {
-          var bookingItem = '<div class="mycontent">\
-                              Co-President <br/>\
-                              sample@uic.edu\
-                            </div>'
-        }
 
         $.fn.getItems = function () {
           $.get( base_url+'C_POS/get_items',function(data){
@@ -579,13 +567,13 @@
                               data-id="'+value.barang_id+'" data-has-promo="'+value.aktif+'" data-promo-harga="" data-promo-type=""\
                               data-status-aktif="" data-stok-gudang="'+value.stok_gudang_jumlah+'"\
                               data-promo-item-name="'+value.promo_nama+'" data-promo-gratis="" data-promo-qty="'+value.promo_qty+'" \
-                              class="btn btn-success btn-xs btn-add-cart" data-contentwrapper=".mycontent" rel="popover">\
+                              class="btn btn-success btn-xs btn-add-cart">\
                                 <i class="fa fa-plus"></i>\
                               </button>\
                             </td>\
                           </tr>\
                           ';
-                  $.fn.bookingItem();
+                  // $.fn.bookingItem();
                     });
               $("#data-items").html(html);
           }).fail(function(data){
@@ -665,31 +653,16 @@
 
         $('body').on('click', '.btn-add-cart', function (e) {
               var stok_gudang = $(this).attr('data-stok-gudang');
-              if (stok_gudang>0) {
+              var item_id     = $(this).attr('data-id');
+              var url         = "<?php echo base_url()?>C_POS/booking_popmodal/"+stok_gudang+"/"+item_id;
+
+              if (stok_gudang > 0) {
                 $.fn.addCart($(this));
               } else {
-                  // $.fn.bookingItem(this);
-                  $('[rel=popover]').popover({
-                      html:true,
-                      placement:'right',
-                      content:function(){
-                          return $($(this).data('contentwrapper')).html();
-                      }
-                  });
-                  console.log(1);
+                  $('#booking_modal').modal('show').find('.modal-content').load(url);
               }
             e.preventDefault();
         });
-
-        $.fn.bookItem = function(elem)
-        {
-          $('[rel=popover]').popover({
-              html:true,
-              placement:'right',
-              content:function(){
-                  return $($(this).data('contentwrapper')).html();
-              }
-          });
 
           // $('table[data-type="invoices"] a.payments').popover({
           //   live: true,
@@ -701,7 +674,7 @@
           //   },
           //   trigger: 'manual'
           // });
-        }
+        // }
 
         $('body').on('click', '.btn-add-customer', function (e) {
             sales_customer_id = $(this).attr("data-id");

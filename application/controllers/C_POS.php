@@ -407,9 +407,15 @@ class C_POS extends MY_Controller{
   		echo json_encode($response);
   	}
 
-    function booking_popmodal()
+    function booking_popmodal($stok_gudang, $item_id)
     {
-
+      $where_barang_id = array(
+                                'barang_id' => $item_id
+                              );
+      $data = array(
+                    'item' => $this->mod->select_config_array('m_barang', $where_barang_id)
+                  );
+      $this->load->view('transaksi/penjualan/booking_modal', $data);
     }
 
 }
