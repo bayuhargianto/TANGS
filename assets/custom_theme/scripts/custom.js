@@ -1348,6 +1348,7 @@ function openFormBarang(id = null) {
         $('#konversi_akhir_satuan').css('width', '100%');
         $('#m_brand_id').css('width', '100%');
         $('#m_category_2_id').css('width', '100%');
+        $('#m_category_2_id').select2();
         selectList_jenisBarang();
         selectList_Satuan('#m_satuan_id');
         selectList_Satuan('#konversi_akhir_satuan');

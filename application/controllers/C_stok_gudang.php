@@ -151,7 +151,7 @@ class C_stok_gudang extends MY_Controller {
 						'type'	=> 'inner'
 					);
 					$where_det['data'][] = array(
-						'column' => 'a.penerimaan_barang_kode',
+						'column' => 'a.penerimaan_barang_nomor',
 						'param'	 => $val->kartu_stok_referensi
 					);
 					$where_det['data'][] = array(
