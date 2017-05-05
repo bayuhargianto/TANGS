@@ -157,10 +157,11 @@
                             <tr>
                                 <th width="20%" class="text-center">QTY</th>
                                 <th width="40%">ITEM</th>
-                                <th class="text-right">HARGA</th>
+                                <th class="text-center hide" id="sales-column-booking" width="5%">BOOKING</th>
+                                <th class="text-right" width="20%">HARGA</th>
                                 <th class="text-center hide" id="sales-column-discount">DISC</th>
                                 <th class="text-right">TOTAL</th>
-                                <th width="13%" class="text-center"><i class="fa fa-th"></i></th>
+                                <th width="20%" class="text-center"><i class="fa fa-th"></i></th>
                             </tr>
                             </thead>
                             <tbody><input type="hidden" name="outlet_id" value="1"><input type="hidden" name="sales_shift" value="1">
@@ -238,7 +239,7 @@
                                     <h4 class="modal-title">DISKON ITEM</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <input type="text" id="type_karyawan" name="type_karyawan" value="">
+                                    <input type="hidden" id="type_karyawan" name="type_karyawan" value="">
                                     <label for="input-discount-item">Diskon(Rp) :</label>
                                     <input type="text" class="form-control input-lg numeric" id="input-discount-item" value="">
                                     <label for="input-discount-item-percent">Diskon(%) :</label>
@@ -271,8 +272,10 @@
                             </div>
                         </div>
                     </div>
-                    <div id="my-modal-pay" class="modal fade bs-modal bs-modal-pay" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-                        <div class="modal-dialog modal-sm">
+                    <!-- <div id="my-modal-pay" class="modal fade bs-modal bs-modal-pay" tabindex="-1"
+                    role="dialog" aria-labelledby="mySmallModalLabel"> -->
+                    <div id="my-modal-pay" class="modal fade bs-modal bs-modal-pay" tabindex="-1" role="dialog">
+                        <div class="modal-dialog">
                             <div class="modal-content">
                                 <form id="form-submit-sales" onsubmit="return false;" method="post">
                                     <div class="modal-header">
@@ -281,59 +284,85 @@
                                         </button>
                                         <h4 class="modal-title">PEMBAYARAN</h4>
                                     </div>
-                                    <div class="modal-body">
-                                        <div style="display: none;" class="box-sales" id="box-sales-fee">
-                                            <label for="sales-fee">Biaya Tambahan :</label>
-                                            <input type="text" class="form-control" id="sales-fee" value="0" readonly="">
-                                            <small class="text-danger" id="sales-fee-text"></small>
-                                        </div>
-                                        <label for="input-total">Total :</label>
-                                        <input type="text" class="form-control" id="input-total-currency" name="input-total-currency" value="0" readonly="">
-                                        <input type="hidden" class="form-control" id="input-total" name="input-total" value="0" readonly="">
-                                        <label for="sales_type">Jenis Pembayaran :</label>
-                                        <select name="sales_type" id="sales_type" class="form-control">
-                                            <option value="1" selected="">Cash</option>
-                                            <option value="2">Kartu Debit</option>
-                                            <option value="3">Kredit</option>
-                                            <option value="4">Transfer</option>
-                                            <option value="5">Kartu Kredit</option>
-                                        </select>
-                                        <div class="box-sales" id="box-sales-pay">
-                                            <label for="input-pay">Bayar :</label>
-                                            <input type="text" class="form-control numeric" id="input-pay-currency" name="sales_pay_currency" value="0">
-                                            <input type="hidden" class="form-control" id="input-pay" name="sales_pay" value="0">
-                                        </div>
-                                        <div style="display: none;" class="box-sales" id="box-sales-dp">
-                                            <label for="sales-dp">DP :</label>
-                                            <input type="text" class="form-control numeric" id="sales-dp" name="sales-dp" value="0">
-                                            <label for="sales-dp">Tanggal Jatuh Tempo :</label>
-                                            <div class='input-group date' id='datetimepicker1'>
-                                                <input type='text' class="form-control" name="tgl_jatuh_tempo" />
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
+                                        <div class="col-md-12" id="modal_body_row">
+                                          <div class="modal-body">
+                                          <div class="row" id="modal_body_col" style="border:none;">
+                                            <div class="col-md-6" id="divpengiriman">
+                                              <label for="">Tujuan Pengiriman</label>
+                                              <input type="text" name="tujuan_pengiriman" value="" class="form-control">
+                                              <label for="">Jarak Pengiriman</label>
+                                              <input type="text" id="input-jarak-currency" name="input_jarak_currency" value="" class="form-control text-right numeric">
+                                              <input type="hidden" id="input-jarak" name="input_jarak" value="" class="">
+                                              <label for="">Biaya</label>
+                                              <div class="input-group">
+                                                <span class="input-group-addon" id="basic-addon1">Rp.</span>
+                                                <input type="text" id="input-biaya-currency" name="input_biaya_currency" value="" class="form-control text-right numeric" value="0"
+                                                aria-describedby="basic-addon1">
+                                              </div>
+                                              <input type="hidden" id="input-biaya" name="input_biaya" value="" class="">
+                                              <span style="margin-left: 230px">
+                                                <input type="checkbox" id="pengiriman" name="pengiriman" value="1" style="margin-top: 15px;width:20px;height:20px;">
+                                              </span>
                                             </div>
-                                        </div>
-                                        <div style="display: none;" class="box-sales" id="box-sales-nama">
-                                            <label for="sales-nama">Nama* :</label>
-                                            <input type="text" class="form-control" id="sales-nama" name="sales-nama">
-                                        </div>
-                                        <div style="display: none;" class="box-sales" id="box-sales-nomor-kartu">
-                                            <label for="sales-nomor-kartu">Nomor Kartu* :</label>
-                                            <input type="text" class="form-control" id="sales-nomor-kartu" name="sales-nomor-kartu">
-                                        </div>
-                                        <div style="display: none;" class="box-sales" id="box-sales-nama-bank">
-                                            <label for="sales-nama-bank">Nama Bank* :</label>
-                                            <input type="text" class="form-control" id="sales-nama-bank" name="sales-nama-bank">
-                                        </div>
-                                        <div style="display: none;" class="box-sales" id="box-sales-nomor-rekening">
-                                            <label for="sales-nomor-rekening">Nomor Rekening :</label>
-                                            <input type="text" class="form-control" id="sales-nomor-rekening" name="sales-nomor-rekening">
-                                        </div>
-                                        <div class="box-sales" id="box-input-cashback">
-                                            <label for="input-cashback">Kembalian :</label>
-                                            <input type="text" class="form-control" id="input-cashback-currency" value="0" readonly="">
-                                            <input type="hidden" class="form-control" id="input-cashback" name="input-cashback" value="0" readonly="">
+                                            <div class="col-md-6">
+                                              <div style="display: none;" class="box-sales" id="box-sales-fee">
+                                                  <label for="sales-fee">Biaya Tambahan :</label>
+                                                  <input type="text" class="form-control" id="sales-fee" value="0" readonly="">
+                                                  <small class="text-danger" id="sales-fee-text"></small>
+                                              </div>
+                                              <label for="input-total">Total : </label>
+                                              <input type="text" class="form-control" id="input-total-currency" name="input-total-currency" value="0" readonly="">
+                                              <input type="text" class="form-control" id="input-total" name="input-total" value="0" readonly="" style="display:none;">
+                                              <label for="sales_type">Jenis Pembayaran :</label>
+                                              <select name="sales_type" id="sales_type" class="form-control">
+                                                  <option value="1" selected="">Cash</option>
+                                                  <option value="2">Kartu Debit</option>
+                                                  <option value="3">Kredit</option>
+                                                  <option value="4">Transfer</option>
+                                                  <option value="5">Kartu Kredit</option>
+                                              </select>
+                                              <div class="box-sales" id="box-sales-pay">
+                                                  <label for="input-pay">Bayar :</label>
+                                                  <input type="text" class="form-control numeric" id="input-pay-currency" name="sales_pay_currency" value="0">
+                                                  <input type="" class="form-control" id="input-pay" name="sales_pay" value="0" style="display:none;">
+                                              </div>
+                                              <!-- bukan cash -->
+                                              <div style="display: none;" class="box-sales" id="box-sales-dp">
+                                                  <label for="sales-dp">DP :</label>
+                                                  <input type="text" class="form-control numeric" id="sales-dp" name="sales-dp" value="0">
+                                                  <label for="sales-dp">Tanggal Jatuh Tempo :</label>
+                                                  <div class='input-group date' id='datetimepicker1'>
+                                                      <input type='text' class="form-control" name="tgl_jatuh_tempo" />
+                                                      <span class="input-group-addon">
+                                                          <span class="glyphicon glyphicon-calendar"></span>
+                                                      </span>
+                                                  </div>
+                                              </div>
+                                              <div style="display: none;" class="box-sales" id="box-sales-nama">
+                                                  <label for="sales-nama">Nama* :</label>
+                                                  <input type="text" class="form-control" id="sales-nama" name="sales-nama">
+                                              </div>
+                                              <div style="display: none;" class="box-sales" id="box-sales-nomor-kartu">
+                                                  <label for="sales-nomor-kartu">Nomor Kartu* :</label>
+                                                  <input type="text" class="form-control" id="sales-nomor-kartu" name="sales-nomor-kartu">
+                                              </div>
+                                              <div style="display: none;" class="box-sales" id="box-sales-nama-bank">
+                                                  <label for="sales-nama-bank">Nama Bank* :</label>
+                                                  <input type="text" class="form-control" id="sales-nama-bank" name="sales-nama-bank">
+                                              </div>
+                                              <div style="display: none;" class="box-sales" id="box-sales-nomor-rekening">
+                                                  <label for="sales-nomor-rekening">Nomor Rekening :</label>
+                                                  <input type="text" class="form-control" id="sales-nomor-rekening" name="sales-nomor-rekening">
+                                              </div>
+                                              <!-- END -->
+                                              <div class="box-sales" id="box-input-cashback">
+                                                  <label for="input-cashback">Kembalian :</label>
+                                                  <input type="text" class="form-control" id="input-cashback-currency" value="0" readonly="">
+                                                  <input type="" class="form-control" id="input-cashback" name="input-cashback" value="0" readonly=""
+                                                  style="display:none;">
+                                              </div>
+                                            </div>
+                                          </div>
                                         </div>
                                     </div>
                                     <div id="list-hidden"><input type="hidden" name="outlet_id" value="1">
@@ -392,14 +421,13 @@
   </div>
 </div>
 
-<div class="modal fade" id="booking_modal">
-  <div class="modal-dialog">
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="booking_modal">
+  <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
 
     </div>
   </div>
 </div>
-
 
 <script type="text/javascript">
   function form_login()
@@ -408,6 +436,26 @@
     $('#modal_login').modal('show').find('.modal-content').load(url);
   }
   $(document).ready(function(){
+
     $('#datetimepicker1').datepicker();
+
   });
+
+  $(document).ready(function () {
+    $('#divpengiriman').find('input:text').attr('readonly', 'readonly');
+  });
+
+  $('#pengiriman').on('change', function(){
+
+    if ($(this).is(':checked')) {
+      $('#divpengiriman').find('input:text').removeAttr('readonly');
+    } else {
+      $('#divpengiriman').find('input').val('');
+      $('#divpengiriman').find('input:text.numeric').val(0);
+      // $('#divpengiriman').find('input:text').empty();
+      $('#divpengiriman').find('input:text').attr('readonly', 'readonly');
+    }
+
+  });
+
 </script>

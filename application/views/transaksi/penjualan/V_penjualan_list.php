@@ -67,6 +67,7 @@
                                     <th> Kode Penjualan </th>
                                     <th> Tanggal Penjualan </th>
                                     <th> Total Penjualan </th>
+                                    <th> Status </th>
                                     <th> Pembayaran </th>
                                     <th> Action </th>
                                 </tr>
