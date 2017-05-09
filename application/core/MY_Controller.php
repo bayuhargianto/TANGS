@@ -10,7 +10,6 @@ class MY_Controller extends CI_Controller {
 		parent::__construct();
 		$this->is_logged_in();
 		$this->user_has_access();
-
 	}
 
 	/* ====================================
@@ -26,13 +25,15 @@ class MY_Controller extends CI_Controller {
 	   		$this->logged_in = true;
 	}
 
-	function check_session(){
+	function check_session()
+	{
 		if(!$this->logged_in)
 			redirect('Login');
 	}
 
 	// Check if user has level
-	function user_has_access(){
+	function user_has_access()
+	{
 		$user_level = $this->session->userdata('level');
 		if($user_level!=0)
 			$this->admin_granted = true;

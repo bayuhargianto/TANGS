@@ -416,7 +416,7 @@ class C_POS extends MY_Controller{
       'penjualan_id'  => $id,
       'penjualan'     => $this->mod->select($select, $table, $join, $where, NULL, NULL, '')->row()
       );
-      
+
     $this->open_page('transaksi/penjualan/V_penjualan_details', $data);
   }
 
