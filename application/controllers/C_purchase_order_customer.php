@@ -65,7 +65,7 @@ class C_purchase_order_customer extends MY_Controller {
 			// {
 			// 	$this->load->view('layout/V_404', $data);
 			// }
-		}	
+		}
 	}
 
 	public function loadData($type){
@@ -306,7 +306,7 @@ class C_purchase_order_customer extends MY_Controller {
 								$satuan_konversi = $val3->satuan_nama;
 							}
 						}
-						
+
 						$response['val2'][] = array(
 							'po_customerdet_id'					=> $val2->po_customerdet_id,
 							't_po_customer_id'					=> $val2->t_po_customer_id,
@@ -356,7 +356,7 @@ class C_purchase_order_customer extends MY_Controller {
 					);
 				}
 				// END CARI KARYAWAN
-				
+
 				$response['val'][] = array(
 					'kode' 							=> $val->po_customer_id,
 					'm_cabang_id'					=> $val->m_cabang_id,
@@ -568,7 +568,7 @@ class C_purchase_order_customer extends MY_Controller {
 								$stok_gudang = $val3->stok_gudang_jumlah;
 							}
 						}
-						
+
 						$response['val2'][] = array(
 							'po_customerdet_id'					=> $val2->po_customerdet_id,
 							't_po_customer_id'					=> $val2->t_po_customer_id,
@@ -873,7 +873,7 @@ class C_purchase_order_customer extends MY_Controller {
 								$response['status'] = '204';
 							}
 						}
-						
+
 					}
 				}
 				// $response['data'] 	= $data;
@@ -888,7 +888,7 @@ class C_purchase_order_customer extends MY_Controller {
 				$response['status'] = '200';
 
 				// INSERT DETAIL BARANG
-				for ($i = 0; $i < sizeof($this->input->post('po_customerdet_barang_uraian', TRUE)); $i++) { 
+				for ($i = 0; $i < sizeof($this->input->post('po_customerdet_barang_uraian', TRUE)); $i++) {
 					$data_det = $this->general_post_data2(1, $insert->output, $i);
 					$insert_det = $this->mod->insert_data_table('t_po_customerdet', NULL, $data_det);
 					if($insert_det->status) {

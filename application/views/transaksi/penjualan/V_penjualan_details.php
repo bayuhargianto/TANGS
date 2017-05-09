@@ -1,3 +1,15 @@
+<style media="screen">
+  .table-detail tr > td,
+  .table-detail th
+  {
+    border: 1px solid;
+    border-color: #ececec;
+    background-color: #fff;
+    padding: 5px 5px 5px 10px;
+    font-size: 18px;
+  }
+</style>
+
 <!-- BEGIN CONTENT -->
 <div class="page-content-wrapper">
     <!-- BEGIN CONTENT BODY -->
@@ -40,6 +52,18 @@
                             <span class="caption-subject font-dark sbold uppercase">Data <?php if(isset($title_page2)) echo $title_page2;?></span>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                      <table class="table-striped table-detail" style="width: 100%;">
+                        <tr>
+                          <td>Nama Cust. </td>
+                          <td><?php echo $penjualan->partner_nama ?></td>
+                        </tr>
+                        <tr>
+                          <td>Total Transaksi. </td>
+                          <td><?php echo $penjualan->partner_nama ?></td>
+                        </tr>
+                      </table>
+                    </div>
                     <div class="portlet-body">
                         <div class="table-toolbar">
                             <div class="row">
@@ -57,6 +81,7 @@
                                     <th> Harga Total</th>
                                     <th> Total Diskon</th>
                                     <th> Harga Grand Total </th>
+                                    <th> Action </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -79,7 +104,9 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
+
     searchData();
+
 });
 
 
@@ -98,7 +125,8 @@ function searchData() {
           {"name": "barang_qty",  "className": "text-center"},
           {"name": "barang_total", "className": "text-right"},
           {"name": "barang_discount_nominal", "className": "text-right"},
-          {"name": "barang_discount_grand_total", "className": "text-right"}
+          {"name": "barang_discount_grand_total", "className": "text-right"},
+          {"name": "action","orderable": false,"searchable": false, "className": "text-center", "width": "15%"}
         ],
         // Internationalisation. For more info refer to http://datatables.net/manual/i18n
         "language": {
@@ -149,6 +177,16 @@ function searchData() {
         "iDisplayLength": 10
     });
 }
+
+  function bookBtn(id)
+  {
+    $.post("<?php echo  base_url()?>C_POS/update_book/", {id: id}, function(data, status){
+      alert_success_nonaktif();
+      var this_button = "#btn_"+id;
+      $(this_button).addClass('blue-ebonyclay');
+   });
+  }
+
 </script>
 
 </body>

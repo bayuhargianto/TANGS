@@ -34,7 +34,7 @@ class C_POS extends MY_Controller{
   {
     $privPenjualan = $this->cekUser(76);
     $priv = $this->cekUser(76);
-    $select = 'a.*, b.cabang_nama, c.user_username, d.partner_nama';
+    $select = 'a.*, b.cabang_nama, c.user_username, d.partner_nama, e.pengiriman_id';
     $table  = 'tb_penjualan a';
 		//LIMIT
 		$limit = array(
@@ -43,7 +43,7 @@ class C_POS extends MY_Controller{
 		);
 
     $where_like['data'][] = array(
-			'column' => 'cabang_nama, penjualan_code, penjualan_date, penjualan_total, penjualan_payment',
+			'column' => 'cabang_nama, a.penjualan_code, penjualan_date, penjualan_total, penjualan_payment',
 			'param'	 => $this->input->get('search[value]')
 		);
 
@@ -65,6 +65,12 @@ class C_POS extends MY_Controller{
       'type'  => 'left'
     );
 
+    $join['data'][] = array(
+      'table' => 'tb_pengiriman e',
+      'join'  => 'e.penjualan_id = a.penjualan_id',
+      'type'  => 'left'
+    );
+
     // $query_total = $this->M_penjualan->select_transaction();
     $query_total  = $this->mod->select($select, $table, $join);
     $query        = $this->mod->select($select, $table, $join);
@@ -78,6 +84,13 @@ class C_POS extends MY_Controller{
       $no = $limit['start']+1;
       foreach ($query->result() as $val) {
         $button = '';
+          if ($val->pengiriman_id != null) {
+            $button = $button.'
+  					<button class="btn blue-ebonyclay" type="button" title="">
+  						<i class="fa fa-truck text-center"></i>
+  					</button>
+            ';
+          }
 					$button = $button.'
 					<a href="'.base_url().'Penjualan/penjualan_details/'.$val->penjualan_id.'">
 					<button class="btn blue-ebonyclay" type="button" title="Lihat PO">
@@ -374,13 +387,36 @@ class C_POS extends MY_Controller{
   {
     $this->check_session();
     $priv = $this->cekUser(28);
-    $data = array(
-      'aplikasi'		=> $this->app_name,
-      'title_page' 	=> 'List Penjualan',
-      'title_page2' 	=> 'Detil Penjualan',
-      'penjualan_id' => $id
-      );
 
+    $select = 'a.*, b.partner_nama, c.*';
+
+    $table = 'tb_penjualan a';
+
+    $join['data'][] = array(
+          'table' => 'm_partner b',
+          'join'	=> 'b.partner_id = a.customer',
+          'type'	=> 'left'
+        );
+
+    $join['data'][] = array(
+          'table' => 'tb_pengiriman c',
+          'join'	=> 'c.penjualan_id = a.penjualan_id',
+          'type'	=> 'left'
+        );
+
+    $where['data'][] = array(
+      'column' => 'a.penjualan_id',
+      'param'  => $id
+    );
+
+    $data = array(
+      'aplikasi'		  => $this->app_name,
+      'title_page' 	  => 'List Penjualan',
+      'title_page2' 	=> 'Detil Penjualan',
+      'penjualan_id'  => $id,
+      'penjualan'     => $this->mod->select($select, $table, $join, $where, NULL, NULL, '')->row()
+      );
+      
     $this->open_page('transaksi/penjualan/V_penjualan_details', $data);
   }
 
@@ -408,18 +444,15 @@ class C_POS extends MY_Controller{
         $no = $limit['start']+1;
         foreach ($query->result() as $val) {
           $button = '';
-  					// $button = $button.'
-  					// <a href="'.base_url().'Penjualan/penjualan_details/'.$val->penjualan_id.'">
-  					// <button class="btn blue-ebonyclay" type="button" title="Lihat PO">
-  					// 	<i class="icon-eye text-center"></i>
-  					// </button>
-  					// </a>
-  					// <a href="'.base_url().'Penjualan/print/'.$val->penjualan_id.'">
-  					// <button class="btn green-jungle" type="button" title="Print PO">
-  					// 	<i class="icon-printer text-center"></i>
-  					// </button>
-  					// </a>';
+          $classdonebook = "blue-ebonyclay";
+          if ($val->booking_status==2){$classdonebook="green-jungle";}
 
+          if ($val->booking_status==1 || $val->booking_status==2){
+      					$button = $button.'<button class="btn '.$classdonebook.'" type="button" id="btn_'.$val->penjualan_detail_id.'"
+                                    data-penjualan-detail-id="" onclick="bookBtn('.$val->penjualan_detail_id.')" href="#modaladd">
+                                    <i class="fa fa-book text-center"></i>
+                                   </button>';
+                }
           $response['data'][] = array(
             $no,
             number_format($val->barang_price),
@@ -427,7 +460,8 @@ class C_POS extends MY_Controller{
             number_format($val->barang_qty),
             number_format($val->barang_total),
             number_format($val->barang_discount_nominal),
-            number_format($val->barang_grand_total)
+            number_format($val->barang_grand_total),
+            $button
           );
 
           $no++;
@@ -476,8 +510,19 @@ class C_POS extends MY_Controller{
       $this->load->view('transaksi/penjualan/booking_modal', $data);
     }
 
+    function update_book()
+    {
+      $penjualan_detail_id = $_POST['id'];
+      $where_penjualan_detail_id = array('penjualan_detail_id' => $penjualan_detail_id);
+      $data_update = array('booking_status' => 2);
+      $this->update_config('tb_penjualan_details', $data_update, $where_penjualan_detail_id);
+
+      echo json_encode($penjualan_detail_id);
+    }
+
     function booking_storage()
     {
+
     }
 
 }
