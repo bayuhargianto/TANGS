@@ -183,8 +183,7 @@ class C_penerimaan_barang extends MY_Controller {
 					foreach ($query_brg->result() as $val2) {
 						$response['val2'][] = array(
 							'penerimaan_barangdet_id'			=> $val2->penerimaan_barangdet_id,
-							't_penerimaan_barang'				=> $val2->t_penerimaan_barang_id,
-							'm_barang_id'						=> $val2->m_barang_id,
+							't_penerimaan_barang'				=> $val2->t_penerimaan_barang_id, 
 							'barang_nomor'						=> $val2->barang_nomor,
 							'barang_nama'						=> $val2->barang_nama,
 							'barang_uraian'						=> $val2->barang_nama.'('.$val2->barang_nomor.', '.$val2->jenis_barang_nama.')',
@@ -472,12 +471,13 @@ class C_penerimaan_barang extends MY_Controller {
 					$insert_det = $this->mod->insert_data_table('t_penerimaan_barangdet', NULL, $data_det);
 					if($insert_det->status) {
 						$response['status'] = '200';
-						$noSeri = '';
-						$qtyNoSeri = '';
-						$response['qtyNoSeri'][] = $qtyNoSeri;
-						$response['testSeri'][] = '';
-						$response['qty'][] = sizeof($noSeri);
-						for($j = 0; $j < sizeof($noSeri); $j++)
+						// $noSeri = '';
+						// $qtyNoSeri = '';
+						// $response['qtyNoSeri'][] = $qtyNoSeri;
+						// $response['testSeri'][] = '';
+						// $response['qty'][] = sizeof($noSeri);
+						// for($j = 0; $j < sizeof($noSeri); $j++)
+						for($j = 0; $j < 1; $j++)
 						{
 							// if($noSeri[$j] != '')
 							// {
@@ -511,10 +511,10 @@ class C_penerimaan_barang extends MY_Controller {
 									// JIKA DATA BARANG SUDAH ADA DI STOK GUDANG
 									foreach ($query_gudang2->result() as $rowStok) {
 										// $response['gudang'][] = $rowStok->kartu_stok_saldo;
-										if(!isset($qtyNoSeri[$j]))
-										{
-											$qtyNoSeri[$j] = 0;
-										}
+										// if(!isset($qtyNoSeri[$j]))
+										// {
+										// 	$qtyNoSeri[$j] = 0;
+										// }
 										// $response['noSeri'][] = $noSeri[$j];
 										// $response['qtyNoSeri'][] = $qtyNoSeri[$j];
 										// PENAMBAHAN KARTU STOK
@@ -524,7 +524,7 @@ class C_penerimaan_barang extends MY_Controller {
 											'kartu_stok_tanggal' 		=> date('Y-m-d H:i:s'),
 											'kartu_stok_referensi' 		=> $data['penerimaan_barang_nomor'],
 											'kartu_stok_saldo' 			=> $rowStok->kartu_stok_saldo+$rowStok->kartu_stok_masuk-$rowStok->kartu_stok_keluar,
-											'kartu_stok_masuk' 			=> $qtyNoSeri[$j],
+											'kartu_stok_masuk' 			=> $data_det['penerimaan_barangdet_qty'],
 											'kartu_stok_keluar' 		=> 0,
 											'kartu_stok_penyesuaian'	=> 0,
 											'kartu_stok_keterangan' 	=> "Penerimaan Barang",
@@ -537,7 +537,7 @@ class C_penerimaan_barang extends MY_Controller {
 										$dataStok2 = array(
 											'm_gudang_id' 				=> $rowStok->m_gudang_id,
 											'm_barang_id' 				=> $this->input->post('m_barang_id', TRUE)[$i],
-											'stok_gudang_jumlah' 		=> $this->input->post('penerimaan_barangdet_qty', TRUE)[$i],
+											'stok_gudang_jumlah' 		=> $data_det['penerimaan_barangdet_qty'],
 											// 'stok_gudang_no_seri' 		=> $noSeri[$j],
 											'stok_gudang_no_seri' 		=> '',
 											'stok_gudang_created_date'	=> date('Y-m-d H:i:s'),
@@ -566,7 +566,7 @@ class C_penerimaan_barang extends MY_Controller {
 												$dataStok2 = array(
 													'm_gudang_id' 				=> $value->m_gudang_id,
 													'm_barang_id' 				=> $this->input->post('m_barang_id', TRUE)[$i],
-													'stok_gudang_jumlah' 		=> $this->input->post('penerimaan_barangdet_qty', TRUE)[$i] + $value->stok_gudang_jumlah,
+													'stok_gudang_jumlah' 		=> $data_det['penerimaan_barangdet_qty'] + $value->stok_gudang_jumlah,
 													// 'stok_gudang_no_seri' 		=> $noSeri[$j],
 													'stok_gudang_no_seri' 		=> '',
 													'stok_gudang_created_date'	=> date('Y-m-d H:i:s'),
@@ -588,13 +588,13 @@ class C_penerimaan_barang extends MY_Controller {
 									// JIKA DATA BARANG TIDAK ADA DI STOK GUDANG
 									// if($noSeri[$j] != '')
 									// {
-										if(!isset($qtyNoSeri[$j]))
-										{
-											$qtyNoSeri[$j] = 0;
-										}
-										$response['belumada'][] = 'belumada';
-										$response['noSeri'][] = $noSeri[$j];
-										$response['qtyNoSeri'][] = $qtyNoSeri[$j];
+										// if(!isset($qtyNoSeri[$j]))
+										// {
+										// 	$qtyNoSeri[$j] = 0;
+										// }
+										// $response['belumada'][] = 'belumada';
+										// $response['noSeri'][] = $noSeri[$j];
+										// $response['qtyNoSeri'][] = $qtyNoSeri[$j];
 										// PENAMBAHAN KARTU STOK
 										$dataKStok2 = array(
 											'm_gudang_id' 				=> $data['m_gudang_id'],
@@ -602,7 +602,7 @@ class C_penerimaan_barang extends MY_Controller {
 											'kartu_stok_tanggal' 		=> date('Y-m-d H:i:s'),
 											'kartu_stok_referensi' 		=> $data['penerimaan_barang_nomor'],
 											'kartu_stok_saldo' 			=> 0,
-											'kartu_stok_masuk' 			=> $qtyNoSeri[$j],
+											'kartu_stok_masuk' 			=> $data_det['penerimaan_barangdet_qty'],
 											'kartu_stok_keluar' 		=> 0,
 											'kartu_stok_penyesuaian'	=> 0,
 											'kartu_stok_keterangan' 	=> "Penerimaan Barang",
@@ -615,8 +615,8 @@ class C_penerimaan_barang extends MY_Controller {
 										$dataStok2 = array(
 											'm_gudang_id' 				=> $data['m_gudang_id'],
 											'm_barang_id' 				=> $this->input->post('m_barang_id', TRUE)[$i],
-											'stok_gudang_jumlah' 		=> $this->input->post('penerimaan_barangdet_qty', TRUE)[$seq],
-											'stok_gudang_no_seri' 		=> $noSeri[$j],
+											'stok_gudang_jumlah' 		=> $data_det['penerimaan_barangdet_qty'],
+											'stok_gudang_no_seri' 		=> '',
 											'stok_gudang_created_date'	=> date('Y-m-d H:i:s'),
 											'stok_gudang_created_by'	=> $this->session->userdata('user_username'),
 											'stok_gudang_revised' 		=> 0,
@@ -636,7 +636,7 @@ class C_penerimaan_barang extends MY_Controller {
 											'column' => 'm_barang_id',
 											'param'	 => $dataStok2['m_barang_id']
 										);
-										$select_stok_gudang = $this->mod->select('*', 't_stok_gudang', NULL, $where_stok_gudang)->row();
+										$select_stok_gudang = $this->mod->select('*', 't_stok_gudang', NULL, $where_stok_gudang);
 
 										if ($select_stok_gudang) {
 											// UPDATE
@@ -644,7 +644,7 @@ class C_penerimaan_barang extends MY_Controller {
 												$dataStok2 = array(
 													'm_gudang_id' 				=> $value['m_gudang_id'],
 													'm_barang_id' 				=> $this->input->post('m_barang_id', TRUE)[$i],
-													'stok_gudang_jumlah' 		=> $this->input->post('penerimaan_barangdet_qty', TRUE)[$i] + $value->stok_gudang_jumlah,
+													'stok_gudang_jumlah' 		=> $data_det['penerimaan_barangdet_qty'] + $value->stok_gudang_jumlah,
 													// 'stok_gudang_no_seri' 		=> $noSeri[$j],
 													'stok_gudang_no_seri' 		=> '',
 													'stok_gudang_created_date'	=> date('Y-m-d H:i:s'),

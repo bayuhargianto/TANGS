@@ -377,21 +377,9 @@ class C_brand extends MY_Controller {
 		} else {
 			$param = "";
 		}
-		$param2 = $this->input->get('parameter');
-		if ($param2!=NULL) {
-			$where['data'][] = array(
-				'column' => 'b.m_brand_id',
-				'param'	 => $this->input->get('parameter')
-			);
-		}
 		$select = '*';
-		$join['data'][] = array(
-			'table' => 'm_konversi_satuan b',
-			'join'	=> 'b.m_satuan_id = a.satuan_id',
-			'type'	=> 'left'
-		);
 		$where['data'][] = array(
-			'column' => 'a.satuan_status_aktif',
+			'column' => 'brand_status_aktif',
 			'param'	 => 'y'
 		);
 		$where_like['data'][] = array(
@@ -402,7 +390,7 @@ class C_brand extends MY_Controller {
 			'column' => 'brand_nama',
 			'type'	 => 'ASC'
 		);
-		$query = $this->mod->select($select, 'm_brand', null, null, NULL, $where_like, $order);
+		$query = $this->mod->select($select, $this->tbl, NULL, $where, NULL, $where_like, $order);
 		$response['items'] = array();
 		if ($query<>false) {
 			foreach ($query->result() as $val) {

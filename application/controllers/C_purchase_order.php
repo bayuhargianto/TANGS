@@ -272,6 +272,7 @@ class C_purchase_order extends MY_Controller {
 						);
 					}
 				}
+				
 				// END CARI PENERIMA
 
 				$response['val'][] = array(
@@ -290,11 +291,11 @@ class C_purchase_order extends MY_Controller {
 					'order_total' 				=> $val->order_total,
 					'order_tanggal_kirim'		=> date("d/m/Y",strtotime($val->order_tanggal_kirim)),
 					'order_pembayaran'			=> $val->order_pembayaran,
+					'order_top'					=> $val->order_top,
 					// 'order_status_pembayaran'	=> $val->order_status_pembayaran,
 					// 'order_nominal_pembayaran'	=> $val->order_nominal_pembayaran,
 					// 'order_kekurangan'			=> floatval(floatval($val->order_total) - floatval($val->order_nominal_pembayaran)),
 					// 'order_dp'					=> $val->order_dp,
-					'order_top'					=> $val->order_top,
 				);
 			}
 
@@ -788,7 +789,7 @@ class C_purchase_order extends MY_Controller {
 				'order_total'				=> $this->input->post('order_total', TRUE),
 				'order_tanggal_kirim'		=> $arrDate2[2]."-".$arrDate2[1]."-".$arrDate2[0],
 				'order_pembayaran'			=> $this->input->post('order_pembayaran', TRUE),
-				'order_dp'					=> $this->input->post('order_dp', TRUE),
+				// 'order_dp'					=> $this->input->post('order_dp', TRUE),
 				'order_top'					=> $this->input->post('order_top', TRUE),
 				'order_status' 				=> 1,
 				'order_status_date'			=> date('Y-m-d H:i:s'),
@@ -836,7 +837,7 @@ class C_purchase_order extends MY_Controller {
 				'order_ppn'					=> $this->input->post('order_ppn', TRUE),
 				'order_total'				=> $this->replaceFormatNumber($this->input->post('order_total', TRUE)),
 				'order_pembayaran'			=> $this->input->post('order_pembayaran', TRUE),
-				'order_dp'					=> $this->input->post('order_dp', TRUE),
+				// 'order_dp'					=> $this->input->post('order_dp', TRUE),
 				'order_top'					=> $this->input->post('order_top', TRUE),
 				'order_status' 				=> -2,
 				'order_status_date'			=> date('Y-m-d H:i:s'),

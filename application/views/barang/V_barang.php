@@ -129,7 +129,7 @@
                       {"name": "barang_nomor"},
                       {"name": "barang_nama"},
                       {"name": "jenis_barang_nama"},
-                      {"name": "stok"},
+                      {"name": "barang_minimum_stok"},
                       {"name": "m_satuan_id"},
                       {"name": "barang_status_aktif"},
                       {"name": "action","orderable": false,"searchable": false, "className": "text-center", "width": "20%"}
@@ -193,9 +193,8 @@
                     for(var i=0; i<data.val.length;i++){
                       document.getElementsByName("kode")[0].value = data.val[i].kode;
                       document.getElementsByName("barang_nomor")[0].value = data.val[i].barang_nomor;
-                      // document.getElementsByName("barang_nomor")[0].value = data.val[i].barang_nomor;
                       document.getElementsByName("barang_nama")[0].value = data.val[i].barang_nama;
-                      document.getElementsByName("stok")[0].value = data.val[i].stok;
+                      document.getElementsByName("barang_minimum_stok")[0].value = data.val[i].barang_minimum_stok;
                       document.getElementsByName("harga_beli")[0].value = data.val[i].harga_beli;
                       document.getElementsByName("harga_jual")[0].value = data.val[i].harga_jual;
                       document.getElementsByName("harga_jual_pajak")[0].value = data.val[i].harga_jual_pajak;
@@ -301,8 +300,8 @@
                         $("#m_brand_id").append('<option value="'+data.val[i].m_brand_id.val2[j].id+'" selected>'+data.val[i].m_brand_id.val2[j].text+'</option>');
                         $("#m_brand_id").select2();
                       }
-                      console.log(data.val[i].m_brand_id.val2[j].text);
-                      document.getElementsByName("stok")[0].value = data.val[i].stok;
+                      // console.log(data.val[i].m_brand_id.val2[j].text);
+                      document.getElementsByName("barang_minimum_stok")[0].value = data.val[i].barang_minimum_stok;
                       // for(var j=0; j<data.val[i].m_jenis_barang_id.val2.length; j++){
                       //   $("#m_jenis_barang_id").append('<option value="'+data.val[i].m_jenis_barang_id.val2[j].id+'" selected>'+data.val[i].m_jenis_barang_id.val2[j].text+'</option>');
                       // }
