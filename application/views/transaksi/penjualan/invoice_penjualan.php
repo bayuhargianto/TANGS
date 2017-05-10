@@ -97,6 +97,11 @@ table{
 			<tr>
 				<td style="text-align:center;width:5%;"><?php echo $no_item; ?></td>
         <td><?php echo $r_transaksi_detail->barang_nama?></td>
+				<td>
+					<?php if ($r_transaksi_detail->booking_status): ?>
+						Booking
+					<?php endif; ?>
+				</td>
 				<td style="text-align:center;"><?php echo $r_transaksi_detail->barang_qty?> X <?php echo number_format($r_transaksi_detail->barang_price)?></td>
 				<td style="text-align:right;"><?php echo number_format($r_transaksi_detail->barang_price*$r_transaksi_detail->barang_qty)?></td>
       </tr>
@@ -104,6 +109,7 @@ table{
         <td style="text-align:center;">&nbsp;</td>
 				<td style="text-align:center;">&nbsp;</td>
 				<td style="text-align:center;"></td>
+				<td></td>
 				<td style="text-align:right;"><?php echo number_format($r_transaksi_detail->barang_discount_nominal)?></td>
       </tr>
     <?php

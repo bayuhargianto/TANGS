@@ -2,36 +2,19 @@
   .mycontent {
     display: block;
   }
+
+  .container
+  {
+    width: 100%;
+  }
 </style>
-<div id="struk">
-    <table class="struk" width="100%">
-            <tbody>
-              <tr class="border-bottom">
-                <td style="text-align: center;" colspan="4">HEADER STRUK</td>
-              </tr>
-              <tr class="border-bottom">
-                <td style="text-align: center;" colspan="2">11-04-2017 12:14:41</td>
-                <td style="text-align: center;" colspan="2">ADMIN</td>
-              </tr>
-              <tr class="border-bottom">
-                <td>NAMA</td>
-                <td style="text-align: center;">QTY</td>
-                <td style="text-align: right;">HARGA</td>
-                <td style="text-align: right;">SUBTOTAL</td>
-              </tr>
-              <tr class="border-top">
-                <td style="text-align: right;" colspan="2">HARGA JUAL :</td>
-                <td style="text-align: right;" colspan="2">0</td>
-              </tr>
-              <tr class="border-top">
-                <td style="text-align: center;" colspan="4">FOOTER STRUK</td>
-              </tr>
-            </tbody>
-    </table>
-</div>
 <div class="container" style="margin-top: 10px;">
     <div class="row">
-        <div class="col-lg-5">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="box">
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="pull-left">
@@ -98,9 +81,10 @@
                             <table id="table-item" class="table table-hover table-striped my-item" style="font-size: 12px;">
                                 <thead>
                                   <tr>
-                                    <th width="5%">STATUS</th>
-                                    <th width="80%">NAMA ITEM</th>
+                                    <th width="10%">STATUS</th>
+                                    <th width="50%">NAMA ITEM</th>
                                     <th class="text-right">HARGA</th>
+                                    <th width="20%">READY ITEM</th>
                                     <th class="text-center"><i class="fa fa-th"></i></th>
                                   </tr>
                                 </thead>
@@ -142,7 +126,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-7">
+                <div class="col-md-6">
             <div class="panel panel-default" style="margin-bottom: 5px;">
                 <div class="panel-body text-success" style="padding-top: 1px; padding-bottom: 1px;font-weight: bold;">
                     <small class="text-left pull-left">TOTAL YANG HARUS DIBAYAR</small>
@@ -155,13 +139,13 @@
                         <table class="table table-hover table-striped transaksi" style="font-size: 12px;">
                             <thead>
                             <tr>
-                                <th width="20%" class="text-center">QTY</th>
-                                <th width="40%">ITEM</th>
+                                <th width="30%" class="text-center">QTY</th>
+                                <th width="30%">ITEM</th>
                                 <th class="text-center hide" id="sales-column-booking" width="5%">BOOKING</th>
-                                <th class="text-right" width="20%">HARGA</th>
+                                <th class="text-right">HARGA</th>
                                 <th class="text-center hide" id="sales-column-discount">DISC</th>
                                 <th class="text-right">TOTAL</th>
-                                <th width="20%" class="text-center"><i class="fa fa-th"></i></th>
+                                <th width="10%" class="text-center"><i class="fa fa-th"></i></th>
                             </tr>
                             </thead>
                             <tbody><input type="hidden" name="outlet_id" value="1"><input type="hidden" name="sales_shift" value="1">
@@ -289,20 +273,28 @@
                                           <div class="row" id="modal_body_col" style="border:none;">
                                             <div class="col-md-6" id="divpengiriman">
                                               <label for="">Tujuan Pengiriman</label>
-                                              <input type="text" name="tujuan_pengiriman" value="" class="form-control">
+                                              <input type="text" id="tujuan_pengiriman" name="tujuan_pengiriman" value="" class="form-control">
                                               <label for="">Jarak Pengiriman</label>
-                                              <input type="text" id="input-jarak-currency" name="input_jarak_currency" value="" class="form-control text-right numeric">
+                                              <input type="text" id="input-jarak-currency" name="input_jarak_currency" value=""
+                                              class="form-control text-right numeric">
                                               <input type="hidden" id="input-jarak" name="input_jarak" value="" class="">
                                               <label for="">Biaya</label>
                                               <div class="input-group">
                                                 <span class="input-group-addon" id="basic-addon1">Rp.</span>
-                                                <input type="text" id="input-biaya-currency" name="input_biaya_currency" value="" class="form-control text-right numeric" value="0"
+                                                <input type="text" id="input-biaya-currency" name="input_biaya_currency" value=""
+                                                class="form-control text-right numeric" value="0"
                                                 aria-describedby="basic-addon1">
                                               </div>
                                               <input type="hidden" id="input-biaya" name="input_biaya" value="" class="">
-                                              <span style="margin-left: 230px">
-                                                <input type="checkbox" id="pengiriman" name="pengiriman" value="1" style="margin-top: 15px;width:20px;height:20px;">
-                                              </span>
+                                              <div class="input-group">
+                                                <input type="text" class="form-control text-right" value="Pengiriman"
+                                                style="border: none; background-color: #fff;">
+                                                <span class="input-group-addon"
+                                                style="border: none; background-color: #fff;">
+                                                  <input type="checkbox" id="pengiriman" name="pengiriman" value="1"
+                                                  style="width:20px;height:20px;">
+                                                </span>
+                                              </div>
                                             </div>
                                             <div class="col-md-6">
                                               <div style="display: none;" class="box-sales" id="box-sales-fee">
@@ -360,6 +352,15 @@
                                                   <input type="text" class="form-control" id="input-cashback-currency" value="0" readonly="">
                                                   <input type="" class="form-control" id="input-cashback" name="input-cashback" value="0" readonly=""
                                                   style="display:none;">
+                                                  <!-- <input type="checkbox" name="" value="" style="margin-top: 15px;width:20px;height:20px;"> -->
+                                              </div>
+                                              <div class="input-group">
+                                                <span class="input-group-addon"
+                                                style="border: none; background-color: #fff;">
+                                                <input type="checkbox" name="book_all" value="1" style="width:20px;height:20px;">
+                                                </span>
+                                                <input type="text" class="form-control" value="Booking All"
+                                                style="border: none; background-color: #fff;">
                                               </div>
                                             </div>
                                           </div>
@@ -410,7 +411,11 @@
                 </div>
             </div>
         </div>
-    </div>
+              </div>
+            </div>
+        </div>
+      </div>
+  </div>
 </div>
 
 <div class="modal fade" id="modal_login">
@@ -456,6 +461,12 @@
       $('#divpengiriman').find('input:text').attr('readonly', 'readonly');
     }
 
+  });
+
+  $("#my-modal-pay").on("hidden.bs.modal", function () {
+    $("#divpengiriman input:text").val("");
+    $('#pengiriman').prop('checked', false);
+    $('#divpengiriman').find('input:text').attr('readonly', 'readonly');
   });
 
 </script>

@@ -5,7 +5,7 @@
 </div> -->
 <?php
 $aktif = 0;
-if ($barang->det_promo_status_aktif != '' || $barang->promo_status_aktif != '') {
+if ($barang->det_promo_status_aktif != null || $barang->promo_status_aktif != null) {
     $aktif = 1;
   } else {
     $aktif = 0;
@@ -13,6 +13,7 @@ if ($barang->det_promo_status_aktif != '' || $barang->promo_status_aktif != '') 
  ?>
   <div class="modal-body">
     <center>
+      <input type="hidden" id="status" name="" value="<?php echo $status?>">
       <span class="modal-title"><?php echo $barang->barang_nama ?></span>
       <h2>STOK PADA GUDANG HABIS<h2>
     </center>
@@ -28,7 +29,8 @@ if ($barang->det_promo_status_aktif != '' || $barang->promo_status_aktif != '') 
   </div>
 <script type="text/javascript">
   $("#btn_booking").on('click', function(){
-    $.fn.addCart($(this));
+    var status = $('#status').val();
+      $.fn.addBooking($(this));
     $('#booking_modal').modal('hide');
   });
 </script>

@@ -7,6 +7,7 @@ class C_POS extends MY_Controller{
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
+    $this->check_session();
     $this->load->model('M_penjualan');
   }
 
@@ -79,10 +80,11 @@ class C_POS extends MY_Controller{
     $query_filter =  $this->mod->select($select, $table, $join, '', NULL, $where_like, '');
     // echo $this->db->last_query();
     // <a href="'.base_url().'Penjualan/print/'.$val->penjualan_id.'">
-
+    $penjualan_status = "";
     if ($query<>false) {
       $no = $limit['start']+1;
       foreach ($query->result() as $val) {
+        if ($val->booking_status == 2) $penjualan_status = "Booking All";
         $button = '';
           if ($val->pengiriman_id != null) {
             $button = $button.'
@@ -108,6 +110,7 @@ class C_POS extends MY_Controller{
           date("d/m/Y",strtotime($val->penjualan_date)),
           number_format($val->penjualan_total),
           number_format($val->penjualan_payment),
+          $penjualan_status,
           $button
         );
 
@@ -201,6 +204,7 @@ class C_POS extends MY_Controller{
       $item_discount = $this->input->post('item_discount');
       $item_discount_percent = $this->input->post('item_discount_percent');
       $item_book = $this->input->post('item_book');
+      $item_price = $this->input->post('item_price');
 
 
       $discount_s = $this->input->post('item_discount');
@@ -217,9 +221,10 @@ class C_POS extends MY_Controller{
       $outlet_id = $this->input->post('outlet_id');
       $sales_discount = $this->input->post('sales_discount');
       $input_cashback = $this->input->post('input-cashback');
-      $item_price = $this->input->post('item_price');
       $status = $this->input->post('item_price');
       $pengiriman = $this->input->post('pengiriman');
+
+      $book_all = $this->input->post('book_all');
 
 
 
@@ -232,6 +237,10 @@ class C_POS extends MY_Controller{
 
       if ($item_book!=null) {
         $booking_status = 1;
+      }
+
+      if ($book_all!=null) {
+        $booking_status = 2;
       }
 
       if ($pengiriman) {
@@ -263,7 +272,6 @@ class C_POS extends MY_Controller{
       }
 
       $data = array(
-                    'penjualan_id'      => '',
                     'penjualan_code'    => $penjualan_code,
                     'penjualan_date'    => date("Y-m-d h:m:s"),
                     'customer'          => $customer_id,
@@ -304,36 +312,36 @@ class C_POS extends MY_Controller{
         $this->create_config('tb_pengiriman', $data_pengiriman);
       }
 
-      // extract($_POST);
-      foreach ($item_s as $row => $value) {
-        $item_total[$row] = $item_price[$row]*$qty_s[$row];
-        $item_grand_total[$row] = $item_total[$row]-$item_discount[$row];
-
+      $no = 0;
+      foreach ($item_s as $row) {
+        $item_total = $item_price[$no]*$qty_s[$no];
+        $item_grand_total = $item_total-$item_discount[$no];
         $data_detail = array(
-                            'penjualan_detail_id' => '',
+                            // 'penjualan_detail_id' => '',
                             'penjualan'           => $id,
-                            'barang'              => $item_s[$row],
-                            'barang_qty'          => $qty_s[$row],
-                            'barang_price'        => $item_price[$row],
-                            'barang_total'        => $item_total[$row],
-                            'barang_discount_percent' => $item_discount_percent[$row],
-                            'barang_discount_nominal' => $item_discount[$row],
-                            'barang_grand_total'      => $item_grand_total[$row],
-                            'booking_status'          => $item_book[$row]
+                            'barang'              => $item_s[$no],
+                            'barang_qty'          => $qty_s[$no],
+                            'barang_price'        => $item_price[$no],
+                            'barang_total'        => $item_total,
+                            'barang_discount_percent' => $item_discount_percent[$no],
+                            'barang_discount_nominal' => $item_discount[$no],
+                            'barang_grand_total'      => $item_grand_total,
+                            'booking_status'          => $item_book[$no]
                             );
 
         $this->create_config('tb_penjualan_details', $data_detail);
 
-        $where_barang_id = array('m_barang_id' => $item_s[$row]);
+        $where_barang_id = array('m_barang_id' => $item_s[$no]);
         // $data_update = "stok_gudang_jumlah = stok_gudang_jumlah - '".$qty_s[$row]."'";
         $stock_gudang_now = $this->select_config_one('t_stok_gudang', 'stok_gudang_jumlah',$where_barang_id);
         if ($stock_gudang_now) {
-          $pengurangan = $stock_gudang_now->stok_gudang_jumlah - $qty_s[$row];
+          $pengurangan = $stock_gudang_now->stok_gudang_jumlah - $qty_s[$no];
           $data_update = array('stok_gudang_jumlah' => $pengurangan);
           $this->update_config('t_stok_gudang', $data_update, $where_barang_id);
         }
+        $no++;
       }
-      // echo $this->db->last_query();
+
       if ($sales_type==3) {
           $data_kredit = array(
             'penjualan_id' => $id,
@@ -500,13 +508,15 @@ class C_POS extends MY_Controller{
   		echo json_encode($response);
   	}
 
-    function booking_popmodal($stok_gudang, $item_id)
+    function booking_popmodal($stok_gudang, $item_id, $status)
     {
       $where_barang_id = "WHERE a.barang_id = '$item_id'";
       $data = array(
                     'barang' => $this->M_penjualan->get_item($where_barang_id)->row(),
-                    'action' => "C_POS/booking_storage"
+                    'action' => "C_POS/booking_storage",
+                    'status' => $status
                   );
+
       $this->load->view('transaksi/penjualan/booking_modal', $data);
     }
 

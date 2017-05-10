@@ -83,6 +83,12 @@
                             <td>Pembayaran </td>
                             <td class="text-right" style="padding-right: 10px;"><?php echo number_format($penjualan->penjualan_payment) ?></td>
                           </tr>
+                          <?php if ($penjualan->booking_status == 2): ?>
+                          <tr>
+                            <td>Status </td>
+                              <td class="text-right" style="padding-right: 10px;">Booking All</td>
+                          </tr>
+                          <?php endif; ?>
                         </table>
                       </div>
                       <?php if ($penjualan->pengiriman_id): ?>
