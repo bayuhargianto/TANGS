@@ -7,6 +7,7 @@ class C_POS extends MY_Controller{
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
+    $this->check_session();
     $this->load->model('M_penjualan');
   }
 
@@ -34,7 +35,7 @@ class C_POS extends MY_Controller{
   {
     $privPenjualan = $this->cekUser(76);
     $priv = $this->cekUser(76);
-    $select = 'a.*, b.cabang_nama, c.user_username, d.partner_nama';
+    $select = 'a.*, b.cabang_nama, c.user_username, d.partner_nama, e.pengiriman_id';
     $table  = 'tb_penjualan a';
 		//LIMIT
 		$limit = array(
@@ -43,7 +44,7 @@ class C_POS extends MY_Controller{
 		);
 
     $where_like['data'][] = array(
-			'column' => 'cabang_nama, penjualan_code, penjualan_date, penjualan_total, penjualan_payment',
+			'column' => 'cabang_nama, a.penjualan_code, penjualan_date, penjualan_total, penjualan_payment',
 			'param'	 => $this->input->get('search[value]')
 		);
 
@@ -65,6 +66,12 @@ class C_POS extends MY_Controller{
       'type'  => 'left'
     );
 
+    $join['data'][] = array(
+      'table' => 'tb_pengiriman e',
+      'join'  => 'e.penjualan_id = a.penjualan_id',
+      'type'  => 'left'
+    );
+
     // $query_total = $this->M_penjualan->select_transaction();
     $query_total  = $this->mod->select($select, $table, $join);
     $query        = $this->mod->select($select, $table, $join);
@@ -73,11 +80,19 @@ class C_POS extends MY_Controller{
     $query_filter =  $this->mod->select($select, $table, $join, '', NULL, $where_like, '');
     // echo $this->db->last_query();
     // <a href="'.base_url().'Penjualan/print/'.$val->penjualan_id.'">
-
+    $penjualan_status = "";
     if ($query<>false) {
       $no = $limit['start']+1;
       foreach ($query->result() as $val) {
+        if ($val->booking_status == 2) $penjualan_status = "Booking All";
         $button = '';
+          if ($val->pengiriman_id != null) {
+            $button = $button.'
+  					<button class="btn blue-ebonyclay" type="button" title="">
+  						<i class="fa fa-truck text-center"></i>
+  					</button>
+            ';
+          }
 					$button = $button.'
 					<a href="'.base_url().'Penjualan/penjualan_details/'.$val->penjualan_id.'">
 					<button class="btn blue-ebonyclay" type="button" title="Lihat PO">
@@ -95,6 +110,7 @@ class C_POS extends MY_Controller{
           date("d/m/Y",strtotime($val->penjualan_date)),
           number_format($val->penjualan_total),
           number_format($val->penjualan_payment),
+          $penjualan_status,
           $button
         );
 
@@ -187,6 +203,9 @@ class C_POS extends MY_Controller{
       $item_s = $this->input->post('item_id');
       $item_discount = $this->input->post('item_discount');
       $item_discount_percent = $this->input->post('item_discount_percent');
+      $item_book = $this->input->post('item_book');
+      $item_price = $this->input->post('item_price');
+
 
       $discount_s = $this->input->post('item_discount');
       $sales_pay = $this->input->post('sales_pay');
@@ -202,61 +221,139 @@ class C_POS extends MY_Controller{
       $outlet_id = $this->input->post('outlet_id');
       $sales_discount = $this->input->post('sales_discount');
       $input_cashback = $this->input->post('input-cashback');
-      $item_price = $this->input->post('item_price');
+      $status = $this->input->post('item_price');
+      $pengiriman = $this->input->post('pengiriman');
+
+      $book_all = $this->input->post('book_all');
+
+
+
+      $penjualan_total = $input_total;
+
+      $input_jarak = null;
+      $booking_status = null;
+      $biaya_pengiriman = null;
+      $input_jarak_currency = null;
+
+      if ($item_book!=null) {
+        $booking_status = 1;
+      }
+
+      if ($book_all!=null) {
+        $booking_status = 2;
+      }
+
+      if ($pengiriman) {
+
+        $tujuan_pengiriman = $this->input->post('tujuan_pengiriman');
+        $input_jarak = $this->input->post('input_jarak');
+        $biaya_pengiriman = $this->input->post('input_biaya_currency');
+
+      }
+      // echo $booking_status;
+
+      $sales_dp = $this->input->post('sales-dp');
+      $tgl_jatuh_tempo = $this->input->post('tgl_jatuh_tempo');
 
       $user_id = $this->session->userdata('user_id');
       $penjualan_code = "INV_".time();
 
+      $status = '';
+      if ($sales_type == 3) {
+        $status = 1;
+      }
+
+      if ($sales_discount) {
+        $penjualan_total = $input_total-$sales_discount;
+      }
+
+      if ($biaya_pengiriman) {
+        $penjualan_total = $input_total+$biaya_pengiriman;
+      }
+
       $data = array(
-                    'penjualan_id' => '',
-                    'penjualan_code' => $penjualan_code,
-                    'penjualan_date' => date("Y-m-d h:m:s"),
-                    'customer' => $customer_id,
-                    'branch' => $outlet_id,
-                    'penjualan_all_discount' => $sales_discount,
-                    'penjualan_total' => $input_total,
-                    'penjualan_pajak' => '',
+                    'penjualan_code'    => $penjualan_code,
+                    'penjualan_date'    => date("Y-m-d h:m:s"),
+                    'customer'          => $customer_id,
+                    'branch'            => $outlet_id,
+                    'penjualan_all_discount'  => $sales_discount,
+                    'penjualan_total'         => $penjualan_total,
+                    'penjualan_pajak'         => '',
                     'penjualan_all_discount_percent' => '',
                     'penjualan_all_discount_nominal' => $sales_discount,
-                    'penjualan_grand_total' => $input_total,
-                    'penjualan_payment' => $sales_pay,
-                    'penjualan_change' => $input_cashback,
-                    'penjualan_payment_method' => $sales_type,
-                    'bank_atas_name' => $sales_nama,
-                    'bank' => $sales_nama_bank,
-                    'bank_number' => $sales_nomor_kartu,
-                    'user' => $user_id,
-                    'status' => ''
+                    'penjualan_biaya_pengiriman'     => $biaya_pengiriman,
+                    'penjualan_grand_total'          => $input_total,
+                    'penjualan_payment'              => $sales_pay,
+                    'penjualan_change'               => $input_cashback,
+                    'penjualan_payment_method'       => $sales_type,
+                    'bank_atas_name'                 => $sales_nama,
+                    'bank'                           => $sales_nama_bank,
+                    'bank_number'                    => $sales_nomor_kartu,
+                    'user'                           => $user_id,
+                    'booking_status'                 => $booking_status,
+                    'status'                         => $status
                   );
       $id = $this->create_config('tb_penjualan', $data);
 
-      extract($_POST);
+      if ($biaya_pengiriman!=null) {
+        $data_pengiriman =  array(
+                            'pengiriman_id'       => '',
+                            'penjualan_id'        => $id,
+                            'penjualan_code'      => $penjualan_code,
+                            'penjualan_tanggal'   => date("Y-m-d h:m:s"),
+                            'pengiriman_date'     => null,
+                            'pengiriman_tujuan'   => $tujuan_pengiriman,
+                            'pengiriman_jarak'    => $input_jarak,
+                            'pengiriman_biaya'    => $biaya_pengiriman,
+                            'pengiriman_tanggal'  => null,
+                            'pengiriman_tanggal_sampai' => '',
+                            'status'                    => 0
+                          );
+        $this->create_config('tb_pengiriman', $data_pengiriman);
+      }
 
-      foreach ($item_s as $row => $value) {
-        $item_total[$row] = $item_price[$row]*$qty_s[$row];
-        $item_grand_total[$row] = $item_total[$row]-$item_discount[$row];
-
+      $no = 0;
+      foreach ($item_s as $row) {
+        $item_total = $item_price[$no]*$qty_s[$no];
+        $item_grand_total = $item_total-$item_discount[$no];
         $data_detail = array(
-                            'penjualan_detail_id' => '',
+                            // 'penjualan_detail_id' => '',
                             'penjualan'           => $id,
-                            'barang'              => $item_s[$row],
-                            'barang_qty'          => $qty_s[$row],
-                            'barang_price'        => $item_price[$row],
-                            'barang_total'        => $item_total[$row],
-                            'barang_discount_percent' => $item_discount_percent[$row],
-                            'barang_discount_nominal' => $item_discount[$row],
-                            'barang_grand_total'      => $item_grand_total[$row]
+                            'barang'              => $item_s[$no],
+                            'barang_qty'          => $qty_s[$no],
+                            'barang_price'        => $item_price[$no],
+                            'barang_total'        => $item_total,
+                            'barang_discount_percent' => $item_discount_percent[$no],
+                            'barang_discount_nominal' => $item_discount[$no],
+                            'barang_grand_total'      => $item_grand_total,
+                            'booking_status'          => $item_book[$no]
                             );
 
         $this->create_config('tb_penjualan_details', $data_detail);
 
-        $where_barang_id = array('m_barang_id' => $item_s[$row]);
+        $where_barang_id = array('m_barang_id' => $item_s[$no]);
         // $data_update = "stok_gudang_jumlah = stok_gudang_jumlah - '".$qty_s[$row]."'";
         $stock_gudang_now = $this->select_config_one('t_stok_gudang', 'stok_gudang_jumlah',$where_barang_id);
-        $data_update = array('stok_gudang_jumlah' => $stock_gudang_now->stok_gudang_jumlah - $qty_s[$row] );
-        $this->update_config('t_stok_gudang', $data_update, $where_barang_id);
-        // echo $this->db->last_query();
+        if ($stock_gudang_now) {
+          $pengurangan = $stock_gudang_now->stok_gudang_jumlah - $qty_s[$no];
+          $data_update = array('stok_gudang_jumlah' => $pengurangan);
+          $this->update_config('t_stok_gudang', $data_update, $where_barang_id);
+        }
+        $no++;
       }
+
+      if ($sales_type==3) {
+          $data_kredit = array(
+            'penjualan_id' => $id,
+            'penjualan_code'=> $penjualan_code,
+            'tanggal_batas'=> $tgl_jatuh_tempo,
+            'customer' => $sales_nama,
+            'user' => $user_id
+          );
+          $this->create_config('tb_kredit', $data_kredit);
+      }
+
+
       echo json_encode($id);
   }
 
@@ -298,11 +395,34 @@ class C_POS extends MY_Controller{
   {
     $this->check_session();
     $priv = $this->cekUser(28);
+
+    $select = 'a.*, b.partner_nama, c.*';
+
+    $table = 'tb_penjualan a';
+
+    $join['data'][] = array(
+          'table' => 'm_partner b',
+          'join'	=> 'b.partner_id = a.customer',
+          'type'	=> 'left'
+        );
+
+    $join['data'][] = array(
+          'table' => 'tb_pengiriman c',
+          'join'	=> 'c.penjualan_id = a.penjualan_id',
+          'type'	=> 'left'
+        );
+
+    $where['data'][] = array(
+      'column' => 'a.penjualan_id',
+      'param'  => $id
+    );
+
     $data = array(
-      'aplikasi'		=> $this->app_name,
-      'title_page' 	=> 'List Penjualan',
+      'aplikasi'		  => $this->app_name,
+      'title_page' 	  => 'List Penjualan',
       'title_page2' 	=> 'Detil Penjualan',
-      'penjualan_id' => $id
+      'penjualan_id'  => $id,
+      'penjualan'     => $this->mod->select($select, $table, $join, $where, NULL, NULL, '')->row()
       );
 
     $this->open_page('transaksi/penjualan/V_penjualan_details', $data);
@@ -332,18 +452,15 @@ class C_POS extends MY_Controller{
         $no = $limit['start']+1;
         foreach ($query->result() as $val) {
           $button = '';
-  					// $button = $button.'
-  					// <a href="'.base_url().'Penjualan/penjualan_details/'.$val->penjualan_id.'">
-  					// <button class="btn blue-ebonyclay" type="button" title="Lihat PO">
-  					// 	<i class="icon-eye text-center"></i>
-  					// </button>
-  					// </a>
-  					// <a href="'.base_url().'Penjualan/print/'.$val->penjualan_id.'">
-  					// <button class="btn green-jungle" type="button" title="Print PO">
-  					// 	<i class="icon-printer text-center"></i>
-  					// </button>
-  					// </a>';
+          $classdonebook = "blue-ebonyclay";
+          if ($val->booking_status==2){$classdonebook="green-jungle";}
 
+          if ($val->booking_status==1 || $val->booking_status==2){
+      					$button = $button.'<button class="btn '.$classdonebook.'" type="button" id="btn_'.$val->penjualan_detail_id.'"
+                                    data-penjualan-detail-id="" onclick="bookBtn('.$val->penjualan_detail_id.')" href="#modaladd">
+                                    <i class="fa fa-book text-center"></i>
+                                   </button>';
+                }
           $response['data'][] = array(
             $no,
             number_format($val->barang_price),
@@ -351,7 +468,8 @@ class C_POS extends MY_Controller{
             number_format($val->barang_qty),
             number_format($val->barang_total),
             number_format($val->barang_discount_nominal),
-            number_format($val->barang_grand_total)
+            number_format($val->barang_grand_total),
+            $button
           );
 
           $no++;
@@ -389,5 +507,32 @@ class C_POS extends MY_Controller{
 
   		echo json_encode($response);
   	}
+
+    function booking_popmodal($stok_gudang, $item_id, $status)
+    {
+      $where_barang_id = "WHERE a.barang_id = '$item_id'";
+      $data = array(
+                    'barang' => $this->M_penjualan->get_item($where_barang_id)->row(),
+                    'action' => "C_POS/booking_storage",
+                    'status' => $status
+                  );
+
+      $this->load->view('transaksi/penjualan/booking_modal', $data);
+    }
+
+    function update_book()
+    {
+      $penjualan_detail_id = $_POST['id'];
+      $where_penjualan_detail_id = array('penjualan_detail_id' => $penjualan_detail_id);
+      $data_update = array('booking_status' => 2);
+      $this->update_config('tb_penjualan_details', $data_update, $where_penjualan_detail_id);
+
+      echo json_encode($penjualan_detail_id);
+    }
+
+    function booking_storage()
+    {
+
+    }
 
 }

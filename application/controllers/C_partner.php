@@ -76,8 +76,8 @@ class C_partner extends MY_Controller {
 					if($priv['update'] == 1)
 					{
 						$button = $button.'<button class="btn blue-ebonyclay" type="button" onclick="openFormPartner('.$val->partner_id.')" title="Edit" data-toggle="modal" href="#modaladd">
-											<i class="icon-pencil text-center"></i>
-										</button>';
+																	<i class="icon-pencil text-center"></i>
+																</button>';
 					}
 					if($priv['delete'] == 1)
 					{

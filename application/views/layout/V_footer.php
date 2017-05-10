@@ -31,7 +31,7 @@
         <!-- END FOOTER -->
         <!--[if lt IE 9]>
 <script src="<?php echo base_url();?>assets/theme/global/plugins/respond.min.js"></script>
-<script src="<?php echo base_url();?>assets/theme/global/plugins/excanvas.min.js"></script> 
+<script src="<?php echo base_url();?>assets/theme/global/plugins/excanvas.min.js"></script>
 <![endif]-->
         <!-- BEGIN CORE PLUGINS -->
         <script src="<?php echo base_url();?>assets/theme/global/plugins/jquery.min.js" type="text/javascript"></script>
@@ -57,7 +57,7 @@
         <script src="<?php echo base_url();?>assets/theme/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url();?>assets/theme/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url();?>assets/theme/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
-        
+
         <script src="<?php echo base_url();?>assets/custom_theme/bootstrap-daterangepicker/daterangepicker.js" type="text/javascript"></script>
         <script src="<?php echo base_url();?>assets/theme/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url();?>assets/theme/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js" type="text/javascript"></script>
@@ -93,7 +93,13 @@
         <script src="<?php echo base_url();?>assets/theme/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
         <!-- END THEME LAYOUT SCRIPTS -->
         <script type="text/javascript">
-        $(document).ready(function(){ 
+        $(document).ready(function(){
             $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+            $(document).on('mousemove', function() {
+              var yourVariable = "<?php echo $this->session->userdata('logged')?>";
+              if (yourVariable=="") {
+                window.location.reload(true);
+              }
+            });
         });
       </script>

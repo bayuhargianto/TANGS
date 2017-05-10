@@ -49,7 +49,7 @@ class C_purchase_order extends MY_Controller {
 			{
 				$this->load->view('layout/V_404', $data);
 			}
-		}		
+		}
 	}
 
 	public function loadData($type){
@@ -98,7 +98,7 @@ class C_purchase_order extends MY_Controller {
 							</a>';
 						}
 					}
-					
+
 					$button = $button.'
 					<a href="'.base_url().'Pembelian/Purchase-Order/Form/'.$val->order_id.'">
 					<button class="btn blue-ebonyclay" type="button" title="Lihat PO">
@@ -475,7 +475,7 @@ class C_purchase_order extends MY_Controller {
 			'title_page' 	=> 'Purchase Order',
 			'title_page2' 	=> 'Print PO',
 		);
-		
+
 		// $this->load->view('print/P_PO', $response);
 		$this->pdf->load_view('print/P_PO', $response);
 		$this->pdf->render();
@@ -672,7 +672,7 @@ class C_purchase_order extends MY_Controller {
 				);
 				$update = $this->mod->update_data_table($this->tbl, $where, $data);
 				if($update->status) {
-					for ($i = 0; $i < sizeof($this->input->post('m_barang_id', TRUE)); $i++) { 
+					for ($i = 0; $i < sizeof($this->input->post('m_barang_id', TRUE)); $i++) {
 
 						$iddet = $this->input->post('orderdet_id', TRUE)[$i];
 						$response['id'] = $iddet;
@@ -680,7 +680,7 @@ class C_purchase_order extends MY_Controller {
 						$where_det['data'][] = array(
 							'column' => 'orderdet_id',
 							'param'	 => $iddet
-						); 
+						);
 						// $insert_det = $this->mod->insert_data_table('t_orderdet', NULL, $data_det);
 						$update_det = $this->mod->update_data_table('t_orderdet', $where_det, $data_det);
 						if($update_det->status) {
@@ -700,7 +700,7 @@ class C_purchase_order extends MY_Controller {
 					'column' => 'order_id',
 					'param'	 => $id
 				);
-				
+
 				// INSERT t_orderlog
 				$query_po = $this->mod->select('*', 't_order', NULL, $where_po);
 				if ($query_po) {
@@ -731,8 +731,8 @@ class C_purchase_order extends MY_Controller {
 				} else {
 					$response['status'] = '204';
 				}
-			} 
-			
+			}
+
 		} else {
 			//INSERT
 			$data = $this->general_post_data(1);
@@ -741,7 +741,7 @@ class C_purchase_order extends MY_Controller {
 				$response['status'] = '200';
 
 				// INSERT DETAIL
-				for ($i = 0; $i < sizeof($this->input->post('m_barang_id', TRUE)); $i++) { 
+				for ($i = 0; $i < sizeof($this->input->post('m_barang_id', TRUE)); $i++) {
 					$data_det = $this->general_post_data2(1, $insert->output, $i);
 					$insert_det = $this->mod->insert_data_table('t_orderdet', NULL, $data_det);
 					if($insert_det->status) {
@@ -893,7 +893,7 @@ class C_purchase_order extends MY_Controller {
 			// 		'orderdet_update_date'		=> date('Y-m-d H:i:s'),
 			// 		'orderdet_update_by'		=> $this->session->userdata('user_username'),
 			// 		'orderdet_revised' 			=> $rev,
-			// 	);	
+			// 	);
 			// } else {
 			// 	$data = array(
 			// 		'orderdet_qty_realisasi'	=> ($this->input->post('orderdet_qty_realisasi', TRUE)[$seq] + $this->input->post('orderdet_qty_kirim', TRUE)[$seq]),
@@ -902,7 +902,7 @@ class C_purchase_order extends MY_Controller {
 			// 		'orderdet_update_date'		=> date('Y-m-d H:i:s'),
 			// 		'orderdet_update_by'		=> $this->session->userdata('user_username'),
 			// 		'orderdet_revised' 			=> $rev,
-			// 	);	
+			// 	);
 			// }
 		} else if($type == 3) {
 			$data = array(

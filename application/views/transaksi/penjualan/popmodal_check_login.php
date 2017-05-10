@@ -28,10 +28,13 @@
       data : $( "#formLogin" ).serialize(),
       dataType : "json",
       success : function(data){
+
         if (data.status=='200') {
+
           $('#modal_login').modal('hide');
           $('#my-modal-disc').modal('show');
           $('#type_karyawan').val(data.type_karyawan);
+          
         } else if (data.status=='204') {
 
         }
