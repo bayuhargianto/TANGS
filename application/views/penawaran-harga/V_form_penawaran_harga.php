@@ -137,7 +137,7 @@
                                                                         <span class="input-group-addon" style="">
                                                                             <span class="icon-calendar"></span>
                                                                         </span>
-                                                                    </div> 
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -316,7 +316,7 @@
                         } else {
                             // alert();
                             document.getElementById('lanjut').disabled = true;
-                        }   
+                        }
                     } else if (stepPosition == 2) {
                         $("#lanjut").addClass("hidden");
                         $("#lanjut2").removeClass("hidden");
@@ -331,6 +331,7 @@
                         $("#lanjut2").addClass("hidden");
                         $("#lanjut3").removeClass("hidden");
                     } else if (stepPosition == 4) {
+                      
                     }
                 }, 1000);
             }
@@ -440,7 +441,7 @@
 
             function addSPP() {
                 var id = $("#t_permintaan_pembelian_id").select2("val");
-                
+
                 // alert(id);
                 last_num = 0;
                 itemBarang = 0;
@@ -497,7 +498,7 @@
                 $("#jml_itemBarang").val(itemBarang);
                 var id = $("#t_permintaan_pembelian_id").select2("val");
                 // $("#t_permintaan_pembelian_id").select2('val', 0);
-                
+
                     // alert(id[j]);
                 var inputs = document.querySelectorAll("input[name='t_permintaan_pembelian_id[]']");
                 for (var i = 0; i < document.getElementsByName("t_permintaan_pembelian_id"); i++) {
@@ -506,14 +507,14 @@
                         alert(inputs[i].value);
                         if(inputs[i].value == id[j])
                         {
-                            
+
                             id.splice(j, 1);
                         }
                     }
-                        
+
                 }
 
-                // 
+                //
             }
 
             function getDetailSpp(id) {
@@ -563,7 +564,7 @@
                                         </button>\
                                     </td>\
                                 </tr>\
-                            ');   
+                            ');
                             $('.num2').number( true, 2, '.', ',' );
                         }
                     }

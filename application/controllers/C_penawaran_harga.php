@@ -162,7 +162,7 @@ class C_penawaran_harga extends MY_Controller {
 				$response['step1'] = array();
 				if ($query_brg) {
 					foreach ($query_brg->result() as $val2) {
-						
+
 						$response['step1'][] = array(
 							'penawaran_barang_id'				=> $val2->penawaran_barang_id,
 							't_permintaan_pembelian'			=> $val2->t_permintaan_pembelian,
@@ -218,9 +218,9 @@ class C_penawaran_harga extends MY_Controller {
 					$response['step3'] = 1;
 					foreach ($query_hrg->result() as $val2) {
 						$response['step5'][] = array(
-							't_penawaran_id' 					=> $val2->t_penawaran_id, 
-							't_penawaran_supplier_id' 			=> $val2->t_penawaran_supplier_id, 
-							't_penawaran_barang_id' 			=> $val2->t_penawaran_barang_id, 
+							't_penawaran_id' 					=> $val2->t_penawaran_id,
+							't_penawaran_supplier_id' 			=> $val2->t_penawaran_supplier_id,
+							't_penawaran_barang_id' 			=> $val2->t_penawaran_barang_id,
 							'penawaran_harga_nominal' 			=> $val2->penawaran_harga_nominal,
 							'penawaran_harga_qty_ditawarkan'	=> $val2->penawaran_harga_qty_ditawarkan,
 						);
@@ -248,7 +248,7 @@ class C_penawaran_harga extends MY_Controller {
 						);
 					}
 				}
-				
+
 				// END CARI SPP
 				$response['val'][] = array(
 					'kode' 							=> $val->penawaran_id,
@@ -260,7 +260,7 @@ class C_penawaran_harga extends MY_Controller {
 					'penawaran_step' 				=> $val->penawaran_step,
 				);
 			}
-
+			// echo $this->db->last_query();
 			echo json_encode($response);
 		}
 	}
@@ -459,7 +459,7 @@ class C_penawaran_harga extends MY_Controller {
 						);
 					}
 				}
-				
+
 				// HARGA
 				$where_hrg['data'][] = array(
 					'column' => 't_penawaran_id',
@@ -614,8 +614,10 @@ class C_penawaran_harga extends MY_Controller {
 			'column' => 'a.t_penawaran_id',
 			'param'	 => $id
 		);
+
 		$data['supplier'] = $this->mod->select('a.*, b.*','t_penawaran_supplier a', $join_det2, $where_det2);
 		$data['mata_uang'] = $this->mod->select('*','m_mata_uang');
+
 		if ($type == 1) {
 			$this->load->view("penawaran-harga/V_form_penawaran_pemenang_tabel", $data);
 		} else if ($type == 2) {
@@ -648,7 +650,7 @@ class C_penawaran_harga extends MY_Controller {
 						$delete = $this->mod->delete_data_table('t_penawaran_supplier', $wheredelete);
 
 						// INSERT DETAIL SUPPLIER
-						for ($i = 0; $i < sizeof($this->input->post('m_partner_id', TRUE)); $i++) { 
+						for ($i = 0; $i < sizeof($this->input->post('m_partner_id', TRUE)); $i++) {
 							$data_det = $this->general_post_data3(1, $id, $i);
 							$insert_det = $this->mod->insert_data_table('t_penawaran_supplier', NULL, $data_det);
 							if($insert_det->status) {
@@ -667,7 +669,7 @@ class C_penawaran_harga extends MY_Controller {
 						$response['status'] = '200';
 						$response['data_post'] = $_POST;
 
-						// for ($i = 0; $i < sizeof($this->input->post('t_penawaran_barang_id', TRUE)); $i++) { 
+						// for ($i = 0; $i < sizeof($this->input->post('t_penawaran_barang_id', TRUE)); $i++) {
 						// 	// UPDATE BARANG
 						// 	$data_brg = array(
 						// 		'penawaran_barang_qty_ditawarkan' => $this->input->post('penawaran_barang_qty_ditawarkan', TRUE)[$i],
@@ -684,7 +686,7 @@ class C_penawaran_harga extends MY_Controller {
 						// }
 
 						// UPDATE DETAIL SUPPLIER
-						for ($i = 0; $i < sizeof($this->input->post('t_penawaran_supplier_id', TRUE)); $i++) { 
+						for ($i = 0; $i < sizeof($this->input->post('t_penawaran_supplier_id', TRUE)); $i++) {
 							$data_det = $this->general_post_data3(2, $id, $i);
 							if (@$where_det['data']) {
 								unset($where_det['data']);
@@ -703,7 +705,7 @@ class C_penawaran_harga extends MY_Controller {
 						// END UPDATE DETAIL SUPPLIER
 
 						// INSERT DETAIL HARGA
-						for ($i = 0; $i < sizeof($this->input->post('penawaran_harga_nominal', TRUE)); $i++) { 
+						for ($i = 0; $i < sizeof($this->input->post('penawaran_harga_nominal', TRUE)); $i++) {
 							$data_det2 = $this->general_post_data4(1, $id, $i);
 							$insert_det2 = $this->mod->insert_data_table('t_penawaran_harga', NULL, $data_det2);
 							// print_r($this->db->last_query());
@@ -724,7 +726,7 @@ class C_penawaran_harga extends MY_Controller {
 						// print_r($_POST);
 
 						// UPDATE DETAIL SUPPLIER
-						for ($i = 0; $i < sizeof($this->input->post('t_penawaran_supplier_id_pemenang', TRUE)); $i++) { 
+						for ($i = 0; $i < sizeof($this->input->post('t_penawaran_supplier_id_pemenang', TRUE)); $i++) {
 							$data_det = $this->general_post_data3(3, $id, $i);
 							if (@$where_det['data']) {
 								unset($where_det['data']);
@@ -758,7 +760,7 @@ class C_penawaran_harga extends MY_Controller {
 				$response['status'] = '200';
 
 				// CHANGE STATUS SPP
-				for ($i = 0; $i < sizeof($this->input->post('id', TRUE)); $i++) { 
+				for ($i = 0; $i < sizeof($this->input->post('id', TRUE)); $i++) {
 					$data_spp = array(
 						'permintaan_pembelian_status' 		=> 3,
 						'permintaan_pembelian_status_date' 	=> date('Y-m-d H:i:s'),
@@ -770,7 +772,7 @@ class C_penawaran_harga extends MY_Controller {
 						'column' => 'permintaan_pembelian_id',
 						'param'	 => $this->input->post('id', TRUE)[$i]
 					);
-					
+
 					// INSERT t_permintaan_pembelianlog
 					$query_spp = $this->mod->select('*', 't_permintaan_pembelian', NULL, $where_spp);
 					if ($query_spp) {
@@ -793,7 +795,7 @@ class C_penawaran_harga extends MY_Controller {
 				// END CHANGE STATUS SPP
 
 				// INSERT DETAIL BARANG
-				for ($i = 0; $i < sizeof($this->input->post('m_barang_id', TRUE)); $i++) { 
+				for ($i = 0; $i < sizeof($this->input->post('m_barang_id', TRUE)); $i++) {
 					$data_det = $this->general_post_data2(1, $insert->output, $i);
 					$insert_det = $this->mod->insert_data_table('t_penawaran_barang', NULL, $data_det);
 					if($insert_det->status) {
@@ -870,13 +872,13 @@ class C_penawaran_harga extends MY_Controller {
 						'penawaran_update_date'		=> date('Y-m-d H:i:s'),
 						'penawaran_update_by'		=> $this->session->userdata('user_username'),
 						'penawaran_revised' 		=> $rev,
-					);	
+					);
 				} else {
 					$data = array(
 						'penawaran_update_date'		=> date('Y-m-d H:i:s'),
 						'penawaran_update_by'		=> $this->session->userdata('user_username'),
 						'penawaran_revised' 		=> $rev,
-					);	
+					);
 				}
 			}
 		} else if ($type == 3) {
@@ -887,15 +889,15 @@ class C_penawaran_harga extends MY_Controller {
 					'penawaran_update_date'		=> date('Y-m-d H:i:s'),
 					'penawaran_update_by'		=> $this->session->userdata('user_username'),
 					'penawaran_revised' 		=> $rev,
-				);	
+				);
 			} else {
 				$data = array(
 					'penawaran_update_date'		=> date('Y-m-d H:i:s'),
 					'penawaran_update_by'		=> $this->session->userdata('user_username'),
 					'penawaran_revised' 		=> $rev,
-				);	
+				);
 			}
-		} 
+		}
 
 		return $data;
 	}
