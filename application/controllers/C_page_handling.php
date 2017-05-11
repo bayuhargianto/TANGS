@@ -50,6 +50,36 @@ class C_page_handling extends MY_Controller {
 		echo json_encode($response);
 	}
 
+	public function formLogin($type = NULL){
+		if ($type == 1) {
+			$data = array(
+				'action'	=> 'Login/checkLogin/1'
+			);
+			$this->load->view("gate/V_form_login", $data);
+		}
+	}
+
+	public function checkLogin($type = NULL){
+		if ($type == 1) {
+			$user = $this->input->post('i_username', TRUE);
+			$pass = md5(base64_decode($this->input->post('i_password', TRUE)));
+			$user_data = $this->mod->check_exist_user($user,$pass);
+
+			if(!$user_data)
+				$response['status'] = '204'; 
+			else{
+				// HARDCODE
+				if ($user_data->type_karyawan_id == 1 || $user_data->type_karyawan_id == 14) {
+					$response['status'] = '200';
+				} else {
+					$response['status'] = '204';
+				}
+				
+			}
+		}
+		echo json_encode($response);
+	}
+
 	/*
 		END PAGE LOGIN FUNCTION
 	*/

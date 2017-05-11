@@ -78,7 +78,7 @@
                                             <div class="col-md-8">
                                                 <div class="input-icon right">
                                                     <i class="fa"></i>
-                                                    <div class=" input-group date datepicker" data-date-format="dd/mm/yyyy">
+                                                    <div class=" input-group date datepicker datepickerid" data-date-format="dd/mm/yyyy">
                                                         <input name="penerimaan_barang_tanggal" type="text" value="<?php echo date('d/m/Y');?>" class="form-control" required>
                                                         <span class="input-group-addon" style="">
                                                             <span class="icon-calendar"></span>
@@ -94,7 +94,7 @@
                                             <div class="col-md-8">
                                                 <div class="input-icon right">
                                                     <i class="fa"></i>
-                                                    <div class="input-group date datepicker" data-date-format="dd/mm/yyyy" data-date-start-date="+0d">
+                                                    <div class="input-group date datepicker datepickerid" data-date-format="dd/mm/yyyy" data-date-start-date="+0d">
                                                         <input type="text" class="form-control" name="penerimaan_barang_tanggal_terima" required>
                                                         <span class="input-group-addon" style="">
                                                             <span class="icon-calendar"></span>
@@ -169,7 +169,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label col-md-4">Nomor PO/WO
+                                            <label class="control-label col-md-4">Nomor PO
                                                 <span class="required"> * </span>
                                             </label>
                                             <div class="col-md-7">
@@ -248,7 +248,8 @@
                 isDisabledVar = true;
                 $("#formAdd").submit(function(event){
                   if ($("#formAdd").valid() == true) {
-                    actionData2();
+                    checkPO();
+                    // actionData2();
                   }
                   return false;
                 });
@@ -491,6 +492,24 @@
                 });
                 
             }
+
+            function checkPO() {
+                $.ajax({
+                    type : "GET",
+                    url  : '<?php echo base_url();?>Gudang/Penerimaan-Barang/checkPO/',
+                    data : { id : document.getElementById('t_order_id').value },
+                    dataType : "json",
+                    success:function(data){
+                        if (data.status == '200') {
+                            actionData2();
+                        } else if (data.status == '204') {
+                            openForm2('Login/formLogin/1', '#modal_login');
+                            $(".datepickerid").removeClass('datepicker');
+                        }
+                    }
+                });
+            }
+
         </script>
 
     </body>

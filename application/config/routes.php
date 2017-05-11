@@ -60,6 +60,8 @@ $route['translate_uri_dashes'] 	= FALSE;
 $route['Login']													= 'C_page_handling/PageLogin';
 $route['Login/doLogin']											= 'C_page_handling/doLogin';
 $route['Login/doLogout']										= 'C_page_handling/doLogout';
+$route['Login/(:any)']											= 'C_page_handling/$1';
+$route['Login/(:any)/(:any)']									= 'C_page_handling/$1/$2';
 // END ROUTE USER GATE
 
 $route['Dashboard']												= 'C_dashboard';
@@ -378,6 +380,7 @@ $route['Pembelian/Penerimaan-Barang/checkStatus']				= 'C_penerimaan_barang/chec
 $route['Pembelian/Penerimaan-Barang/Form/(:any)']				= 'C_penerimaan_barang/getForm2/$1';
 $route['Pembelian/Penerimaan-Barang/loadDataWhere']				= 'C_penerimaan_barang/loadDataWhere/2';
 $route['Pembelian/Penerimaan-Barang/postData']					= 'C_penerimaan_barang/postData/2';
+$route['Gudang/Penerimaan-Barang/(:any)']						= 'C_penerimaan_barang/$1';
 // end Penerimaan Barang
 
 

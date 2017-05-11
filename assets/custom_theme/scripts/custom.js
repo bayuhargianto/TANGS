@@ -900,6 +900,55 @@ function alert_fail_batal() {
 }
 //END ALERT FUNCTION
 
+function openForm2(url_data = null, modal_id = null, id_data = null, id_data2 = null) {
+    $.ajax({
+        type : 'GET',
+        url  : $base_url+url_data,
+        data : { id : id_data, id2 : id_data2 },
+        dataType : "html",
+        success:function(data){
+            $(modal_id+" .modal-content").html();
+            $(modal_id+" .modal-content").html(data);
+            // $(modal_id+'').modal('show');
+            $(modal_id+'').modal({backdrop: "static"});
+            MyFormValidation.init();
+            $("#formLogin").submit(function(event) {
+                if ($("#formLogin").valid() == true) {
+                    $.ajax({
+                      type : "POST",
+                      url  : $base_url+''+$("#url_login").val(),
+                      data : $( "#formLogin" ).serialize(),
+                      dataType : "json",
+                      success:function(data){
+                        if(data.status=='200'){
+                            $('#modal_login').modal('hide');
+                            window.scrollTo(0, 0);
+                            swal({
+                                title: "Success!",
+                                text: "Otorisasi Berhasil!",
+                                type: "success",
+                                confirmButtonClass: "btn-raised btn-success",
+                                confirmButtonText: "OK",
+                            });
+                            actionData2();
+                        } else if (data.status=='204') {
+                            swal({
+                                title: "Alert!",
+                                text: "Otorisasi Gagal!",
+                                type: "error",
+                                confirmButtonClass: "btn-raised btn-danger",
+                                confirmButtonText: "OK",
+                            });
+                        }
+                      }
+                    });
+                }
+                return false;
+            });
+        }
+    });
+}
+
 function openFormCabang(id = null) {
     $.ajax({
       type : 'GET',

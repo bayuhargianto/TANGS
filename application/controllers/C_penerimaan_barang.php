@@ -326,6 +326,22 @@ class C_penerimaan_barang extends MY_Controller {
 		echo json_encode($response);
 	}
 
+	public function checkPO(){
+		$where['data'][] = array(
+			'column' => 't_order_id',
+			'param'	 => $this->input->get('id', TRUE)
+		);
+		$query = $this->mod->select('*', $this->tbl, NULL, $where);
+		// print_r($this->db->last_query());
+		if ($query) {
+			$response['status'] = '204';
+		} else {
+			$response['status'] = '200';
+		}
+
+		echo json_encode($response);
+	}
+
 	public function loadData_select(){
 		$param = $this->input->get('q');
 		if ($param!=NULL) {
