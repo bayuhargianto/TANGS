@@ -85,6 +85,12 @@ class C_penerimaan_barang extends MY_Controller {
 						<i class="icon-printer text-center"></i>
 					</button>
 					</a>';
+					if ($val->penerimaan_barang_status == 1) {
+						$button .= '
+						<button class="btn red-thunderbird" type="button" onclick="deleteData('.$val->penerimaan_barang_id.')" title="Hapus Data">
+							<i class="icon-close text-center"></i>
+						</button>';
+					}
 				} else if ($type == 2) {
 					$button = '
 					<a href="'.base_url().'Pembelian/Penerimaan-Barang/Form/'.$val->penerimaan_barang_id.'">
@@ -323,6 +329,22 @@ class C_penerimaan_barang extends MY_Controller {
 		} else {
 			$response['status'] = '204';
 		}
+		echo json_encode($response);
+	}
+
+	public function checkPO(){
+		$where['data'][] = array(
+			'column' => 't_order_id',
+			'param'	 => $this->input->get('id', TRUE)
+		);
+		$query = $this->mod->select('*', $this->tbl, NULL, $where);
+		// print_r($this->db->last_query());
+		if ($query) {
+			$response['status'] = '204';
+		} else {
+			$response['status'] = '200';
+		}
+
 		echo json_encode($response);
 	}
 
@@ -894,6 +916,83 @@ class C_penerimaan_barang extends MY_Controller {
 		$this->pdf->load_view('print/P_bpb', $response);
 		$this->pdf->render();
 		$this->pdf->stream($name,array("Attachment"=>false));
+	}
+
+	public function deleteData(){
+		error_reporting(E_ALL);
+		$response['id'] = $this->input->post('id', TRUE);
+		$where['data'][] = array(
+			'column' => 'penerimaan_barang_id',
+			'param'	 => $this->input->post('id')
+		);
+		$query = $this->mod->select('*', $this->tbl, NULL, $where);
+		if ($query) {
+			foreach ($query->result() as $row) {
+				// HAPUS KARTU STOK
+				$where_kartustok['data'][] = array(
+					'column' => 'kartu_stok_referensi',
+					'param'	 => $row->penerimaan_barang_nomor
+				);
+				$query_kartustok = $this->mod->delete_data_table('t_kartu_stok', $where_kartustok);
+				// END HAPUS KARTU STOK
+				$where_det['data'][] = array(
+					'column' => 't_penerimaan_barang_id',
+					'param'	 => $row->penerimaan_barang_id
+				);
+				$query_det = $this->mod->select('*', 't_penerimaan_barangdet', NULL, $where_det);
+				if ($query_det) {
+					foreach ($query_det->result() as $row2) {
+						// PENGURANGAN STOK
+						if (@$where_stok_gudang['data']) {
+							unset($where_stok_gudang['data']);
+						}
+						$where_stok_gudang['data'][] = array(
+							'column' => 'm_gudang_id',
+							'param'	 => $row->m_gudang_id
+						);
+						$where_stok_gudang['data'][] = array(
+							'column' => 'm_barang_id',
+							'param'	 => $row2->m_barang_id
+						);
+						$select_stok_gudang = $this->mod->select('*', 't_stok_gudang', NULL, $where_stok_gudang);
+						if ($select_stok_gudang) {
+							// UPDATE
+							foreach ($select_stok_gudang->result() as $value) {
+								$dataStok2 = array(
+									'm_gudang_id' 				=> $row->m_gudang_id,
+									'm_barang_id' 				=> $row2->m_barang_id,
+									'stok_gudang_jumlah' 		=> $value->stok_gudang_jumlah - $row2->penerimaan_barangdet_qty,
+									'stok_gudang_no_seri' 		=> '',
+									'stok_gudang_created_date'	=> date('Y-m-d H:i:s'),
+									'stok_gudang_created_by'	=> $this->session->userdata('user_username'),
+									'stok_gudang_revised' 		=> 0,
+								);
+								$updateStok2 = $this->mod->update_data_table('t_stok_gudang', $where_stok_gudang, $dataStok2);
+							}
+						}
+						// END PENGURANGAN STOK
+					}
+				} else {
+					$response['status'] = '204';
+				}
+			}
+			// HAPUS PENERIMAAN
+			$where_penerimaan_hdr['data'][] = array(
+				'column' => 'penerimaan_barang_id',
+				'param'	 => $this->input->post('id')
+			);
+			$query_penerimaan_hdr = $this->mod->delete_data_table('t_penerimaan_barang', $where_penerimaan_hdr);
+			$where_penerimaan_dtl['data'][] = array(
+				'column' => 't_penerimaan_barang_id',
+				'param'	 => $this->input->post('id')
+			);
+			$query_penerimaan_dtl = $this->mod->delete_data_table('t_penerimaan_barangdet', $where_penerimaan_dtl);
+			// END HAPUS PENERIMAAN
+			$response['status'] = '200';
+		} else {
+			$response['status'] = '204';
+		}
+		echo json_encode($response);
 	}
 
 	/* Saving $data as array to database */

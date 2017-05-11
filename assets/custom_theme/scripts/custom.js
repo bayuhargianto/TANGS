@@ -900,6 +900,90 @@ function alert_fail_batal() {
 }
 //END ALERT FUNCTION
 
+function openForm2(url_data = null, modal_id = null, id_data = null, id_data2 = null) {
+    $.ajax({
+        type : 'GET',
+        url  : $base_url+url_data,
+        data : { id : id_data, id2 : id_data2 },
+        dataType : "html",
+        success:function(data){
+            $(modal_id+" .modal-content").html();
+            $(modal_id+" .modal-content").html(data);
+            // $(modal_id+'').modal('show');
+            $(modal_id+'').modal({backdrop: "static"});
+            MyFormValidation.init();
+            $("#formLogin").submit(function(event) {
+                if ($("#formLogin").valid() == true) {
+                    $.ajax({
+                      type : "POST",
+                      url  : $base_url+''+$("#url_login").val(),
+                      data : $( "#formLogin" ).serialize(),
+                      dataType : "json",
+                      success:function(data){
+                        if(data.status=='200'){
+                            $('#modal_login').modal('hide');
+                            window.scrollTo(0, 0);
+                            swal({
+                                title: "Success!",
+                                text: "Otorisasi Berhasil!",
+                                type: "success",
+                                confirmButtonClass: "btn-raised btn-success",
+                                confirmButtonText: "OK",
+                            });
+                            actionData2();
+                        } else if (data.status=='204') {
+                            swal({
+                                title: "Alert!",
+                                text: "Otorisasi Gagal!",
+                                type: "error",
+                                confirmButtonClass: "btn-raised btn-danger",
+                                confirmButtonText: "OK",
+                            });
+                        }
+                      }
+                    });
+                }
+                return false;
+            });
+        }
+    });
+}
+
+function openFormUser(id = null) {
+    $.ajax({
+      type : 'GET',
+      url  : $base_url+'Setting/User-Account/getForm/',
+      data : { id : id },
+      dataType : "html",
+      success:function(data){
+        $("#modaladd .modal-body").html();
+        $("#modaladd .modal-body").html(data);
+        $('#modaladd').modal('show');
+        MyFormValidation.init();
+        rules();
+        $("#formAdd").submit(function(event){
+          if ($("#formAdd").valid() == true) {
+            actionData();
+          }
+          return false;
+        });
+        $('#m_karyawan_id').css('width', '100%');
+        selectList_karyawan('#m_karyawan_id');
+        if (id) {
+            setTimeout(function(){
+                $('#m_karyawan_id').select2('destroy');
+              editData(id);
+              setTimeout(function(){
+                $('#m_karyawan_id').select2();
+                $('#m_karyawan_id').css('width', '100%');
+                selectList_karyawan('#m_karyawan_id');
+              }, 800);
+            }, 200);
+        }
+      }
+    });
+}
+
 function openFormCabang(id = null) {
     $.ajax({
       type : 'GET',

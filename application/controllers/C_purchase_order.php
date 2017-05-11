@@ -110,6 +110,12 @@ class C_purchase_order extends MY_Controller {
 						<i class="icon-printer text-center"></i>
 					</button>
 					</a>';
+					if ($val->order_status == 1) {
+						$button .= '
+						<button class="btn red-thunderbird" type="button" onclick="deleteData('.$val->order_id.')" title="Hapus Data">
+							<i class="icon-close text-center"></i>
+						</button>';
+					}
 				} else if ($type == 2) {
 					if($val->order_status_nama == 'PO Disetujui')
 					{
@@ -768,6 +774,23 @@ class C_purchase_order extends MY_Controller {
 				$response['status'] = '204';
 			}
 		}
+		echo json_encode($response);
+	}
+
+	public function deleteData(){
+		// HAPUS PO
+		$where_order_hdr['data'][] = array(
+			'column' => 'order_id',
+			'param'	 => $this->input->post('id')
+		);
+		$query_order_hdr = $this->mod->delete_data_table('t_order', $where_order_hdr);
+		$where_order_dtl['data'][] = array(
+			'column' => 't_order_id',
+			'param'	 => $this->input->post('id')
+		);
+		$query_order_dtl = $this->mod->delete_data_table('t_orderdet', $where_order_dtl);
+		// END HAPUS PO
+		$response['status'] = '200';
 		echo json_encode($response);
 	}
 

@@ -60,6 +60,8 @@ $route['translate_uri_dashes'] 	= FALSE;
 $route['Login']													= 'C_page_handling/PageLogin';
 $route['Login/doLogin']											= 'C_page_handling/doLogin';
 $route['Login/doLogout']										= 'C_page_handling/doLogout';
+$route['Login/(:any)']											= 'C_page_handling/$1';
+$route['Login/(:any)/(:any)']									= 'C_page_handling/$1/$2';
 // END ROUTE USER GATE
 
 $route['Dashboard']												= 'C_dashboard';
@@ -319,7 +321,9 @@ $route['Pembelian/Surat-Permintaan-Pembelian/loadDataWhere']	= 'C_permintaan_pem
 $route['Pembelian/Surat-Permintaan-Pembelian/checkStatus']		= 'C_permintaan_pembelian/checkStatus';
 $route['Pembelian/Surat-Permintaan-Pembelian/loadDataSelect/(:any)']	= 'C_permintaan_pembelian/loadData_select/1/$1';
 $route['Pembelian/Surat-Permintaan-Pembelian/loadDataSelect2/(:any)']	= 'C_permintaan_pembelian/loadData_select/2/$1';
-$route['Pembelian/Surat-Permintaan-Pembelian/print-SPP/(:any)']	= 'C_permintaan_pembelian/cetakPDF/$1';
+$route['Pembelian/Surat-Permintaan-Pembelian/print-SPP/(:any)']			= 'C_permintaan_pembelian/cetakPDF/$1';
+$route['Gudang/Surat-Permintaan-Pembelian/(:any)']						= 'C_permintaan_pembelian/$1';
+$route['Gudang/Surat-Permintaan-Pembelian/(:any)/(:any)']				= 'C_permintaan_pembelian/$1/$2';
 // end SPP
 
 // Penawaran Harga
@@ -337,6 +341,8 @@ $route['Pembelian/Penawaran-Harga/loadDataSelect']				= 'C_penawaran_harga/loadD
 $route['Pembelian/Penawaran-Harga/loadDataSelect2']				= 'C_penawaran_harga/loadData_select/2';
 $route['Pembelian/Penawaran-Harga/loadDataSelect3']				= 'C_penawaran_harga/loadData_select/3';
 $route['Pembelian/Penawaran-Harga/print-Penawaran/(:any)']		= 'C_penawaran_harga/cetakPDF/$1';
+$route['Pembelian/Penawaran-Harga/(:any)']						= 'C_penawaran_harga/$1';
+$route['Pembelian/Penawaran-Harga/(:any)/(:any)']				= 'C_penawaran_harga/$1/$2';
 
 // end Penawaran Harga
 
@@ -359,6 +365,8 @@ $route['Persetujuan/Purchase-Order/checkStatus']			= 'C_purchase_order/checkStat
 $route['Persetujuan/Purchase-Order/postData']					= 'C_purchase_order/postData/2';
 $route['Persetujuan/Purchase-Order/postData/4']				= 'C_purchase_order/postData/4';
 $route['Persetujuan/Purchase-Order/print-PO/(:any)']	= 'C_purchase_order/cetakPDF/$1';
+$route['Pembelian/Purchase-Order/(:any)']						= 'C_purchase_order/$1';
+$route['Pembelian/Purchase-Order/(:any)/(:any)']				= 'C_purchase_order/$1/$2';
 
 // end PO
 
@@ -379,6 +387,8 @@ $route['Pembelian/Penerimaan-Barang/checkStatus']				= 'C_penerimaan_barang/chec
 $route['Pembelian/Penerimaan-Barang/Form/(:any)']				= 'C_penerimaan_barang/getForm2/$1';
 $route['Pembelian/Penerimaan-Barang/loadDataWhere']				= 'C_penerimaan_barang/loadDataWhere/2';
 $route['Pembelian/Penerimaan-Barang/postData']					= 'C_penerimaan_barang/postData/2';
+$route['Gudang/Penerimaan-Barang/(:any)']						= 'C_penerimaan_barang/$1';
+$route['Gudang/Penerimaan-Barang/(:any)/(:any)']				= 'C_penerimaan_barang/$1/$2';
 // end Penerimaan Barang
 
 
@@ -457,6 +467,16 @@ $route['Setting/User-Privilege/loadDataWhere']				= 'C_user_privilege/loadDataWh
 $route['Setting/User-Privilege/postData']					= 'C_user_privilege/postData';
 $route['Setting/Edit-User-Privilege/(:any)']				= 'C_user_privilege/getForm/$1';
 // USER PRIVILEGE
+
+// USER ACCOUNT
+$route['Setting/User-Account']								= 'C_user';
+$route['Setting/User-Account/loadData']						= 'C_user/loadData';
+$route['Setting/User-Account/deleteData']					= 'C_user/deleteData';
+$route['Setting/User-Account/aktifData']					= 'C_user/aktifData';
+$route['Setting/User-Account/loadDataWhere']				= 'C_user/loadDataWhere';
+$route['Setting/User-Account/postData']						= 'C_user/postData';
+$route['Setting/User-Account/getForm']						= 'C_user/getForm';
+// USER ACCOUNT
 
 // PERMINTAAN JASA
 $route['Produksi/Permintaan-Jasa']							= 'C_permintaan_jasa/view/1';

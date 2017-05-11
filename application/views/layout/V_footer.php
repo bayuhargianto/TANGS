@@ -19,6 +19,13 @@
         </div>
         <!-- END MODAL -->
 
+        <div class="modal fade" id="modal_login">
+          <div class="modal-dialog">
+            <div class="modal-content">
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
         <!-- BEGIN FOOTER -->
         <div class="page-footer">
             <div class="page-footer-inner">

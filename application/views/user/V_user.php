@@ -21,11 +21,11 @@
                             <i class="fa fa-circle"></i>
                         </li>
                         <li>
-                            <a href="#"> <?php if(isset($title_page)) echo $title_page;?> </a>
+                            <a href="#"> Master Data </a>
                             <i class="fa fa-circle"></i>
                         </li>
                         <li>
-                            <span class="active"><?php if(isset($title_page2)) echo $title_page2;?></span>
+                            <span class="active"><?php if(isset($title_page)) echo $title_page;?></span>
                         </li>
                     </ul>
                     <!-- END PAGE BREADCRUMB -->
@@ -45,16 +45,14 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="btn-group">
-                                                    <?php
-                                                        if($priv_add == 1)
-                                                        {
-                                                            echo '<a href="'.base_url().'Pembelian/Purchase-Order/Form">
-                                                                <button id="modalAdd-btn" class="btn sbold dark"><i class="icon-plus"></i>&nbsp; Tambah Data
-                                                                </button>
-                                                            </a>';
-                                                        }
-                                                    ?>
-
+                                                  <?php
+                                                    if($priv_add == 1)
+                                                    {
+                                                      echo '<button id="modalAdd-btn" class="btn sbold dark" data-toggle="modal" onclick="openFormUser(),reset()"><i class="icon-plus"></i>&nbsp; Tambah Data
+                                                      </button>';
+                                                    }
+                                                  ?>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -63,10 +61,8 @@
                                         <thead>
                                             <tr>
                                                 <th> No </th>
-                                                <th> Cabang </th>
-                                                <th> No PO </th>
-                                                <th> No Refrensi </th>
-                                                <th> Tanggal PO </th>
+                                                <th> Nama Karyawan </th>
+                                                <th> Username </th>
                                                 <th> Status </th>
                                                 <th> Action </th>
                                             </tr>
@@ -94,21 +90,19 @@
                 searchData();
             });
 
-            function searchData() {
+            function searchData() { 
                 $('#default-table').DataTable({
                     destroy: true,
                     "processing": true,
                     "serverSide": true,
                     ajax: {
-                      url: '<?php echo base_url();?>Pembelian/Purchase-Order/loadData/'
+                      url: '<?php echo base_url();?>Setting/User-Account/loadData/'
                     },
                     "columns": [
                       {"name": "no","orderable": false,"searchable": false,  "className": "text-center", "width": "5%"},
-                      {"name": "cabang_nama"},
-                      {"name": "order_nomor"},
-                      {"name": "penawaran_nomor"},
-                      {"name": "order_tanggal"},
-                      {"name": "order_status_nama"},
+                      {"name": "karyawan_nama"},
+                      {"name": "user_username"},
+                      {"name": "user_status_aktif"},
                       {"name": "action","orderable": false,"searchable": false, "className": "text-center", "width": "15%"}
                     ],
                     // Internationalisation. For more info refer to http://datatables.net/manual/i18n
@@ -133,8 +127,8 @@
                     },
 
                     // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                    // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js).
-                    // So when dropdowns used the scrollable div should be removed.
+                    // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js). 
+                    // So when dropdowns used the scrollable div should be removed. 
                     //"dom": "<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r>t<'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
 
                     "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
@@ -154,84 +148,96 @@
                         "targets": [0]
                     }],
                     "order": [
-                        [2, "desc"]
+                        [1, "asc"]
                     ],
                     "iDisplayLength": 10
                 });
             }
 
-            function deleteData(id) {
+              function editData(id) {
                 $.ajax({
-                    type : 'GET',
-                    url  : $base_url+'Login/formLogin/2',
-                    data : { id : id },
-                    dataType : "html",
-                    success:function(data){
-                        $("#modal_login .modal-content").html();
-                        $("#modal_login .modal-content").html(data);
-                        $("#modal_login").modal({backdrop: "static"});
-                        MyFormValidation.init();
-                        $("#formLogin").submit(function(event) {
-                            if ($("#formLogin").valid() == true) {
-                                $.ajax({
-                                  type : "POST",
-                                  url  : '<?php echo base_url();?>Login/checkLogin/2',
-                                  data : $( "#formLogin" ).serialize(),
-                                  dataType : "json",
-                                  success:function(data){
-                                    if(data.status=='200'){
-                                        $('#modal_login').modal('hide');
-                                        window.scrollTo(0, 0);
-                                        swal({
-                                            title: "Success!",
-                                            text: "Otorisasi Berhasil!",
-                                            type: "success",
-                                            confirmButtonClass: "btn-raised btn-success",
-                                            confirmButtonText: "OK",
-                                        });
-                                        $.ajax({
-                                          url: '<?php echo base_url();?>Pembelian/Purchase-Order/deleteData/',
-                                          data : { id : id },
-                                          type: 'POST',
-                                          dataType: 'json',
-                                          success: function (data) {
-                                            if (data.status=='200') {
-                                              searchData();
-                                                swal({
-                                                    title: "Success!",
-                                                    text: "Data Berhasil Tersimpan!",
-                                                    type: "success",
-                                                    confirmButtonClass: "btn-raised btn-success",
-                                                    confirmButtonText: "OK",
-                                                });
-                                            } else if (data.status=='204') {
-                                                swal({
-                                                    title: "Alert!",
-                                                    text: "Data Gagal Tersimpan!",
-                                                    type: "error",
-                                                    confirmButtonClass: "btn-raised btn-danger",
-                                                    confirmButtonText: "OK",
-                                                });
-                                            }
-                                          }
-                                        });
-                                    } else if (data.status=='204') {
-                                        swal({
-                                            title: "Alert!",
-                                            text: "Otorisasi Gagal!",
-                                            type: "error",
-                                            confirmButtonClass: "btn-raised btn-danger",
-                                            confirmButtonText: "OK",
-                                        });
-                                    }
-                                  }
-                                });
-                            }
-                            return false;
-                        });
+                  type : "GET",
+                  url  : '<?php echo base_url();?>Setting/User-Account/loadDataWhere/',
+                  data : "id="+id,
+                  dataType : "json",
+                  success:function(data){
+                    for(var i=0; i<data.val.length;i++){
+                      document.getElementsByName("kode")[0].value = data.val[i].kode;
+                      document.getElementsByName("user_username")[0].value = data.val[i].user_username;
+                      for(var j=0; j<data.val[i].m_karyawan_id.val2.length; j++){
+                        $("#m_karyawan_id").append('<option value="'+data.val[i].m_karyawan_id.val2[j].id+'" selected>'+data.val[i].m_karyawan_id.val2[j].text+'</option>');
+                      }
+                      document.getElementsByName("user_password")[0].value = '';
+                      if (data.val[i].customer_status_aktif == 'y') {
+                        document.getElementById('aktif').selected = true;
+                      } else if (data.val[i].customer_status_aktif == 'n') {
+                        document.getElementById('nonaktif').selected = true;
+                      }
+                      rules();
                     }
+                  }
                 });
-            }
+
+              }
+
+              function deleteData(id) {
+                swal({
+                  title: "Apakah anda yakin?",
+                  text: "Data akan dinonaktifkan !",
+                  type: "warning",
+                  showCancelButton: true,
+                  cancelButtonClass: "btn-raised btn-warning",
+                  cancelButtonText: "Batal!",
+                  confirmButtonClass: "btn-raised btn-danger",
+                  confirmButtonText: "Ya!",
+                  closeOnConfirm: false
+                }, function() {
+                  $.ajax({
+                    url: '<?php echo base_url();?>Setting/User-Account/deleteData/',
+                    data: 'id='+id,
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data) {
+                      if (data.status=='200') {
+                        alert_success_nonaktif();
+                        searchData();
+                      } else if (data.status=='204') {
+                        alert_fail_nonaktif();
+                      }
+                    }
+                  });
+                })
+              }
+
+              function aktifData(id) {
+                swal({
+                  title: "Apakah anda yakin?",
+                  text: "Data akan diaktifkan !",
+                  type: "warning",
+                  showCancelButton: true,
+                  cancelButtonClass: "btn-raised btn-warning",
+                  cancelButtonText: "Batal!",
+                  confirmButtonClass: "btn-raised btn-danger",
+                  confirmButtonText: "Ya!",
+                  closeOnConfirm: false
+                }, function() {
+                  $.ajax({
+                    url: '<?php echo base_url();?>Setting/User-Account/aktifData/',
+                    data: 'id='+id,
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data) {
+                      if (data.status=='200') {
+                        alert_success_aktif();
+                        searchData();
+                      } else if (data.status=='204') {
+                        alert_fail_aktif();
+                      }
+                    }
+                  });
+                })
+              }
+
         </script>
 
     </body>
