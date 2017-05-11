@@ -41,7 +41,7 @@ class C_penerimaan_barang extends MY_Controller {
 				);
 
 			$this->open_page('penerimaan-barang/V_penerimaan_barang2', $data);
-		}		
+		}
 	}
 
 	public function loadData($type){
@@ -183,7 +183,7 @@ class C_penerimaan_barang extends MY_Controller {
 					foreach ($query_brg->result() as $val2) {
 						$response['val2'][] = array(
 							'penerimaan_barangdet_id'			=> $val2->penerimaan_barangdet_id,
-							't_penerimaan_barang'				=> $val2->t_penerimaan_barang_id, 
+							't_penerimaan_barang'				=> $val2->t_penerimaan_barang_id,
 							'barang_nomor'						=> $val2->barang_nomor,
 							'barang_nama'						=> $val2->barang_nama,
 							'barang_uraian'						=> $val2->barang_nama.'('.$val2->barang_nomor.', '.$val2->jenis_barang_nama.')',
@@ -621,7 +621,7 @@ class C_penerimaan_barang extends MY_Controller {
 											'stok_gudang_created_by'	=> $this->session->userdata('user_username'),
 											'stok_gudang_revised' 		=> 0,
 										);
-										
+
 
 										// CHECK STOK GUDANG
 										// QUERY
@@ -658,7 +658,7 @@ class C_penerimaan_barang extends MY_Controller {
 											$insertStok2 = $this->mod->insert_data_table('t_stok_gudang', null, $dataStok2);
 										}
 										// END CHECK STOK GUDANG
-									// } 
+									// }
 								}
 								// END PENAMBAHAN STOK GUDANG
 								// END STOK GUDANG DAN KARTU STOK
@@ -699,7 +699,7 @@ class C_penerimaan_barang extends MY_Controller {
 				$response['status'] = '204';
 			}
 		}
-		
+
 		echo json_encode($response);
 	}
 
@@ -952,7 +952,7 @@ class C_penerimaan_barang extends MY_Controller {
 				'penerimaan_barang_update_by'	=> $this->session->userdata('user_username'),
 				'penerimaan_barang_revised' 	=> $rev,
 			);
-		} 
+		}
 
 		return $data;
 	}
