@@ -1,8 +1,8 @@
 <table class="table table-striped table-bordered table-hover table-checkable order-column text-center" id="default-table3">
     <thead>
         <tr>
-            <th colspan="5" style="vertical-align: middle; text-align: center;"></th>
-            <?php 
+            <th colspan="6" style="vertical-align: middle; text-align: center;"></th>
+            <?php
                 if ($supplier) {
                     foreach ($supplier->result() as $row) {
                         echo '<th colspan="4" style="vertical-align: middle; text-align: center;">'.$row->partner_nama.'</th>';
@@ -11,14 +11,14 @@
             ?>
         </tr>
         <tr>
-            <th colspan="5" style="vertical-align: middle; text-align: center;"></th>
+            <th colspan="6" style="vertical-align: middle; text-align: center;"></th>
             <?php
                 if ($supplier) {
                     $no = 1;
                     foreach ($supplier->result() as $row) {
                         echo '
                             <th colspan="2" style="vertical-align: middle; text-align: center;">
-                                Tanggal Kirim 
+                                Tanggal Kirim
                             </th>
                             <th colspan="2" style="vertical-align: middle; text-align: center;">
                                 <input type="hidden" name="t_penawaran_supplier_id[]" value="'.$row->penawaran_supplier_id.'">
@@ -47,6 +47,7 @@
                         echo '
                             <th style="vertical-align: middle; text-align: center;"> Qty Ditawarkan </th>
                             <th style="vertical-align: middle; text-align: center;"> Harga Satuan </th>
+                            <th style="vertical-align: middle; text-align: center;"> Diskon </th>
                             <th style="vertical-align: middle; text-align: center;"> Mata Uang </th>
                             <th style="vertical-align: middle; text-align: center;"> PPN </th>
                         ';
@@ -62,21 +63,21 @@
                 foreach ($barang->result() as $row) {
                     echo '
                         <tr>
-                            <td> 
+                            <td>
                                 <input type="hidden" name="t_penawaran_barang_id[]" value="'.$row->penawaran_barang_id.'">
-                                '.$no.' 
+                                '.$no.'
                             </td>
-                            <td> 
-                                '.$row->barang_nomor.' 
+                            <td>
+                                '.$row->barang_nomor.'
                             </td>
-                            <td> 
-                                '.$row->barang_nama.'('.$row->barang_nomor.', '.$row->jenis_barang_nama.')'.' 
+                            <td>
+                                '.$row->barang_nama.'('.$row->barang_nomor.', '.$row->jenis_barang_nama.')'.'
                             </td>
-                            <td> 
-                                '.number_format($row->penawaran_barang_qty,0,',','.').' 
+                            <td>
+                                '.number_format($row->penawaran_barang_qty,0,',','.').'
                             </td>
-                            <td> 
-                                '.$row->satuan_nama.' 
+                            <td>
+                                '.$row->satuan_nama.'
                             </td>';
                     if ($supplier) {
                         $no2 = 1;
@@ -99,6 +100,7 @@
                                     $harga_value2 = $val->penawaran_harga_nominal;
                                     $qty_value2 = $val->penawaran_harga_qty_ditawarkan;
                                     $mata_uang_value2 = $val->m_mata_uang_id;
+                                    $diskon_perbarang = $val->diskon_perbarang;
                                     $include_ppn2 = "";
                                     $exclude_ppn2 = "";
                                     $tanpa_ppn2 = "";
@@ -120,11 +122,15 @@
                             }
 
                             echo '
-                                <td> 
+                                <td>
                                     <input type="text" class="form-control num2" name="penawaran_harga_qty_ditawarkan[]" value="'.$qty_value2.'" readonly required>
                                 </td>
                                 <td>
                                     <input type="text" class="form-control money" name="penawaran_harga_nominal[]" id="penawaran_harga_nominal'.$no.''.$no2.'"value="'.$harga_value2.'" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" name="penawaran_barang_diskon_id2[]" id="penawaran_barang_diskon_id2'.$no.''.$no2.'"value="'.$diskon_perbarang.'" readonly>
+                                </td>
                                 <td>
                                     <select class="form-control" id="m_mata_uang" name="m_mata_uang[]" aria-required="true" aria-describedby="select-error" style="width: 100%" disabled>';
                                         foreach ($mata_uang->result() as $row3) {
@@ -167,8 +173,8 @@
     </tbody>
     <tfoot>
         <tr>
-            <th colspan="5" style="vertical-align: middle; text-align: right;"> Diskon : &nbsp;&nbsp;</th>
-            <?php 
+            <th colspan="6" style="vertical-align: middle; text-align: right;"> Diskon : &nbsp;&nbsp;</th>
+            <?php
                 if ($supplier) {
                     $no = 1;
                     foreach ($supplier->result() as $row) {
@@ -176,7 +182,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control decimal" name="penawaran_supplier_diskon[]" id="penawaran_supplier_diskon'.$no.'"  value="'.$row->penawaran_supplier_diskon.'" readonly>
                                         <span class="input-group-addon" style="">
-                                            % 
+                                            %
                                         </span>
                                     </div>
                             </th>
@@ -187,8 +193,8 @@
             ?>
         </tr>
         <tr>
-            <th colspan="5" style="vertical-align: middle; text-align: right;"> PPN : &nbsp;&nbsp;</th>
-            <?php 
+            <th colspan="6" style="vertical-align: middle; text-align: right;"> PPN : &nbsp;&nbsp;</th>
+            <?php
                 if ($supplier) {
                     $no = 1;
                     foreach ($supplier->result() as $row) {
@@ -196,7 +202,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control decimal" name="penawaran_supplier_ppn[]" id="penawaran_supplier_ppn'.$no.'" value="'.$row->penawaran_supplier_ppn.'" readonly>
                                         <span class="input-group-addon" style="">
-                                            % 
+                                            %
                                         </span>
                                     </div>
                             </th>
@@ -217,7 +223,7 @@
             // Allow: backspace, delete, tab, escape, enter and .
             if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
             // Allow: Ctrl+A, Command+A
-            (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) || 
+            (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
             // Allow: home, end, left, right, down, up
             (event.keyCode >= 35 && event.keyCode <= 40) || event.keyCode == 190 ) {
             // let it happen, don't do anything
@@ -232,7 +238,7 @@
             // Allow: backspace, delete, tab, escape, enter and .
             if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
                  // Allow: Ctrl+A, Command+A
-                (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) || 
+                (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
                  // Allow: home, end, left, right, down, up
                 (event.keyCode >= 35 && event.keyCode <= 40)) {
                      // let it happen, don't do anything

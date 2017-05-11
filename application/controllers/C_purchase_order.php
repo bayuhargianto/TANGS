@@ -190,12 +190,14 @@ class C_purchase_order extends MY_Controller {
 		$this->open_page('purchase-order/V_form_purchase_order', $data);
 	}
 
-	public function loadDataWhere($type){
+	public function loadDataWhere($type)
+	{
 		$select = '*';
 		$where['data'][] = array(
 			'column' => 'order_id',
 			'param'	 => $this->input->get('id')
 		);
+
 		$query = $this->mod->select($select, $this->tbl, NULL, $where);
 		if ($query<>false) {
 
@@ -216,6 +218,11 @@ class C_purchase_order extends MY_Controller {
 					'join'	=> 'd.satuan_id = b.m_satuan_id',
 					'type'	=> 'left'
 				);
+				// $join_det['data'][] = array(
+				// 	'table' => 't_penawaran_harga d',
+				// 	'join'	=> 'd.satuan_id = b.m_satuan_id',
+				// 	'type'	=> 'left'
+				// );
 				$where_det['data'][] = array(
 					'column' => 'a.t_order_id',
 					'param'	 => $val->order_id
@@ -226,17 +233,17 @@ class C_purchase_order extends MY_Controller {
 				if ($query_det) {
 					foreach ($query_det->result() as $val2) {
 						$response['val2'][] = array(
-							'orderdet_id'				=> $val2->orderdet_id,
-							't_order_id'				=> $val2->t_order_id,
-							'm_barang_id'				=> $val2->m_barang_id,
-							'barang_nomor'				=> $val2->barang_nomor,
-							'barang_uraian'				=> $val2->barang_nama.'('.$val2->barang_nomor.', '.$val2->jenis_barang_nama.')',
-							'orderdet_qty'				=> $val2->orderdet_qty,
+							'orderdet_id'							=> $val2->orderdet_id,
+							't_order_id'							=> $val2->t_order_id,
+							'm_barang_id'							=> $val2->m_barang_id,
+							'barang_nomor'						=> $val2->barang_nomor,
+							'barang_uraian'						=> $val2->barang_nama.'('.$val2->barang_nomor.', '.$val2->jenis_barang_nama.')',
+							'orderdet_qty'						=> $val2->orderdet_qty,
 							'orderdet_qty_realisasi'	=> $val2->orderdet_qty_realisasi,
-							'orderdet_status'			=> $val2->orderdet_status,
-							'satuan_nama'				=> $val2->satuan_nama,
+							'orderdet_status'					=> $val2->orderdet_status,
+							'satuan_nama'							=> $val2->satuan_nama,
 							'orderdet_harga_satuan'		=> $val2->orderdet_harga_satuan,
-							'orderdet_total'			=> $val2->orderdet_total,
+							'orderdet_total'					=> $val2->orderdet_total,
 						);
 					}
 				}
@@ -267,31 +274,31 @@ class C_purchase_order extends MY_Controller {
 				if ($query_penawaran) {
 					foreach ($query_penawaran->result() as $val2) {
 						$hasil2['val2'][] = array(
-							'id' 	=> $val2->penawaran_id,
+							'id' 		=> $val2->penawaran_id,
 							'text' 	=> $val2->penawaran_nomor
 						);
 					}
 				}
-				
+
 				// END CARI PENERIMA
 
 				$response['val'][] = array(
-					'kode' 						=> $val->order_id,
-					'order_nomor' 				=> $val->order_nomor,
-					'order_tanggal'				=> date("d/m/Y",strtotime($val->order_tanggal)),
-					'order_type' 				=> $val->order_type,
-					'order_status' 				=> $val->order_status,
-					'm_supplier_id' 			=> $hasil1,
+					'kode' 									=> $val->order_id,
+					'order_nomor' 					=> $val->order_nomor,
+					'order_tanggal'					=> date("d/m/Y",strtotime($val->order_tanggal)),
+					'order_type' 						=> $val->order_type,
+					'order_status' 					=> $val->order_status,
+					'm_supplier_id' 				=> $hasil1,
 					'order_referensi_id' 		=> $hasil2,
 					'order_nama_dikirim' 		=> $val->order_nama_dikirim,
-					'order_alamat_dikirim' 		=> $val->order_alamat_dikirim,
-					'order_hp_fax' 				=> $val->order_hp_fax,
-					'order_subtotal' 			=> $val->order_subtotal,
-					'order_ppn' 				=> $val->order_ppn,
-					'order_total' 				=> $val->order_total,
+					'order_alamat_dikirim' 	=> $val->order_alamat_dikirim,
+					'order_hp_fax' 					=> $val->order_hp_fax,
+					'order_subtotal' 				=> $val->order_subtotal,
+					'order_ppn' 						=> $val->order_ppn,
+					'order_total' 					=> $val->order_total,
 					'order_tanggal_kirim'		=> date("d/m/Y",strtotime($val->order_tanggal_kirim)),
 					'order_pembayaran'			=> $val->order_pembayaran,
-					'order_top'					=> $val->order_top,
+					'order_top'							=> $val->order_top,
 					// 'order_status_pembayaran'	=> $val->order_status_pembayaran,
 					// 'order_nominal_pembayaran'	=> $val->order_nominal_pembayaran,
 					// 'order_kekurangan'			=> floatval(floatval($val->order_total) - floatval($val->order_nominal_pembayaran)),
@@ -646,7 +653,8 @@ class C_purchase_order extends MY_Controller {
 	}
 
 	// Function Insert & Update
-	public function postData($type){
+	public function postData($type)
+	{
 		$id = $this->input->post('kode');
 		$response['test'] = $type;
 		if (strlen($id)>0) {
@@ -677,12 +685,14 @@ class C_purchase_order extends MY_Controller {
 						$iddet = $this->input->post('orderdet_id', TRUE)[$i];
 						$response['id'] = $iddet;
 						$data_det = $this->general_post_data2(3, null, $i, $iddet);
+
 						$where_det['data'][] = array(
 							'column' => 'orderdet_id',
 							'param'	 => $iddet
 						);
 						// $insert_det = $this->mod->insert_data_table('t_orderdet', NULL, $data_det);
 						$update_det = $this->mod->update_data_table('t_orderdet', $where_det, $data_det);
+
 						if($update_det->status) {
 							$response['status'] = '200';
 						} else {
@@ -880,6 +890,7 @@ class C_purchase_order extends MY_Controller {
 				'm_barang_id' 			=> $this->input->post('m_barang_id', TRUE)[$seq],
 				'orderdet_qty' 			=> $this->replaceFormatNumber($this->input->post('orderdet_qty', TRUE)[$seq]),
 				'orderdet_harga_satuan'	=> $this->replaceFormatNumber($this->input->post('orderdet_harga_satuan', TRUE)[$seq]),
+				'orderdet_disc'	=> $this->replaceFormatNumber($this->input->post('orderdet_disc', TRUE)[$seq]),
 				'orderdet_total'		=> $this->replaceFormatNumber($this->input->post('orderdet_total', TRUE)[$seq]),
 				'orderdet_created_date'	=> date('Y-m-d H:i:s'),
 				'orderdet_created_by'	=> $this->session->userdata('user_username'),

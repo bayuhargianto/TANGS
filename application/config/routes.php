@@ -262,16 +262,18 @@ $route['Master-Data/Bank/loadDataSelect']				= 'C_bank/loadData_select';
 // End BANK
 
 // BANK
-$route['Master-Data/Konsinyasi']								= 'C_konsinyasi';
-$route['Master-Data/Konsinyasi/getForm']						= 'C_konsinyasi/getForm';
-$route['Master-Data/Konsinyasi/loadData']						= 'C_konsinyasi/loadData';
-$route['Master-Data/Konsinyasi/postData']						= 'C_konsinyasi/postData';
-$route['Master-Data/Konsinyasi/deleteData']						= 'C_konsinyasi/deleteData';
-$route['Master-Data/Konsinyasi/aktifData']						= 'C_konsinyasi/aktifData';
-$route['Master-Data/Konsinyasi/loadDataWhere']					= 'C_konsinyasi/loadDataWhere';
-$route['Master-Data/Konsinyasi/loadDataSelect']					= 'C_konsinyasi/loadData_select';
-$route['Master-Data/Konsinyasi/loadDataSelectWhere']			= 'C_konsinyasi/loadDataSelectWhere';
-$route['Master-Data/Konsinyasi/cekStok']						= 'C_konsinyasi/cekStok';
+$route['Master-Data/Konsinyasi']								            = 'C_konsinyasi';
+$route['Master-Data/Konsinyasi/getForm']						        = 'C_konsinyasi/getForm';
+$route['Master-Data/Konsinyasi/loadData']						        = 'C_konsinyasi/loadData';
+$route['Master-Data/Konsinyasi/postData']						        = 'C_konsinyasi/postData';
+$route['Master-Data/Konsinyasi/deleteData']						      = 'C_konsinyasi/deleteData';
+$route['Master-Data/Konsinyasi/aktifData']						      = 'C_konsinyasi/aktifData';
+$route['Master-Data/Konsinyasi/loadDataWhere']					    = 'C_konsinyasi/loadDataWhere';
+$route['Master-Data/Konsinyasi/loadDataSelect']					    = 'C_konsinyasi/loadData_select';
+$route['Master-Data/Konsinyasi/loadDataSelectWhere']			  = 'C_konsinyasi/loadDataSelectWhere';
+$route['Master-Data/Konsinyasi/cekStok']						        = 'C_konsinyasi/cekStok';
+$route['Master-Data/Konsinyasi/loadDataSelectKons']				  = 'C_konsinyasi/loadDataSelectKons';
+
 // End BANK
 // END ROUTE MASTER
 

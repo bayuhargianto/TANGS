@@ -321,6 +321,7 @@ class C_permintaan_pembelian extends MY_Controller {
 		if ($query<>false) {
 			foreach ($query->result() as $row) {
 				if ($row->permintaan_pembelian_status == 1) {
+
 					$data = $this->general_post_data(3, $id);
 					$where['data'][] = array(
 						'column' => 'permintaan_pembelian_id',
@@ -337,12 +338,17 @@ class C_permintaan_pembelian extends MY_Controller {
 					);
 					$insert_log = $this->mod->insert_data_table('t_permintaan_pembelianlog', NULL, $data_log);
 					$response['status'] = '200';
+
 				} else {
+
 					$response['status'] = '204';
+
 				}
 			}
 		} else {
+
 			$response['status'] = '204';
+
 		}
 		echo json_encode($response);
 	}
@@ -604,7 +610,7 @@ class C_permintaan_pembelian extends MY_Controller {
 			'title_page' 	=> 'Permintaan Pembelian Barang',
 			'title_page2' 	=> 'Print Permintaan Pembelian Barang',
 		);
-		
+
 		$this->pdf->load_view('print/P_spp', $response);
 		$this->pdf->render();
 		$this->pdf->stream($name,array("Attachment"=>false));
@@ -654,41 +660,52 @@ class C_permintaan_pembelian extends MY_Controller {
 					'column' => 'permintaan_pembelian_id',
 					'param'	 => $id
 				);
+
 				$update = $this->mod->update_data_table($this->tbl, $where, $data);
+
 				if($update->status) {
+
 					$response['status'] = '200';
-					// INSERT LOG 
+					// INSERT LOG
 					if (@$data['permintaan_pembelian_status']) {
+
 						if ($data['permintaan_pembelian_status'] == 4){
+
 							$data_log = array(
-								'referensi_id' 							=> $id,
-								'permintaan_pembelianlog_status_dari' 			=> 2,
-								'permintaan_pembelianlog_status_ke' 			=> 4,
+								'referensi_id' 																=> $id,
+								'permintaan_pembelianlog_status_dari' 				=> 2,
+								'permintaan_pembelianlog_status_ke' 					=> 4,
 								'permintaan_pembelianlog_status_update_date' 	=> date('Y-m-d H:i:s'),
-								'permintaan_pembelianlog_status_update_by' 	=> $this->session->userdata('user_username'),
+								'permintaan_pembelianlog_status_update_by' 		=> $this->session->userdata('user_username'),
 							);
 							$insert_log = $this->mod->insert_data_table('t_permintaan_pembelianlog', NULL, $data_log);
+
 						} else if ($data['permintaan_pembelian_status'] == 5){
+
 							$data_log = array(
-								'referensi_id' 							=> $id,
-								'permintaan_pembelianlog_status_dari' 			=> 4,
-								'permintaan_pembelianlog_status_ke' 			=> 5,
+								'referensi_id' 																=> $id,
+								'permintaan_pembelianlog_status_dari' 				=> 4,
+								'permintaan_pembelianlog_status_ke' 					=> 5,
 								'permintaan_pembelianlog_status_update_date' 	=> date('Y-m-d H:i:s'),
-								'permintaan_pembelianlog_status_update_by' 	=> $this->session->userdata('user_username'),
+								'permintaan_pembelianlog_status_update_by' 		=> $this->session->userdata('user_username'),
 							);
 							$insert_log = $this->mod->insert_data_table('t_permintaan_pembelianlog', NULL, $data_log);
+
 						}
 					}
 					// UPDATE DETAIL
-					for ($i = 0; $i < sizeof($this->input->post('m_barang_id', TRUE)); $i++) { 
+					for ($i = 0; $i < sizeof($this->input->post('m_barang_id', TRUE)); $i++) {
+
 						if (@$where_det['data']) {
 							unset($where_det['data']);
 						}
+
 						$where_det['data'][] = array(
 							'column' => 'permintaan_pembeliandet_id',
 							'param'	 => $this->input->post('permintaan_pembeliandet_id', TRUE)[$i]
 						);
-						$data_det = $this->general_post_data2(2, $id, $i, $this->input->post('permintaan_pembeliandet_id', TRUE)[$i]);
+
+						$data_det 	= $this->general_post_data2(2, $id, $i, $this->input->post('permintaan_pembeliandet_id', TRUE)[$i]);
 						$update_det = $this->mod->update_data_table('t_permintaan_pembeliandet', $where_det, $data_det);
 						if($update_det->status) {
 							$response['status'] = '200';
@@ -700,6 +717,7 @@ class C_permintaan_pembelian extends MY_Controller {
 				} else {
 					$response['status'] = '204';
 				}
+
 			} else {
 				//UPDATE
 				$data = $this->general_post_data(2, $id);
@@ -711,7 +729,7 @@ class C_permintaan_pembelian extends MY_Controller {
 				if($update->status) {
 					$response['status'] = '200';
 					// UPDATE DETAIL
-					for ($i = 0; $i < sizeof($this->input->post('m_barang_id', TRUE)); $i++) { 
+					for ($i = 0; $i < sizeof($this->input->post('m_barang_id', TRUE)); $i++) {
 						if (@$where_det['data']) {
 							unset($where_det['data']);
 						}
@@ -739,7 +757,7 @@ class C_permintaan_pembelian extends MY_Controller {
 			if($insert->status) {
 				$response['status'] = '200';
 				// INSERT DETAIL
-				for ($i = 0; $i < sizeof($this->input->post('m_barang_id', TRUE)); $i++) { 
+				for ($i = 0; $i < sizeof($this->input->post('m_barang_id', TRUE)); $i++) {
 					$data_det = $this->general_post_data2(1, $insert->output, $i);
 					$insert_det = $this->mod->insert_data_table('t_permintaan_pembeliandet', NULL, $data_det);
 					if($insert_det->status) {
@@ -795,114 +813,118 @@ class C_permintaan_pembelian extends MY_Controller {
 		// 1 Insert, 2 Update, 3 Delete / Non Aktif
 		$arrDate = explode('/', $this->input->post('permintaan_pembelian_tanggal', TRUE));
 		$arrDate2 = explode('/', $this->input->post('permintaan_pembelian_tanggal_dibutuhkan', TRUE));
+
 		$where['data'][] = array(
 			'column' => 'permintaan_pembelian_id',
 			'param'	 => $id
 		);
+
 		$queryRevised = $this->mod->select('permintaan_pembelian_status, permintaan_pembelian_revised', $this->tbl, NULL, $where);
 		if ($queryRevised) {
+
 			$revised = $queryRevised->row_array();
 			$rev = $revised['permintaan_pembelian_revised'] + 1;
 			$status = $revised['permintaan_pembelian_status'];
+
 		}
 		if ($type == 1) {
 			$permintaan_pembelian_nomor = $this->get_kode_transaksi();
 			$data = array(
-				'm_cabang_id' 								=> $this->session->userdata('cabang_id'),
-				'permintaan_pembelian_nomor' 				=> $permintaan_pembelian_nomor,
-				'permintaan_pembelian_tanggal'				=> $arrDate[2]."-".$arrDate[1]."-".$arrDate[0],
+				'm_cabang_id' 														=> $this->session->userdata('cabang_id'),
+				'permintaan_pembelian_nomor' 							=> $permintaan_pembelian_nomor,
+				'permintaan_pembelian_tanggal'						=> $arrDate[2]."-".$arrDate[1]."-".$arrDate[0],
 				'permintaan_pembelian_tanggal_dibutuhkan'	=> $arrDate2[2]."-".$arrDate2[1]."-".$arrDate2[0],
-				'permintaan_pembelian_type' 				=> $this->input->post('permintaan_pembelian_type', TRUE),
-				'permintaan_pembelian_jenis' 				=> $this->input->post('permintaan_pembelian_jenis', TRUE),
-				'm_gudang_id_permintaan' 					=> $this->input->post('m_gudang_id_permintaan', TRUE),
-				't_permintaan_jasa' 						=> $this->input->post('t_permintaan_jasa_id', TRUE),
-				'permintaan_pembelian_status' 				=> $this->input->post('permintaan_pembelian_status', TRUE),
-				'permintaan_pembelian_status_date'			=> date('Y-m-d H:i:s'),
-				'permintaan_pembelian_pembuat'				=> $this->session->userdata('karyawan_id'),
-				'permintaan_pembelian_alasan' 				=> $this->input->post('permintaan_pembelian_alasan', TRUE),
-				'permintaan_pembelian_catatan'				=> $this->input->post('permintaan_pembelian_catatan', TRUE),
-				'permintaan_pembelian_created_date'			=> date('Y-m-d H:i:s'),
-				'permintaan_pembelian_update_date'			=> date('Y-m-d H:i:s'),
-				'permintaan_pembelian_created_by'			=> $this->session->userdata('user_username'),
-				'permintaan_pembelian_revised' 				=> 0,
+				'permintaan_pembelian_type' 							=> $this->input->post('permintaan_pembelian_type', TRUE),
+				'permintaan_pembelian_jenis' 							=> $this->input->post('permintaan_pembelian_jenis', TRUE),
+				'm_gudang_id_permintaan' 									=> $this->input->post('m_gudang_id_permintaan', TRUE),
+				't_permintaan_jasa' 											=> $this->input->post('t_permintaan_jasa_id', TRUE),
+				'permintaan_pembelian_status' 						=> $this->input->post('permintaan_pembelian_status', TRUE),
+				'permintaan_pembelian_status_date'				=> date('Y-m-d H:i:s'),
+				'permintaan_pembelian_pembuat'						=> $this->session->userdata('karyawan_id'),
+				'permintaan_pembelian_alasan' 						=> $this->input->post('permintaan_pembelian_alasan', TRUE),
+				'permintaan_pembelian_catatan'						=> $this->input->post('permintaan_pembelian_catatan', TRUE),
+				'permintaan_pembelian_created_date'				=> date('Y-m-d H:i:s'),
+				'permintaan_pembelian_update_date'				=> date('Y-m-d H:i:s'),
+				'permintaan_pembelian_created_by'					=> $this->session->userdata('user_username'),
+				'permintaan_pembelian_revised' 						=> 0,
 			);
 		} else if ($type == 2) {
 			if ($status == $this->input->post('permintaan_pembelian_status', TRUE)) {
 				if ($this->input->post('m_karyawan_id_penyetuju', TRUE)) {
 					$data = array(
 						'permintaan_pembelian_penyetuju' 		=> $this->input->post('m_karyawan_id_penyetuju', TRUE),
-						'permintaan_pembelian_jenis' 			=> $this->input->post('permintaan_pembelian_jenis', TRUE),
+						'permintaan_pembelian_jenis' 				=> $this->input->post('permintaan_pembelian_jenis', TRUE),
 						'permintaan_pembelian_alasan' 			=> $this->input->post('permintaan_pembelian_alasan', TRUE),
 						'permintaan_pembelian_catatan'			=> $this->input->post('permintaan_pembelian_catatan', TRUE),
-						'permintaan_pembelian_update_date'		=> date('Y-m-d H:i:s'),
+						'permintaan_pembelian_update_date'	=> date('Y-m-d H:i:s'),
 						'permintaan_pembelian_update_by'		=> $this->session->userdata('user_username'),
 						'permintaan_pembelian_revised' 			=> $rev,
 					);
 				} else if ($this->input->post('m_karyawan_id_penerima', TRUE)) {
 					$data = array(
 						'permintaan_pembelian_penerima' 		=> $this->input->post('m_karyawan_id_penerima', TRUE),
-						'permintaan_pembelian_jenis' 			=> $this->input->post('permintaan_pembelian_jenis', TRUE),
+						'permintaan_pembelian_jenis' 				=> $this->input->post('permintaan_pembelian_jenis', TRUE),
 						'permintaan_pembelian_alasan' 			=> $this->input->post('permintaan_pembelian_alasan', TRUE),
 						'permintaan_pembelian_catatan'			=> $this->input->post('permintaan_pembelian_catatan', TRUE),
-						'permintaan_pembelian_update_date'		=> date('Y-m-d H:i:s'),
+						'permintaan_pembelian_update_date'	=> date('Y-m-d H:i:s'),
 						'permintaan_pembelian_update_by'		=> $this->session->userdata('user_username'),
 						'permintaan_pembelian_revised' 			=> $rev,
 					);
 				} else {
 					$data = array(
-						'permintaan_pembelian_jenis' 			=> $this->input->post('permintaan_pembelian_jenis', TRUE),
+						'permintaan_pembelian_jenis' 				=> $this->input->post('permintaan_pembelian_jenis', TRUE),
 						'permintaan_pembelian_alasan' 			=> $this->input->post('permintaan_pembelian_alasan', TRUE),
 						'permintaan_pembelian_catatan'			=> $this->input->post('permintaan_pembelian_catatan', TRUE),
-						'permintaan_pembelian_update_date'		=> date('Y-m-d H:i:s'),
+						'permintaan_pembelian_update_date'	=> date('Y-m-d H:i:s'),
 						'permintaan_pembelian_update_by'		=> $this->session->userdata('user_username'),
 						'permintaan_pembelian_revised' 			=> $rev,
-					);	
+					);
 				}
 			} else {
 				if ($this->input->post('m_karyawan_id_penyetuju', TRUE)) {
 					$data = array(
 						'permintaan_pembelian_penyetuju' 		=> $this->input->post('m_karyawan_id_penyetuju', TRUE),
-						'permintaan_pembelian_jenis' 			=> $this->input->post('permintaan_pembelian_jenis', TRUE),
+						'permintaan_pembelian_jenis' 				=> $this->input->post('permintaan_pembelian_jenis', TRUE),
 						'permintaan_pembelian_alasan' 			=> $this->input->post('permintaan_pembelian_alasan', TRUE),
 						'permintaan_pembelian_catatan'			=> $this->input->post('permintaan_pembelian_catatan', TRUE),
 						'permintaan_pembelian_status' 			=> $this->input->post('permintaan_pembelian_status', TRUE),
-						'permintaan_pembelian_update_date'		=> date('Y-m-d H:i:s'),
-						'keluar_berang_update_by'				=> $this->session->userdata('user_username'),
+						'permintaan_pembelian_update_date'	=> date('Y-m-d H:i:s'),
+						'keluar_berang_update_by'						=> $this->session->userdata('user_username'),
 						'permintaan_pembelian_revised' 			=> $rev,
 					);
 				} else if ($this->input->post('m_karyawan_id_penerima', TRUE)) {
 					$data = array(
 						'permintaan_pembelian_status' 			=> $this->input->post('permintaan_pembelian_status', TRUE),
-						'permintaan_pembelian_jenis' 			=> $this->input->post('permintaan_pembelian_jenis', TRUE),
+						'permintaan_pembelian_jenis' 				=> $this->input->post('permintaan_pembelian_jenis', TRUE),
 						'permintaan_pembelian_alasan' 			=> $this->input->post('permintaan_pembelian_alasan', TRUE),
 						'permintaan_pembelian_catatan'			=> $this->input->post('permintaan_pembelian_catatan', TRUE),
 						'permintaan_pembelian_penerima' 		=> $this->input->post('m_karyawan_id_penerima', TRUE),
-						'permintaan_pembelian_update_date'		=> date('Y-m-d H:i:s'),
-						'keluar_berang_update_by'				=> $this->session->userdata('user_username'),
+						'permintaan_pembelian_update_date'	=> date('Y-m-d H:i:s'),
+						'keluar_berang_update_by'						=> $this->session->userdata('user_username'),
 						'permintaan_pembelian_revised' 			=> $rev,
 					);
 				} else {
 					$data = array(
 						'permintaan_pembelian_status' 			=> $this->input->post('permintaan_pembelian_status', TRUE),
-						'permintaan_pembelian_jenis' 			=> $this->input->post('permintaan_pembelian_jenis', TRUE),
+						'permintaan_pembelian_jenis' 				=> $this->input->post('permintaan_pembelian_jenis', TRUE),
 						'permintaan_pembelian_alasan' 			=> $this->input->post('permintaan_pembelian_alasan', TRUE),
 						'permintaan_pembelian_catatan'			=> $this->input->post('permintaan_pembelian_catatan', TRUE),
-						'permintaan_pembelian_status_date'		=> date('Y-m-d H:i:s'),
-						'permintaan_pembelian_update_date'		=> date('Y-m-d H:i:s'),
-						'keluar_berang_update_by'				=> $this->session->userdata('user_username'),
+						'permintaan_pembelian_status_date'	=> date('Y-m-d H:i:s'),
+						'permintaan_pembelian_update_date'	=> date('Y-m-d H:i:s'),
+						'keluar_berang_update_by'						=> $this->session->userdata('user_username'),
 						'permintaan_pembelian_revised' 			=> $rev,
-					);	
+					);
 				}
 			}
 		} else if ($type == 3) {
 			$data = array(
-				'permintaan_pembelian_status'		=> 2,
+				'permintaan_pembelian_status'				=> 2,
 				'permintaan_pembelian_status_date'	=> date('Y-m-d H:i:s'),
 				'permintaan_pembelian_update_date'	=> date('Y-m-d H:i:s'),
-				'permintaan_pembelian_update_by'	=> $this->session->userdata('user_username'),
-				'permintaan_pembelian_revised' 		=> $rev,
+				'permintaan_pembelian_update_by'		=> $this->session->userdata('user_username'),
+				'permintaan_pembelian_revised' 			=> $rev,
 			);
-		} 
+		}
 
 		return $data;
 	}
@@ -943,7 +965,7 @@ class C_permintaan_pembelian extends MY_Controller {
 			// 		'permintaan_pembeliandet_update_date'		=> date('Y-m-d H:i:s'),
 			// 		'permintaan_pembeliandet_update_by'		=> $this->session->userdata('user_username'),
 			// 		'permintaan_pembeliandet_revised' 			=> $rev,
-			// 	);	
+			// 	);
 			// } else {
 			// 	$data = array(
 			// 		'permintaan_pembeliandet_qty_realisasi'	=> ($this->input->post('permintaan_pembeliandet_qty_realisasi', TRUE)[$seq] + $this->input->post('permintaan_pembeliandet_qty_kirim', TRUE)[$seq]),
@@ -952,7 +974,7 @@ class C_permintaan_pembelian extends MY_Controller {
 			// 		'permintaan_pembeliandet_update_date'		=> date('Y-m-d H:i:s'),
 			// 		'permintaan_pembeliandet_update_by'		=> $this->session->userdata('user_username'),
 			// 		'permintaan_pembeliandet_revised' 			=> $rev,
-			// 	);	
+			// 	);
 			// }
 		} else if ($type == 3) {
 			$data = array(
@@ -960,7 +982,7 @@ class C_permintaan_pembelian extends MY_Controller {
 				'permintaan_pembeliandet_update_date'	=> date('Y-m-d H:i:s'),
 				'permintaan_pembeliandet_update_by'		=> $this->session->userdata('user_username'),
 				'permintaan_pembeliandet_revised' 		=> $rev,
-			);	
+			);
 		}
 
 		return $data;

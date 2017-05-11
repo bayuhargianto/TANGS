@@ -164,13 +164,13 @@ class C_penawaran_harga extends MY_Controller {
 					foreach ($query_brg->result() as $val2) {
 
 						$response['step1'][] = array(
-							'penawaran_barang_id'				=> $val2->penawaran_barang_id,
+							'penawaran_barang_id'					=> $val2->penawaran_barang_id,
 							't_permintaan_pembelian'			=> $val2->t_permintaan_pembelian,
-							'm_barang_id'						=> $val2->m_barang_id,
-							'barang_nomor'						=> $val2->barang_nomor,
-							'barang_uraian'						=> $val2->barang_nama.'('.$val2->barang_nomor.', '.$val2->jenis_barang_nama.')',
+							'm_barang_id'									=> $val2->m_barang_id,
+							'barang_nomor'								=> $val2->barang_nomor,
+							'barang_uraian'								=> $val2->barang_nama.'('.$val2->barang_nomor.', '.$val2->jenis_barang_nama.')',
 							'penawaran_barang_qty'				=> $val2->penawaran_barang_qty,
-							'satuan_nama'						=> $val2->satuan_nama,
+							'satuan_nama'									=> $val2->satuan_nama,
 						);
 					}
 				}
@@ -218,11 +218,12 @@ class C_penawaran_harga extends MY_Controller {
 					$response['step3'] = 1;
 					foreach ($query_hrg->result() as $val2) {
 						$response['step5'][] = array(
-							't_penawaran_id' 					=> $val2->t_penawaran_id,
-							't_penawaran_supplier_id' 			=> $val2->t_penawaran_supplier_id,
-							't_penawaran_barang_id' 			=> $val2->t_penawaran_barang_id,
-							'penawaran_harga_nominal' 			=> $val2->penawaran_harga_nominal,
+							't_penawaran_id' 									=> $val2->t_penawaran_id,
+							't_penawaran_supplier_id' 				=> $val2->t_penawaran_supplier_id,
+							't_penawaran_barang_id' 					=> $val2->t_penawaran_barang_id,
 							'penawaran_harga_qty_ditawarkan'	=> $val2->penawaran_harga_qty_ditawarkan,
+							'diskon_perbarang' 								=> $val2->diskon_perbarang,
+							'penawaran_harga_nominal' 				=> $val2->penawaran_harga_nominal
 						);
 					}
 				}
@@ -626,12 +627,15 @@ class C_penawaran_harga extends MY_Controller {
 	}
 
 	// Function Insert & Update
-	public function postData($type){
+	public function postData($type)
+	{
 		$id = $this->input->post('kode');
 		$response['test'] = $type;
 		$response['step'] = $this->input->post('step', TRUE);
+
 		if (strlen($id)>0) {
 			if ($type == 2) {
+
 			} else {
 				//UPDATE
 				$data = $this->general_post_data(2, $id);
@@ -655,8 +659,10 @@ class C_penawaran_harga extends MY_Controller {
 							$insert_det = $this->mod->insert_data_table('t_penawaran_supplier', NULL, $data_det);
 							if($insert_det->status) {
 								$response['status'] = '200';
+
 							} else {
 								$response['status'] = '204';
+
 							}
 						}
 						// END INSERT DETAIL SUPPLIER
@@ -664,6 +670,7 @@ class C_penawaran_harga extends MY_Controller {
 						$response['status'] = '204';
 					}
 				} else if (@$data['penawaran_step'] == 3 && $this->input->post('statusHarga', TRUE) == 0) {
+					// echo "3";
 					if($update->status) {
 						// $response['test'] = 'OK';
 						$response['status'] = '200';
@@ -690,6 +697,7 @@ class C_penawaran_harga extends MY_Controller {
 							$data_det = $this->general_post_data3(2, $id, $i);
 							if (@$where_det['data']) {
 								unset($where_det['data']);
+
 							}
 							$where_det['data'][] = array(
 								'column' => 'penawaran_supplier_id',
@@ -698,8 +706,10 @@ class C_penawaran_harga extends MY_Controller {
 							$update_det = $this->mod->update_data_table('t_penawaran_supplier', $where_det, $data_det);
 							if($update_det->status) {
 								$response['status'] = '200';
+
 							} else {
 								$response['status'] = '204';
+
 							}
 						}
 						// END UPDATE DETAIL SUPPLIER
@@ -708,18 +718,22 @@ class C_penawaran_harga extends MY_Controller {
 						for ($i = 0; $i < sizeof($this->input->post('penawaran_harga_nominal', TRUE)); $i++) {
 							$data_det2 = $this->general_post_data4(1, $id, $i);
 							$insert_det2 = $this->mod->insert_data_table('t_penawaran_harga', NULL, $data_det2);
-							// print_r($this->db->last_query());
+							echo $this->db->last_query();
 							if($insert_det2->status) {
 								$response['status'] = '200';
+
 							} else {
 								$response['status'] = '204';
+
 							}
 						}
 						// END INSERT DETAIL HARGA
 
 					} else {
 						$response['status'] = '204';
+
 					}
+
 				} else if (@$data['penawaran_step'] == 4) {
 					if($update->status) {
 						$response['status'] = '200';
@@ -748,12 +762,14 @@ class C_penawaran_harga extends MY_Controller {
 						$response['status'] = '204';
 					}
 				}
+				// echo "12";
 				$response['data'] 	= $data;
 				$response['id'] 	= $id;
 				$response['status'] = '200';
 			}
 		} else {
 			//INSERT
+
 			$data = $this->general_post_data(1);
 			$insert = $this->mod->insert_data_table($this->tbl, NULL, $data);
 			if($insert->status) {
@@ -796,20 +812,26 @@ class C_penawaran_harga extends MY_Controller {
 
 				// INSERT DETAIL BARANG
 				for ($i = 0; $i < sizeof($this->input->post('m_barang_id', TRUE)); $i++) {
+
 					$data_det = $this->general_post_data2(1, $insert->output, $i);
 					$insert_det = $this->mod->insert_data_table('t_penawaran_barang', NULL, $data_det);
+
 					if($insert_det->status) {
+
 						$response['status'] = '200';
 						$data_sppdet = array(
 							'permintaan_pembeliandet_status' => 1,
 						);
+
 						if (@$where_sppdet['data']) {
 							unset($where_sppdet['data']);
 						}
+
 						$where_sppdet['data'][] = array(
 							'column' => 't_permintaan_pembelian_id',
 							'param'	 => $this->input->post('t_permintaan_pembelian', TRUE)[$i]
 						);
+
 						$where_sppdet['data'][] = array(
 							'column' => 'm_barang_id',
 							'param'	 => $this->input->post('m_barang_id', TRUE)[$i]
@@ -820,6 +842,7 @@ class C_penawaran_harga extends MY_Controller {
 					} else {
 						$response['status'] = '204';
 					}
+
 				}
 				// END INSERT DETAIL BARANG
 
@@ -985,13 +1008,14 @@ class C_penawaran_harga extends MY_Controller {
 		// 1 Insert, 2 Update, 3 Delete / Non Aktif
 		if ($type == 1) {
 			$data = array(
-				't_penawaran_id' 					=> $idHdr,
-				't_penawaran_supplier_id' 			=> $this->input->post('t_penawaran_supplier_id2', TRUE)[$seq],
-				't_penawaran_barang_id' 			=> $this->input->post('t_penawaran_barang_id2', TRUE)[$seq],
-				'm_mata_uang_id' 					=> $this->input->post('m_mata_uang', TRUE)[$seq],
+				't_penawaran_id' 									=> $idHdr,
+				't_penawaran_supplier_id' 				=> $this->input->post('t_penawaran_supplier_id2', TRUE)[$seq],
+				't_penawaran_barang_id' 					=> $this->input->post('t_penawaran_barang_id2', TRUE)[$seq],
+				'm_mata_uang_id' 									=> $this->input->post('m_mata_uang', TRUE)[$seq],
 				'penawaran_harga_qty_ditawarkan'	=> $this->input->post('penawaran_harga_qty_ditawarkan', TRUE)[$seq],
-				'penawaran_harga_nominal' 			=> $this->input->post('penawaran_harga_nominal', TRUE)[$seq],
-				'penawaran_harga_ppn' 				=> $this->input->post('penawaran_harga_ppn'.$this->input->post('t_penawaran_barang_id2', TRUE)[$seq].$this->input->post('t_penawaran_supplier_id2', TRUE)[$seq], TRUE),
+				'penawaran_harga_nominal' 				=> $this->input->post('penawaran_harga_nominal', TRUE)[$seq],
+				'diskon_perbarang' 								=> $this->input->post('t_penawaran_barang_diskon_id2', TRUE)[$seq],
+				'penawaran_harga_ppn' 						=> $this->input->post('penawaran_harga_ppn'.$this->input->post('t_penawaran_barang_id2', TRUE)[$seq].$this->input->post('t_penawaran_supplier_id2', TRUE)[$seq], TRUE),
 			);
 		}
 

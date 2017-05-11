@@ -12,7 +12,7 @@ function rules() {
     // Allow: backspace, delete, tab, escape, enter and .
     if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
          // Allow: Ctrl+A, Command+A
-        (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) || 
+        (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
          // Allow: home, end, left, right, down, up
         (event.keyCode >= 35 && event.keyCode <= 40)) {
              // let it happen, don't do anything
@@ -27,7 +27,7 @@ function rules() {
     // Allow: backspace, delete, tab, escape, enter and .
     if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
          // Allow: Ctrl+A, Command+A
-        (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) || 
+        (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
          // Allow: home, end, left, right, down, up
         (event.keyCode >= 35 && event.keyCode <= 40)) {
              // let it happen, don't do anything
@@ -42,7 +42,7 @@ function rules() {
     // Allow: backspace, delete, tab, escape, enter and .
     if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
          // Allow: Ctrl+A, Command+A
-        (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) || 
+        (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
          // Allow: home, end, left, right, down, up
         (event.keyCode >= 35 && event.keyCode <= 40) || event.keyCode == 190 ) {
              // let it happen, don't do anything
@@ -87,12 +87,12 @@ function rules() {
     });
 }
 
-// Custom Validation 
+// Custom Validation
 var MyFormValidation = function () {
 
     // Validation
     var handleValidationCustom = function() {
-        // for more info visit the official plugin documentation: 
+        // for more info visit the official plugin documentation:
             // http://docs.jquery.com/Plugins/Validation
 
             var form = $('#formAdd');
@@ -105,7 +105,7 @@ var MyFormValidation = function () {
                 focusInvalid: false, // do not focus the last invalid input
                 ignore: "",  // validate all fields including form hidden input
 
-                invalidHandler: function (event, validator) { //display error alert on form submit              
+                invalidHandler: function (event, validator) { //display error alert on form submit
                     success2.hide();
                     error2.show();
                     App.scrollTo(error2, -200);
@@ -113,17 +113,17 @@ var MyFormValidation = function () {
 
                 errorPlacement: function (error, element) { // render error placement for each input type
                     var icon = $(element).parent('.input-icon').children('i');
-                    icon.removeClass('fa-check').addClass("fa-warning");  
+                    icon.removeClass('fa-check').addClass("fa-warning");
                     icon.attr("data-original-title", error.text()).tooltip({'container': 'body'});
                 },
 
                 highlight: function (element) { // hightlight error inputs
                     $(element)
-                        .closest('.form-group').removeClass("has-success").addClass('has-error'); // set error class to the control group   
+                        .closest('.form-group').removeClass("has-success").addClass('has-error'); // set error class to the control group
                 },
 
                 unhighlight: function (element) { // revert the change done by hightlight
-                    
+
                 },
 
                 success: function (label, element) {
@@ -172,7 +172,7 @@ var FormWizard = function () {
                 placeholder: "Select",
                 allowClear: true,
                 formatResult: format,
-                width: 'auto', 
+                width: 'auto',
                 formatSelection: format,
                 escapeMarkup: function (m) {
                     return m;
@@ -199,7 +199,7 @@ var FormWizard = function () {
                     }
                 },
 
-                invalidHandler: function (event, validator) { //display error alert on form submit   
+                invalidHandler: function (event, validator) { //display error alert on form submit
                     success.hide();
                     error.show();
                     App.scrollTo(error, -200);
@@ -249,7 +249,7 @@ var FormWizard = function () {
                         $(this).html(input.attr("data-title"));
                     } else if ($(this).attr("data-display") == 'payment[]') {
                         var payment = [];
-                        $('[name="payment[]"]:checked', form).each(function(){ 
+                        $('[name="payment[]"]:checked', form).each(function(){
                             payment.push($(this).attr('data-title'));
                         });
                         $(this).html(payment.join("<br>"));
@@ -292,13 +292,13 @@ var FormWizard = function () {
                 'previousSelector': '.button-previous',
                 onTabClick: function (tab, navigation, index, clickedIndex) {
                     // return false;
-                    
+
                     success.hide();
                     error.hide();
                     if (form.valid() == false) {
                         return false;
                     }
-                    
+
                     handleTitle(tab, navigation, clickedIndex);
                 },
                 onNext: function (tab, navigation, index) {
@@ -363,7 +363,7 @@ var FormWizard2 = function () {
                 placeholder: "Select",
                 allowClear: true,
                 formatResult: format,
-                width: 'auto', 
+                width: 'auto',
                 formatSelection: format,
                 escapeMarkup: function (m) {
                     return m;
@@ -390,7 +390,7 @@ var FormWizard2 = function () {
                     }
                 },
 
-                invalidHandler: function (event, validator) { //display error alert on form submit   
+                invalidHandler: function (event, validator) { //display error alert on form submit
                     success.hide();
                     error.show();
                     App.scrollTo(error, -200);
@@ -440,7 +440,7 @@ var FormWizard2 = function () {
                         $(this).html(input.attr("data-title"));
                     } else if ($(this).attr("data-display") == 'payment[]') {
                         var payment = [];
-                        $('[name="payment[]"]:checked', form).each(function(){ 
+                        $('[name="payment[]"]:checked', form).each(function(){
                             payment.push($(this).attr('data-title'));
                         });
                         $(this).html(payment.join("<br>"));
@@ -483,13 +483,13 @@ var FormWizard2 = function () {
                 'previousSelector': '.button-previous',
                 onTabClick: function (tab, navigation, index, clickedIndex) {
                     // return false;
-                    
+
                     success.hide();
                     error.hide();
                     if (form.valid() == false) {
                         return false;
                     }
-                    
+
                     handleTitle(tab, navigation, clickedIndex);
                 },
                 onNext: function (tab, navigation, index) {
@@ -554,7 +554,7 @@ var FormWizard3 = function () {
                 placeholder: "Select",
                 allowClear: true,
                 formatResult: format,
-                width: 'auto', 
+                width: 'auto',
                 formatSelection: format,
                 escapeMarkup: function (m) {
                     return m;
@@ -581,7 +581,7 @@ var FormWizard3 = function () {
                     }
                 },
 
-                invalidHandler: function (event, validator) { //display error alert on form submit   
+                invalidHandler: function (event, validator) { //display error alert on form submit
                     success.hide();
                     error.show();
                     App.scrollTo(error, -200);
@@ -631,7 +631,7 @@ var FormWizard3 = function () {
                         $(this).html(input.attr("data-title"));
                     } else if ($(this).attr("data-display") == 'payment[]') {
                         var payment = [];
-                        $('[name="payment[]"]:checked', form).each(function(){ 
+                        $('[name="payment[]"]:checked', form).each(function(){
                             payment.push($(this).attr('data-title'));
                         });
                         $(this).html(payment.join("<br>"));
@@ -674,13 +674,13 @@ var FormWizard3 = function () {
                 'previousSelector': '.button-previous',
                 onTabClick: function (tab, navigation, index, clickedIndex) {
                     // return false;
-                    
+
                     success.hide();
                     error.hide();
                     if (form.valid() == false) {
                         return false;
                     }
-                    
+
                     handleTitle(tab, navigation, clickedIndex);
                 },
                 onNext: function (tab, navigation, index) {
@@ -726,7 +726,7 @@ var FormWizard3 = function () {
 
 }();
 
-jQuery(document).ready(function() {   
+jQuery(document).ready(function() {
     MyFormValidation.init();
 });
 
@@ -3018,7 +3018,7 @@ function selectList_purchaseOrderPembayaran(idElemen, idSupplier) {
       data: function (params) {
         return {
           q: params.term, // search term
-          idsup: idSupplier, 
+          idsup: idSupplier,
           page: params.page
         };
       },
@@ -3169,7 +3169,7 @@ function selectList_penerimaanBarangPembayaran(idElemen, idSupplier) {
       data: function (params) {
         return {
           q: params.term, // search term
-          idsup: idSupplier, 
+          idsup: idSupplier,
           page: params.page
         };
       },
@@ -3838,7 +3838,7 @@ function selectList_fakturPenjualanPembayaran(idElemen, idCustomer) {
       data: function (params) {
         return {
           q: params.term, // search term
-          idcus: idCustomer, 
+          idcus: idCustomer,
           page: params.page
         };
       },
@@ -4136,8 +4136,8 @@ function selectList_paymentRequest(idElemen, typeBukti = null, idSupplier = null
       data: function (params) {
         return {
           q: params.term, // search term
-          type: typeBukti, 
-          idsup: idSupplier, 
+          type: typeBukti,
+          idsup: idSupplier,
           page: params.page
         };
       },
@@ -4175,8 +4175,8 @@ function selectList_paymentRequestPiutang(idElemen, typeBukti = null, idCustomer
       data: function (params) {
         return {
           q: params.term, // search term
-          type: typeBukti, 
-          idcus: idCustomer, 
+          type: typeBukti,
+          idcus: idCustomer,
           page: params.page
         };
       },

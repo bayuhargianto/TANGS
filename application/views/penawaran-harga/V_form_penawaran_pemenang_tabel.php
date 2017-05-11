@@ -1,7 +1,7 @@
 <table class="table table-striped table-bordered table-hover table-checkable order-column text-center" id="default-table3">
     <thead>
         <tr>
-            <th colspan="5" style="vertical-align: middle; text-align: center;"></th>
+            <th colspan="6" style="vertical-align: middle; text-align: center;"></th>
             <?php
                 if ($supplier) {
                     foreach ($supplier->result() as $row) {
@@ -11,7 +11,7 @@
             ?>
         </tr>
         <tr>
-            <th colspan="5" style="vertical-align: middle; text-align: center;"></th>
+            <th colspan="6" style="vertical-align: middle; text-align: center;"></th>
             <?php
                 if ($supplier) {
                     $no = 1;
@@ -48,6 +48,7 @@
                             <th style="vertical-align: middle; text-align: center;"> Qty Ditawarkan </th>
                             <th style="vertical-align: middle; text-align: center;"> Harga Satuan </th>
                             <th style="vertical-align: middle; text-align: center;"> Mata Uang </th>
+                            <th style="vertical-align: middle; text-align: center;"> Diskon </th>
                             <th style="vertical-align: middle; text-align: center;"> PPN </th>
                         ';
                     }
@@ -99,6 +100,7 @@
                                     $harga_value2 = $val->penawaran_harga_nominal;
                                     $qty_value2 = $val->penawaran_harga_qty_ditawarkan;
                                     $mata_uang_value2 = $val->m_mata_uang_id;
+                                    $diskon_perbarang = $val->diskon_perbarang;
                                     $include_ppn2 = "";
                                     $exclude_ppn2 = "";
                                     $tanpa_ppn2 = "";
@@ -125,6 +127,10 @@
                                 </td>
                                 <td>
                                     <input type="text" class="form-control money" name="penawaran_harga_nominal[]" id="penawaran_harga_nominal'.$no.''.$no2.'"value="'.$harga_value2.'" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" name="penawaran_harga_nominal[]" id="penawaran_harga_nominal'.$no.''.$no2.'"value="'.$diskon_perbarang.'" readonly>
+                                </td>
                                 <td>
                                     <select class="form-control" id="m_mata_uang" name="m_mata_uang[]" aria-required="true" aria-describedby="select-error" style="width: 100%" disabled>';
                                         foreach ($mata_uang->result() as $row3) {
@@ -167,7 +173,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <th colspan="5" style="vertical-align: middle; text-align: right;"> Diskon : &nbsp;&nbsp;</th>
+            <th colspan="6" style="vertical-align: middle; text-align: right;"> Diskon : &nbsp;&nbsp;</th>
             <?php
                 if ($supplier) {
                     $no = 1;
@@ -187,7 +193,7 @@
             ?>
         </tr>
         <tr>
-            <th colspan="5" style="vertical-align: middle; text-align: right;"> PPN : &nbsp;&nbsp;</th>
+            <th colspan="6" style="vertical-align: middle; text-align: right;"> PPN : &nbsp;&nbsp;</th>
             <?php
                 if ($supplier) {
                     $no = 1;
@@ -207,7 +213,7 @@
             ?>
         </tr>
         <tr>
-            <th colspan="5" style="vertical-align: middle; text-align: right;"> Supplier yg dipilih dan alasan : &nbsp;&nbsp;</th>
+            <th colspan="6" style="vertical-align: middle; text-align: right;"> Supplier yg dipilih dan alasan : &nbsp;&nbsp;</th>
             <?php
                 if ($supplier) {
                     $no = 1;

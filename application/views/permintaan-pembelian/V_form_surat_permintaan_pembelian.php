@@ -83,12 +83,12 @@
                                                         <span class="input-group-addon" style="">
                                                             <span class="icon-calendar"></span>
                                                         </span>
-                                                    </div> 
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label col-md-4">Tanggal Dibutuhkan 
+                                            <label class="control-label col-md-4">Tanggal Dibutuhkan
                                                 <span class="required"> * </span>
                                             </label>
                                             <div class="col-md-8">
@@ -173,23 +173,23 @@
                                                     <textarea class="form-control" rows="3" name="permintaan_pembelian_catatan"></textarea> </div>
                                             </div>
                                         </div>
-                                        <!-- <div class="form-group">
+                                        <div class="form-group">
                                             <label class="control-label col-md-4">Jenis Barang
                                             </label>
                                                 <div class="col-md-8">
                                                     <div class="mt-radio-inline">
                                                         <label class="mt-radio"> Biasa
-                                                            <input type="radio" value="0" name="jenis_barang" id="jenis_barang" onclick=pilihBarang(0)/>
+                                                            <input type="radio" value="0" class="jenis_barang" name="jenis_barang" id="jenis_barang1" onclick="pilihBarang(0)"/>
                                                             <span></span>
                                                         </label>
                                                         <label class="mt-radio"> Konsinyasi
-                                                            <input type="radio" value="1" name="jenis_barang" id="jenis_barang" onclick=pilihBarang(1)/>
+                                                            <input type="radio" value="1" class="jenis_barang" name="jenis_barang" id="jenis_barang2" onclick="pilihBarang(1)"/>
                                                             <span></span>
                                                         </label>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div> -->
+                                        </div>
                                         <div class="form-group" id="pilihBarang">
                                             <label class="control-label col-md-4">Nama Barang
                                                 <span class="required"> * </span>
@@ -267,18 +267,34 @@
         <?php $this->load->view('layout/V_footer');?>
 
         <script type="text/javascript">
+
+        var barang = [];
+        localStorage.clear();
+
+        var databarang = JSON.parse(localStorage.getItem('databarang'));
+
+        if (!databarang) {
+            databarang = [];
+            localStorage.setItem('databarang', JSON.stringify(databarang));
+        }
+
             $(document).ready(function(){
                 itemBarang = parseInt($("#jml_itemBarang").val());
+                var jnsbrng = $('input[name=jenis_barang]:checked').val();
+
                 $('.datepicker').datepicker();
+
                 $("#formAdd").submit(function(event){
                   if ($("#formAdd").valid() == true) {
                     actionData2();
                   }
                   return false;
                 });
+
                 $('#m_barang_id').css('width', '100%');
                 $('#m_gudang_id_permintaan').css('width', '100%');
                 $('#t_permintaan_jasa_id').css('width', '100%');
+                // var jnsbrng = $('input[name=jenis_barang]:checked').val();
                 selectList_barang();
                 selectList_gudangCabangPermintaan();
                 selectList_PJ("#t_permintaan_jasa_id");
@@ -289,11 +305,21 @@
 
             function pilihBarang(param)
             {
-                if(param == 0){
-                    console.log('0');
-                }else{
-                    console.log('1');
+                switch (param) {
+                  case 0:
+                    $('#m_barang_id').select2('destroy');
+                    $('#m_barang_id').select2();
+                    selectList_barang();
+                    break;
+                  case 1:
+                    $('#m_barang_id').select2('destroy');
+                    $('#m_barang_id').select2();
+                    getbarangKonsinyasi();
+                    break;
+                  default:
+
                 }
+                resetdataTableto(param);
             }
 
             function ubahKeBarangJasa(element)
@@ -312,11 +338,24 @@
                 }
             }
 
-            function addBarang() {
+            function addBarang()
+            {
                 var id = document.getElementsByName('m_barang_id')[0].value;
+                var jnsbrng = $('input[name=jenis_barang]:checked').val();
+
+                var dbarang = {
+                  'jnsbrng' : jnsbrng || 0,
+                  'id'      : id
+                }
+
+                barang.push(dbarang);
+                localStorage.setItem('databarang', JSON.stringify(barang));
+                // console.log(barang);
+
                 if (id.length > 0) {
                     getDetailBarang(id);
                 }
+
                 $("#m_barang_id").select2('destroy');
                 $("#m_barang_id").empty();
                 selectList_barang();
@@ -338,11 +377,12 @@
                   data : { id : id },
                   dataType : "json",
                   success:function(data){
+                    var no = 1;
                     for(var i = 0; i < data.val.length; i++){
                         $("#default-table2 tbody").append('\
                             <tr>\
                                 <td>\
-                                    '+itemBarang+'\
+                                    '+i+'\
                                 </td>\
                                 <td>\
                                     <input type="hidden" name="m_barang_id[]" value="'+data.val[i].kode+'"/>\
@@ -362,6 +402,7 @@
                         ');
                         $('.num2').number( true, 2, '.', ',' );
                         $('.num2').css('text-align', 'right');
+                        no++;
                     }
                   }
                 });
@@ -420,7 +461,7 @@
                       document.getElementsByName("permintaan_pembelian_status")[0].value = data.val[i].permintaan_pembelian_status;
                       document.getElementsByName("permintaan_pembelian_alasan")[0].value = data.val[i].permintaan_pembelian_alasan;
                       document.getElementsByName("permintaan_pembelian_catatan")[0].value = data.val[i].permintaan_pembelian_catatan;
-                      
+
                       // if (data.val[i].permintaan_pembelian_jenis == 1) {
                       //   document.getElementById('permintaan_pembelian_jenis1').checked = true;
                       //   $("#pilihPJ").attr('hidden', true);
@@ -515,6 +556,62 @@
                   }
                 });
             }
+
+
+          function getbarangKonsinyasi()
+          {
+            $('#m_barang_id').select2({
+              placeholder: 'Pilih Barang',
+              multiple: false,
+              allowClear: true,
+              ajax: {
+                url: $base_url+'Master-Data/Konsinyasi/loadDataSelectKons',
+                dataType: 'json',
+                delay: 100,
+                cache: true,
+                data: function (params) {
+                  return {
+                    q: params.term, // search term
+                    page: params.page,
+                  };
+                },
+                processResults: function (data, params) {
+                  // parse the results into the format expected by Select2
+                  // since we are using custom formatting functions we do not need to
+                  // alter the remote JSON data, except to indicate that infinite
+                  // scrolling can be used
+                  params.page = params.page || 1;
+
+                  return {
+                    results: data.items,
+                    pagination: {
+                      more: (params.page * 30) < data.total_count
+                    }
+                  };
+                }
+              },
+              escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+              minimumInputLength: 1,
+              templateResult: FormatResult,
+              templateSelection: FormatSelection,
+            });
+          }
+
+          function resetdataTableto(param)
+          {
+            $("#default-table2 tbody").empty();
+            databarang  = JSON.parse(localStorage.getItem('databarang'));
+            console.log(databarang);
+            $.each(databarang, function(index, value){
+
+              if (value.jnsbrng == param) {
+                getDetailBarang(value.id);
+              }
+
+            });
+            // getDetailBarang(id);
+          }
+
         </script>
 
     </body>

@@ -21,7 +21,7 @@ class C_konsinyasi extends MY_Controller {
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Konsinyasi',
 			'title_page2' 	=> 'Master Konsinyasi',
-			
+
 			'priv_add'		=> $priv['create']
 			);
 		if($priv['read'] == 1)
@@ -77,7 +77,7 @@ class C_konsinyasi extends MY_Controller {
 						<i class="icon-power text-center"></i>
 						</button>';
 					}
-					
+
 				} else {
 					$status = '<span class="label bg-red-thunderbird bg-font-red-thunderbird"> Non Aktif </span>';
 					if($priv['update'] == 1)
@@ -92,9 +92,9 @@ class C_konsinyasi extends MY_Controller {
 						<i class="icon-power text-center"></i>
 					</button>';
 					}
-					
+
 				}
-				
+
 				$response['data'][] = array(
 					$no,
 					$val->barang_nama,
@@ -116,6 +116,51 @@ class C_konsinyasi extends MY_Controller {
 			$response['recordsFiltered'] = $query_filter->num_rows();
 		}
 
+		echo json_encode($response);
+	}
+
+//untuk select2 11 may 2017
+	function loadDataSelectKons()
+	{
+		$param = $this->input->get('q');
+		if ($param!=NULL) {
+			$param = $this->input->get('q');
+		} else {
+			$param = "";
+		}
+		$select = '*';
+
+		$join['data'][] = array(
+			'table' => 'm_barang b',
+			'join'  => 'b.barang_id = a.m_barang_id',
+			'type'  => 'left'
+		);
+
+		$where['data'][] = array(
+			'column' => 'a.konsinyasi_status_aktif',
+			'param'	 => 'y'
+		);
+
+		$where_like['data'][] = array(
+			'column' => 'b.barang_nama',
+			'param'	 => $this->input->get('q')
+		);
+		$order['data'][] = array(
+			'column' => 'b.barang_nama',
+			'type'	 => 'ASC'
+		);
+
+		$query = $this->mod->select($select, 'm_konsinyasi a', $join, $where, NULL, $where_like, $order);
+		$response['items'] = array();
+		if ($query<>false) {
+			foreach ($query->result() as $val) {
+				$response['items'][] = array(
+					'id'	=> $val->barang_id,
+					'text'	=> $val->barang_nama
+				);
+			}
+			$response['status'] = '200';
+		}
 		echo json_encode($response);
 	}
 
@@ -299,7 +344,7 @@ class C_konsinyasi extends MY_Controller {
 					$response['status'] = '200';
 				} else {
 					$response['status'] = '204';
-				}	
+				}
 			}
 		} else {
 			//INSERT
@@ -311,7 +356,7 @@ class C_konsinyasi extends MY_Controller {
 				$response['status'] = '204';
 			}
 		}
-		
+
 		echo json_encode($response);
 	}
 
@@ -432,7 +477,7 @@ class C_konsinyasi extends MY_Controller {
 					'karyawan_status_aktif' 	=> 'n',
 					'karyawan_update_date' 		=> date('Y-m-d H:i:s'),
 					'karyawan_update_by' 		=> $this->session->userdata('user_username'),
-					'karyawan_revised' 			=> $id['karyawan_revised'] + 1, 
+					'karyawan_revised' 			=> $id['karyawan_revised'] + 1,
 				);
 				//
 				//select user_revised
@@ -464,7 +509,7 @@ class C_konsinyasi extends MY_Controller {
 				$updateUser = $this->db->update_batch('s_user', $data, 'm_karyawan_id');
 			}
 		}
-		
+
 
         return true;
 	}
