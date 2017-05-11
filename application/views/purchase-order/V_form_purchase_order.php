@@ -58,7 +58,7 @@
                                                     echo '<input type="hidden" id="url" value="Pembelian/Purchase-Order/postData/">';
                                                 }
                                             ?>
-                                        
+
                                         <input type="hidden" id="url_data" value="Pembelian/Purchase-Order">
                                         <input type="hidden" name="order_status" value="0">
                                         <input type="hidden" name="order_type" value="0">
@@ -94,7 +94,7 @@
                                                         <span class="input-group-addon" style="">
                                                             <span class="icon-calendar"></span>
                                                         </span>
-                                                    </div> 
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -165,32 +165,34 @@
                                                             <th> Qty </th>
                                                             <th> Satuan </th>
                                                             <th> Harga Satuan </th>
-                                                            <th> Total </th>
+                                                            <th> Disc </th>
+                                                            <th> Total1 </th>
+                                                            <th> Total2 </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                     </tbody>
                                                     <tfoot>
                                                         <tr>
-                                                            <th colspan="6" class="text-right"> Sub Total </th>
-                                                            <th>
+                                                            <th colspan="7" class="text-right"> Sub Total </th>
+                                                            <th colspan="2">
                                                                 <input type="text" class="form-control money" id="order_subtotal" name="order_subtotal" value="0" required readonly />
                                                             </th>
                                                         </tr>
                                                         <tr>
-                                                            <th colspan="6" class="text-right"> PPN % </th>
-                                                            <th>
+                                                            <th colspan="7" class="text-right"> PPN % </th>
+                                                            <th colspan="2">
                                                                 <div class="input-group">
                                                                     <input type="text" class="form-control decimal" id="order_ppn" name="order_ppn" value="0" onkeypress="cekPPN(this)" onchange="sumTotal()" required readonly />
                                                                     <span class="input-group-addon" style="">
-                                                                        % 
+                                                                        %
                                                                     </span>
                                                                 </div>
                                                             </th>
                                                         </tr>
                                                         <tr>
-                                                            <th colspan="6" class="text-right"> Total </th>
-                                                            <th>
+                                                            <th colspan="7" class="text-right"> Total </th>
+                                                            <th colspan="2">
                                                                 <input type="text" class="form-control money" id="order_total" name="order_total" value="0" required readonly />
                                                             </th>
                                                         </tr>
@@ -216,7 +218,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-md-4">Pembayaran 
+                                        <label class="control-label col-md-4">Pembayaran
                                             <span class="required"> * </span>
                                         </label>
                                         <div class="col-md-8">
@@ -302,12 +304,12 @@
                 $('#order_referensi_id').css('width', '100%');
                 selectList_supplier("#m_supplier_id");
                 if (document.getElementsByName("kode")[0].value != null) {
-                    editData(document.getElementsByName("kode")[0].value 
-                        <?php 
+                    editData(document.getElementsByName("kode")[0].value
+                        <?php
                             if(isset($edit))
                             {
                                 echo ', '.$edit;
-                            } 
+                            }
                         ?>
                     );
                 }
@@ -383,7 +385,7 @@
                                     '+data.step1[i].barang_nomor+'\
                                 </td>\
                                 <td id="td2'+(i+1)+'">\
-                                    '+data.step1[i].barang_uraian+'\
+                                    <p style="max-width: 250px;white-space:normal !important;word-wrap: break-word;">'+data.step1[i].barang_uraian+'</p>\
                                 </td>\
                                 <td id="td3'+(i+1)+'">\
                                     <input type="text" class="form-control num2" id="orderdet_qty'+data.step1[i].m_barang_id+'" name="orderdet_qty[]" value="0" required readonly/>\
@@ -395,7 +397,13 @@
                                     <input type="text" class="form-control money" id="orderdet_harga_satuan'+data.step1[i].m_barang_id+'" name="orderdet_harga_satuan[]" value="0" onchange="sumSubTotal()" readonly required/>\
                                 </td>\
                                 <td id="td6'+(i+1)+'">\
+                                    <input type="text" class="form-control money" id="orderdet_disc'+data.step1[i].m_barang_id+'" name="orderdet_disc[]" value="0" required readonly/>\
+                                </td>\
+                                <td id="td7'+(i+1)+'">\
                                     <input type="text" class="form-control money" id="orderdet_total'+(i+1)+'" name="orderdet_total[]" value="0" required readonly/>\
+                                </td>\
+                                <td id="td8'+(i+1)+'">\
+                                    <input type="text" class="form-control money" id="orderdetgrand_total'+(i+1)+'" name="orderdetgrand_total[]" value="0" required readonly/>\
                                 </td>\
                             </tr>\
                         ');
@@ -411,8 +419,12 @@
                                 document.getElementsByName("order_ppn")[0].value = data.step2[j].penawaran_supplier_ppn;
                                 for(var k = 0; k < data.step5.length; k++){
                                     if (data.step5[k].t_penawaran_supplier_id == data.step2[j].penawaran_supplier_id && data.step5[k].t_penawaran_barang_id == data.step1[i].penawaran_barang_id) {
+
                                         document.getElementById('orderdet_qty'+data.step1[i].m_barang_id).value = data.step5[k].penawaran_harga_qty_ditawarkan;
                                         document.getElementById('orderdet_harga_satuan'+data.step1[i].m_barang_id).value = data.step5[k].penawaran_harga_nominal;
+                                        document.getElementById('orderdet_disc'+data.step1[i].m_barang_id).value = data.step5[k].diskon_perbarang;
+                                        console.log(data.step5[k].diskon_perbarang);
+
                                         $('.money').number( true, 2, '.', ',' );
                                         $('.money').css('text-align', 'right');
                                         $('.num2').number( true, 2, '.', ',' );
@@ -433,9 +445,13 @@
                 for (var i = 1; i <= itemBarang; i++) {
                     qty = parseFloat(document.getElementById('orderdet_qty'+idBarang[i-1]).value.replace(/\,/g, ""));
                     hrg = parseFloat(document.getElementById('orderdet_harga_satuan'+idBarang[i-1]).value.replace(/\,/g, ""));
+                    disc = parseFloat(document.getElementById('orderdet_disc'+idBarang[i-1]).value.replace(/\,/g, ""));
+
                     document.getElementById('orderdet_total'+i).value = qty * hrg;
-                    subTotal += qty * hrg;
+                    document.getElementById('orderdetgrand_total'+i).value = (qty * hrg)-(disc/100 * hrg * qty);
+                    subTotal += (qty * hrg)-(disc/100 * hrg * qty);
                 }
+
                 document.getElementById('order_subtotal').value = subTotal;
                 $('.money').number( true, 2, '.', ',' );
                 $('.money').css('text-align', 'right');
@@ -483,7 +499,7 @@
                       checkPembayaran();
                       // document.getElementsByName("order_dp")[0].value = data.val[i].order_dp;
                       document.getElementsByName("order_top")[0].value = data.val[i].order_top;
-                      
+
                       $("#m_supplier_id").select2('destroy');
                       for(var j=0; j<data.val[i].m_supplier_id.val2.length; j++){
                         $("#m_supplier_id").append('<option value="'+data.val[i].m_supplier_id.val2[j].id+'" selected>'+data.val[i].m_supplier_id.val2[j].text+'</option>');
@@ -509,7 +525,7 @@
                         document.getElementsByName('order_ppn')[0].disabled = true;
                         document.getElementById('btnAddPenawaran').disabled = true;
                       }
-                      
+
                     }
 
                     itemBarang = data.val2.length;
@@ -528,7 +544,7 @@
                                         '+data.val2[i].barang_nomor+'\
                                     </td>\
                                     <td id="td2'+(i+1)+'">\
-                                        '+data.val2[i].barang_uraian+'\
+                                        <p style="max-width: 250px;white-space:normal !important;word-wrap: break-word;">'+data.step1[i].barang_uraian+'</p>\
                                     </td>\
                                     <td id="td3'+(i+1)+'">\
                                         <input type="text" class="form-control num2" id="orderdet_qty'+data.val2[i].m_barang_id+'" name="orderdet_qty[]" value="'+data.val2[i].orderdet_qty+'" required readonly/>\
@@ -540,7 +556,13 @@
                                         <input type="text" class="form-control money" id="orderdet_harga_satuan'+data.val2[i].m_barang_id+'" name="orderdet_harga_satuan[]" value="'+data.val2[i].orderdet_harga_satuan+'" onchange="sumSubTotal()" required readonly/>\
                                     </td>\
                                     <td id="td6'+(i+1)+'">\
-                                        <input type="text" class="form-control money" id="orderdet_total'+(i+1)+'" name="orderdet_total[]" value="'+data.val2[i].orderdet_total+'" required readonly/>\
+                                        <input type="text" class="form-control money" id="orderdet_disc'+data.val2[i].m_barang_id+'" name="orderdet_disc[]" value="0" required readonly/>\
+                                    </td>\
+                                    <td id="td7'+(i+1)+'">\
+                                        <input type="text" class="form-control money" id="orderdet_total'+(i+1)+'" name="orderdet_total[]" value="0" required readonly/>\
+                                    </td>\
+                                    <td id="td8'+(i+1)+'">\
+                                        <input type="text" class="form-control money" id="orderdetgrand_total'+(i+1)+'" name="orderdetgrand_total[]" value="0" required readonly/>\
                                     </td>\
                                 </tr>\
                             ');
@@ -561,7 +583,7 @@
                                     </td>\
                                     <td id="td2'+(i+1)+'">\
                                     <input type="hidden" name="orderdet_id[]" value="'+data.val2[i].orderdet_id+'"/>\
-                                        '+data.val2[i].barang_uraian+'\
+                                        <p style="max-width: 250px;white-space:normal !important;word-wrap: break-word;">'+data.step1[i].barang_uraian+'</p>\
                                     </td>\
                                     <td id="td3'+(i+1)+'">\
                                         <input type="text" class="form-control num2" id="orderdet_qty'+data.val2[i].m_barang_id+'" name="orderdet_qty[]" value="'+data.val2[i].orderdet_qty+'" required readonly/>\
@@ -573,7 +595,13 @@
                                         <input type="text" class="form-control money" id="orderdet_harga_satuan'+data.val2[i].m_barang_id+'" name="orderdet_harga_satuan[]" value="'+data.val2[i].orderdet_harga_satuan+'" onchange="sumSubTotal()" required/>\
                                     </td>\
                                     <td id="td6'+(i+1)+'">\
-                                        <input type="text" class="form-control money" id="orderdet_total'+(i+1)+'" name="orderdet_total[]" value="'+data.val2[i].orderdet_total+'" required readonly/>\
+                                        <input type="text" class="form-control money" id="orderdet_disc'+data.val2[i].m_barang_id+'" name="orderdet_disc[]" value="0" required readonly/>\
+                                    </td>\
+                                    <td id="td7'+(i+1)+'">\
+                                        <input type="text" class="form-control money" id="orderdet_total'+(i+1)+'" name="orderdet_total[]" value="0" required readonly/>\
+                                    </td>\
+                                    <td id="td8'+(i+1)+'">\
+                                        <input type="text" class="form-control money" id="orderdetgrand_total'+(i+1)+'" name="orderdetgrand_total[]" value="0" required readonly/>\
                                     </td>\
                                 </tr>\
                             ');
@@ -586,7 +614,7 @@
                     }
                   }
                 });
-                
+
             }
         </script>
 

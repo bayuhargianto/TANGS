@@ -60,7 +60,7 @@ class C_barang extends MY_Controller {
 		$response['data'] = array();
 		if ($query<>false) {
 			$no = $limit['start']+1;
-			
+
 			foreach ($query->result() as $val) {
 				$button = '';
 				if ($val->barang_status_aktif == 'y') {
@@ -81,7 +81,7 @@ class C_barang extends MY_Controller {
 							<i class="icon-power text-center"></i>
 						</button>';
 					}
-					
+
 				} else {
 					$status = '<span class="label bg-red-thunderbird bg-font-red-thunderbird"> Non Aktif </span>';
 					if($priv['update'] == 1)
@@ -100,7 +100,7 @@ class C_barang extends MY_Controller {
 						<i class="icon-power text-center"></i>
 						</button>';
 					}
-					
+
 				}
 				$response['data'][] = array(
 					$no,
@@ -134,18 +134,18 @@ class C_barang extends MY_Controller {
 			$this->session->set_flashdata('msg', 'Mohon Cek Kembali File Anda');
 		}else{
 			$fileName = str_replace(" ", "_", time().$_FILES['file']['name']);
-		 
+
 			$config['upload_path'] = './assets/upload/'; //buat folder dengan nama assets di root folder
 			$config['file_name'] = $fileName;
 			$config['allowed_types'] = 'xls|xlsx|csv';
 			$config['max_size'] = 10000;
-			 
+
 			$this->load->library('upload');
 			$this->upload->initialize($config);
-			 
+
 			if(! $this->upload->do_upload('file') )
 			$this->upload->display_errors();
-			     
+
 			$media = $this->upload->data('file');
 			$inputFileName = './assets/upload/'.$config['file_name'];
 
@@ -167,7 +167,7 @@ class C_barang extends MY_Controller {
 			                                    NULL,
 			                                    TRUE,
 			                                    FALSE);
-			    
+
 			    // QUERY UNTUK MENCARI ID DI SETIAP TABEL BERDASARKAN NAMA YANG ADA DI FILE EXCEL
 			    $cat1_id = $this->db->query("SELECT jenis_barang_id FROM m_jenis_barang WHERE jenis_barang_nama = '".$rowData[0][0]."'")->row();
 				$cat2_id = $this->db->query("SELECT category_2_id FROM m_category_2 WHERE category_2_nama = '".$rowData[0][1]."'")->row();
@@ -189,7 +189,7 @@ class C_barang extends MY_Controller {
 			        "jenis_barang_update_by"		=> $this->session->userdata('user_username'),
 			        "jenis_barang_revised"			=> 0
 			    );
-			    
+
 			    $data_satuan = array(
 			        "satuan_id"				=> $satuan_id,
 			        "satuan_nama"			=> $this->db->escape_str($rowData[0][5]),
@@ -211,11 +211,11 @@ class C_barang extends MY_Controller {
 			        "brand_revised"			=> 0
 			    );
 			    // ==================================================================================
-			    
+
 			    // QUERY INSERT KE TABEL m_jenis_barang, m_category_2, m_satuan, m_brand
 				if($cat1_id){
 					$hasil_jenis_barang_id		= $cat1_id->jenis_barang_id;
-					
+
 				}else{
 					$this->db->query("insert ignore into m_jenis_barang values('".implode("', '", $data_category1)."')");
 					$q = $this->db->query("select jenis_barang_id from m_jenis_barang where jenis_barang_nama = '".$rowData[0][0]."'")->row();
@@ -276,7 +276,7 @@ class C_barang extends MY_Controller {
 	            }
 				$barang_nomor = $cat1.$cat2.$no;
 				// ==================================================================================
-			    
+
 				// FUNGSI INSERT KE TABEL BARANG
 			    $data_barang = array(
 			 		"barang_id"				=> '',
@@ -312,10 +312,10 @@ class C_barang extends MY_Controller {
 			    $konsinyasi=substr($rowData[0][4], 0, 1);
 			    // JIKA ADA SIMBOL *, &, $ MAKA MASUK KE TABEL KONSINYASI
 			    if($konsinyasi == "*" || $konsinyasi == "&" || $konsinyasi == "$"){
-			    	$this->db->query("insert ignore into m_konsinyasi 
+			    	$this->db->query("insert ignore into m_konsinyasi
 			    						values(
 			    								'',
-			    								'".$hasil_jenis_barang_id."', 
+			    								'".$hasil_jenis_barang_id."',
 			    								'".$hasil_category_2_id."',
 			    								'".$hasil_barang_id."',
 			    								'y',
@@ -493,7 +493,7 @@ class C_barang extends MY_Controller {
 						'text' 	=> $val2->satuan_nama
 					);
 				}
-				
+
 				$hasil4['val2'] = array();
 				$where_category_2['data'][] = array(
 					'column' => 'category_2_id',
@@ -625,7 +625,7 @@ class C_barang extends MY_Controller {
 						}
 						// END CARI SUB ATRIBUT
 
-						// CHECK VALUE 
+						// CHECK VALUE
 						if (@$where_value_att['data']) {
 							unset($where_value_att['data']);
 						}
@@ -834,12 +834,12 @@ class C_barang extends MY_Controller {
 				$response['status'] = '204';
 			}
 		}
-		
+
 		echo json_encode($response);
 	}
 
 	public function postDataValue(){
-		for ($i = 0; $i < sizeof($this->input->post('referensi_id', TRUE)); $i++) { 
+		for ($i = 0; $i < sizeof($this->input->post('referensi_id', TRUE)); $i++) {
 			if (@$where['data']) {
 				unset($where['data']);
 			}
@@ -1014,7 +1014,7 @@ class C_barang extends MY_Controller {
 				'value_update_by' 		=> $this->session->userdata('user_username'),
 				'value_revised' 		=> $rev,
 			);
-		} 
+		}
 
 		return $data;
 	}
@@ -1096,7 +1096,7 @@ class C_barang extends MY_Controller {
 					'atribut_status_aktif' 		=> 'n',
 					'atribut_update_date' 		=> date('Y-m-d H:i:s'),
 					'atribut_update_by' 		=> $this->session->userdata('user_username'),
-					'atribut_revised' 			=> $id['atribut_revised'] + 1, 
+					'atribut_revised' 			=> $id['atribut_revised'] + 1,
 				);
 				//
 				//select user_revised
@@ -1143,7 +1143,7 @@ class C_barang extends MY_Controller {
 		} else {
 			$param = "";
 		}
-		
+
 		$select = '*';
 		$join['data'][] = array(
 			'table' => 'm_konversi_satuan b',

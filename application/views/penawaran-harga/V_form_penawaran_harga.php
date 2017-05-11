@@ -331,7 +331,6 @@
                         $("#lanjut2").addClass("hidden");
                         $("#lanjut3").removeClass("hidden");
                     } else if (stepPosition == 4) {
-                      
                     }
                 }, 1000);
             }
