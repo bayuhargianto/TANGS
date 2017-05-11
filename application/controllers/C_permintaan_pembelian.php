@@ -98,6 +98,12 @@ class C_permintaan_pembelian extends MY_Controller {
 						<i class="icon-printer text-center"></i>
 					</button>
 					</a>';
+					if ($val->permintaan_pembelian_status == 1) {
+						$button .= '
+						<button class="btn red-thunderbird" type="button" onclick="deleteData('.$val->permintaan_pembelian_id.')" title="Hapus Data">
+							<i class="icon-close text-center"></i>
+						</button>';
+					}
 				} else if ($type == 2) {
 					$button = '
 					<a href="'.base_url().'Pembelian/Surat-Permintaan-Pembelian/Form/'.$val->permintaan_pembelian_id.'">
@@ -776,40 +782,22 @@ class C_permintaan_pembelian extends MY_Controller {
 		echo json_encode($response);
 	}
 
-	// // Function Delete
-	// public function deleteData(){
-	// 	$id = $this->input->post('id');
-	// 	$data = $this->general_post_data(3, $id);
-	// 	$where['data'][] = array(
-	// 		'column' => 'barang_id',
-	// 		'param'	 => $id
-	// 	);
-	// 	$update = $this->mod->update_data_table($this->tbl, $where, $data);
-	// 	if($update->status) {
-	// 		$response['status'] = '200';
-	// 	} else {
-	// 		$response['status'] = '204';
-	// 	}
-
-	// 	echo json_encode($response);
-	// }
-
-	// public function aktifData(){
-	// 	$id = $this->input->post('id');
-	// 	$data = $this->general_post_data(4, $id);
-	// 	$where['data'][] = array(
-	// 		'column' => 'barang_id',
-	// 		'param'	 => $id
-	// 	);
-	// 	$update = $this->mod->update_data_table($this->tbl, $where, $data);
-	// 	if($update->status) {
-	// 		$response['status'] = '200';
-	// 	} else {
-	// 		$response['status'] = '204';
-	// 	}
-
-	// 	echo json_encode($response);
-	// }
+	public function deleteData(){
+		// HAPUS PENERIMAAN
+		$where_permintaan_hdr['data'][] = array(
+			'column' => 'permintaan_pembelian_id',
+			'param'	 => $this->input->post('id')
+		);
+		$query_permintaan_hdr = $this->mod->delete_data_table('t_permintaan_pembelian', $where_permintaan_hdr);
+		$where_permintaan_dtl['data'][] = array(
+			'column' => 't_permintaan_pembelian_id',
+			'param'	 => $this->input->post('id')
+		);
+		$query_permintaan_dtl = $this->mod->delete_data_table('t_permintaan_pembeliandet', $where_permintaan_dtl);
+		// END HAPUS PENERIMAAN
+		$response['status'] = '200';
+		echo json_encode($response);
+	}
 
 	/* Saving $data as array to database */
 	function general_post_data($type, $id = null){

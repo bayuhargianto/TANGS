@@ -949,6 +949,41 @@ function openForm2(url_data = null, modal_id = null, id_data = null, id_data2 = 
     });
 }
 
+function openFormUser(id = null) {
+    $.ajax({
+      type : 'GET',
+      url  : $base_url+'Setting/User-Account/getForm/',
+      data : { id : id },
+      dataType : "html",
+      success:function(data){
+        $("#modaladd .modal-body").html();
+        $("#modaladd .modal-body").html(data);
+        $('#modaladd').modal('show');
+        MyFormValidation.init();
+        rules();
+        $("#formAdd").submit(function(event){
+          if ($("#formAdd").valid() == true) {
+            actionData();
+          }
+          return false;
+        });
+        $('#m_karyawan_id').css('width', '100%');
+        selectList_karyawan('#m_karyawan_id');
+        if (id) {
+            setTimeout(function(){
+                $('#m_karyawan_id').select2('destroy');
+              editData(id);
+              setTimeout(function(){
+                $('#m_karyawan_id').select2();
+                $('#m_karyawan_id').css('width', '100%');
+                selectList_karyawan('#m_karyawan_id');
+              }, 800);
+            }, 200);
+        }
+      }
+    });
+}
+
 function openFormCabang(id = null) {
     $.ajax({
       type : 'GET',

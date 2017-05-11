@@ -53,7 +53,14 @@ class C_page_handling extends MY_Controller {
 	public function formLogin($type = NULL){
 		if ($type == 1) {
 			$data = array(
-				'action'	=> 'Login/checkLogin/1'
+				'id'		=> $this->input->get('id', TRUE),
+				'action'	=> 'Login/checkLogin/1',
+			);
+			$this->load->view("gate/V_form_login", $data);
+		} else if ($type == 2) {
+			$data = array(
+				'id'		=> $this->input->get('id', TRUE),
+				'action'	=> 'Login/checkLogin/2',
 			);
 			$this->load->view("gate/V_form_login", $data);
 		}
@@ -70,6 +77,22 @@ class C_page_handling extends MY_Controller {
 			else{
 				// HARDCODE
 				if ($user_data->type_karyawan_id == 1 || $user_data->type_karyawan_id == 14) {
+					$response['status'] = '200';
+				} else {
+					$response['status'] = '204';
+				}
+				
+			}
+		} else if ($type == 2) {
+			$user = $this->input->post('i_username', TRUE);
+			$pass = md5(base64_decode($this->input->post('i_password', TRUE)));
+			$user_data = $this->mod->check_exist_user($user,$pass);
+
+			if(!$user_data)
+				$response['status'] = '204'; 
+			else{
+				// HARDCODE
+				if ($user_data->type_karyawan_id == 1) {
 					$response['status'] = '200';
 				} else {
 					$response['status'] = '204';

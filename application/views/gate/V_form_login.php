@@ -3,6 +3,7 @@
   </div>
   <div class="modal-body">
     <input type="hidden" id="url_login" value="<?php echo $action?>">
+    <input type="hidden" id="id" value="<?php echo $id?>">
     <div class="form-group">
       <label for="">Username</label>
       <input type="text" name="i_username" value="" class="form-control">

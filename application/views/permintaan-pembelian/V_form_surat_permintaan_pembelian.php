@@ -50,7 +50,7 @@
                                             <button class="close" data-close="alert"></button> Your form validation is successful! </div>
                                         <input type="hidden" id="url" value="Gudang/Surat-Permintaan-Pembelian/postData/">
                                         <input type="hidden" id="url_data" value="Gudang/Surat-Permintaan-Pembelian">
-                                        <input type="hidden" name="permintaan_pembelian_status" value="0">
+                                        <input type="hidden" name="permintaan_pembelian_status" value="1">
                                         <div class="form-group" hidden="true">
                                             <label class="control-label col-md-4">ID Permintaan Pembelian (Auto)
                                                 <span class="required"> * </span>
