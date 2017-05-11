@@ -8,12 +8,12 @@
       padding-top: 10px;
     }
     .tb2{
-      
+
       width: 50%;
       text-align: center;
     }
     .catatan {
-      padding-top: 10px;   
+      padding-top: 10px;
     }
     .s {
       float: left;
@@ -38,7 +38,7 @@
     </tr>
     <tr>
       <td colspan="3" align="center"><?= $val[0]['cabang']['val2'][0]['alamat']?>, <?= $val[0]['cabang']['val2'][0]['kota']['val3'][0]['text']?><br>
-      <?php 
+      <?php
       for($i=0; $i < count($val[0]['cabang']['val2'][0]['telp']); $i++)
       {
         if($i == count($val[0]['cabang']['val2'][0]['telp'])-1)
@@ -94,7 +94,7 @@
   <tr align="left">
     <th scope="col" >No.</th>
     <th scope="col" >Artikel</th>
-    <th scope="col" >Jenis Barang</th>
+    <th scope="col" style="text-align:center;">Uraian dan Spesifikasi Barang/Jasa</th>
     <th scope="col" >Qty</th>
     <th scope="col" >Satuan</th>
     <!-- <th scope="col" >Harga Satuan</th>
@@ -106,15 +106,15 @@
     $no = 1;
     foreach ($val2 as $barang => $itemBarang) {
       echo '<tr align="left">';
-      echo '<td>'.$no.'</td>';
+      echo '<td style="text-align: center;">'.$no.'</td>';
       echo '<td>'.$itemBarang['barang_nomor'].'</td>';
-      echo '<td>'.$itemBarang['jenis_barang_nama'].'</td>';
+      echo '<td>'.$itemBarang['barang_nama'].'</td>';
       echo '<td>'.$itemBarang['penerimaan_barangdet_qty'].'</td>';
       echo '<td>'.$itemBarang['satuan_nama'].'</td>';
       // echo '<td><table width="100%">
       //         <tr>
       //           <td align="left">Rp.</td>
-      //           <td align="right">'.number_format($itemBarang['penerimaan_barangdet_harga_satuan'], "0", ",", ".").'</td>
+        //           <td align="right">'.number_format($itemBarang['penerimaan_barangdet_harga_satuan'], "0", ",", ".").'</td>
       //         </tr>
       //       </table></td>';
 
@@ -191,7 +191,7 @@
 		<td rowspan="2" height="10%"><?= $val[0]['penerimaan_barang_catatan'] ?></td>
 	</tr>
 	<tr>
-	
+
 	</tr>
 </table>
 </body>

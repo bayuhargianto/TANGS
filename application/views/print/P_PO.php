@@ -9,18 +9,34 @@
     }
     .tb2{
       padding-top: 10px;
-      
+
       width: 50%;
       text-align: center;
     }
     .catatan {
-      padding-top: 10px;    
+      padding-top: 10px;
     }
     .s {
       float: left;
     }
     .k {
       float: right;
+    }
+    /*table.tb-border tbody,*/
+    table.tb-border tr > td
+    {
+        border: 1px solid;
+    }
+
+    .center{
+      text-align: center;
+    }
+    .border{
+      border: 1px solid;
+    }
+    .no-border
+    {
+      border: none !important;
     }
   </style>
   <title><?= $title[0]['aplikasi'].' '.$title[0]['title_page'].' - '.$title[0]['title_page2'] ?></title>
@@ -32,7 +48,7 @@
     </tr>
     <tr>
       <td colspan="3" align="center"><?= $val[0]['cabang']['val2'][0]['alamat']?>, <?= $val[0]['cabang']['val2'][0]['kota']['val3'][0]['text']?><br>
-      <?php 
+      <?php
       for($i=0; $i < count($val[0]['cabang']['val2'][0]['telp']); $i++)
       {
         if($i == count($val[0]['cabang']['val2'][0]['telp'])-1)
@@ -47,94 +63,77 @@
       ?>
       </td>
     </tr>
-    <tr>
-      <td align="right" width="80%">No :</td>
-      <td width="20%"><?= $val[0]['order_nomor'] ?></td>
-    </tr>
-    <tr>
-      <td align="right" width="80%">Tgl :</td>
-      <td width="20%"><?= $val[0]['order_tanggal'] ?></td>
-    </tr>
   </table>
+  <table style="width: 100%; margin-top: 20px;">
+    <tbody>
+      <tr>
+        <td style="width: 30%;"></td>
+        <td style="text-align: center; font-size: 25px;"><b>ORDER PEMBELIAN</b></td>
+        <td rowspan="2" style="width: 30%; padding-left: 50px;">
+           No   : <?php echo $val[0]['order_nomor'] ?>
+           <br>
+           Tgl  : <?php echo $val[0]['order_tanggal'] ?>
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 30%; font-size: 22px;"></td>
+        <td style="text-align: center;"><b>(PURCHASE ORDER)</b></td>
+        <!-- <td style="border: 1px solid;width: 30%;"></td> -->
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <table width="100%" border="" cellspacing="0" rules="all" cellpadding="6">
+    <tbody>
+      <tr>
+        <td class="center" style="width: 48%;">SUPPLIER</td>
+        <td class="no-border"></td>
+        <td class="center" style="width: 48%;">KIRIM KE</td>
+      </tr>
+      <tr>
+        <td valign="top">
+          <table style="width: 100%;">
+             <tbody>
+               <tr>
+                 <th style="width: 20%;" valign="top">Nama :</th>
+                 <td valign="top" style="white-space:normal !important;word-wrap: break-word; ">
+                   <?php echo $val[0]['m_supplier_id']['val2'][0]['text'] ?>
+                 </td>
+                 <th style="text-align: right;" valign="top">Kode : </th>
+                 <td valign="top"><?php echo $val[0]['m_supplier_id']['val2'][0]['id'] ?></td>
+               </tr>
 
-  <h3 align="center">ORDER PEMBELIAN<br/>
-  <i>(PURCHASE ORDER)</i>
-  </h3>
-  
-<table width="45%" border="1" align="left" rules="all">
-  <tr>
-    <td height="23"><div align="center"><strong>SUPPLIER</strong></div></td>
-  </tr>
-  <tr>
-    <td height="10">
-		<table width="100%" border="0">
-			<tr>
-				<th width="25%" scope="row" valign="top"><div align="left">Nama</div></th>
-				<td width="4%" valign="top">:</td>
-				<td width="41%" valign="top"><?= $val[0]['m_supplier_id']['val2'][0]['text'] ?></td>
-				<td width="17%" valign="top"><div align="left">Kode:</div></td>
-				<td width="13%" valign="top"><?= $val[0]['m_supplier_id']['val2'][0]['id'] ?></td>
-			</tr>
-			<tr >
-				<th scope="row" valign="top"><div align="left">Alamat</div></th>
-				<td rowspan="3" valign="top">:</td>
-				<td colspan="3" rowspan="3" valign="top"><?= $val[0]['m_supplier_id']['val2'][0]['alamat'] ?></td>
-			</tr>
-      <tr> 
-        <td></td>
-        <td></td>
+               <tr>
+                 <th>
+                   Telp / Fax :
+                 </th>
+                 <td valign="top" style="white-space:normal !important;word-wrap: break-word; text-align:left;">
+                   <?= $val[0]['m_supplier_id']['val2'][0]['telp'] ?>
+                 </td>
+               </tr>
+             </tbody>
+          </table>
+        </td>
+        <td class="no-border"></td>
+        <td valign="top">
+          <table style="width: 100%;">
+            <tbody>
+              <tr>
+                <th style="width: 20%;" valign="top">Nama :</th>
+                <td valign="top" style="white-space:normal !important;word-wrap: break-word; ">
+                  <?php echo $val[0]['order_nama_dikirim'] ?>
+                </td>
+                <th style="text-align: right;" valign="top">Alamat : </th>
+                <td valign="top"><?php echo $val[0]['order_alamat_dikirim'] ?></td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
       </tr>
-      <tr>
-        <td></td>
-        <td></td>
-      </tr>
-			<tr>
-				<th scope="row" valign="top"><div align="left">Telp/Fax</div></th>
-				<td valign="top">:</td>
-				<td colspan="3" valign="top"><?= $val[0]['m_supplier_id']['val2'][0]['telp'] ?></td>
-			</tr>
-		</table>
-	</td>
-  </tr>
-</table>
-
-<table width="45%" border="1" rules="all" align="right">
-  <tr>
-    <th height="23"><div align="center">KIRIM KE</div></th>
-  </tr>
-  <tr>
-    <td height="10"><table width="100%" border="0">
-      <tr>
-        <th width="25%" scope="row"><div align="left">Nama</div></th>
-        <td width="4%">:</td>
-        <td><div align="left"><?= $val[0]['order_nama_dikirim'] ?></div></td>
-        </tr>
-      <tr>
-        <th scope="row" valign="top"><div align="left">Alamat</div></th>
-        <td valign="top">:</td>
-        <td valign="top" rowspan="3"><?= $val[0]['order_alamat_dikirim'] ?></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <th scope="row"><div align="left">Telp/Fax</div></th>
-        <td>:</td>
-        <td><?= $val[0]['order_hp_fax'] ?></td>
-        </tr>
-    </table></td>
-  </tr>
-</table>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p><br>
-<table width="101%" border="1" cellspacing="0" rules="all" cellpadding="6">
+    </tbody>
+  </table>
+  <br>
+  <table width="101%" border="1" cellspacing="0" rules="all" cellpadding="6">
 	<tr>
 		<th width="5%" scope="col">No.</th>
 		<th width="14%" scope="col">Artikel</th>
@@ -146,7 +145,7 @@
 	</tr>
   <?php
       $no = 1;
-      foreach ($val2 as $barang => $itemBarang) 
+      foreach ($val2 as $barang => $itemBarang)
       {
         echo '<tr align="left">';
         echo '<td>'.$no.'</td>';
@@ -161,24 +160,24 @@
                   <td align="right">'.number_format($itemBarang['orderdet_harga_satuan'],"0", ",", ".").'</td>
                   </tr>
               </table></td> ';
-                 
+
         echo '<td><table width="100%">
                 <tr>
                   <td align="left">Rp.</td>
                   <td align="right">'.number_format($itemBarang['orderdet_total'],"0", ",", ".").'</td>
                 </tr>
               </table></td>';
-        
+
         echo '</tr>';
         $no++;
       }
     ?>
 	<tr>
-		<td colspan="7"><small>Catatan: Jika tidak sesuai pesanan, barang/jasa akan dikembalikan/dibatalkan untuk 
+		<td colspan="7"><small>Catatan: Jika tidak sesuai pesanan, barang/jasa akan dikembalikan/dibatalkan untuk
 		setiap pengiriman, harap mencantumkan no. PO di surat jalan</small></td>
 	</tr>
 	<tr>
-		<td colspan="5" rowspan="3"> 
+		<td colspan="5" rowspan="3">
 			Terbilang : <?= $val[0]['order_terbilang'] ?> rupiah
 		</td>
 		<td>Sub Total</td>
@@ -198,7 +197,7 @@
         <td align="right"><?= number_format(($val[0]['order_ppn']*$val[0]['order_subtotal']/100),"0", ",", ".") ?></td>
       </tr>
     </table></td>
-		
+
 	</tr>
 	<tr>
 		<td>TOTAL</td>
@@ -208,10 +207,92 @@
         <td align="right"><?= number_format($val[0]['order_total'],"0", ",", ".") ?></td>
       </tr>
     </table></td>
-		
+
 	</tr>
 </table>
-<table width="50%" border="0">
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<!-- <p>&nbsp;</p><br>
+<table width="101%" border="1" cellspacing="0" rules="all" cellpadding="6">
+	<tr>
+		<th width="5%" scope="col">No.</th>
+		<th width="14%" scope="col">Artikel</th>
+		<th width="35%" scope="col">Uraian dan Spesifikasi Barang/Jasa</th>
+		<th width="5%" scope="col">Qty</th>
+		<th width="8%" scope="col">Satuan</th>
+		<th width="14%" scope="col">Harga Satuan</th>
+		<th width="19%" scope="col">Total</th>
+	</tr>
+  <?php
+      $no = 1;
+      foreach ($val2 as $barang => $itemBarang)
+      {
+        echo '<tr align="left">';
+        echo '<td>'.$no.'</td>';
+        echo '<td>'.$itemBarang['barang_nomor'].'</td>';
+        echo '<td>'.$itemBarang['barang_uraian'].'</td>';
+        // echo '<td></td>';
+        echo '<td>'.$itemBarang['orderdet_qty'].'</td>';
+        echo '<td>'.$itemBarang['satuan_nama'].'</td>';
+        echo '<td><table width="100%">
+                  <tr>
+                  <td align="left">Rp.</td>
+                  <td align="right">'.number_format($itemBarang['orderdet_harga_satuan'],"0", ",", ".").'</td>
+                  </tr>
+              </table></td> ';
+
+        echo '<td><table width="100%">
+                <tr>
+                  <td align="left">Rp.</td>
+                  <td align="right">'.number_format($itemBarang['orderdet_total'],"0", ",", ".").'</td>
+                </tr>
+              </table></td>';
+
+        echo '</tr>';
+        $no++;
+      }
+    ?>
+	<tr>
+		<td colspan="7"><small>Catatan: Jika tidak sesuai pesanan, barang/jasa akan dikembalikan/dibatalkan untuk
+		setiap pengiriman, harap mencantumkan no. PO di surat jalan</small></td>
+	</tr>
+	<tr>
+		<td colspan="5" rowspan="3">
+			Terbilang : <?= $val[0]['order_terbilang'] ?> rupiah
+		</td>
+		<td>Sub Total</td>
+    <td><table width="100%">
+      <tr>
+        <td align="left">Rp.</td>
+        <td align="right"><?= number_format($val[0]['order_subtotal'],"0", ",", ".") ?></td>
+      </tr>
+    </table></td>
+
+	</tr>
+	<tr>
+		<td>PPN <?= $val[0]['order_ppn'] ?>%</td>
+    <td><table width="100%">
+      <tr>
+        <td align="left">Rp.</td>
+        <td align="right"><?= number_format(($val[0]['order_ppn']*$val[0]['order_subtotal']/100),"0", ",", ".") ?></td>
+      </tr>
+    </table></td>
+
+	</tr>
+	<tr>
+		<td>TOTAL</td>
+    <td><table width="100%">
+      <tr>
+        <td align="left">Rp.</td>
+        <td align="right"><?= number_format($val[0]['order_total'],"0", ",", ".") ?></td>
+      </tr>
+    </table></td>
+
+	</tr>
+</table> -->
+<!-- <table width="50%" border="0">
   <tr>
     <td width="28%">Tanggal Kirim</td>
     <td width="2%">:</td>
@@ -241,8 +322,8 @@
         </tr>";
     }
     ?>
-  
-</table>
+
+</table> -->
 <p>&nbsp;</p>
 <table width="81%" border="1" cellspacing="0">
   <tr>
@@ -268,5 +349,3 @@
 
   </body>
 </html>
-
-

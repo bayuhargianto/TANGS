@@ -83,7 +83,7 @@
                                                         <span class="input-group-addon" style="">
                                                             <span class="icon-calendar"></span>
                                                         </span>
-                                                    </div> 
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -141,7 +141,7 @@
                                             <div class="col-md-8">
                                                 <div class="input-icon right">
                                                     <i class="fa"></i>
-                                                    <select class="form-control" id="penerimaan_barang_penyetuju" name="penerimaan_barang_penyetuju" aria-required="true" aria-describedby="select-error" required>
+                                                    <select class="form-control" id="penerimaan_barang_penyetuju" name="penerimaan_barang_penyetuju" aria-required="true" aria-describedby="select-error">
                                                     </select>
                                                 </div>
                                             </div>
@@ -406,7 +406,7 @@
                       document.getElementsByName('penerimaan_barang_sj')[0].disabled = true;
                       document.getElementsByName("penerimaan_barang_catatan")[0].value = data.val[i].penerimaan_barang_catatan;
                       document.getElementsByName('penerimaan_barang_catatan')[0].disabled = true;
-                      
+
                       if (data.val[i].penerimaan_barang_jenis == 0) {
                         document.getElementById('penerimaan_barang_jenis1').checked = true;
                       } else if (data.val[i].penerimaan_barang_jenis == 1) {
@@ -490,7 +490,7 @@
                     }
                   }
                 });
-                
+
             }
 
             function checkPO() {

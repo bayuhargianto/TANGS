@@ -343,24 +343,24 @@ $route['Pembelian/Penawaran-Harga/print-Penawaran/(:any)']		= 'C_penawaran_harga
 // end Penawaran Harga
 
 // PO
-$route['Pembelian/Purchase-Order']								= 'C_purchase_order/view/1';
+$route['Pembelian/Purchase-Order']								    = 'C_purchase_order/view/1';
 $route['Pembelian/Purchase-Order/loadData']						= 'C_purchase_order/loadData/1';
-$route['Pembelian/Purchase-Order/Form']							= 'C_purchase_order/getForm1';
-$route['Pembelian/Purchase-Order/Form/(:any)']					= 'C_purchase_order/getForm1/$1';
-$route['Pembelian/Purchase-Order/EditForm/(:any)']				= 'C_purchase_order/getForm3/$1';
-$route['Pembelian/Purchase-Order/loadDataWhere']				= 'C_purchase_order/loadDataWhere/1';
+$route['Pembelian/Purchase-Order/Form']							  = 'C_purchase_order/getForm1';
+$route['Pembelian/Purchase-Order/Form/(:any)']				= 'C_purchase_order/getForm1/$1';
+$route['Pembelian/Purchase-Order/EditForm/(:any)']		= 'C_purchase_order/getForm3/$1';
+$route['Pembelian/Purchase-Order/loadDataWhere']			= 'C_purchase_order/loadDataWhere/1';
 $route['Pembelian/Purchase-Order/postData']						= 'C_purchase_order/postData/1';
 $route['Pembelian/Purchase-Order/postData/3']					= 'C_purchase_order/postData/3';
-$route['Pembelian/Purchase-Order/print-PO/(:any)']				= 'C_purchase_order/cetakPDF/$1';
-$route['Pembelian/Purchase-Order/loadDataSelect']				= 'C_purchase_order/loadData_select';
-$route['Persetujuan/Purchase-Order']							= 'C_purchase_order/view/2';
+$route['Pembelian/Purchase-Order/print-PO/(:any)']		= 'C_purchase_order/cetakPDF/$1';
+$route['Pembelian/Purchase-Order/loadDataSelect']			= 'C_purchase_order/loadData_select';
+$route['Persetujuan/Purchase-Order']							    = 'C_purchase_order/view/2';
 $route['Persetujuan/Purchase-Order/loadData']					= 'C_purchase_order/loadData/2';
-$route['Persetujuan/Purchase-Order/Form/(:any)']				= 'C_purchase_order/getForm2/$1';
-$route['Persetujuan/Purchase-Order/loadDataWhere']				= 'C_purchase_order/loadDataWhere/2';
-$route['Persetujuan/Purchase-Order/checkStatus']				= 'C_purchase_order/checkStatus';
+$route['Persetujuan/Purchase-Order/Form/(:any)']			= 'C_purchase_order/getForm2/$1';
+$route['Persetujuan/Purchase-Order/loadDataWhere']		= 'C_purchase_order/loadDataWhere/2';
+$route['Persetujuan/Purchase-Order/checkStatus']			= 'C_purchase_order/checkStatus';
 $route['Persetujuan/Purchase-Order/postData']					= 'C_purchase_order/postData/2';
-$route['Persetujuan/Purchase-Order/postData/4']					= 'C_purchase_order/postData/4';
-$route['Persetujuan/Purchase-Order/print-PO/(:any)']			= 'C_purchase_order/cetakPDF/$1';
+$route['Persetujuan/Purchase-Order/postData/4']				= 'C_purchase_order/postData/4';
+$route['Persetujuan/Purchase-Order/print-PO/(:any)']	= 'C_purchase_order/cetakPDF/$1';
 
 // end PO
 
@@ -371,6 +371,7 @@ $route['Gudang/Penerimaan-Barang/Form']							= 'C_penerimaan_barang/getForm1';
 $route['Gudang/Penerimaan-Barang/Form/(:any)']					= 'C_penerimaan_barang/getForm1/$1';
 $route['Gudang/Penerimaan-Barang/postData']						= 'C_penerimaan_barang/postData/1';
 $route['Gudang/Penerimaan-Barang/print-BPB/(:any)']				= 'C_penerimaan_barang/cetakPDF/$1';
+
 $route['Gudang/Penerimaan-Barang/print-BPBJ/(:any)']			= 'C_penerimaan_barang/cetakPDFBPBJ/$1';
 $route['Gudang/Penerimaan-Barang/loadDataWhere']				= 'C_penerimaan_barang/loadDataWhere/1';
 $route['Gudang/Penerimaan-Barang/loadDataSelect']				= 'C_penerimaan_barang/loadData_select';

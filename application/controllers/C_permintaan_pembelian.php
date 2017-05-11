@@ -650,6 +650,7 @@ class C_permintaan_pembelian extends MY_Controller {
 
 	// Function Insert & Update
 	public function postData($type){
+
 		$id = $this->input->post('kode');
 		$response['test'] = $type;
 		if (strlen($id)>0) {
@@ -707,11 +708,13 @@ class C_permintaan_pembelian extends MY_Controller {
 
 						$data_det 	= $this->general_post_data2(2, $id, $i, $this->input->post('permintaan_pembeliandet_id', TRUE)[$i]);
 						$update_det = $this->mod->update_data_table('t_permintaan_pembeliandet', $where_det, $data_det);
+
 						if($update_det->status) {
 							$response['status'] = '200';
 						} else {
 							$response['status'] = '204';
 						}
+
 					}
 					// END FOR DETAIL
 				} else {
@@ -820,6 +823,7 @@ class C_permintaan_pembelian extends MY_Controller {
 		);
 
 		$queryRevised = $this->mod->select('permintaan_pembelian_status, permintaan_pembelian_revised', $this->tbl, NULL, $where);
+
 		if ($queryRevised) {
 
 			$revised = $queryRevised->row_array();
@@ -827,6 +831,7 @@ class C_permintaan_pembelian extends MY_Controller {
 			$status = $revised['permintaan_pembelian_status'];
 
 		}
+
 		if ($type == 1) {
 			$permintaan_pembelian_nomor = $this->get_kode_transaksi();
 			$data = array(
@@ -847,6 +852,7 @@ class C_permintaan_pembelian extends MY_Controller {
 				'permintaan_pembelian_update_date'				=> date('Y-m-d H:i:s'),
 				'permintaan_pembelian_created_by'					=> $this->session->userdata('user_username'),
 				'permintaan_pembelian_revised' 						=> 0,
+				'permintaan_pembelian_konsiyasi'					=> $this->input->post('jenis_barang', TRUE)
 			);
 		} else if ($type == 2) {
 			if ($status == $this->input->post('permintaan_pembelian_status', TRUE)) {
@@ -942,9 +948,9 @@ class C_permintaan_pembelian extends MY_Controller {
 		}
 		if ($type == 1) {
 			$data = array(
-				't_permintaan_pembelian_id' 			=> $idHdr,
-				'm_barang_id' 							=> $this->input->post('m_barang_id', TRUE)[$seq],
-				'permintaan_pembeliandet_qty' 			=> $this->input->post('permintaan_pembeliandet_qty', TRUE)[$seq],
+				't_permintaan_pembelian_id' 					=> $idHdr,
+				'm_barang_id' 												=> $this->input->post('m_barang_id', TRUE)[$seq],
+				'permintaan_pembeliandet_qty' 				=> $this->input->post('permintaan_pembeliandet_qty', TRUE)[$seq],
 				'permintaan_pembeliandet_create_date'	=> date('Y-m-d H:i:s'),
 				'permintaan_pembeliandet_create_by'		=> $this->session->userdata('user_username'),
 				'permintaan_pembeliandet_update_date'	=> date('Y-m-d H:i:s'),
@@ -952,9 +958,9 @@ class C_permintaan_pembelian extends MY_Controller {
 			);
 		} else if ($type == 2) {
 			$data = array(
-				't_permintaan_pembelian_id' 			=> $idHdr,
-				'm_barang_id' 							=> $this->input->post('m_barang_id', TRUE)[$seq],
-				'permintaan_pembeliandet_qty' 			=> $this->input->post('permintaan_pembeliandet_qty', TRUE)[$seq],
+				't_permintaan_pembelian_id' 					=> $idHdr,
+				'm_barang_id' 												=> $this->input->post('m_barang_id', TRUE)[$seq],
+				'permintaan_pembeliandet_qty' 				=> $this->input->post('permintaan_pembeliandet_qty', TRUE)[$seq],
 				'permintaan_pembeliandet_update_date'	=> date('Y-m-d H:i:s'),
 				'permintaan_pembeliandet_update_by'		=> $this->session->userdata('user_username'),
 				'permintaan_pembeliandet_revised' 		=> 0,
@@ -978,11 +984,12 @@ class C_permintaan_pembelian extends MY_Controller {
 			// }
 		} else if ($type == 3) {
 			$data = array(
-				'm_barang_id' 							=> $this->input->post('m_barang_id', TRUE)[$seq],
+				'm_barang_id' 												=> $this->input->post('m_barang_id', TRUE)[$seq],
 				'permintaan_pembeliandet_update_date'	=> date('Y-m-d H:i:s'),
 				'permintaan_pembeliandet_update_by'		=> $this->session->userdata('user_username'),
 				'permintaan_pembeliandet_revised' 		=> $rev,
 			);
+
 		}
 
 		return $data;

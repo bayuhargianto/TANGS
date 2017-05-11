@@ -131,8 +131,11 @@ class C_barang extends MY_Controller {
 	public function import(){
 		ini_set('max_execution_time', 3600);
 		if(!isset($_FILES['file'])){
+
 			$this->session->set_flashdata('msg', 'Mohon Cek Kembali File Anda');
+
 		}else{
+
 			$fileName = str_replace(" ", "_", time().$_FILES['file']['name']);
 
 			$config['upload_path'] = './assets/upload/'; //buat folder dengan nama assets di root folder
@@ -169,46 +172,46 @@ class C_barang extends MY_Controller {
 			                                    FALSE);
 
 			    // QUERY UNTUK MENCARI ID DI SETIAP TABEL BERDASARKAN NAMA YANG ADA DI FILE EXCEL
-			    $cat1_id = $this->db->query("SELECT jenis_barang_id FROM m_jenis_barang WHERE jenis_barang_nama = '".$rowData[0][0]."'")->row();
-				$cat2_id = $this->db->query("SELECT category_2_id FROM m_category_2 WHERE category_2_nama = '".$rowData[0][1]."'")->row();
-				$sat_id = $this->db->query("SELECT satuan_id FROM m_satuan WHERE satuan_nama = '".$rowData[0][5]."'")->row();
-				$brd_id = $this->db->query("SELECT brand_id FROM m_brand WHERE brand_nama = '".$rowData[0][6]."'")->row();
+			  $cat1_id 	= $this->db->query("SELECT jenis_barang_id FROM m_jenis_barang WHERE jenis_barang_nama = '".$rowData[0][0]."'")->row();
+				$cat2_id 	= $this->db->query("SELECT category_2_id FROM m_category_2 WHERE category_2_nama = '".$rowData[0][1]."'")->row();
+				$sat_id 	= $this->db->query("SELECT satuan_id FROM m_satuan WHERE satuan_nama = '".$rowData[0][5]."'")->row();
+				$brd_id 	= $this->db->query("SELECT brand_id FROM m_brand WHERE brand_nama = '".$rowData[0][6]."'")->row();
 
-				$jenis_barang_id 	= $cat1_id->jenis_barang_id;
+					$jenis_barang_id 	= $cat1_id->jenis_barang_id;
 			    $category_2_id 		= $cat2_id->category_2_id;
 			    $satuan_id 			= $sat_id->satuan_id;
 			    $brand_id 			= $brd_id->brand_id;
 
 			    $data_category1 = array(
-			        "jenis_barang_id"				=> $jenis_barang_id,
-			        "jenis_barang_nama"				=> $this->db->escape_str($rowData[0][0]),
-			        "jenis_barang_status_aktif"		=> 'y',
-			        "jenis_barang_create_date"		=> date('Y-m-d H:i:s'),
+			        "jenis_barang_id"						=> $jenis_barang_id,
+			        "jenis_barang_nama"					=> $this->db->escape_str($rowData[0][0]),
+			        "jenis_barang_status_aktif"	=> 'y',
+			        "jenis_barang_create_date"	=> date('Y-m-d H:i:s'),
 			        "jenis_barang_create_by"		=> $this->session->userdata('user_username'),
-			        "jenis_barang_update_date"		=> date('Y-m-d H:i:s'),
+			        "jenis_barang_update_date"	=> date('Y-m-d H:i:s'),
 			        "jenis_barang_update_by"		=> $this->session->userdata('user_username'),
 			        "jenis_barang_revised"			=> 0
 			    );
 
 			    $data_satuan = array(
-			        "satuan_id"				=> $satuan_id,
-			        "satuan_nama"			=> $this->db->escape_str($rowData[0][5]),
+			        "satuan_id"						=> $satuan_id,
+			        "satuan_nama"					=> $this->db->escape_str($rowData[0][5]),
 			        "satuan_status_aktif"	=> 'y',
 			        "satuan_create_date"	=> date('Y-m-d H:i:s'),
 			        "satuan_create_by"		=> $this->session->userdata('user_username'),
 			        "satuan_update_date"	=> date('Y-m-d H:i:s'),
 			        "satuan_update_by"		=> $this->session->userdata('user_username'),
-			        "satuan_revised"		=> 0
+			        "satuan_revised"			=> 0
 			    );
 			    $data_brand = array(
-			        "brand_id"				=> $brand_id,
-			        "brand_nama"			=> $this->db->escape_str($rowData[0][6]),
+			        "brand_id"						=> $brand_id,
+			        "brand_nama"					=> $this->db->escape_str($rowData[0][6]),
 			        "brand_status_aktif"	=> 'y',
 			        "brand_create_date"		=> date('Y-m-d H:i:s'),
-			        "brand_create_by"		=> $this->session->userdata('user_username'),
+			        "brand_create_by"			=> $this->session->userdata('user_username'),
 			        "brand_update_date"		=> date('Y-m-d H:i:s'),
-			        "brand_update_by"		=> $this->session->userdata('user_username'),
-			        "brand_revised"			=> 0
+			        "brand_update_by"			=> $this->session->userdata('user_username'),
+			        "brand_revised"				=> 0
 			    );
 			    // ==================================================================================
 
@@ -221,17 +224,19 @@ class C_barang extends MY_Controller {
 					$q = $this->db->query("select jenis_barang_id from m_jenis_barang where jenis_barang_nama = '".$rowData[0][0]."'")->row();
 					$hasil_jenis_barang_id = $q->jenis_barang_id;
 				}
+
 				$data_category2 = array(
-			        "category_2_id"				=> $category_2_id,
-			        "m_jenis_barang_id"			=> $hasil_jenis_barang_id,
-			        "category_2_nama"			=> $this->db->escape_str($rowData[0][1]),
+			        "category_2_id"						=> $category_2_id,
+			        "m_jenis_barang_id"				=> $hasil_jenis_barang_id,
+			        "category_2_nama"					=> $this->db->escape_str($rowData[0][1]),
 			        "category_2_status_aktif"	=> 'y',
 			        "category_2_create_date"	=> date('Y-m-d H:i:s'),
 			        "category_2_create_by"		=> $this->session->userdata('user_username'),
 			        "category_2_update_date"	=> date('Y-m-d H:i:s'),
 			        "category_2_update_by"		=> $this->session->userdata('user_username'),
-			        "category_2_revised"		=> 0
+			        "category_2_revised"			=> 0
 			    );
+
 				if($cat2_id){
 					$hasil_category_2_id 	= $cat2_id->category_2_id;
 				}else{
@@ -281,9 +286,9 @@ class C_barang extends MY_Controller {
 			    $data_barang = array(
 			 		"barang_id"				=> '',
 			 		"m_jenis_barang_id"		=> $hasil_jenis_barang_id,
-			 		"m_category_2_id"		=> $hasil_category_2_id,
+			 		"m_category_2_id"			=> $hasil_category_2_id,
 			        "barang_kode"			=> $barang_kode,
-			        "barang_nomor"			=> $barang_nomor,
+			        "barang_nomor"		=> $barang_nomor,
 			        "barang_nama"			=> $barang_nama,
 			        "m_satuan_id"			=> $hasil_satuan_id,
 			        "brand_id"				=> $hasil_brand_id,
@@ -304,7 +309,7 @@ class C_barang extends MY_Controller {
 			    // ==================================================================================
 
 			    // QUERY MENCARI id_barang
-			    $brg_id = $this->db->query("SELECT barang_id FROM m_barang WHERE barang_nama = '".$barang_nama."'")->row();
+			   $brg_id = $this->db->query("SELECT barang_id FROM m_barang WHERE barang_nama = '".$barang_nama."'")->row();
 				$hasil_barang_id 			= $brg_id->barang_id;
 				// ==================================================================================
 
@@ -329,7 +334,7 @@ class C_barang extends MY_Controller {
 			    }
 			    // ==================================================================================
 
-			    delete_files('./assets/upload/');
+			    // delete_files('./assets/upload/');
 				$no++;
 			}
 			// redirect('Master-Data/Barang');
