@@ -544,7 +544,7 @@
                                         '+data.val2[i].barang_nomor+'\
                                     </td>\
                                     <td id="td2'+(i+1)+'">\
-                                        <p style="max-width: 250px;white-space:normal !important;word-wrap: break-word;">'+data.step1[i].barang_uraian+'</p>\
+                                        <p style="max-width: 250px;white-space:normal !important;word-wrap: break-word;">'+data.val2[i].barang_uraian+'</p>\
                                     </td>\
                                     <td id="td3'+(i+1)+'">\
                                         <input type="text" class="form-control num2" id="orderdet_qty'+data.val2[i].m_barang_id+'" name="orderdet_qty[]" value="'+data.val2[i].orderdet_qty+'" required readonly/>\
