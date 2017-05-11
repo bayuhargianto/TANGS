@@ -83,7 +83,7 @@
                                                         <span class="input-group-addon" style="">
                                                             <span class="icon-calendar"></span>
                                                         </span>
-                                                    </div> 
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -144,7 +144,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label col-md-4">Alasan 
+                                            <label class="control-label col-md-4">Alasan
                                             </label>
                                             <div class="col-md-8">
                                                 <div class="input-icon right">
@@ -153,7 +153,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label col-md-4">Catatan 
+                                            <label class="control-label col-md-4">Catatan
                                             </label>
                                             <div class="col-md-8">
                                                 <div class="input-icon right">
@@ -173,7 +173,7 @@
                                         </div>
                                     </div>
                                     <div id="stok" hidden="true">
-                                      
+
                                     </div>
                                 </form>
                                 <!-- END FORM -->
@@ -338,7 +338,7 @@
 
                                 $('.num2').number( true, 2, '.', ',' );
                                 $('.num2').css('text-align', 'right');
-                                $('.money').number( true, 2, '.', ',' );   
+                                $('.money').number( true, 2, '.', ',' );
                                 $('.money').css('text-align', 'right');
                             }
                         }

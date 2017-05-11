@@ -150,7 +150,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th> No </th>
-                                                            <th> Kode Barang </th>
+                                                            <th> Artikel </th>
                                                             <th> Uraian dan Spesifikasi Barang/Jasa </th>
                                                             <th> Qty </th>
                                                             <th> Satuan </th>
@@ -235,7 +235,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label class="control-label col-md-4">DP
                                             <span class="required"> * </span>
                                         </label>
@@ -250,7 +250,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="form-group">
                                         <label class="control-label col-md-4">Persetujuan 
                                             <span class="required"> * </span>
@@ -329,7 +329,6 @@
                       document.getElementsByName("order_nomor")[0].value = data.val[i].order_nomor;
                       document.getElementsByName("order_tanggal")[0].value = data.val[i].order_tanggal;
                       document.getElementsByName("order_tanggal_kirim")[0].value = data.val[i].order_tanggal_kirim;
-                      document.getElementsByName("order_tanggal_kirim")[0].disabled = true;
                       document.getElementsByName("order_status")[0].value = data.val[i].order_status;
                       document.getElementsByName("order_type")[0].value = data.val[i].order_type;
                       document.getElementsByName("order_nama_dikirim")[0].value = data.val[i].order_nama_dikirim;
@@ -337,6 +336,7 @@
                       document.getElementsByName("order_hp_fax")[0].value = data.val[i].order_hp_fax;
                       document.getElementsByName("order_subtotal")[0].value = data.val[i].order_subtotal;
                       document.getElementsByName("order_ppn")[0].value = data.val[i].order_ppn;
+                      document.getElementsByName("order_top")[0].value = data.val[i].order_top;
                       document.getElementsByName("order_total")[0].value = data.val[i].order_total;
                       $("#order_pembayaran").select2('destroy');
                       if (data.val[i].order_pembayaran == 0) {
@@ -347,7 +347,7 @@
                       $('#order_pembayaran').css('width', '100%');
                       $("#order_pembayaran").select2();
                       checkPembayaran();
-                      document.getElementsByName("order_dp")[0].value = data.val[i].order_dp;
+                      // document.getElementsByName("order_dp")[0].value = data.val[i].order_dp;
 
                       if (data.val[i].order_status >= 3) {
                         document.getElementById("persetujuan").checked = true;
@@ -367,6 +367,7 @@
                       $("#order_referensi_id").select2();
                       $("#order_nomor").attr("hidden", false);
                       document.getElementsByName('order_nama_dikirim')[0].disabled = true;
+                      document.getElementsByName("order_tanggal_kirim")[0].disabled = true;
                       document.getElementsByName('order_alamat_dikirim')[0].disabled = true;
                       document.getElementsByName('order_hp_fax')[0].disabled = true;
                       document.getElementsByName('m_supplier_id')[0].disabled = true;
@@ -388,7 +389,7 @@
                                 </td>\
                                 <td id="td1'+(i+1)+'">\
                                     <input type="hidden" name="m_barang_id[]" value="'+data.val2[i].m_barang_id+'"/>\
-                                    '+data.val2[i].barang_kode+'\
+                                    '+data.val2[i].barang_nomor+'\
                                 </td>\
                                 <td id="td2'+(i+1)+'">\
                                     '+data.val2[i].barang_uraian+'\

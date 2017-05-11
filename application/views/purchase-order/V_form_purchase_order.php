@@ -160,7 +160,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th> No </th>
-                                                            <th> Kode Barang </th>
+                                                            <th> Artikel </th>
                                                             <th> Uraian dan Spesifikasi Barang/Jasa </th>
                                                             <th> Qty </th>
                                                             <th> Satuan </th>
@@ -237,7 +237,7 @@
                                             <div class="input-icon right">
                                                 <i class="fa"></i>
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control num" name="order_top" value="0">
+                                                    <input type="text" class="form-control num" name="order_top">
                                                     <span class="input-group-addon" style="">
                                                         Hari
                                                     </span>

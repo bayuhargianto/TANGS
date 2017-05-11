@@ -85,7 +85,7 @@ table{
 		<td><?php echo $transaksi->penjualan_code?></td>
 	</tr>
   <tr>
-    <td align="right" ><?php echo $transaksi->penjualan_date ?></td>
+    <td align="right" ><?php echo date("d-m-Y H:m:s",strtotime($transaksi->penjualan_date)) ?></td>
   </tr>
 </table>
 <table style="width:100%;">
@@ -97,6 +97,11 @@ table{
 			<tr>
 				<td style="text-align:center;width:5%;"><?php echo $no_item; ?></td>
         <td><?php echo $r_transaksi_detail->barang_nama?></td>
+				<td>
+					<?php if ($r_transaksi_detail->booking_status): ?>
+						Booking
+					<?php endif; ?>
+				</td>
 				<td style="text-align:center;"><?php echo $r_transaksi_detail->barang_qty?> X <?php echo number_format($r_transaksi_detail->barang_price)?></td>
 				<td style="text-align:right;"><?php echo number_format($r_transaksi_detail->barang_price*$r_transaksi_detail->barang_qty)?></td>
       </tr>
@@ -104,6 +109,7 @@ table{
         <td style="text-align:center;">&nbsp;</td>
 				<td style="text-align:center;">&nbsp;</td>
 				<td style="text-align:center;"></td>
+				<td></td>
 				<td style="text-align:right;"><?php echo number_format($r_transaksi_detail->barang_discount_nominal)?></td>
       </tr>
     <?php
@@ -112,25 +118,33 @@ table{
 </table>
 <table style="width:100%;">
 	<tr>
-		<td	><strong>Total</strong></td>
-		<td align="right"><strong><?php echo number_format($transaksi->penjualan_total)?></strong></td>
+		<td>Total</td>
+		<td align="right"><?php echo number_format($transaksi->penjualan_total)?></td>
 	</tr>
 	<tr>
-		<td	><strong>Discount All</strong></td>
-		<td align="right"><strong><?php echo number_format($transaksi->penjualan_all_discount_nominal)?></strong></td>
+		<td>Discount All</td>
+		<td align="right"><?php echo number_format($transaksi->penjualan_all_discount_nominal)?></td>
 	</tr>
 	<tr>
-		<td	><strong>Total Discount Item</strong></td>
-		<td align="right"><strong><?php echo number_format($total_diskon_item)?></strong></td>
+		<td>Total Discount Item</td>
+		<td align="right"><?php echo number_format($total_diskon_item)?></td>
 	</tr>
 	<?php $discount = $transaksi->penjualan_all_discount_nominal + $total_diskon_item;?>
 	<tr>
-		<td><strong>Total All Discount</strong></td>
-		<td align="right"><strong><?php echo number_format($discount)?></strong></td>
+		<td>Total All Discount</td>
+		<td align="right"><?php echo number_format($discount)?></td>
+	</tr>
+	<tr style="font-size: 18px">
+		<td><strong>Grand Total</strong></td>
+		<td align="right"><strong><?php echo number_format($transaksi->penjualan_grand_total)?></strong></td>
 	</tr>
 	<tr>
 		<td><strong>Bayar</strong></td>
-		<td align="right"><strong><?php echo number_format($transaksi->penjualan_grand_total)?></strong></td>
+		<td align="right"><strong><?php echo number_format($transaksi->penjualan_payment)?></strong></td>
+	</tr>
+	<tr>
+		<td><strong>Kembalian</strong></td>
+		<td align="right"><strong><?php echo number_format($transaksi->penjualan_change)?></strong></td>
 	</tr>
 </table>
   <div class=""  style="text-align:center;">

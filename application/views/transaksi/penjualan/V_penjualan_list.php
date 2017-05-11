@@ -68,6 +68,7 @@
                                     <th> Tanggal Penjualan </th>
                                     <th> Total Penjualan </th>
                                     <th> Pembayaran </th>
+                                    <th> Status </th>
                                     <th> Action </th>
                                 </tr>
                             </thead>
@@ -108,12 +109,13 @@ function searchData() {
           url: '<?php echo base_url();?>Penjualan/Point-of-Sale/loadData/'
         },
         "columns": [
-          {"name": "no","orderable": false,"searchable": false,  "className": "text-center", "width": "5%"},
-          {"name": "cabang_nama"},
+          {"name": "no","orderable": false, "searchable": false,  "className": "text-center", "width": "5%"},
+          {"name": "cabang_nama",  "width": "15%"},
           {"name": "penjualan_code", "className": "text-center"},
           {"name": "penjualan_date",  "className": "text-center"},
           {"name": "penjualan_total", "className": "text-right"},
           {"name": "penjualan_payment", "className": "text-right"},
+          {"name": "penjualan_status", "className": "text-right"},
           {"name": "action","orderable": false,"searchable": false, "className": "text-center", "width": "15%"}
         ],
         // Internationalisation. For more info refer to http://datatables.net/manual/i18n
@@ -149,7 +151,10 @@ function searchData() {
         //     [10, 25, 50, 100],
         //     [10, 25, 50, 100] // change per page values here
         // ],
-        "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "lengthMenu": [
+            [10, 25, 50, 100],
+            [10, 25, 50, 100] // change per page values here
+        ],
         // set the initial value
         "pageLength": 10,
         "columnDefs": [{  // set default column settings

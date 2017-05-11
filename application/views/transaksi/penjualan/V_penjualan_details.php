@@ -1,3 +1,23 @@
+<style media="screen">
+  .table-detail tr > td,
+  .table-detail th
+  {
+    border: 1px solid;
+    border-color: #ececec;
+    background-color: #fff;
+    padding: 5px 5px 5px 10px;
+    font-size: 18px;
+    margin: 0;
+  }
+
+  .col-detail
+  {
+    padding: 0px;
+    margin-left: 25px;
+  }
+
+</style>
+
 <!-- BEGIN CONTENT -->
 <div class="page-content-wrapper">
     <!-- BEGIN CONTENT BODY -->
@@ -40,6 +60,56 @@
                             <span class="caption-subject font-dark sbold uppercase">Data <?php if(isset($title_page2)) echo $title_page2;?></span>
                         </div>
                     </div>
+                    <div class="row">
+                      <div class="col-md-5 col-detail">
+                        <table class="table-striped table-detail" style="width: 100%;">
+                          <tr>
+                            <td>Nama Cust. </td>
+                            <td><?php echo $penjualan->partner_nama ?></td>
+                          </tr>
+                          <tr>
+                            <td>Total Transaksi. </td>
+                            <td class="text-right" style="padding-right: 10px;"><?php echo number_format($penjualan->penjualan_total) ?></td>
+                          </tr>
+                          <tr>
+                            <td>Total Disc. </td>
+                            <td class="text-right" style="padding-right: 10px;"><?php echo number_format($penjualan->penjualan_all_discount_nominal) ?></td>
+                          </tr>
+                          <tr>
+                            <td>Grand Total Transaksi. </td>
+                            <td class="text-right" style="padding-right: 10px;"><?php echo number_format($penjualan->penjualan_grand_total) ?></td>
+                          </tr>
+                          <tr>
+                            <td>Pembayaran </td>
+                            <td class="text-right" style="padding-right: 10px;"><?php echo number_format($penjualan->penjualan_payment) ?></td>
+                          </tr>
+                          <?php if ($penjualan->booking_status == 2): ?>
+                          <tr>
+                            <td>Status </td>
+                              <td class="text-right" style="padding-right: 10px;">Booking All</td>
+                          </tr>
+                          <?php endif; ?>
+                        </table>
+                      </div>
+                      <?php if ($penjualan->pengiriman_id): ?>
+                        <div class="col-md-6 col-detail">
+                          <table class="table-striped table-detail" style="width: 100%;">
+                            <tr>
+                              <td>Tujuan Pengiriman </td>
+                              <td><?php echo $penjualan->pengiriman_tujuan ?></td>
+                            </tr>
+                            <tr>
+                              <td>Jarak Pengiriman </td>
+                              <td class="text-right" style="padding-right: 10px;"><?php echo number_format($penjualan->pengiriman_jarak) ?></td>
+                            </tr>
+                            <tr>
+                              <td>Biaya pengiriman </td>
+                              <td class="text-right" style="padding-right: 10px;"><?php echo number_format($penjualan->pengiriman_biaya) ?></td>
+                            </tr>
+                          </table>
+                        </div>
+                      <?php endif; ?>
+                    </div>
                     <div class="portlet-body">
                         <div class="table-toolbar">
                             <div class="row">
@@ -57,6 +127,7 @@
                                     <th> Harga Total</th>
                                     <th> Total Diskon</th>
                                     <th> Harga Grand Total </th>
+                                    <th> Action </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -79,7 +150,9 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
+
     searchData();
+
 });
 
 
@@ -98,7 +171,8 @@ function searchData() {
           {"name": "barang_qty",  "className": "text-center"},
           {"name": "barang_total", "className": "text-right"},
           {"name": "barang_discount_nominal", "className": "text-right"},
-          {"name": "barang_discount_grand_total", "className": "text-right"}
+          {"name": "barang_discount_grand_total", "className": "text-right"},
+          {"name": "action","orderable": false,"searchable": false, "className": "text-center", "width": "15%"}
         ],
         // Internationalisation. For more info refer to http://datatables.net/manual/i18n
         "language": {
@@ -149,6 +223,17 @@ function searchData() {
         "iDisplayLength": 10
     });
 }
+
+  function bookBtn(id)
+  {
+    $.post("<?php echo  base_url()?>C_POS/update_book/", {id: id}, function(data, status){
+      alert_success_nonaktif();
+      var this_button = "#btn_"+id;
+      $(this_button).removeClass('blue-ebonyclay');
+      $(this_button).addClass('green-jungle');
+   });
+  }
+
 </script>
 
 </body>

@@ -77,7 +77,7 @@
                 <div class="col-md-8">
                     <div class="input-icon right">
                         <i class="fa"></i>
-                        <input type="text" class="form-control num2" name="stok" value="0" required /> </div>
+                        <input type="text" class="form-control num2" name="barang_minimum_stok" value="0" required /> </div>
                 </div>
             </div>
             <div class="form-group">

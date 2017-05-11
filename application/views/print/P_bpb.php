@@ -32,15 +32,13 @@
   <title><?= $title[0]['aplikasi'].' '.$title[0]['title_page'].' - '.$title[0]['title_page2'] ?></title>
   </head>
   <body>
-	<table width="100%">
-		<tr>
-		  <td><b><?= strtoupper($val[0]['cabang']['val2'][0]['text'])?></b></td>
-		  <td align="right">No :</td>
-		  <td width="30%"><?= $val[0]['penerimaan_barang_nomor'] ?></td>
-		</tr>
-		<tr>
-		  <td><?= $val[0]['cabang']['val2'][0]['alamat']?>, <?= $val[0]['cabang']['val2'][0]['kota']['val3'][0]['text']?><br>
-      Telp. <?php 
+  <table width="100%">
+    <tr>
+      <td colspan="3" align="center"><b><?= strtoupper($val[0]['cabang']['val2'][0]['text'])?></b></td>
+    </tr>
+    <tr>
+      <td colspan="3" align="center"><?= $val[0]['cabang']['val2'][0]['alamat']?>, <?= $val[0]['cabang']['val2'][0]['kota']['val3'][0]['text']?><br>
+      <?php 
       for($i=0; $i < count($val[0]['cabang']['val2'][0]['telp']); $i++)
       {
         if($i == count($val[0]['cabang']['val2'][0]['telp'])-1)
@@ -52,10 +50,17 @@
           echo $val[0]['cabang']['val2'][0]['telp'][$i].', ';
         }
       }
-      ?></td>
-		  <td align="right" valign="top">Tgl :</td>
-		  <td width="30%" valign="top"><?= $val[0]['penerimaan_barang_tanggal'] ?></td>
-		</tr>
+      ?>
+      </td>
+    </tr>
+    <tr>
+      <td align="right" width="80%">No :</td>
+      <td width="20%"><?= $val[0]['penerimaan_barang_nomor'] ?></td>
+    </tr>
+    <tr>
+      <td align="right" width="80%">Tgl :</td>
+      <td width="20%"><?= $val[0]['penerimaan_barang_tanggal'] ?></td>
+    </tr>
   </table>
   <h3 align="center"><?php
   if($val[0]['penerimaan_barang_jenis'] == 0)
@@ -92,9 +97,9 @@
     <th scope="col" >Jenis Barang</th>
     <th scope="col" >Qty</th>
     <th scope="col" >Satuan</th>
-    <th scope="col" >Harga Satuan</th>
+    <!-- <th scope="col" >Harga Satuan</th>
     <th scope="col" >PPN</th>
-    <th scope="col" >Total</th>
+    <th scope="col" >Total</th> -->
     <th scope="col" >Keterangan</th>
   </tr>
   <?php
@@ -106,15 +111,15 @@
       echo '<td>'.$itemBarang['jenis_barang_nama'].'</td>';
       echo '<td>'.$itemBarang['penerimaan_barangdet_qty'].'</td>';
       echo '<td>'.$itemBarang['satuan_nama'].'</td>';
-      echo '<td><table width="100%">
-              <tr>
-                <td align="left">Rp.</td>
-                <td align="right">'.number_format($itemBarang['penerimaan_barangdet_harga_satuan'], "0", ",", ".").'</td>
-              </tr>
-            </table></td>';
+      // echo '<td><table width="100%">
+      //         <tr>
+      //           <td align="left">Rp.</td>
+      //           <td align="right">'.number_format($itemBarang['penerimaan_barangdet_harga_satuan'], "0", ",", ".").'</td>
+      //         </tr>
+      //       </table></td>';
 
-      echo '<td>'.$val[0]['penerimaan_barang_ppn'].'</td>';
-      echo '<td>'.$itemBarang['penerimaan_barangdet_total'].'</td>';
+      // echo '<td>'.$val[0]['penerimaan_barang_ppn'].'</td>';
+      // echo '<td>'.$itemBarang['penerimaan_barangdet_total'].'</td>';
       echo '<td>'.$itemBarang['penerimaan_barangdet_keterangan'].'</td>';
       echo '</tr>';
       $no++;

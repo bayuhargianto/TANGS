@@ -10,9 +10,8 @@ class MY_Controller extends CI_Controller {
 		parent::__construct();
 		$this->is_logged_in();
 		$this->user_has_access();
-		
-	}	
-	
+	}
+
 	/* ====================================
 		General Function
 	==================================== */
@@ -26,13 +25,15 @@ class MY_Controller extends CI_Controller {
 	   		$this->logged_in = true;
 	}
 
-	function check_session(){
+	function check_session()
+	{
 		if(!$this->logged_in)
 			redirect('Login');
 	}
 
 	// Check if user has level
-	function user_has_access(){
+	function user_has_access()
+	{
 		$user_level = $this->session->userdata('level');
 		if($user_level!=0)
 			$this->admin_granted = true;
@@ -180,7 +181,7 @@ class MY_Controller extends CI_Controller {
 	// Format indonesian month
 	function format_month_id($bln){
 		$Bulan = array("Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
-		$result = $Bulan[(int)$bln-1];		
+		$result = $Bulan[(int)$bln-1];
 		return($result);
 	}
 
@@ -217,7 +218,7 @@ class MY_Controller extends CI_Controller {
 	function replaceFormatNumber($value){
 		$number = str_replace(',', '', $value);
 		return $number;
-	}	
+	}
 
 	function generateFormatNumber($value){
 		$number = number_format($value, 2, ".", ",");
@@ -248,20 +249,20 @@ class MY_Controller extends CI_Controller {
       return $this->terbilang($x / 1000) . " ribu" . $this->terbilang($x % 1000);
       elseif ($x < 1000000000)
       return $this->terbilang($x / 1000000) . " juta" . $this->terbilang($x % 1000000);
-    }	
-	
+    }
+
 	/* ====================================
 		End General Function
 	==================================== */
-	
+
 	/* ====================================
 		Custom Function
 	==================================== */
-	
+
 	/* ====================================
 		End Custom Function
 	==================================== */
-	
+
 function create_config($table, $data){
     $id = $this->mod->create_config($table, $data);
     return $id;

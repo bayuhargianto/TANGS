@@ -16,6 +16,19 @@ class M_penjualan extends CI_Model{
                               LEFT JOIN m_detail_promo b ON b.barang_id = a.barang_id
                               LEFT OUTER JOIN m_promo c ON c.promo_id = b.promo_id
                               LEFT JOIN t_stok_gudang d ON d.m_barang_id = a.barang_id
+                              GROUP BY a.barang_id
+                               ");
+    return $query;
+  }
+
+  function get_item($where_barang_id){
+    $query = $this->db->query("SELECT a.*, b.det_promo_status_aktif, c.*,
+                              IFNULL(d.stok_gudang_jumlah, 0) AS stok_gudang_jumlah
+                              FROM m_barang a
+                              LEFT JOIN m_detail_promo b ON b.barang_id = a.barang_id
+                              LEFT OUTER JOIN m_promo c ON c.promo_id = b.promo_id
+                              LEFT JOIN t_stok_gudang d ON d.m_barang_id = a.barang_id
+                              $where_barang_id
                                ");
     return $query;
   }

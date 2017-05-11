@@ -8,7 +8,7 @@ class MY_Model extends CI_Model {
     public function __construct() {
         parent::__construct();
     }
-    
+
     /* ====================================
         General Function
     ==================================== */
@@ -27,18 +27,18 @@ class MY_Model extends CI_Model {
             return $query->row();
         else return false;
     }
-    
+
     // Select data on table
     function select($select = NULL, $table = NULL, $join = NULL, $where = NULL, $where2 = NULL, $like = NULL, $order = NULL, $limit = NULL) {
         $this->db->select($select);
         $this->db->from($table);
         if ($join) {
-            for ($i=0; $i<sizeof($join['data']) ; $i++) { 
+            for ($i=0; $i<sizeof($join['data']) ; $i++) {
                 $this->db->join($join['data'][$i]['table'],$join['data'][$i]['join'],$join['data'][$i]['type']);
             }
         }
         if ($where) {
-            for ($i=0; $i<sizeof($where['data']) ; $i++) { 
+            for ($i=0; $i<sizeof($where['data']) ; $i++) {
                 $this->db->where($where['data'][$i]['column'],$where['data'][$i]['param']);
             }
         }
@@ -46,7 +46,7 @@ class MY_Model extends CI_Model {
             $this->db->where($where2);
         }
         if ($like) {
-            for ($i=0; $i<sizeof($like['data']) ; $i++) { 
+            for ($i=0; $i<sizeof($like['data']) ; $i++) {
                 $this->db->like('CONCAT_WS(" ", '.$like['data'][$i]['column'].')',$like['data'][$i]['param']);
             }
         }
@@ -54,22 +54,22 @@ class MY_Model extends CI_Model {
             $this->db->limit($limit['finish'],$limit['start']);
         }
         if ($order) {
-            for ($i=0; $i<sizeof($order['data']) ; $i++) { 
+            for ($i=0; $i<sizeof($order['data']) ; $i++) {
                 $this->db->order_by($order['data'][$i]['column'], $order['data'][$i]['type']);
             }
         }
-        
+
         $query = $this->db->get();
         if($query->num_rows() > 0)
             return $query;
         else
             return false;
     }
-    
+
     // Insert data on table
     function insert_data_table($table, $where, $data){
         if ($where) {
-            for ($i=0; $i<sizeof($where['data']) ; $i++) { 
+            for ($i=0; $i<sizeof($where['data']) ; $i++) {
                 $this->db->where($where['data'][$i]['column'],$where['data'][$i]['param']);
             }
         }
@@ -88,11 +88,11 @@ class MY_Model extends CI_Model {
 
         return $result;
     }
-    
+
     // Update data on table
     function update_data_table($table, $where, $data){
         if ($where) {
-            for ($i=0; $i<sizeof($where['data']) ; $i++) { 
+            for ($i=0; $i<sizeof($where['data']) ; $i++) {
                 $this->db->where($where['data'][$i]['column'],$where['data'][$i]['param']);
             }
         }
@@ -110,11 +110,11 @@ class MY_Model extends CI_Model {
 
         return $result;
     }
-    
+
     // Delete data on table
     function delete_data_table($table, $where){
         if ($where) {
-            for ($i=0; $i<sizeof($where['data']) ; $i++) { 
+            for ($i=0; $i<sizeof($where['data']) ; $i++) {
                 $this->db->where($where['data'][$i]['column'],$where['data'][$i]['param']);
             }
         }
@@ -161,7 +161,7 @@ class MY_Model extends CI_Model {
             //ini untuk menambahkan apakah dalam tabel sudah ada data yang sama
             //apabila data sudah ada maka data di-skip
             // saya contohkan kalau ada data nama yang sama maka data tidak dimasukkan
-            $this->db->where('barcode', $this->input->post('barcode'));            
+            $this->db->where('barcode', $this->input->post('barcode'));
             if ($cek) {
                 $this->db->insert('m_barang', $data);
             }
@@ -170,7 +170,7 @@ class MY_Model extends CI_Model {
     /* ====================================
         General Function
     ==================================== */
-    
+
     public function create_config($table, $data)
     {
       $this->db->insert($table, $data);
