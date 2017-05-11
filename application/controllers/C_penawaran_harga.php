@@ -74,6 +74,12 @@ class C_penawaran_harga extends MY_Controller {
 						<i class="icon-printer text-center"></i>
 					</button>
 					</a>';
+					if ($val->penawaran_status < 4) {
+						$button .= '
+						<button class="btn red-thunderbird" type="button" onclick="deleteData('.$val->penawaran_id.')" title="Hapus Data">
+							<i class="icon-close text-center"></i>
+						</button>';
+					}
 				} else if ($type == 2) {
 					$button = '
 					<a href="'.base_url().'Pembelian/Penawaran-Harga/Form/'.$val->penawaran_id.'">
@@ -853,6 +859,51 @@ class C_penawaran_harga extends MY_Controller {
 			$response['id'] = $insert->output;
 		}
 		// $response['ID'] = $this->input->post("id");
+		echo json_encode($response);
+	}
+
+	public function deleteData(){
+		$response['id'] = $this->input->post('id', TRUE);
+		$where['data'][] = array(
+			'column' => 'penawaran_id',
+			'param'	 => $this->input->post('id')
+		);
+		$query = $this->mod->select('*', $this->tbl, NULL, $where);
+		if ($query) {
+			foreach ($query->result() as $row) {
+				$permintaan_pembelian_id = json_decode($row->permintaan_pembelian_id);
+				for ($i = 0; $i < sizeof($permintaan_pembelian_id); $i++) { 
+					$data_permintaan = array(
+						'permintaan_pembelian_status' => 2,
+					);
+					if (@$where_permintaan['data']) {
+						unset($where_permintaan['data']);
+					}
+					$where_permintaan['data'][] = array(
+						'column' => 'permintaan_pembelian_id',
+						'param'	 => $permintaan_pembelian_id[$i]
+					);
+					$update_permintaan = $this->mod->update_data_table('t_permintaan_pembelian', $where_permintaan, $data_permintaan);
+				}
+			}
+			// HAPUS PENERIMAAN
+			$where_penawaran_hdr['data'][] = array(
+				'column' => 'penawaran_id',
+				'param'	 => $this->input->post('id')
+			);
+			$query_penawaran_hdr = $this->mod->delete_data_table('t_penawaran', $where_penawaran_hdr);
+			$where_penawaran_dtl['data'][] = array(
+				'column' => 't_penawaran_id',
+				'param'	 => $this->input->post('id')
+			);
+			$query_penawaran_dtl = $this->mod->delete_data_table('t_penawaran_barang', $where_penawaran_dtl);
+			$query_penawaran_dtl = $this->mod->delete_data_table('t_penawaran_harga', $where_penawaran_dtl);
+			$query_penawaran_dtl = $this->mod->delete_data_table('t_penawaran_supplier', $where_penawaran_dtl);
+			// END HAPUS PENERIMAAN
+			$response['status'] = '200';
+		} else {
+			$response['status'] = '204';
+		}
 		echo json_encode($response);
 	}
 

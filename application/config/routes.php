@@ -341,6 +341,8 @@ $route['Pembelian/Penawaran-Harga/loadDataSelect']				= 'C_penawaran_harga/loadD
 $route['Pembelian/Penawaran-Harga/loadDataSelect2']				= 'C_penawaran_harga/loadData_select/2';
 $route['Pembelian/Penawaran-Harga/loadDataSelect3']				= 'C_penawaran_harga/loadData_select/3';
 $route['Pembelian/Penawaran-Harga/print-Penawaran/(:any)']		= 'C_penawaran_harga/cetakPDF/$1';
+$route['Pembelian/Penawaran-Harga/(:any)']						= 'C_penawaran_harga/$1';
+$route['Pembelian/Penawaran-Harga/(:any)/(:any)']				= 'C_penawaran_harga/$1/$2';
 
 // end Penawaran Harga
 
@@ -363,6 +365,8 @@ $route['Persetujuan/Purchase-Order/checkStatus']			= 'C_purchase_order/checkStat
 $route['Persetujuan/Purchase-Order/postData']					= 'C_purchase_order/postData/2';
 $route['Persetujuan/Purchase-Order/postData/4']				= 'C_purchase_order/postData/4';
 $route['Persetujuan/Purchase-Order/print-PO/(:any)']	= 'C_purchase_order/cetakPDF/$1';
+$route['Pembelian/Purchase-Order/(:any)']						= 'C_purchase_order/$1';
+$route['Pembelian/Purchase-Order/(:any)/(:any)']				= 'C_purchase_order/$1/$2';
 
 // end PO
 
