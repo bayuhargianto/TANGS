@@ -429,11 +429,14 @@ class C_purchase_order extends MY_Controller {
 					foreach ($query_cabang->result() as $val2) {
 						// CARI KOTA
 						$hasil4['val2'] = array();
+
 						$where_kota['data'][] = array(
 							'column' => 'id',
 							'param'	 => $val2->cabang_kota
 						);
+
 						$query_kota = $this->mod->select('*','regencies',NULL,$where_kota);
+
 						if ($query_kota) {
 							foreach ($query_kota->result() as $val3) {
 								$hasil4['val3'][] = array(

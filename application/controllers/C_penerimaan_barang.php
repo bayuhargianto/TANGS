@@ -788,6 +788,11 @@ class C_penerimaan_barang extends MY_Controller {
 							'text' 	=> $val2->karyawan_nama
 						);
 					}
+				} else {
+						$hasil4['val2'][] = array(
+							'id' 	=> '',
+							'text' 	=> ''
+						);
 				}
 				// END CARI PENYETUJU
 				// CARI PENERIMA
@@ -876,7 +881,7 @@ class C_penerimaan_barang extends MY_Controller {
 					'penerimaan_barang_pemeriksa' 				=> $hasil5,
 					'penerimaan_barang_pembuat' 				=> $val->penerimaan_barang_created_by,
 					'penerimaan_barang_supplier' 				=> $hasil6,
-					'cabang'									=> $hasil7
+					'cabang'													=> $hasil7
 				);
 			}
 		}

@@ -63,14 +63,14 @@
                                                       </form>';
 
                                                       // echo '<form action="'.site_url('Master-Data/Barang/Import').'" method="post" enctype="multipart/form-data">
-                                                        
+
                                                       //     <input name="file" type="file" multiple />
                                                       //     <input name="submit" type="submit"/>
-                                                        
+
                                                       // </form>';
                                                     }
                                                   ?>
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -110,13 +110,13 @@
 
             $(document).ready(function(){
                 searchData();
-                
+
                 $("#btn1").click(function(){
                   $("#contoh1").toggle(500);
                 });
             });
 
-            function searchData() { 
+            function searchData() {
                 $('#default-table').DataTable({
                     destroy: true,
                     "processing": true,
@@ -156,8 +156,8 @@
                     },
 
                     // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                    // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js). 
-                    // So when dropdowns used the scrollable div should be removed. 
+                    // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js).
+                    // So when dropdowns used the scrollable div should be removed.
                     //"dom": "<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r>t<'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
 
                     "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
@@ -399,7 +399,7 @@
                         }
                       }
 
-                      
+
                       // CHECK TYPE
                       if (data.subattribut[i].sub_atribut_jenis == 3) {
                         if (data.subattribut[i].sub_atribut_satuan != null) {
