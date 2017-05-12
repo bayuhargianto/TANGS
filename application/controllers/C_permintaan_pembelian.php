@@ -154,8 +154,8 @@ class C_permintaan_pembelian extends MY_Controller {
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Gudang',
-			'title_page2' 	=> 'Permintaan Pembelian Barang',
-			'id'			=> $id
+			'title_page2' => 'Permintaan Pembelian Barang',
+			'id'					=> $id
 		);
 		$this->open_page('permintaan-pembelian/V_form_surat_permintaan_pembelian', $data);
 	}

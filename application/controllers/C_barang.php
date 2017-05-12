@@ -355,9 +355,9 @@ class C_barang extends MY_Controller {
 
 
 
-				if ($no_ > 1000)
+				if ($no_ > 9999)
 				{
-					$no_ = $no_ - 1000;
+					$no_ = $no_ - 9999;
 					$great_param++;
 				}
 

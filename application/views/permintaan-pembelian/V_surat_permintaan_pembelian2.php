@@ -82,7 +82,7 @@
                 searchData();
             });
 
-            function searchData() { 
+            function searchData() {
                 $('#default-table').DataTable({
                     destroy: true,
                     "processing": true,
@@ -121,8 +121,8 @@
                     },
 
                     // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                    // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js). 
-                    // So when dropdowns used the scrollable div should be removed. 
+                    // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js).
+                    // So when dropdowns used the scrollable div should be removed.
                     //"dom": "<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r>t<'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
 
                     "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
@@ -169,7 +169,7 @@
                       } else if (data.val[i].permintaan_pembelian_jenis == 2) {
                         document.getElementById('permintaan_pembelian_jenis2').checked = true;
                       }
-                      
+
                       $("#m_gudang_id_permintaan").select2('destroy');
                       for(var j=0; j<data.val[i].m_gudang_id_permintaan.val2.length; j++){
                         $("#m_gudang_id_permintaan").append('<option value="'+data.val[i].m_gudang_id_permintaan.val2[j].id+'" selected>'+data.val[i].m_gudang_id_permintaan.val2[j].text+'</option>');

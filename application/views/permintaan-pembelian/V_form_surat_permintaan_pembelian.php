@@ -382,7 +382,7 @@
                         $("#default-table2 tbody").append('\
                             <tr>\
                                 <td>\
-                                    '+i+'\
+                                    '+itemBarang +'\
                                 </td>\
                                 <td>\
                                     <input type="hidden" name="m_barang_id[]" value="'+data.val[i].kode+'"/>\
@@ -463,9 +463,9 @@
                       document.getElementsByName("permintaan_pembelian_status")[0].value = data.val[i].permintaan_pembelian_status;
                       document.getElementsByName("permintaan_pembelian_alasan")[0].value = data.val[i].permintaan_pembelian_alasan;
                       document.getElementsByName("permintaan_pembelian_catatan")[0].value = data.val[i].permintaan_pembelian_catatan;
-                      if (data.val[i].permintaan_pembelian_konsiyasi == 0) {
+                      if (data.val[i].permintaan_pembelian_konsinyasi == 0) {
                           document.getElementById('jenis_barang1').checked = true;
-                      } else if (data.val[i].permintaan_pembelian_konsiyasi == 1) {
+                      } else if (data.val[i].permintaan_pembelian_konsinyasi == 1) {
                           document.getElementById('jenis_barang2').checked = true;
                       }
                       document.getElementById('jenis_barang1').disabled = true;
