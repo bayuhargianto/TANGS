@@ -253,9 +253,12 @@
                                                         Lanjut
                                                         </button>
                                                         <a href="javascript:;">
-                                                            <button type="button" class="btn green-jungle button-submit" id="simpan">
+                                                            <button type="button" id="submit" class="btn green-jungle button-submit" id="simpan">
                                                             Simpan
                                                             </button>
+                                                        </a>
+                                                        <a href="javascript:;">
+                                                            <button type="button" id="submit2" class="btn green-jungle hidden" onclick="otorisasi()">Simpan</button>
                                                         </a>
                                                     </div>
                                                 </div>
@@ -351,6 +354,9 @@
                     $("#lanjut").addClass("hidden");
                     $("#lanjut2").addClass("hidden");
                     $("#lanjut3").removeClass("hidden");
+                } else {
+                    $("#submit").addClass("hidden");
+                    $("#submit2").removeClass("hidden");
                 }
 
                 if (index == 1) {
@@ -695,6 +701,7 @@
                     for(var i=0; i<data.val.length;i++){
                       if (data.val[i].penawaran_status > 3) {
                         document.getElementById('simpan').disabled = true;
+                        document.getElementById('simpan2').disabled = true;
                       }
                       if (data.step3 > 0) {
                         getDetailHarga2(data.val[i].kode);
@@ -825,6 +832,68 @@
                   }
                 });
             }
+
+          function otorisasi(id = null) {
+                $.ajax({
+                    type : 'GET',
+                    url  : $base_url+'Login/formLogin/2',
+                    data : { id : id },
+                    dataType : "html",
+                    success:function(data){
+                        $("#modal_login .modal-content").html();
+                        $("#modal_login .modal-content").html(data);
+                        $("#modal_login").modal({backdrop: "static"});
+                        MyFormValidation.init();
+                        $("#formLogin").submit(function(event) {
+                            if ($("#formLogin").valid() == true) {
+                                $.ajax({
+                                  type : "POST",
+                                  url  : '<?php echo base_url();?>Login/checkLogin/2',
+                                  data : $( "#formLogin" ).serialize(),
+                                  dataType : "json",
+                                  success:function(data){
+                                    if(data.status=='200'){
+                                        $('#modal_login').modal('hide');
+                                        window.scrollTo(0, 0);
+                                        swal({
+                                            title: "Success!",
+                                            text: "Otorisasi Berhasil!",
+                                            type: "success",
+                                            confirmButtonClass: "btn-raised btn-success",
+                                            confirmButtonText: "OK",
+                                        });
+                                        $.ajax({
+                                          type : "POST",
+                                          url  : $base_url+''+$("#url").val(),
+                                          data : $( "#formAdd" ).serialize()+"&step=4",
+                                          dataType : "json",
+                                          success:function(data){
+                                            if(data.status=='200'){
+                                              alert_success_save();
+                                              window.location.href = $base_url+''+$("#url_data").val();
+                                            } else if (data.status=='204') {
+                                              alert_fail_save();
+                                            }
+                                          }
+                                        });
+                                    } else if (data.status=='204') {
+                                        swal({
+                                            title: "Alert!",
+                                            text: "Otorisasi Gagal!",
+                                            type: "error",
+                                            confirmButtonClass: "btn-raised btn-danger",
+                                            confirmButtonText: "OK",
+                                        });
+                                    }
+                                  }
+                                });
+                            }
+                            return false;
+                        });
+                    }
+                });
+          }
+
         </script>
 
     </body>

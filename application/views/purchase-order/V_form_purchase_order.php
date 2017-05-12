@@ -267,6 +267,7 @@
                                         <div class="row">
                                             <div class="col-md-offset-4 col-md-8 text-right">
                                                 <button type="submit" id="submit" class="btn green-jungle">Simpan</button>
+                                                <button type="button" id="submit2" class="btn green-jungle hidden" onclick="otorisasi()">Simpan</button>
                                                 <a href="<?php echo base_url();?>Pembelian/Purchase-Order">
                                                 <button type="button" class="btn default">Kembali</button>
                                                 </a>
@@ -475,6 +476,8 @@
                   dataType : "json",
                   success:function(data){
                     for(var i=0; i<data.val.length;i++){
+                      $("#submit").addClass("hidden");
+                      $("#submit2").removeClass("hidden");
                       document.getElementsByName("kode")[0].value = data.val[i].kode;
                       document.getElementsByName("order_nomor")[0].value = data.val[i].order_nomor;
                       document.getElementsByName("order_tanggal")[0].value = data.val[i].order_tanggal;
@@ -515,6 +518,7 @@
                       if(edit == null)
                       {
                         document.getElementById('submit'). disabled = true;
+                        document.getElementById('submit2'). disabled = true;
                         document.getElementsByName('order_nama_dikirim')[0].disabled = true;
                         document.getElementsByName('order_alamat_dikirim')[0].disabled = true;
                         document.getElementsByName('order_hp_fax')[0].disabled = true;
@@ -544,7 +548,7 @@
                                         '+data.val2[i].barang_nomor+'\
                                     </td>\
                                     <td id="td2'+(i+1)+'">\
-                                        <p style="max-width: 250px;white-space:normal !important;word-wrap: break-word;">'+data.step1[i].barang_uraian+'</p>\
+                                        <p style="max-width: 250px;white-space:normal !important;word-wrap: break-word;">'+data.val2[i].barang_uraian+'</p>\
                                     </td>\
                                     <td id="td3'+(i+1)+'">\
                                         <input type="text" class="form-control num2" id="orderdet_qty'+data.val2[i].m_barang_id+'" name="orderdet_qty[]" value="'+data.val2[i].orderdet_qty+'" required readonly/>\
@@ -583,7 +587,7 @@
                                     </td>\
                                     <td id="td2'+(i+1)+'">\
                                     <input type="hidden" name="orderdet_id[]" value="'+data.val2[i].orderdet_id+'"/>\
-                                        <p style="max-width: 250px;white-space:normal !important;word-wrap: break-word;">'+data.step1[i].barang_uraian+'</p>\
+                                        <p style="max-width: 250px;white-space:normal !important;word-wrap: break-word;">'+data.val2[i].barang_uraian+'</p>\
                                     </td>\
                                     <td id="td3'+(i+1)+'">\
                                         <input type="text" class="form-control num2" id="orderdet_qty'+data.val2[i].m_barang_id+'" name="orderdet_qty[]" value="'+data.val2[i].orderdet_qty+'" required readonly/>\
@@ -616,6 +620,56 @@
                 });
 
             }
+
+          function otorisasi(id = null) {
+                $.ajax({
+                    type : 'GET',
+                    url  : $base_url+'Login/formLogin/2',
+                    data : { id : id },
+                    dataType : "html",
+                    success:function(data){
+                        $("#modal_login .modal-content").html();
+                        $("#modal_login .modal-content").html(data);
+                        $("#modal_login").modal({backdrop: "static"});
+                        MyFormValidation.init();
+                        $("#formLogin").submit(function(event) {
+                            if ($("#formLogin").valid() == true) {
+                                $.ajax({
+                                  type : "POST",
+                                  url  : '<?php echo base_url();?>Login/checkLogin/2',
+                                  data : $( "#formLogin" ).serialize(),
+                                  dataType : "json",
+                                  success:function(data){
+                                    if(data.status=='200'){
+                                        $('#modal_login').modal('hide');
+                                        window.scrollTo(0, 0);
+                                        swal({
+                                            title: "Success!",
+                                            text: "Otorisasi Berhasil!",
+                                            type: "success",
+                                            confirmButtonClass: "btn-raised btn-success",
+                                            confirmButtonText: "OK",
+                                        });
+                                        if ($("#formAdd").valid() == true) {
+                                            actionData2();
+                                        }
+                                    } else if (data.status=='204') {
+                                        swal({
+                                            title: "Alert!",
+                                            text: "Otorisasi Gagal!",
+                                            type: "error",
+                                            confirmButtonClass: "btn-raised btn-danger",
+                                            confirmButtonText: "OK",
+                                        });
+                                    }
+                                  }
+                                });
+                            }
+                            return false;
+                        });
+                    }
+                });
+          }
         </script>
 
     </body>

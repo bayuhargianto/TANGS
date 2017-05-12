@@ -176,17 +176,16 @@
                                         <div class="form-group">
                                             <label class="control-label col-md-4">Jenis Barang
                                             </label>
-                                                <div class="col-md-8">
-                                                    <div class="mt-radio-inline">
-                                                        <label class="mt-radio"> Biasa
-                                                            <input type="radio" value="0" class="jenis_barang" name="jenis_barang" id="jenis_barang1" onclick="pilihBarang(0)"/>
-                                                            <span></span>
-                                                        </label>
-                                                        <label class="mt-radio"> Konsinyasi
-                                                            <input type="radio" value="1" class="jenis_barang" name="jenis_barang" id="jenis_barang2" onclick="pilihBarang(1)"/>
-                                                            <span></span>
-                                                        </label>
-                                                    </div>
+                                            <div class="col-md-8">
+                                                <div class="mt-radio-inline">
+                                                    <label class="mt-radio"> Biasa
+                                                        <input type="radio" value="0" class="jenis_barang" name="jenis_barang" id="jenis_barang1" onclick="pilihBarang(0)"/>
+                                                        <span></span>
+                                                    </label>
+                                                    <label class="mt-radio"> Konsinyasi
+                                                        <input type="radio" value="1" class="jenis_barang" name="jenis_barang" id="jenis_barang2" onclick="pilihBarang(1)"/>
+                                                        <span></span>
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -244,6 +243,7 @@
                                         <div class="row">
                                             <div class="col-md-offset-4 col-md-8 text-right">
                                                 <button type="submit" id="submit" class="btn green-jungle">Simpan</button>
+                                                <button type="button" id="submit2" class="btn green-jungle hidden" onclick="otorisasi()">Simpan</button>
                                                 <a href="<?php echo base_url();?>Gudang/Surat-Permintaan-Pembelian">
                                                 <button type="button" class="btn default">Kembali</button>
                                                 </a>
@@ -453,6 +453,8 @@
                   dataType : "json",
                   success:function(data){
                     for(var i=0; i<data.val.length;i++){
+                      $("#submit").addClass("hidden");
+                      $("#submit2").removeClass("hidden");
                       document.getElementsByName("kode")[0].value = data.val[i].kode;
                       document.getElementsByName("permintaan_pembelian_nomor")[0].value = data.val[i].permintaan_pembelian_nomor;
                       document.getElementsByName("permintaan_pembelian_tanggal")[0].value = data.val[i].permintaan_pembelian_tanggal;
@@ -461,6 +463,13 @@
                       document.getElementsByName("permintaan_pembelian_status")[0].value = data.val[i].permintaan_pembelian_status;
                       document.getElementsByName("permintaan_pembelian_alasan")[0].value = data.val[i].permintaan_pembelian_alasan;
                       document.getElementsByName("permintaan_pembelian_catatan")[0].value = data.val[i].permintaan_pembelian_catatan;
+                      if (data.val[i].permintaan_pembelian_konsiyasi == 0) {
+                          document.getElementById('jenis_barang1').checked = true;
+                      } else if (data.val[i].permintaan_pembelian_konsiyasi == 1) {
+                          document.getElementById('jenis_barang2').checked = true;
+                      }
+                      document.getElementById('jenis_barang1').disabled = true;
+                      document.getElementById('jenis_barang2').disabled = true;
 
                       // if (data.val[i].permintaan_pembelian_jenis == 1) {
                       //   document.getElementById('permintaan_pembelian_jenis1').checked = true;
@@ -494,9 +503,10 @@
                       var disabled_inp = "";
                       if (data.val[i].permintaan_pembelian_status > 2) {
                         document.getElementById('submit'). disabled = true;
+                        document.getElementById('submit2'). disabled = true;
                         var disabled_inp = "disabled";
-                        document.getElementById('permintaan_pembelian_jenis1').disabled = true;
-                        document.getElementById('permintaan_pembelian_jenis2').disabled = true;
+                        // document.getElementById('permintaan_pembelian_jenis1').disabled = true;
+                        // document.getElementById('permintaan_pembelian_jenis2').disabled = true;
                       }
 
                       document.getElementById('m_barang_id').disabled = true;
@@ -610,6 +620,56 @@
 
             });
             // getDetailBarang(id);
+          }
+
+          function otorisasi(id = null) {
+                $.ajax({
+                    type : 'GET',
+                    url  : $base_url+'Login/formLogin/2',
+                    data : { id : id },
+                    dataType : "html",
+                    success:function(data){
+                        $("#modal_login .modal-content").html();
+                        $("#modal_login .modal-content").html(data);
+                        $("#modal_login").modal({backdrop: "static"});
+                        MyFormValidation.init();
+                        $("#formLogin").submit(function(event) {
+                            if ($("#formLogin").valid() == true) {
+                                $.ajax({
+                                  type : "POST",
+                                  url  : '<?php echo base_url();?>Login/checkLogin/2',
+                                  data : $( "#formLogin" ).serialize(),
+                                  dataType : "json",
+                                  success:function(data){
+                                    if(data.status=='200'){
+                                        $('#modal_login').modal('hide');
+                                        window.scrollTo(0, 0);
+                                        swal({
+                                            title: "Success!",
+                                            text: "Otorisasi Berhasil!",
+                                            type: "success",
+                                            confirmButtonClass: "btn-raised btn-success",
+                                            confirmButtonText: "OK",
+                                        });
+                                        if ($("#formAdd").valid() == true) {
+                                            actionData2();
+                                        }
+                                    } else if (data.status=='204') {
+                                        swal({
+                                            title: "Alert!",
+                                            text: "Otorisasi Gagal!",
+                                            type: "error",
+                                            confirmButtonClass: "btn-raised btn-danger",
+                                            confirmButtonText: "OK",
+                                        });
+                                    }
+                                  }
+                                });
+                            }
+                            return false;
+                        });
+                    }
+                });
           }
 
         </script>
