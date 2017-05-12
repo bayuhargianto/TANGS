@@ -309,6 +309,7 @@ class C_permintaan_pembelian extends MY_Controller {
 					'permintaan_pembelian_penerima' 			=> $hasil5,
 					'permintaan_pembelian_alasan' 				=> $val->permintaan_pembelian_alasan,
 					'permintaan_pembelian_catatan' 				=> $val->permintaan_pembelian_catatan,
+					'permintaan_pembelian_konsiyasi'			=> $val->permintaan_pembelian_konsiyasi
 				);
 			}
 
