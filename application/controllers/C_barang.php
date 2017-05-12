@@ -172,46 +172,46 @@ class C_barang extends MY_Controller {
 			                                    FALSE);
 
 			    // QUERY UNTUK MENCARI ID DI SETIAP TABEL BERDASARKAN NAMA YANG ADA DI FILE EXCEL
-			  $cat1_id 	= $this->db->query("SELECT jenis_barang_id FROM m_jenis_barang WHERE jenis_barang_nama = '".$rowData[0][0]."'")->row();
-				$cat2_id 	= $this->db->query("SELECT category_2_id FROM m_category_2 WHERE category_2_nama = '".$rowData[0][1]."'")->row();
-				$sat_id 	= $this->db->query("SELECT satuan_id FROM m_satuan WHERE satuan_nama = '".$rowData[0][5]."'")->row();
-				$brd_id 	= $this->db->query("SELECT brand_id FROM m_brand WHERE brand_nama = '".$rowData[0][6]."'")->row();
+			  $cat1_id = $this->db->query("SELECT jenis_barang_id FROM m_jenis_barang WHERE jenis_barang_nama = '".$rowData[0][0]."'")->row();
+				$cat2_id = $this->db->query("SELECT category_2_id FROM m_category_2 WHERE category_2_nama = '".$rowData[0][1]."'")->row();
+				$sat_id = $this->db->query("SELECT satuan_id FROM m_satuan WHERE satuan_nama = '".$rowData[0][5]."'")->row();
+				$brd_id = $this->db->query("SELECT brand_id FROM m_brand WHERE brand_nama = '".$rowData[0][6]."'")->row();
 
-					$jenis_barang_id 	= $cat1_id->jenis_barang_id;
+				$jenis_barang_id 	= $cat1_id->jenis_barang_id;
 			    $category_2_id 		= $cat2_id->category_2_id;
 			    $satuan_id 			= $sat_id->satuan_id;
 			    $brand_id 			= $brd_id->brand_id;
 
 			    $data_category1 = array(
-			        "jenis_barang_id"						=> $jenis_barang_id,
-			        "jenis_barang_nama"					=> $this->db->escape_str($rowData[0][0]),
-			        "jenis_barang_status_aktif"	=> 'y',
-			        "jenis_barang_create_date"	=> date('Y-m-d H:i:s'),
+			        "jenis_barang_id"				=> $jenis_barang_id,
+			        "jenis_barang_nama"				=> $this->db->escape_str($rowData[0][0]),
+			        "jenis_barang_status_aktif"		=> 'y',
+			        "jenis_barang_create_date"		=> date('Y-m-d H:i:s'),
 			        "jenis_barang_create_by"		=> $this->session->userdata('user_username'),
-			        "jenis_barang_update_date"	=> date('Y-m-d H:i:s'),
+			        "jenis_barang_update_date"		=> date('Y-m-d H:i:s'),
 			        "jenis_barang_update_by"		=> $this->session->userdata('user_username'),
 			        "jenis_barang_revised"			=> 0
 			    );
 
 			    $data_satuan = array(
-			        "satuan_id"						=> $satuan_id,
-			        "satuan_nama"					=> $this->db->escape_str($rowData[0][5]),
+			        "satuan_id"				=> $satuan_id,
+			        "satuan_nama"			=> $this->db->escape_str($rowData[0][5]),
 			        "satuan_status_aktif"	=> 'y',
 			        "satuan_create_date"	=> date('Y-m-d H:i:s'),
 			        "satuan_create_by"		=> $this->session->userdata('user_username'),
 			        "satuan_update_date"	=> date('Y-m-d H:i:s'),
 			        "satuan_update_by"		=> $this->session->userdata('user_username'),
-			        "satuan_revised"			=> 0
+			        "satuan_revised"		=> 0
 			    );
 			    $data_brand = array(
-			        "brand_id"						=> $brand_id,
-			        "brand_nama"					=> $this->db->escape_str($rowData[0][6]),
+			        "brand_id"				=> $brand_id,
+			        "brand_nama"			=> $this->db->escape_str($rowData[0][6]),
 			        "brand_status_aktif"	=> 'y',
 			        "brand_create_date"		=> date('Y-m-d H:i:s'),
-			        "brand_create_by"			=> $this->session->userdata('user_username'),
+			        "brand_create_by"		=> $this->session->userdata('user_username'),
 			        "brand_update_date"		=> date('Y-m-d H:i:s'),
-			        "brand_update_by"			=> $this->session->userdata('user_username'),
-			        "brand_revised"				=> 0
+			        "brand_update_by"		=> $this->session->userdata('user_username'),
+			        "brand_revised"			=> 0
 			    );
 			    // ==================================================================================
 
@@ -244,6 +244,7 @@ class C_barang extends MY_Controller {
 					$q = $this->db->query("select category_2_id from m_category_2 where category_2_nama = '".$rowData[0][1]."'")->row();
 					$hasil_category_2_id = $q->category_2_id;
 				}
+
 				if($sat_id){
 					$hasil_satuan_id		= $sat_id->satuan_id;
 				}else{
@@ -251,6 +252,7 @@ class C_barang extends MY_Controller {
 					$q = $this->db->query("select satuan_id from m_satuan where satuan_nama = '".$rowData[0][5]."'")->row();
 					$hasil_satuan_id = $q->satuan_id;
 				}
+
 				if($brd_id){
 					$hasil_brand_id		= $brd_id->brand_id;
 				}else{
@@ -258,83 +260,100 @@ class C_barang extends MY_Controller {
 					$q = $this->db->query("select brand_id from m_brand where brand_nama = '".$rowData[0][6]."'")->row();
 					$hasil_brand_id = $q->brand_id;
 				}
-				$barang_nama = $this->db->escape_str(preg_replace('/[^A-Za-z0-9\  ]/', '', $rowData[0][4]));
+				$barang_nama = $this->db->escape_str(preg_replace('/[^A-Za-z0-9._,"\  ]/', '', $rowData[0][4]));
 				// ==================================================================================
 
 				// FUNGSI GENERATE ARTIKEL
-				if($hasil_jenis_barang_id < 10){
-	                $cat1 = "0".$hasil_jenis_barang_id;
-	            }else{
-	            	$cat1 = $hasil_jenis_barang_id;
-	            }
-	            if($hasil_category_2_id < 10){
-	                $cat2 = "0".$hasil_category_2_id;
-	            }else{
-	            	$cat2 = $hasil_category_2_id;
-	            }
-	            if($no < 10){
-	                $no = "000".$no;
-	            }else if($no < 100){
-	                $no = "00".$no;
-	            }else if($no < 1000){
-	                $no = "0".$no;
-	            }
-				$barang_nomor = $cat1.$cat2.$no;
+				$where_idterakhir = array(
+							'm_jenis_barang_id' => $hasil_jenis_barang_id,
+							'm_category_2_id' 	=> $hasil_category_2_id
+						);
+
+				$id_terakhir = $this->select_config_one("m_barang", "COUNT(barang_id) AS result", $where_idterakhir);
+				var_dump($id_terakhir->result);
+				// echo $this->db->last_query();
+							// if($hasil_jenis_barang_id < 10){
+	            //     $cat1 = "0".$hasil_jenis_barang_id;
+	            // }else{
+	            // 	$cat1 = $hasil_jenis_barang_id;
+	            // }
+							//
+			        // if($hasil_category_2_id < 10){
+			        //     $cat2 = "0".$hasil_category_2_id;
+			        // }else{
+			        // 	$cat2 = $hasil_category_2_id;
+			        // }
+							//
+	            // if($no < 10){
+	            //     $no = "000".$no;
+	            // }else if($no < 100){
+	            //     $no = "00".$no;
+	            // }else if($no < 1000){
+	            //     $no = "0".$no;
+	            // }
+
+				$barang_nomor = '';
 				// ==================================================================================
 
 				// FUNGSI INSERT KE TABEL BARANG
-			    $data_barang = array(
-			 		"barang_id"				=> '',
-			 		"m_jenis_barang_id"		=> $hasil_jenis_barang_id,
-			 		"m_category_2_id"			=> $hasil_category_2_id,
-			        "barang_kode"			=> $barang_kode,
-			        "barang_nomor"		=> $barang_nomor,
-			        "barang_nama"			=> $barang_nama,
-			        "m_satuan_id"			=> $hasil_satuan_id,
-			        "brand_id"				=> $hasil_brand_id,
-			        "harga_beli"			=> $this->db->escape_str($rowData[0][7]),
-			        "harga_jual"			=> $this->db->escape_str($rowData[0][8]),
-			        "harga_jual_pajak"		=> $this->db->escape_str($rowData[0][8]) + $this->db->escape_str($rowData[0][8]) * 10 / 100,
-			        "stok"					=> '',
-			        "barang_minimum_stok"	=> $this->db->escape_str($rowData[0][9]),
-			        "stok_maks"				=> '',
-			        "barang_status_aktif"	=> 'y',
-			        "barang_create_date"	=> date('Y-m-d H:i:s'),
-			        "barang_create_by"		=> $this->session->userdata('user_username'),
-			        "barang_update_date"	=> '',
-			        "barang_update_by"		=> '',
-			        "barang_revised"		=> 0
-			    );
-			    $this->db->query("insert ignore into m_barang values('".implode("', '", $data_barang)."')");
+				$barang_kode = $this->db->escape_str($rowData[0][2]);
+				if (strlen($barang_kode) == 0)
+				{
+
+				}
+					$data_barang = array(
+				 			"barang_id"								=> '',
+				 			"m_jenis_barang_id"				=> $hasil_jenis_barang_id,
+				 			"m_category_2_id"					=> $hasil_category_2_id,
+						 	"barang_kode"							=> $barang_kode,
+						 	"barang_nomor"						=> $barang_nomor,
+						 	"barang_nama"							=> $barang_nama,
+						 	"m_satuan_id"							=> $hasil_satuan_id,
+						 	"brand_id"								=> $hasil_brand_id,
+						 	"harga_beli"							=> $this->db->escape_str($rowData[0][7]),
+						 	"harga_jual"							=> $this->db->escape_str($rowData[0][8]),
+						 	"harga_jual_pajak"				=> $this->db->escape_str($rowData[0][8]) + $this->db->escape_str($rowData[0][8]) * 10 / 100,
+						 	"stok"										=> '',
+						 	"barang_minimum_stok"			=> $this->db->escape_str($rowData[0][9]),
+						 	"stok_maks"								=> '',
+						 	"barang_status_aktif"			=> 'y',
+						 	"barang_create_date"			=> date('Y-m-d H:i:s'),
+						 	"barang_create_by"				=> $this->session->userdata('user_username'),
+						 	"barang_update_date"			=> '',
+						 	"barang_update_by"				=> '',
+						 	"barang_revised"					=> 0
+				 );
+
+			    // $this->db->query("insert ignore into m_barang values('".implode("', '", $data_barang)."')");
 			    // ==================================================================================
 
 			    // QUERY MENCARI id_barang
-			   $brg_id = $this->db->query("SELECT barang_id FROM m_barang WHERE barang_nama = '".$barang_nama."'")->row();
-				$hasil_barang_id 			= $brg_id->barang_id;
-				// ==================================================================================
+			    // $brg_id = $this->db->query("SELECT barang_id FROM m_barang WHERE barang_nama = '".$barang_nama."'")->row();
+					// $hasil_barang_id 			= $brg_id->barang_id;
+					// ==================================================================================
 
-				// QUERY INSERT KE TABEL KONSINYASI
+					// QUERY INSERT KE TABEL KONSINYASI
 			    $konsinyasi=substr($rowData[0][4], 0, 1);
 			    // JIKA ADA SIMBOL *, &, $ MAKA MASUK KE TABEL KONSINYASI
 			    if($konsinyasi == "*" || $konsinyasi == "&" || $konsinyasi == "$"){
-			    	$this->db->query("insert ignore into m_konsinyasi
-			    						values(
-			    								'',
-			    								'".$hasil_jenis_barang_id."',
-			    								'".$hasil_category_2_id."',
-			    								'".$hasil_barang_id."',
-			    								'y',
-			    								'".date('Y-m-d H:i:s')."',
-												'".$this->session->userdata('user_username')."',
-												'',
-												'',
-												0
-												)
-			    					");
+			    	// $this->db->query("insert ignore into m_konsinyasi
+			    	// 					values(
+			    	// 							'',
+			    	// 							'".$hasil_jenis_barang_id."',
+			    	// 							'".$hasil_category_2_id."',
+			    	// 							'".$hasil_barang_id."',
+			    	// 							'y',
+			    	// 							'".date('Y-m-d H:i:s')."',
+						// 							'".$this->session->userdata('user_username')."',
+						// 							'',
+						// 							'',
+						// 							0
+						// 							)
+			    	// 				");
 			    }
 			    // ==================================================================================
 
-			    // delete_files('./assets/upload/');
+			    delete_files('./assets/upload/');
 				$no++;
 			}
 			// redirect('Master-Data/Barang');
@@ -445,7 +464,7 @@ class C_barang extends MY_Controller {
 					// 'barang_kode' 					=> $val->barang_kode,
 					'barang_nomor' 					=> $val->barang_nomor,
 					'barang_nama' 					=> $val->barang_nama,
-					'barang_minimum_stok' 			=> $val->barang_minimum_stok,
+					'stok' 							=> $val->stok,
 					'harga_beli' 					=> $val->harga_beli,
 					'harga_jual' 					=> $val->harga_jual,
 					'harga_jual_pajak' 				=> $val->harga_jual_pajak,
@@ -530,7 +549,7 @@ class C_barang extends MY_Controller {
 					'barang_kode' 					=> $val->barang_kode,
 					'barang_nomor' 					=> $val->barang_nomor,
 					'barang_nama' 					=> $val->barang_nama,
-					'barang_minimum_stok' 			=> $val->barang_minimum_stok,
+					'stok' 							=> $val->stok,
 					'harga_beli' 					=> $val->harga_beli,
 					'harga_jual' 					=> $val->harga_jual,
 					'harga_jual_pajak' 				=> $val->harga_jual_pajak,
@@ -939,8 +958,8 @@ class C_barang extends MY_Controller {
 				'harga_beli' 					=> $this->input->post('harga_beli', TRUE),
 				'harga_jual' 					=> $this->input->post('harga_jual', TRUE),
 				'harga_jual_pajak' 				=> $this->input->post('harga_jual_pajak', TRUE),
-				// 'stok' 							=> $this->input->post('stok', TRUE),
-				'barang_minimum_stok' 			=> $this->input->post('barang_minimum_stok', TRUE),
+				'stok' 							=> $this->input->post('stok', TRUE),
+				// 'barang_minimum_stok' 			=> $this->input->post('barang_minimum_stok', TRUE),
 				// 'stok_maks' 					=> $this->input->post('stok_maks', TRUE),
 				'barang_status_aktif' 			=> $this->input->post('barang_status_aktif', TRUE),
 				'barang_create_date' 			=> date('Y-m-d H:i:s'),
@@ -951,7 +970,7 @@ class C_barang extends MY_Controller {
 		} else if ($type == 2) {
 			$data = array(
 				// 'barang_kode' 					=> $this->input->post('barang_kode', TRUE),
-				'barang_nomor' 					=> $this->input->post('barang_nomor', TRUE),
+				//'barang_nomor' 					=> $this->input->post('barang_nomor', TRUE),
 				'm_jenis_barang_id' 			=> $this->input->post('m_jenis_barang_id', TRUE),
 				'barang_nama' 					=> $this->input->post('barang_nama', TRUE),
 				'm_category_2_id' 				=> $this->input->post('m_category_2_id', TRUE),
@@ -961,8 +980,8 @@ class C_barang extends MY_Controller {
 				'harga_beli' 					=> $this->input->post('harga_beli', TRUE),
 				'harga_jual' 					=> $this->input->post('harga_jual', TRUE),
 				'harga_jual_pajak' 				=> $this->input->post('harga_jual_pajak', TRUE),
-				// 'stok' 							=> $this->input->post('stok', TRUE),
-				'barang_minimum_stok' 			=> $this->input->post('barang_minimum_stok', TRUE),
+				'stok' 							=> $this->input->post('stok', TRUE),
+				// 'barang_minimum_stok' 			=> $this->input->post('barang_minimum_stok', TRUE),
 				// 'stok_maks' 					=> $this->input->post('stok_maks', TRUE),
 				'barang_status_aktif' 			=> $this->input->post('barang_status_aktif', TRUE),
 				'barang_update_date' 			=> date('Y-m-d H:i:s'),

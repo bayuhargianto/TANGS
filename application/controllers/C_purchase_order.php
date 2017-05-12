@@ -167,8 +167,8 @@ class C_purchase_order extends MY_Controller {
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Pembelian',
-			'title_page2' 	=> 'Purchase Order',
-			'id'			=> $id
+			'title_page2' => 'Purchase Order',
+			'id'					=> $id
 		);
 		$this->open_page('purchase-order/V_form_purchase_order', $data);
 	}
@@ -249,6 +249,7 @@ class C_purchase_order extends MY_Controller {
 							'orderdet_status'					=> $val2->orderdet_status,
 							'satuan_nama'							=> $val2->satuan_nama,
 							'orderdet_harga_satuan'		=> $val2->orderdet_harga_satuan,
+							'orderdet_disc'						=> $val2->orderdet_disc,
 							'orderdet_total'					=> $val2->orderdet_total,
 						);
 					}
