@@ -63,6 +63,10 @@ class C_barang extends MY_Controller {
 
 			foreach ($query->result() as $val) {
 				$button = '';
+				$button = '<button class="btn blue-soft" type="button" onclick="openFormPrintbBarang('.$val->barang_id.')"
+				 						title="Print Price Tag" data-toggle="modal" href="#modalprint">
+										<i class="fa fa-print text-center"></i>
+									 </button>';
 				if ($val->barang_status_aktif == 'y') {
 					$status = '<span class="label bg-green-jungle bg-font-green-jungle"> Aktif </span>';
 					if($priv['update'] == 1)
@@ -128,6 +132,58 @@ class C_barang extends MY_Controller {
 		echo json_encode($response);
 	}
 
+	function printpricetag()
+	{
+		$barang_id = $this->input->post('id');
+		$wherebarangid = "WHERE barang_id = '$barang_id'";
+		$wherebarangid_ = array(
+			'barang_id' => $barang_id,
+		);
+
+		$data = array(
+			'barang' => $this->mod->select_config('m_barang', $wherebarangid)->row(),
+			'action' => 'C_barang/printpricetagaction'
+		);
+
+    // $barcodeOptions = array('text' => $barang->barang_kode);
+    // $rendererOptions = array('imageType'          =>'png',
+    //                          'horizontalPosition' => 'center',
+    //                          'verticalPosition'   => 'middle');
+		// $image = Zend_Barcode::factory('code39', 'image', $barcodeOptions, $rendererOptions)->render();
+
+
+
+		// echo "<img src=".$image."/>";
+		// imagepng($imageResource, 'public_html/img/barcode.png');
+
+		$this->load->view('barang/printpricetag_modal', $data);
+	}
+
+	function printpricetagbarcode($barang_kode)
+	{
+		// $wherebarangid_ = array('barang_id' => $id );
+		// $barang = $this->mod->select_config_one('m_barang', 'barang_kode', $wherebarangid_);
+
+		$this->load->library('zend');
+    $this->zend->load('Zend/Barcode');
+		Zend_Barcode::render('code128', 'image', array('text'=>$barang_kode), array());
+
+	}
+
+	function printpricetagaction($id, $qty)
+	{
+		$wherebarangid = "WHERE barang_id = '$id'";
+
+		$data = array(
+			'barang' 			=> $this->mod->select_config('m_barang', $wherebarangid)->row(),
+			'printqty'		=> $qty,
+			'action' 			=> 'C_barang',
+			'tanggal'			=> date("d/m/y")
+		);
+
+		$this->load->view('barang/printpricetag', $data);
+	}
+
 	public function import(){
 		ini_set('max_execution_time', 3600);
 		if(!isset($_FILES['file'])){
@@ -165,6 +221,8 @@ class C_barang extends MY_Controller {
 			$highestColumn = $sheet->getHighestColumn();
 
 			$no = 1;
+			$no_= 1;
+			$great_param = 0;
 			for ($row = 2; $row <= $highestRow; $row++){
 			    $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
 			                                    NULL,
@@ -260,53 +318,75 @@ class C_barang extends MY_Controller {
 					$q = $this->db->query("select brand_id from m_brand where brand_nama = '".$rowData[0][6]."'")->row();
 					$hasil_brand_id = $q->brand_id;
 				}
+
 				$barang_nama = $this->db->escape_str(preg_replace('/[^A-Za-z0-9._,"\  ]/', '', $rowData[0][4]));
 				// ==================================================================================
 
 				// FUNGSI GENERATE ARTIKEL
-				$where_idterakhir = array(
-							'm_jenis_barang_id' => $hasil_jenis_barang_id,
-							'm_category_2_id' 	=> $hasil_category_2_id
-						);
 
-				$id_terakhir = $this->select_config_one("m_barang", "COUNT(barang_id) AS result", $where_idterakhir);
-				var_dump($id_terakhir->result);
-				// echo $this->db->last_query();
-							// if($hasil_jenis_barang_id < 10){
-	            //     $cat1 = "0".$hasil_jenis_barang_id;
-	            // }else{
-	            // 	$cat1 = $hasil_jenis_barang_id;
-	            // }
-							//
-			        // if($hasil_category_2_id < 10){
-			        //     $cat2 = "0".$hasil_category_2_id;
-			        // }else{
-			        // 	$cat2 = $hasil_category_2_id;
-			        // }
-							//
-	            // if($no < 10){
-	            //     $no = "000".$no;
-	            // }else if($no < 100){
-	            //     $no = "00".$no;
-	            // }else if($no < 1000){
-	            //     $no = "0".$no;
-	            // }
+				echo $this->db->last_query();
+							if($hasil_jenis_barang_id < 10){
+	                $cat1 = "0".$hasil_jenis_barang_id;
+	            }else{
+	            	$cat1 = $hasil_jenis_barang_id;
+	            }
 
-				$barang_nomor = '';
+			        if($hasil_category_2_id < 10){
+			            $cat2 = "0".$hasil_category_2_id;
+			        }else{
+			        	$cat2 = $hasil_category_2_id;
+			        }
+
+							$where_idterakhir = array(
+										'm_jenis_barang_id' => $hasil_jenis_barang_id,
+										'm_category_2_id' 	=> $hasil_category_2_id
+									);
+
+							$id_terakhir = $this->select_config_one("m_barang", "MAX(barang_id) AS result", $where_idterakhir);
+							if ($id_terakhir->result != null) {
+								if ($no == 1) {
+									$no_ =	$id_terakhir->result;
+								} else {
+									$no_ = $no_ + 1;
+								}
+							} else {
+								$no_ = 1;
+							}
+
+
+
+				if ($no_ > 1000)
+				{
+					$no_ = $no_ - 1000;
+					$great_param++;
+				}
+
+				if($no_ < 10){
+						$no_ = "000".$no_;
+				}else if($no_ < 100){
+						$no_ = "00".$no_;
+				}else if($no_ < 1000){
+						$no_ = "0".$no;
+				}
+				// $barang_nomor = '';
+				$barang_nomor = "AJBS".$great_param.$cat1.$cat2.$no_;
+				$barang_artikel = $great_param.$cat1.$cat2.$no_;
 				// ==================================================================================
 
 				// FUNGSI INSERT KE TABEL BARANG
 				$barang_kode = $this->db->escape_str($rowData[0][2]);
+
 				if (strlen($barang_kode) == 0)
 				{
-
+					$barang_kode = $barang_nomor;
 				}
+
 					$data_barang = array(
 				 			"barang_id"								=> '',
 				 			"m_jenis_barang_id"				=> $hasil_jenis_barang_id,
 				 			"m_category_2_id"					=> $hasil_category_2_id,
 						 	"barang_kode"							=> $barang_kode,
-						 	"barang_nomor"						=> $barang_nomor,
+						 	"barang_nomor"						=> $barang_artikel,
 						 	"barang_nama"							=> $barang_nama,
 						 	"m_satuan_id"							=> $hasil_satuan_id,
 						 	"brand_id"								=> $hasil_brand_id,
@@ -324,39 +404,39 @@ class C_barang extends MY_Controller {
 						 	"barang_revised"					=> 0
 				 );
 
-			    // $this->db->query("insert ignore into m_barang values('".implode("', '", $data_barang)."')");
+			    $this->db->query("insert ignore into m_barang values('".implode("', '", $data_barang)."')");
 			    // ==================================================================================
 
 			    // QUERY MENCARI id_barang
-			    // $brg_id = $this->db->query("SELECT barang_id FROM m_barang WHERE barang_nama = '".$barang_nama."'")->row();
-					// $hasil_barang_id 			= $brg_id->barang_id;
+			    $brg_id = $this->db->query("SELECT barang_id FROM m_barang WHERE barang_nama = '".$barang_nama."'")->row();
+					$hasil_barang_id 			= $brg_id->barang_id;
 					// ==================================================================================
 
 					// QUERY INSERT KE TABEL KONSINYASI
 			    $konsinyasi=substr($rowData[0][4], 0, 1);
 			    // JIKA ADA SIMBOL *, &, $ MAKA MASUK KE TABEL KONSINYASI
 			    if($konsinyasi == "*" || $konsinyasi == "&" || $konsinyasi == "$"){
-			    	// $this->db->query("insert ignore into m_konsinyasi
-			    	// 					values(
-			    	// 							'',
-			    	// 							'".$hasil_jenis_barang_id."',
-			    	// 							'".$hasil_category_2_id."',
-			    	// 							'".$hasil_barang_id."',
-			    	// 							'y',
-			    	// 							'".date('Y-m-d H:i:s')."',
-						// 							'".$this->session->userdata('user_username')."',
-						// 							'',
-						// 							'',
-						// 							0
-						// 							)
-			    	// 				");
+			    	$this->db->query("insert ignore into m_konsinyasi
+			    						values(
+			    								'',
+			    								'".$hasil_jenis_barang_id."',
+			    								'".$hasil_category_2_id."',
+			    								'".$hasil_barang_id."',
+			    								'y',
+			    								'".date('Y-m-d H:i:s')."',
+													'".$this->session->userdata('user_username')."',
+													'',
+													'',
+													0
+													)
+			    					");
 			    }
 			    // ==================================================================================
 
 			    delete_files('./assets/upload/');
 				$no++;
 			}
-			// redirect('Master-Data/Barang');
+			redirect('Master-Data/Barang');
 		}
 	}
 

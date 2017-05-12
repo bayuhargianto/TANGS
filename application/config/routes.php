@@ -204,6 +204,8 @@ $route['Master-Data/Barang/loadDataSelectKode']					= 'C_barang/loadData_select2
 $route['Master-Data/Barang/loadDataSelectUraian']				= 'C_barang/loadData_select3';
 $route['Master-Data/Barang/loadDataSelectWhere']				= 'C_barang/loadDataSelectWhere';
 $route['Master-Data/Barang/getLastId']							= 'C_barang/get_last_id';
+$route['Master-Data/Barang/printPriceTag']							= 'C_barang/printpricetag';
+
 // End Barang
 // Atribut Barang
 $route['Master-Data/Atribut-Barang']							= 'C_atribut_barang';

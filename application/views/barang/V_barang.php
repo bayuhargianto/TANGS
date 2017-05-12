@@ -103,7 +103,13 @@
             <!-- END CONTENT -->
         </div>
         <!-- END CONTAINER -->
+        <div  id="modal_print" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
 
+            </div>
+          </div>
+        </div>
         <?php $this->load->view('layout/V_footer');?>
 
         <script type="text/javascript">
@@ -470,6 +476,22 @@
                   }
                 });
               }
+
+              function openFormPrintbBarang(id)
+              {
+                $.ajax({
+                  type : 'POST',
+                  url  : $base_url+'Master-Data/Barang/printPriceTag',
+                  data : { id : id },
+                  dataType : "html",
+                  success:function(data){
+                    $("#modal_print .modal-content").html();
+                    $("#modal_print .modal-content").html(data);
+                    $('#modal_print').modal('show');
+                  }
+                });
+              }
+
         </script>
 
     </body>
