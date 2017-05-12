@@ -74,7 +74,7 @@ class C_penawaran_harga extends MY_Controller {
 						<i class="icon-printer text-center"></i>
 					</button>
 					</a>';
-					if ($val->penawaran_status < 4) {
+					if ($val->penawaran_status < 5) {
 						$button .= '
 						<button class="btn red-thunderbird" type="button" onclick="deleteData('.$val->penawaran_id.')" title="Hapus Data">
 							<i class="icon-close text-center"></i>
@@ -127,8 +127,8 @@ class C_penawaran_harga extends MY_Controller {
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Pembelian',
-			'title_page2' 	=> 'Penawaran Harga',
-			'id'			=> $id
+			'title_page2' => 'Penawaran Harga',
+			'id'					=> $id
 		);
 		$this->open_page('penawaran-harga/V_form_penawaran_harga', $data);
 	}
@@ -137,11 +137,12 @@ class C_penawaran_harga extends MY_Controller {
 		$select = '*';
 		$where['data'][] = array(
 			'column' => 'penawaran_id',
-			'param'	 => $this->input->get('id')
+			'param'	 => $this->input->post('id')
 		);
+		// var_dump($where);
+
 		$query = $this->mod->select($select, $this->tbl, NULL, $where);
 		if ($query<>false) {
-
 			foreach ($query->result() as $val) {
 				// CARI DETAIL
 				// BARANG
@@ -263,8 +264,8 @@ class C_penawaran_harga extends MY_Controller {
 					'penawaran_tanggal'				=> date("d/m/Y",strtotime($val->penawaran_tanggal)),
 					'penawaran_jenis' 				=> $val->penawaran_jenis,
 					'penawaran_status' 				=> $val->penawaran_status,
-					'permintaan_pembelian_id' 		=> $hasil1,
-					'penawaran_step' 				=> $val->penawaran_step,
+					'permintaan_pembelian_id' => $hasil1,
+					'penawaran_step' 					=> $val->penawaran_step,
 				);
 			}
 			// echo $this->db->last_query();
@@ -274,28 +275,36 @@ class C_penawaran_harga extends MY_Controller {
 
 	public function loadData_select($type){
 		if ($type == 1) {
+
 			$param = $this->input->get('q');
+
 			if ($param!=NULL) {
 				$param = $this->input->get('q');
 			} else {
 				$param = "";
 			}
+
 			$select = '*';
 			$where['data'][] = array(
 				'column' => 'penawaran_status',
 				'param'	 => 4
 			);
+
 			$where_like['data'][] = array(
 				'column' => 'penawaran_nomor',
 				'param'	 => $this->input->get('q')
 			);
+
 			$order['data'][] = array(
 				'column' => 'penawaran_nomor',
 				'type'	 => 'ASC'
 			);
+
 			$query = $this->mod->select($select, $this->tbl, NULL, $where, NULL, $where_like, $order);
 			$response['items'] = array();
+
 			if ($query<>false) {
+
 				foreach ($query->result() as $val) {
 					$response['items'][] = array(
 						'id'	=> $val->penawaran_id,
@@ -304,36 +313,46 @@ class C_penawaran_harga extends MY_Controller {
 				}
 				$response['status'] = '200';
 			}
+
 		} else if ($type == 2) {
+
 			$select = '*';
 			$join['data'][] = array(
 				'table' => 't_penawaran_supplier b',
 				'join'	=> 'b.t_penawaran_id = a.penawaran_id',
 				'type'	=> 'inner'
 			);
+
 			$where['data'][] = array(
 				'column' => 'a.penawaran_status',
 				'param'	 => 4
 			);
+
 			$where['data'][] = array(
 				'column' => 'a.penawaran_jenis',
 				'param'	 => 1
 			);
+
 			$where['data'][] = array(
 				'column' => 'b.m_partner_id',
 				'param'	 => $this->input->get('id')
 			);
+
 			$where['data'][] = array(
 				'column' => 'b.penawaran_supplier_pemenang',
 				'param'	 => 1
 			);
+
 			$order['data'][] = array(
 				'column' => 'penawaran_nomor',
 				'type'	 => 'ASC'
 			);
+
 			$query = $this->mod->select('a.*, b.*', 't_penawaran a', $join, $where, NULL, NULL, $order);
+
 			$response['items'] = array();
 			if ($query<>false) {
+
 				foreach ($query->result() as $val) {
 					$response['items'][] = array(
 						'id'	=> $val->penawaran_id,
@@ -342,6 +361,7 @@ class C_penawaran_harga extends MY_Controller {
 				}
 				$response['status'] = '200';
 			}
+
 		} else if ($type == 3) {
 			$select = '*';
 			$join['data'][] = array(
@@ -381,7 +401,7 @@ class C_penawaran_harga extends MY_Controller {
 				$response['status'] = '200';
 			}
 		}
-
+		// echo $this->db->last_query();
 		echo json_encode($response);
 	}
 
@@ -724,7 +744,7 @@ class C_penawaran_harga extends MY_Controller {
 						for ($i = 0; $i < sizeof($this->input->post('penawaran_harga_nominal', TRUE)); $i++) {
 							$data_det2 = $this->general_post_data4(1, $id, $i);
 							$insert_det2 = $this->mod->insert_data_table('t_penawaran_harga', NULL, $data_det2);
-							echo $this->db->last_query();
+							// echo $this->db->last_query();
 							if($insert_det2->status) {
 								$response['status'] = '200';
 
@@ -872,10 +892,15 @@ class C_penawaran_harga extends MY_Controller {
 		if ($query) {
 			foreach ($query->result() as $row) {
 				$permintaan_pembelian_id = json_decode($row->permintaan_pembelian_id);
-				for ($i = 0; $i < sizeof($permintaan_pembelian_id); $i++) { 
+				for ($i = 0; $i < sizeof($permintaan_pembelian_id); $i++) {
 					$data_permintaan = array(
 						'permintaan_pembelian_status' => 2,
 					);
+
+					$data_permintaan_det = array(
+						'permintaan_pembeliandet_status' => 0,
+					);
+
 					if (@$where_permintaan['data']) {
 						unset($where_permintaan['data']);
 					}
@@ -883,7 +908,14 @@ class C_penawaran_harga extends MY_Controller {
 						'column' => 'permintaan_pembelian_id',
 						'param'	 => $permintaan_pembelian_id[$i]
 					);
+
+					$where_permintaandet['data'][] = array(
+						'column' => 't_permintaan_pembelian_id',
+						'param'	 => $permintaan_pembelian_id[$i]
+					);
+
 					$update_permintaan = $this->mod->update_data_table('t_permintaan_pembelian', $where_permintaan, $data_permintaan);
+					$update_permintaandet = $this->mod->update_data_table('t_permintaan_pembeliandet', $where_permintaandet, $data_permintaan_det);
 				}
 			}
 			// HAPUS PENERIMAAN
@@ -930,12 +962,12 @@ class C_penawaran_harga extends MY_Controller {
 				'penawaran_jenis' 				=> $this->input->post('penawaran_jenis', TRUE),
 				'penawaran_step' 				=> $this->input->post('step', TRUE),
 				'permintaan_pembelian_id' 		=> json_encode($this->input->post('id', TRUE)),
-				'penawaran_status' 				=> 1,
+				'penawaran_status' 					=> 1,
 				'penawaran_status_date'			=> date('Y-m-d H:i:s'),
 				'penawaran_create_date'			=> date('Y-m-d H:i:s'),
 				'penawaran_update_date'			=> date('Y-m-d H:i:s'),
-				'penawaran_create_by'			=> $this->session->userdata('user_username'),
-				'penawaran_revised' 			=> 0,
+				'penawaran_create_by'				=> $this->session->userdata('user_username'),
+				'penawaran_revised' 				=> 0,
 			);
 		} else if ($type == 2) {
 			if (@$status) {
@@ -959,14 +991,14 @@ class C_penawaran_harga extends MY_Controller {
 			if ($status != 4) {
 				$data = array(
 					'penawaran_status' 			=> $this->input->post('step', TRUE),
-					'penawaran_step' 			=> $this->input->post('step', TRUE),
-					'penawaran_update_date'		=> date('Y-m-d H:i:s'),
+					'penawaran_step' 				=> $this->input->post('step', TRUE),
+					'penawaran_update_date'	=> date('Y-m-d H:i:s'),
 					'penawaran_update_by'		=> $this->session->userdata('user_username'),
 					'penawaran_revised' 		=> $rev,
 				);
 			} else {
 				$data = array(
-					'penawaran_update_date'		=> date('Y-m-d H:i:s'),
+					'penawaran_update_date'	=> date('Y-m-d H:i:s'),
 					'penawaran_update_by'		=> $this->session->userdata('user_username'),
 					'penawaran_revised' 		=> $rev,
 				);

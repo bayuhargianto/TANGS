@@ -84,6 +84,7 @@
                                                         <button class="close" data-dismiss="alert"></button> Your form validation is successful! </div>
                                                     <input type="hidden" id="url" value="Pembelian/Penawaran-Harga/postData/">
                                                     <input type="hidden" id="url_data" value="Pembelian/Penawaran-Harga">
+                                                    <input type="hidden" id="idspp" name="" value="<?php echo $id?>">
                                                     <input type="hidden" name="penawaran_status" value="0">
                                                     <div class="tab-pane active" id="tab1">
                                                         <div class="form-group" hidden="true">
@@ -93,7 +94,8 @@
                                                             <div class="col-md-8">
                                                                 <div class="input-icon right">
                                                                     <i class="fa"></i>
-                                                                    <input type="text" class="form-control" name="kode" value="<?php if(isset($id)) echo $id;?>" readonly /> </div>
+                                                                    <input type="text" class="form-control" name="kode" value="<?php if(isset($id)) echo $id;?>" readonly />
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="form-group" hidden="true" id="KodePenawaran">
@@ -149,7 +151,8 @@
                                                                 <div class="input-icon right">
                                                                     <i class="fa"></i>
                                                                     <input type="hidden" name="jml_spp" value="0">
-                                                                    <select class="form-control" id="t_permintaan_pembelian_id" name="t_permintaan_pembelian_id" aria-required="true" aria-describedby="select-error" style="width: 100%" multiple="multiple" onchange="addSPP()">
+                                                                    <select class="form-control" id="t_permintaan_pembelian_id" name="t_permintaan_pembelian_id"
+                                                                    aria-required="true" aria-describedby="select-error" style="width: 100%" multiple="multiple" onchange="addSPP()">
                                                                     </select>
                                                                 </div>
 
@@ -253,7 +256,7 @@
                                                         Lanjut
                                                         </button>
                                                         <a href="javascript:;">
-                                                            <button type="button" id="submit" class="btn green-jungle button-submit" id="simpan">
+                                                            <button type="button" id="submit" class="btn green-jungle button-submit">
                                                             Simpan
                                                             </button>
                                                         </a>
@@ -296,6 +299,7 @@
                     editData(document.getElementsByName("kode")[0].value);
                 }
             });
+
             function ubahSPP(element)
             {
                 var id = element.id;
@@ -339,6 +343,7 @@
             }
 
             function checkPosition(index) {
+                var idspp = $('#idspp').val();
                 stepPosition = index+1;
                 console.log(stepPosition);
                 console.log(index);
@@ -355,8 +360,13 @@
                     $("#lanjut2").addClass("hidden");
                     $("#lanjut3").removeClass("hidden");
                 } else {
+                  if (idspp) {
                     $("#submit").addClass("hidden");
                     $("#submit2").removeClass("hidden");
+                  } else {
+                    $("#submit2").addClass("hidden");
+                    $("#submit").removeClass("hidden");
+                  }
                 }
 
                 if (index == 1) {
@@ -457,6 +467,7 @@
                     $("#spp").append('<input type="hidden" id="jml_'+id[i]+'">');
                     $("#spp").append('<input type="hidden" name="id[]" value="'+id[i]+'">');
                 }
+
                 $("#lanjut").removeAttr('disabled');
                 // document.getElementById("#lanjut").disabled = false;
                 // $("#t_permintaan_pembelian_id").select2('destroy');
@@ -523,8 +534,9 @@
             }
 
             function getDetailSpp(id) {
+              alert(id);
                 $.ajax({
-                  type : "GET",
+                  type : "POST",
                   url  : '<?php echo base_url();?>Gudang/Surat-Permintaan-Pembelian/loadDataWhere/',
                   data : { id : id },
                   dataType : "json",
@@ -537,6 +549,7 @@
                         {
                             itemBarang += data.val2.length;
                         }
+
                     $("#jml_"+id).val(data.val2.length);
                     $("#jml_itemBarang").val(itemBarang);
                     // alert(itemBarang);
@@ -693,15 +706,15 @@
             function editData(id) {
                 $( "#formAdd" ).validate().destroy();
                 $.ajax({
-                  type : "GET",
+                  type : "POST",
                   url  : '<?php echo base_url();?>Pembelian/Penawaran-Harga/loadDataWhere/',
                   data : "id="+id,
                   dataType : "json",
                   success:function(data){
                     for(var i=0; i<data.val.length;i++){
                       if (data.val[i].penawaran_status > 3) {
-                        document.getElementById('simpan').disabled = true;
-                        document.getElementById('simpan2').disabled = true;
+                        document.getElementById('submit').disabled = true;
+                        document.getElementById('submit2').disabled = true;
                       }
                       if (data.step3 > 0) {
                         getDetailHarga2(data.val[i].kode);
@@ -746,8 +759,8 @@
                                     <input type="hidden" name="penawaran_barang_id[]" value="'+data.step1[i].penawaran_barang_id+'"/>\
                                     '+data.step1[i].barang_nomor+'\
                                 </td>\
-                                <td id="td2'+last_num+'">\
-                                    '+data.step1[i].barang_uraian+'\
+                                <td id="td2'+last_num+'" style="">\
+                                  <p style="max-width: 400px;white-space:normal !important;word-wrap: break-word;">'+data.step1[i].barang_uraian+'</p>\
                                 </td>\
                                 <td id="td3'+last_num+'">\
                                     <input type="text" class="form-control num2" name="penawaran_barang_qty[]" value="'+data.step1[i].penawaran_barang_qty+'" required readonly/>\

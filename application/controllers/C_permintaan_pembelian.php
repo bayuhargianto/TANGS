@@ -154,8 +154,8 @@ class C_permintaan_pembelian extends MY_Controller {
 		$data = array(
 			'aplikasi'		=> $this->app_name,
 			'title_page' 	=> 'Gudang',
-			'title_page2' => 'Permintaan Pembelian Barang',
-			'id'					=> $id
+			'title_page2' 	=> 'Permintaan Pembelian Barang',
+			'id'			=> $id
 		);
 		$this->open_page('permintaan-pembelian/V_form_surat_permintaan_pembelian', $data);
 	}
@@ -172,11 +172,18 @@ class C_permintaan_pembelian extends MY_Controller {
 
 	public function loadDataWhere($type){
 		$select = '*';
+		$permintaan_pembelian_id = $this->input->get('id');
+
+		if ($permintaan_pembelian_id==null) {
+			$permintaan_pembelian_id = $this->input->post('id');
+		}
+
 		$where['data'][] = array(
 			'column' => 'permintaan_pembelian_id',
-			'param'	 => $this->input->get('id')
+			'param'	 => $permintaan_pembelian_id
 		);
 		$query = $this->mod->select($select, $this->tbl, NULL, $where);
+		// echo $this->db->last_query();
 		if ($query<>false) {
 
 			foreach ($query->result() as $val) {
@@ -309,7 +316,7 @@ class C_permintaan_pembelian extends MY_Controller {
 					'permintaan_pembelian_penerima' 			=> $hasil5,
 					'permintaan_pembelian_alasan' 				=> $val->permintaan_pembelian_alasan,
 					'permintaan_pembelian_catatan' 				=> $val->permintaan_pembelian_catatan,
-					'permintaan_pembelian_konsiyasi'			=> $val->permintaan_pembelian_konsiyasi
+					'permintaan_pembelian_konsinyasi'			=> $val->permintaan_pembelian_konsinyasi
 				);
 			}
 
@@ -841,7 +848,7 @@ class C_permintaan_pembelian extends MY_Controller {
 				'permintaan_pembelian_update_date'				=> date('Y-m-d H:i:s'),
 				'permintaan_pembelian_created_by'					=> $this->session->userdata('user_username'),
 				'permintaan_pembelian_revised' 						=> 0,
-				'permintaan_pembelian_konsiyasi'					=> $this->input->post('jenis_barang', TRUE)
+				'permintaan_pembelian_konsinyasi'					=> $this->input->post('jenis_barang', TRUE)
 			);
 		} else if ($type == 2) {
 			if ($status == $this->input->post('permintaan_pembelian_status', TRUE)) {

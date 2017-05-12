@@ -63,3 +63,7 @@ table {
 	display:none;
 	text-align:center;
 }
+
+.modal-open .colorpicker, .modal-open .datepicker, .modal-open .daterangepicker {
+    z-index: 2 !important;
+}
