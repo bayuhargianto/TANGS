@@ -518,7 +518,16 @@
                 $(".diskon_text").removeClass('hide');
             }
 
-            if (total_item == 0) {
+            if (total_item == 0 || total_item_booking == 0) {
+                $("#btn-sales-bayar").attr('disabled', 'disabled');
+                $("#btn-sales-diskon").attr('disabled', 'disabled');
+                $.fn.refreshSales();
+            } else {
+                $("#btn-sales-bayar").removeAttr('disabled');
+                $("#btn-sales-diskon").removeAttr('disabled');
+            }
+
+            if (total_item_booking == 0) {
                 $("#btn-sales-bayar").attr('disabled', 'disabled');
                 $("#btn-sales-diskon").attr('disabled', 'disabled');
                 $.fn.refreshSales();
@@ -795,7 +804,9 @@
 
     // console.log(items);
 
-        $("#search").keyup(function () {
+        $("#search").keyup(function (e) {
+          if(e.which == 13) {
+            var this_data = null;
             var new_data = [];
             var word = $(this).val();
             word = word.toLowerCase();
@@ -805,7 +816,7 @@
                 var barang_kode = value.barang_kode;
                 // // console.log(name);
                 if(name.search(word) > -1){
-                //   // console.log(name);
+                  // console.log(barang_kode);
                     this_data = {
                         'barang_id' : value.barang_id,
                         'm_jenis_barang_id' : value.m_jenis_barang_id,
@@ -829,12 +840,34 @@
                         'barang_revised': value.barang_revised,
                         'stok_gudang_jumlah': value.stok_gudang_jumlah
                     };
-                    // console.log(this_data);
-                    new_data.push(this_data);
-                    // console.log(new_data);
+                } else if (barang_kode.search(word) > -1) {
+                  console.log(barang_kode);
+                  this_data = {
+                      'barang_id' : value.barang_id,
+                      'm_jenis_barang_id' : value.m_jenis_barang_id,
+                      'category_2_id' : value.category_2_id,
+                      'barang_kode' : value.barang_kode,
+                      'barang_nomor' : value.barang_nomor,
+                      'barang_nama' : value.barang_nama,
+                      'm_satuan_id' : value.m_satuan_id,
+                      'brand_id' : value.brand_id,
+                      'harga_beli' : value.harga_beli,
+                      'harga_jual' : value.harga_jual,
+                      'harga_jual_pajak' : value.harga_jual_pajak,
+                      'stok' : value.stok,
+                      'barang_minimum_stok' : value.barang_minimum_stok,
+                      'stok_maks' : value.stok_maks,
+                      'barang_status_aktif' : value.barang_status_aktif,
+                      'barang_create_date' : value.barang_create_date,
+                      'barang_create_by' : value.barang_create_by,
+                      'barang_update_date' : value.barang_update_date,
+                      'barang_update_by' : value.barang_update_by,
+                      'barang_revised': value.barang_revised,
+                      'stok_gudang_jumlah': value.stok_gudang_jumlah
+                  };
                 }
             });
-
+            new_data.push(this_data);
             var html = '';
             $.each(new_data, function (index, value) {
               stok_gudang_jumlah = value.stok_gudang_jumlah;
@@ -861,6 +894,7 @@
                       ';
             });
             $("#data-items").html(html);
+          }
         });
 
 
@@ -1128,12 +1162,14 @@
 
         $("#form-submit-sales").submit(function (e) {
             var status_cashback = false;
-            if( $("#sales_type").find('option:selected').val() == 'kredit' ){
+            if( $("#sales_type").find('option:selected').val() == 'kredit' )
+            {
                 status_cashback = true;
             }
 
             if( $("#sales_type").find('option:selected').val() == 'kartu_kredit' ){
-                if ($("#sales-nama").val() == "" || $("#sales-nomor-kartu").val() == "" || $("#sales-nama-bank").val() == ""){
+                if ($("#sales-nama").val() == "" || $("#sales-nomor-kartu").val() == "" || $("#sales-nama-bank").val() == "")
+                {
                     alert("Silakan Lengkapi Nama, Nomor Kartu, dan Nama Bank");
                     return false;
                 }
@@ -1184,51 +1220,52 @@
         });
 
         $("#sales_type").change(function() {
-            var total_sales = total_sales_detail-sales_discount;
-            var box = $(".box-sales");
-            var dp = $("#box-sales-dp");
-            var bayar = $("#box-sales-pay");
-            var nama = $("#box-sales-nama");
-            var bank = $("#box-sales-nama-bank");
-            var nokartu = $("#box-sales-nomor-kartu");
-            var rekening = $("#box-sales-nomor-rekening");
-            var cashback = $("#box-input-cashback");
-            var fee = $("#box-sales-fee");
+            var total_sales = total_sales_detail+total_sales_detail_booking-sales_discount;
+            var box         = $(".box-sales");
+            var dp          = $("#box-sales-dp");
+            var bayar       = $("#box-sales-pay");
+            var nama        = $("#box-sales-nama");
+            var bank        = $("#box-sales-nama-bank");
+            var nokartu     = $("#box-sales-nomor-kartu");
+            var rekening    = $("#box-sales-nomor-rekening");
+            var cashback    = $("#box-input-cashback");
+            var fee         = $("#box-sales-fee");
 
             $('#input-total-currency').val( Intl.NumberFormat().format(total_sales) );
             $('#input-total').val(total_sales);
-
             box.hide();
-
             switch ( $(this).val() ){
                 case '1':
-
 					           var total_fee = 0;
+                     $('#input-total-currency').val( Intl.NumberFormat().format(total_sales) );
+                     $('#input-total').val(total_sales);
+                     console.log(total_sales);
                         bayar.show();
                         cashback.show();
                     break;
 
                 case '2':
-
-                        dp.show();
-
+                    $('#input-total-currency').val( Intl.NumberFormat().format(total_sales) );
+                    $('#input-total').val(total_sales);
+                    dp.show();
                     break;
 
                 case '3':
+                    $('#input-total-currency').val( Intl.NumberFormat().format(total_sales) );
+                    $('#input-total').val(total_sales);
                         nama.show();
                         bank.show();
                         rekening.show();
-
                     break;
                 case '4':
+                    $('#input-total-currency').val( Intl.NumberFormat().format(total_sales) );
+                    $('#input-total').val(total_sales);
                         nama.show();
                         nokartu.show();
                         bank.show();
-
                     break;
             }
         });
-
 
         /*TRIGGER EVENT BY KEYBOARD*/
         $(document).on('keydown', function ( e ) {

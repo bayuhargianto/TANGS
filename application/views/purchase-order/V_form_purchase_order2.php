@@ -84,7 +84,7 @@
                                                         <span class="input-group-addon" style="">
                                                             <span class="icon-calendar"></span>
                                                         </span>
-                                                    </div> 
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -155,31 +155,33 @@
                                                             <th> Qty </th>
                                                             <th> Satuan </th>
                                                             <th> Harga Satuan </th>
-                                                            <th> Total </th>
+                                                            <th> Disc. </th>
+                                                            <th> Total1 </th>
+                                                            <th> Total2 </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                     </tbody>
                                                     <tfoot>
                                                         <tr>
-                                                            <th colspan="6" class="text-right"> Sub Total </th>
+                                                            <th colspan="8" class="text-right"> Sub Total </th>
                                                             <th>
                                                                 <input type="text" class="form-control money" id="order_subtotal" name="order_subtotal" value="0" required readonly />
                                                             </th>
                                                         </tr>
                                                         <tr>
-                                                            <th colspan="6" class="text-right"> PPN % </th>
+                                                            <th colspan="8" class="text-right"> PPN % </th>
                                                             <th>
                                                                 <div class="input-group">
                                                                     <input type="text" class="form-control decimal" id="order_ppn" name="order_ppn" value="0" onchange="sumTotal()" required />
                                                                     <span class="input-group-addon" style="">
-                                                                        % 
+                                                                        %
                                                                     </span>
                                                                 </div>
                                                             </th>
                                                         </tr>
                                                         <tr>
-                                                            <th colspan="6" class="text-right"> Total </th>
+                                                            <th colspan="8" class="text-right"> Total </th>
                                                             <th>
                                                                 <input type="text" class="form-control money" id="order_total" name="order_total" value="0" required readonly />
                                                             </th>
@@ -206,7 +208,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-md-4">Pembayaran 
+                                        <label class="control-label col-md-4">Pembayaran
                                             <span class="required"> * </span>
                                         </label>
                                         <div class="col-md-8">
@@ -252,7 +254,7 @@
                                         </div>
                                     </div> -->
                                     <div class="form-group">
-                                        <label class="control-label col-md-4">Persetujuan 
+                                        <label class="control-label col-md-4">Persetujuan
                                             <span class="required"> * </span>
                                         </label>
                                         <div class="col-md-8">
@@ -354,7 +356,7 @@
                         document.getElementById("persetujuan").disabled = true;
                         document.getElementById('submit'). disabled = true;
                       }
-                      
+
                       $("#m_supplier_id").select2('destroy');
                       for(var j=0; j<data.val[i].m_supplier_id.val2.length; j++){
                         $("#m_supplier_id").append('<option value="'+data.val[i].m_supplier_id.val2[j].id+'" selected>'+data.val[i].m_supplier_id.val2[j].text+'</option>');
@@ -380,8 +382,9 @@
 
                     itemBarang = data.val2.length;
                     $("#jml_itemBarang").val(itemBarang);
-
+                    var order_totdisc = 0;
                     for(var i = 0; i < data.val2.length; i++){
+                        order_totdisc = data.val2[i].orderdet_total-(data.val2[i].orderdet_disc/100*data.val2[i].orderdet_harga_satuan*data.val2[i].orderdet_qty);
                         $("#default-table tbody").append('\
                             <tr id="detail'+(i+1)+'">\
                                 <td id="td0'+(i+1)+'">\
@@ -401,10 +404,16 @@
                                     '+data.val2[i].satuan_nama+'\
                                 </td>\
                                 <td id="td5'+(i+1)+'">\
-                                    <input type="text" class="form-control money" id="orderdet_harga_satuan'+(i+1)+'" name="orderdet_harga_satuan[]" value="'+data.val2[i].orderdet_harga_satuan+'" onchange="sumSubTotal()" required readonly/>\
+                                    <input type="text" class="form-control money" id="orderdet_harga_satuan'+(i+1)+'" name="orderdet_harga_satuan[]" value="'+data.val2[i].orderdet_harga_satuan+'" required readonly/>\
                                 </td>\
                                 <td id="td6'+(i+1)+'">\
+                                    <input type="text" class="form-control money" id="orderdet_disc'+data.val2[i].m_barang_id+'" name="orderdet_disc[]" value="'+data.val2[i].orderdet_disc+'" required readonly/>\
+                                </td>\
+                                <td id="td7'+(i+1)+'">\
                                     <input type="text" class="form-control money" id="orderdet_total'+(i+1)+'" name="orderdet_total[]" value="'+data.val2[i].orderdet_total+'" required readonly/>\
+                                </td>\
+                                <td id="td8'+(i+1)+'">\
+                                    <input type="text" class="form-control money" id="orderdetgrand_total'+(i+1)+'" name="orderdetgrand_total[]" value="'+order_totdisc+'" required readonly/>\
                                 </td>\
                             </tr>\
                         ');
@@ -415,7 +424,7 @@
                     }
                   }
                 });
-                
+
             }
 
             function checkPersetujuan() {

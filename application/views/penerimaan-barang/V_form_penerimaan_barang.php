@@ -247,12 +247,14 @@
                 itemBarang = 0;
                 isDisabledVar = true;
                 $("#formAdd").submit(function(event){
-                  if ($("#formAdd").valid() == true) {
+                  if ($("#formAdd").valid() == true)
+                  {
                     checkPO();
                     // actionData2();
                   }
                   return false;
                 });
+
                 $('#penerimaan_barang_penyetuju').css('width', '100%');
                 $('#penerimaan_barang_pemeriksa').css('width', '100%');
                 $('#t_order_id').css('width', '100%');
@@ -265,6 +267,7 @@
                     isDisabledVar = false;
                     editData(document.getElementsByName("kode")[0].value);
                 }
+
             });
 
             function addPO() {
@@ -326,7 +329,7 @@
                                         '+data.val2[i].barang_uraian+'\
                                     </td>\
                                     <td id="td3'+(i+1)+'">\
-                                        <input type="text" class="form-control num2" id="orderdet_qty'+(i+1)+'" name="orderdet_qty[]" value="'+(data.val2[i].orderdet_qty - data.val2[i].orderdet_qty_realisasi)+'" required readonly />\
+                                        <input type="text" class="form-control num2" id="orderdet_qty'+(i+1)+'" name="orderdet_qty_realisasi[]" value="'+(data.val2[i].orderdet_qty - data.val2[i].orderdet_qty_realisasi)+'" required readonly />\
                                     </td>\
                                     <td id="td4'+(i+1)+'">\
                                         <input type="text" class="form-control num2" id="penerimaan_barangdet_qty'+(i+1)+'" name="penerimaan_barangdet_qty[]" value="0" required />\

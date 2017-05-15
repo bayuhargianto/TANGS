@@ -442,6 +442,7 @@ class C_penerimaan_barang extends MY_Controller {
 	// Function Insert & Update
 	public function postData($type){
 		$id = $this->input->post('kode');
+		echo $id;
 		$response['test'] = $type;
 		if (strlen($id)>0) {
 			if ($type == 2) {
@@ -596,6 +597,7 @@ class C_penerimaan_barang extends MY_Controller {
 													'stok_gudang_revised' 		=> 0,
 												);
 												$this->mod->update_data_table('t_stok_gudang', $where_stok_gudang, $dataStok2);
+
 											}
 										} else {
 											// INSERT
@@ -674,6 +676,8 @@ class C_penerimaan_barang extends MY_Controller {
 													'stok_gudang_revised' 		=> 0,
 												);
 												$insertStok2 = $this->mod->update_data_table('t_stok_gudang', $where_stok_gudang, $dataStok2);
+												echo "string1";
+												print_r($dataStok2);
 											}
 										} else {
 											// INSERT
@@ -710,6 +714,8 @@ class C_penerimaan_barang extends MY_Controller {
 									'orderdet_revised' 			=> $row->orderdet_revised + 1,
 								);
 								$update_po2 = $this->mod->update_data_table('t_orderdet', $where_po2, $data_po2);
+								echo "string2";
+								print_r($data_po2);
 							}
 						}
 						// END PO
@@ -721,7 +727,7 @@ class C_penerimaan_barang extends MY_Controller {
 				$response['status'] = '204';
 			}
 		}
-
+		print_r($this->db->last_query());
 		echo json_encode($response);
 	}
 

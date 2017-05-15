@@ -135,10 +135,16 @@ class C_penawaran_harga extends MY_Controller {
 
 	public function loadDataWhere($type){
 		$select = '*';
+		if ($this->input->post('id')) {
+			$penawaran_id = $this->input->post('id');
+		} else {
+			$penawaran_id = $this->input->get('id');
+		}
 		$where['data'][] = array(
 			'column' => 'penawaran_id',
-			'param'	 => $this->input->post('id')
+			'param'	 => $penawaran_id
 		);
+
 		// var_dump($where);
 
 		$query = $this->mod->select($select, $this->tbl, NULL, $where);

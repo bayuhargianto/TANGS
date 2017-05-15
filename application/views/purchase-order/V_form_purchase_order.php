@@ -534,8 +534,10 @@
 
                     itemBarang = data.val2.length;
                     $("#jml_itemBarang").val(itemBarang);
+                    var subTotal_ = 0;
 
                     for(var i = 0; i < data.val2.length; i++){
+                      subTotal_ += data.val2[i].orderdet_total-(data.val2[i].orderdet_disc/100 * data.val2[i].orderdet_harga_satuan * data.val2[i].orderdet_qty);
                         if(edit == null)
                         {
                             $("#default-table tbody").append('\
@@ -576,6 +578,9 @@
                         }
                         else
                         {
+                          // document.getElementById('orderdet_total'+i).value = qty * hrg;
+                          // document.getElementById('orderdetgrand_total'+i).value = (qty * hrg)-(disc/100 * hrg * qty);
+
                             $("#default-table tbody").append('\
                                 <tr id="detail'+(i+1)+'">\
                                     <td id="td0'+(i+1)+'">\
@@ -599,13 +604,13 @@
                                         <input type="text" class="form-control money" id="orderdet_harga_satuan'+data.val2[i].m_barang_id+'" name="orderdet_harga_satuan[]" value="'+data.val2[i].orderdet_harga_satuan+'" onchange="sumSubTotal()" required/>\
                                     </td>\
                                     <td id="td6'+(i+1)+'">\
-                                        <input type="text" class="form-control money" id="orderdet_disc'+data.val2[i].m_barang_id+'" name="orderdet_disc[]" value="0" required readonly/>\
+                                        <input type="text" class="form-control money" id="orderdet_disc'+data.val2[i].m_barang_id+'" name="orderdet_disc[]" value="'+data.val2[i].orderdet_disc+'" required readonly/>\
                                     </td>\
                                     <td id="td7'+(i+1)+'">\
-                                        <input type="text" class="form-control money" id="orderdet_total'+(i+1)+'" name="orderdet_total[]" value="0" required readonly/>\
+                                        <input type="text" class="form-control money" id="orderdet_total'+(i+1)+'" name="orderdet_total[]" value="'+data.val2[i].orderdet_total+'" required readonly/>\
                                     </td>\
                                     <td id="td8'+(i+1)+'">\
-                                        <input type="text" class="form-control money" id="orderdetgrand_total'+(i+1)+'" name="orderdetgrand_total[]" value="0" required readonly/>\
+                                        <input type="text" class="form-control money" id="orderdetgrand_total'+(i+1)+'" name="orderdetgrand_total[]" value="'+subTotal_+'" required readonly/>\
                                     </td>\
                                 </tr>\
                             ');

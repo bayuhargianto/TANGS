@@ -38,7 +38,7 @@ class C_purchase_order extends MY_Controller {
 			$data = array(
 				'aplikasi'		=> $this->app_name,
 				'title_page' 	=> 'Persetujuan',
-				'title_page2' 	=> 'Purchase Order',
+				'title_page2' => 'Purchase Order',
 				'priv_add'		=> $priv['create']
 				);
 			if($priv['read'] == 1)
@@ -110,12 +110,12 @@ class C_purchase_order extends MY_Controller {
 						<i class="icon-printer text-center"></i>
 					</button>
 					</a>';
-					if ($val->order_status == 1) {
+					// if ($val->order_status == 1) {
 						$button .= '
 						<button class="btn red-thunderbird" type="button" onclick="deleteData('.$val->order_id.')" title="Hapus Data">
 							<i class="icon-close text-center"></i>
 						</button>';
-					}
+					// }
 				} else if ($type == 2) {
 					if($val->order_status_nama == 'PO Disetujui')
 					{
@@ -300,6 +300,7 @@ class C_purchase_order extends MY_Controller {
 					'order_nama_dikirim' 		=> $val->order_nama_dikirim,
 					'order_alamat_dikirim' 	=> $val->order_alamat_dikirim,
 					'order_hp_fax' 					=> $val->order_hp_fax,
+					// 'orderdet_disc'					=> $val->orderdet_disc,
 					'order_subtotal' 				=> $val->order_subtotal,
 					'order_ppn' 						=> $val->order_ppn,
 					'order_total' 					=> $val->order_total,
@@ -386,6 +387,7 @@ class C_purchase_order extends MY_Controller {
 							'orderdet_qty'				=> $val2->orderdet_qty,
 							'satuan_nama'				=> $val2->satuan_nama,
 							'orderdet_harga_satuan'		=> $val2->orderdet_harga_satuan,
+							'orderdet_disc'		=> $val2->orderdet_disc,
 							'orderdet_total'			=> $val2->orderdet_total,
 						);
 					}

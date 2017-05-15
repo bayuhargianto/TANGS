@@ -133,15 +133,16 @@
     </tbody>
   </table>
   <br>
-  <table width="101%" border="1" cellspacing="0" rules="all" cellpadding="6">
+  <table width="100%" border="1" cellspacing="0" rules="all" cellpadding="6">
 	<tr>
 		<th width="5%" scope="col">No.</th>
-		<th width="14%" scope="col">Artikel</th>
-		<th width="35%" scope="col">Uraian dan Spesifikasi Barang/Jasa</th>
+		<th width="5%" scope="col">Artikel</th>
+		<th width="15%" scope="col">Uraian dan Spesifikasi Barang/Jasa</th>
 		<th width="5%" scope="col">Qty</th>
-		<th width="8%" scope="col">Satuan</th>
-		<th width="14%" scope="col">Harga Satuan</th>
-		<th width="19%" scope="col">Total</th>
+		<th width="5%" scope="col">Satuan</th>
+		<th width="5%" scope="col">Harga Satuan</th>
+    <th width="8%" scope="col">Disc ( % )</th>
+    <th width="10%" scope="col">Total</th>
 	</tr>
   <?php
       $no = 1;
@@ -154,30 +155,39 @@
         // echo '<td></td>';
         echo '<td>'.$itemBarang['orderdet_qty'].'</td>';
         echo '<td>'.$itemBarang['satuan_nama'].'</td>';
-        echo '<td><table width="100%">
-                  <tr>
-                  <td align="left">Rp.</td>
-                  <td align="right">'.number_format($itemBarang['orderdet_harga_satuan'],"0", ",", ".").'</td>
-                  </tr>
-              </table></td> ';
+        echo '<td>
+                  <table width="100%">
+                    <tr>
+                      <td align="left">Rp.</td>
+                      <td align="right">'.number_format($itemBarang['orderdet_harga_satuan'],"0", ",", ".").'</td>
+                    </tr>
+                  </table>
+              </td> ';
+        $order_totdisc = $itemBarang['orderdet_total'];
+        if ($itemBarang['orderdet_disc']>0) {
+          $order_totdisc = $itemBarang['orderdet_total']-($itemBarang['orderdet_disc']/100*$itemBarang['orderdet_harga_satuan']*$itemBarang['orderdet_qty']);
+        }
+        echo '<td>'.$itemBarang['orderdet_disc'].'</td>';
 
-        echo '<td><table width="100%">
-                <tr>
-                  <td align="left">Rp.</td>
-                  <td align="right">'.number_format($itemBarang['orderdet_total'],"0", ",", ".").'</td>
-                </tr>
-              </table></td>';
+        echo '<td>
+                <table width="100%">
+                  <tr>
+                    <td align="left">Rp.</td>
+                    <td align="right">'.number_format($order_totdisc,"0", ",", ".").'</td>
+                  </tr>
+                </table>
+            </td>';
 
         echo '</tr>';
         $no++;
       }
     ?>
 	<tr>
-		<td colspan="7"><small>Catatan: Jika tidak sesuai pesanan, barang/jasa akan dikembalikan/dibatalkan untuk
+		<td colspan="8"><small>Catatan: Jika tidak sesuai pesanan, barang/jasa akan dikembalikan/dibatalkan untuk
 		setiap pengiriman, harap mencantumkan no. PO di surat jalan</small></td>
 	</tr>
 	<tr>
-		<td colspan="5" rowspan="3">
+		<td colspan="6" rowspan="3">
 			Terbilang : <?= $val[0]['order_terbilang'] ?> rupiah
 		</td>
 		<td>Sub Total</td>
@@ -210,9 +220,6 @@
 
 	</tr>
 </table>
-
-<p>&nbsp;</p>
-<p>&nbsp;</p>
 <p>&nbsp;</p>
 <!-- <p>&nbsp;</p><br>
 <table width="101%" border="1" cellspacing="0" rules="all" cellpadding="6">
@@ -292,7 +299,7 @@
 
 	</tr>
 </table> -->
-<!-- <table width="50%" border="0">
+<table width="50%" border="0">
   <tr>
     <td width="28%">Tanggal Kirim</td>
     <td width="2%">:</td>
@@ -323,7 +330,7 @@
     }
     ?>
 
-</table> -->
+</table>
 <p>&nbsp;</p>
 <table width="81%" border="1" cellspacing="0">
   <tr>
