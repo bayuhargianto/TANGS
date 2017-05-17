@@ -37,6 +37,9 @@ class C_konsinyasi extends MY_Controller {
 	public function loadData(){
 		$priv = $this->cekUser(77);
 		$select = '*';
+
+		// $join
+
 		//LIMIT
 		$limit = array(
 			'start'  => $this->input->get('start'),
@@ -71,9 +74,23 @@ class C_konsinyasi extends MY_Controller {
 											<i class="icon-pencil text-center"></i>
 										</button>';
 					}
+					$select2 = 'stok_gudang_jumlah';
+
+					$whereBarangid['data'][] = array(
+						'column' => 'm_barang_id',
+						'param'	 => $val->m_barang_id
+					);
+
+					$qcheckstockgudang = $this->mod->select($select2 ,'t_stok_gudang', NULL, $whereBarangid);
+					$stok_gudang_jumlah = 0;
+					if ($qcheckstockgudang<>false) {
+						$result = $qcheckstockgudang->row();
+						$stok_gudang_jumlah = $result[0]->stok_gudang_jumlah;
+					}
+					// exit();
 					if($priv['delete'] == 1)
 					{
-						$button = $button.'<button class="btn red-thunderbird" type="button" onclick="deleteData('.$val->m_barang_id.')" title="Non Aktifkan">
+						$button = $button.'<button class="btn red-thunderbird" type="button" onclick="deleteData('.$val->m_barang_id.','.$stok_gudang_jumlah.')" title="Non Aktifkan">
 						<i class="icon-power text-center"></i>
 						</button>';
 					}
@@ -115,7 +132,7 @@ class C_konsinyasi extends MY_Controller {
 		if ($query_filter<>false) {
 			$response['recordsFiltered'] = $query_filter->num_rows();
 		}
-
+		// echo $this->db->last_query();
 		echo json_encode($response);
 	}
 
@@ -392,7 +409,9 @@ class C_konsinyasi extends MY_Controller {
 			'column' => 'm_barang_id',
 			'param'	 => $id
 		);
+
 		$update = $this->mod->update_data_table($this->tbl, $where, $data);
+
 		if($update->status) {
 			$response['status'] = '200';
 		} else {

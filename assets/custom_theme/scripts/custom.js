@@ -2823,6 +2823,7 @@ function selectList_Satuan(idElemen) {
 }
 
 function select2List(idElemen = null, url_data = null, label = null, parameter = null) {
+  $(idElemen).val('').trigger('change');
   $(idElemen).select2({
     placeholder: label,
     multiple: false,

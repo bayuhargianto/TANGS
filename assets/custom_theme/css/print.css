@@ -1,0 +1,79 @@
+body {
+  background: rgb(204,204,204);
+  width: 100%;
+  font-size: 12px;
+  margin: 40px;
+}
+page[size="A4"] {
+  background: white;
+  width: 21cm;
+  height: 29.7cm;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 0.5cm;
+  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+  padding: 20px;
+}
+
+
+table
+{
+  width: 100%;
+  /*border: 1px solid;*/
+}
+
+.center,
+td.center
+{
+  text-align: center;
+  min-height: 200px;
+}
+
+td {
+  /*height: 100px!important;*/
+}
+
+.price
+{
+  font-size: 40px;
+}
+  .title
+  {
+    text-align: center;
+    font-size: 20px;
+  }
+
+  .rupiah {
+    text-align: left !important;
+    padding-left: 20px  !important;
+  }
+
+  .tanggal{
+    text-align: right;
+    padding-right: 20px;
+  }
+
+
+@media print{
+
+  body, page[size="A4"] {
+    margin: 0;
+    box-shadow: 0;
+    font-size: 12px!important;
+  }
+
+  table{
+    width: 100%;
+  }
+
+  tr, td {
+    text-align: center;
+  }
+
+  .tanggal{
+    text-align: right;
+    padding-right: 20px;
+  }
+
+
+}

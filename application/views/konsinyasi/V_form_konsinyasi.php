@@ -6,6 +6,7 @@
             <div class="alert alert-success display-hide">
                 <button class="close" data-close="alert"></button> Your form validation is successful! </div>
             <input type="hidden" id="url" value="Master-Data/Konsinyasi/postData/">
+            <input type="hidden" id="stock_gudang_jumlah" name="stock_gudang_jumlah" value="">
             <div class="form-group" hidden="true">
                 <label class="control-label col-md-4">Kode Konsinyasi (Auto)
                     <span class="required"> * </span>
@@ -23,7 +24,8 @@
                 <div class="col-md-8">
                     <div class="input-icon right">
                         <i class="fa"></i>
-                        <select class="form-control" id="m_jenis_barang_id" name="m_jenis_barang_id" aria-required="true" aria-describedby="select-error" required>
+                        <select class="form-control" id="m_jenis_barang_id" name="m_jenis_barang_id"
+                        aria-required="true" aria-describedby="select-error" required>
                         </select>
                     </div>
                 </div>
@@ -35,7 +37,8 @@
                 <div class="col-md-8">
                     <div class="input-icon right">
                         <i class="fa"></i>
-                        <select class="form-control" id="m_category_2_id" name="m_category_2_id" aria-required="true" aria-describedby="select-error" required>
+                        <select class="form-control" id="m_category_2_id" name="m_category_2_id"
+                        aria-required="true" aria-describedby="select-error" required>
                         </select>
                     </div>
                 </div>
@@ -47,12 +50,13 @@
                 <div class="col-md-8">
                     <div class="input-icon right">
                         <i class="fa"></i>
-                        <select class="form-control" id="m_barang_id" name="m_barang_id" aria-required="true" aria-describedby="select-error" required>
+                        <select class="form-control" id="m_barang_id" name="m_barang_id"
+                        aria-required="true" aria-describedby="select-error" required>
                         </select>
                     </div>
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <label class="control-label col-md-4">Status Konsinyasi
                     <span class="required"> * </span>
@@ -70,7 +74,7 @@
         <div class="form-actions">
             <div class="row">
                 <div class="col-md-offset-4 col-md-8 text-right">
-                    <button type="submit" class="btn green-jungle">Submit</button>
+                    <button type="button" class="btn green-jungle" id="submit">Submit</button>
                     <button type="button" class="btn default reset" onclick="reset()">Reset</button>
                 </div>
             </div>
@@ -87,8 +91,81 @@
 
         $("#m_category_2_id").change(function(){
             var m_category_2_id = document.getElementById("m_category_2_id").value;
-            select2List('#m_barang_id', 'Master-Data/Barang/loadDataSelectWhere', 'Pilih Barang Konsinyasi', m_category_2_id);
+            select2Listkonsinyasi('#m_barang_id', 'Master-Data/Barang/loadDataSelectWhere', 'Pilih Barang Konsinyasi', m_category_2_id);
 
         });
-        
+
+
+    function FormatResult_(data) {
+        markup = '<div>'+data.text+'</div>';
+        return markup;
+    }
+
+    function FormatSelection_(data) {
+        return data.text;
+    }
+
+      function select2Listkonsinyasi(idElemen = null, url_data = null, label = null, parameter = null) {
+        // alert();
+        $(idElemen).val('').trigger('change');
+        $(idElemen).select2({
+          placeholder: label,
+          multiple: false,
+          allowClear: true,
+          ajax: {
+            url: $base_url+url_data,
+            dataType: 'json',
+            delay: 100,
+            cache: true,
+            data: function (params) {
+              return {
+                q: params.term, // search term
+                parameter: parameter,
+                page: params.page
+              };
+            },
+            processResults: function (data, params) {
+              // parse the results into the format expected by Select2
+              // since we are using custom formatting functions we do not need to
+              // alter the remote JSON data, except to indicate that infinite
+              // scrolling can be used
+              params.page = params.page || 1;
+              return {
+                results: data.items,
+                pagination: {
+                  more: (params.page * 30) < data.total_count
+                }
+              };
+            }
+          },
+          escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+          minimumInputLength: 1,
+          templateResult: FormatResult_,
+          templateSelection: FormatSelection_,
+        });
+      }
+
+      $('#m_barang_id').on("change", function(e) {
+        var barang_id = $(this).val();
+        var url = "C_barang/checkGudang";
+        $.ajax({
+          type: "POST",
+          url: $base_url+url,
+          data: {barang_id:barang_id}, // serializes the form's elements.
+          success: function(data)
+          {
+            $('#stock_gudang_jumlah').val(data.stok_gudang_jumlah);
+          }
+        });
+      });
+
+
+      $('#submit').on('click', function(){
+        var stock_gudang_jumlah = $('#stock_gudang_jumlah').val();
+        if (stock_gudang_jumlah <= 0) {
+          actionData2();
+        } else {
+          alert("Stok Masih Ada !!");
+        }
+      })
     </script>

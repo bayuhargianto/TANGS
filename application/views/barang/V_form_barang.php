@@ -1,5 +1,5 @@
 <!-- BEGIN FORM-->
-    <form action="#" id="formAdd" class="form-horizontal" method="post">
+    <form action="#" id="formAdd" name="formAddbarang" class="form-horizontal" method="post">
         <div class="form-body">
             <div class="alert alert-danger display-hide">
                 <button class="close" data-close="alert"></button> You have some form errors. Please check below. </div>
@@ -7,6 +7,7 @@
                 <button class="close" data-close="alert"></button> Your form validation is successful! </div>
             <input type="hidden" id="barang_kode" name="barang_nomor">
             <input type="hidden" id="url" value="Master-Data/Barang/postData/">
+            <input type="hidden" id="url_data" value="Master-Data/Barang">
             <div class="form-group" hidden="true">
                 <label class="control-label col-md-4">ID Barang (Auto)
                     <span class="required"> * </span>
@@ -43,7 +44,7 @@
                 <div class="col-md-8">
                     <div class="input-icon right">
                         <i class="fa"></i>
-                        <input type="text" class="form-control" name="barang_nama" required /> </div>
+                        <input type="text" class="form-control" id="barang_nama" name="barang_nama" required /> </div>
                 </div>
             </div>
             <div class="form-group">
@@ -152,7 +153,7 @@
         <div class="form-actions">
             <div class="row">
                 <div class="col-md-offset-4 col-md-8 text-right">
-                    <button type="submit" class="btn green-jungle" id="submit">Submit</button>
+                    <button type="button" class="btn green-jungle" id="submit">Submit</button>
                     <button type="button" class="btn default reset" onclick="reset()">Reset</button>
                 </div>
             </div>
@@ -166,6 +167,8 @@
         $("#m_jenis_barang_id").change(function(){
             var m_jenis_barang_id = document.getElementById("m_jenis_barang_id").value;
             select2List('#m_category_2_id', 'Master-Data/Master-Kategori/loadDataSelectWhere', 'Pilih Category 2', m_jenis_barang_id);
+            // $('#m_category_2_id').select2('destroy');
+            // $('#m_category_2_id').select2();
         });
 
         $("#m_category_2_id").change(function(){
@@ -186,19 +189,89 @@
         function generate_artikel() {
             var cat1 = document.getElementById('m_jenis_barang_id').value;
             var cat2 = document.getElementById('m_category_2_id').value;
-            if(cat1 < 10){
+
+            if(cat1 < 10)
+            {
                 cat1 = "0"+cat1;
             }
-            if(cat2 < 10){
+            if(cat2 < 10)
+            {
                 cat2 = "0"+cat2;
             }
+
             $.ajax({
-              type : 'GET',
-              url  : $base_url+'Master-Data/Barang/getLastId',
+              type    : 'POST',
+              data    : {cat1:cat1, cat2:cat2},
+              url     : $base_url+'Master-Data/Barang/getLastId',
+              dataType: "JSON",
               success:function(data){
                 document.getElementById('barang_kode').value = cat1+cat2+data;
               }
             });
         }
+
+      $("#submit").on('click', function(e) {
+        // alert();
+      var url = "C_barang/checknamabarang"; // the script where you handle the form input.
+      var barang_nama = $("#barang_nama").val();
+      $.ajax({
+             type: "POST",
+             url: $base_url+url,
+             data: {barang_nama:barang_nama}, // serializes the form's elements.
+             dataType : "json",
+             success: function(data)
+             {
+                 if(data.status == '200')
+                 {
+                   actionData2();
+                 } else if (data.status == '204') {
+                   alert("Item Sudah ada");
+                 }
+             }
+           });
+
+      e.preventDefault(); // avoid to execute the actual submit of the form.
+      // break;
+  });
+
+  function select2List(idElemen = null, url_data = null, label = null, parameter = null) {
+    $(idElemen).val('').trigger('change');
+    $(idElemen).select2({
+      placeholder: label,
+      multiple: false,
+      allowClear: true,
+      ajax: {
+        url: $base_url+url_data,
+        dataType: 'json',
+        delay: 100,
+        cache: true,
+        data: function (params) {
+          return {
+            q: params.term, // search term
+            parameter: parameter,
+            page: params.page
+          };
+        },
+        processResults: function (data, params) {
+          // parse the results into the format expected by Select2
+          // since we are using custom formatting functions we do not need to
+          // alter the remote JSON data, except to indicate that infinite
+          // scrolling can be used
+          params.page = params.page || 1;
+
+          return {
+            results: data.items,
+            pagination: {
+              more: (params.page * 30) < data.total_count
+            }
+          };
+        }
+      },
+      escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+      minimumInputLength: 1,
+      templateResult: FormatResult,
+      templateSelection: FormatSelection,
+    });
+  }
 
     </script>

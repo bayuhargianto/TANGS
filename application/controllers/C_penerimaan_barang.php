@@ -332,14 +332,16 @@ class C_penerimaan_barang extends MY_Controller {
 		echo json_encode($response);
 	}
 
-	public function checkPO(){
+	public function checkPO()
+	{
 		$where['data'][] = array(
 			'column' => 't_order_id',
 			'param'	 => $this->input->get('id', TRUE)
 		);
-		$query = $this->mod->select('*', $this->tbl, NULL, $where);
+		$query = $this->mod->select('COUNT(*) AS result', $this->tbl, NULL, $where)->row();
 		// print_r($this->db->last_query());
-		if ($query) {
+
+		if ($query->result > 0) {
 			$response['status'] = '204';
 		} else {
 			$response['status'] = '200';
@@ -442,7 +444,7 @@ class C_penerimaan_barang extends MY_Controller {
 	// Function Insert & Update
 	public function postData($type){
 		$id = $this->input->post('kode');
-		echo $id;
+		// echo $id;
 		$response['test'] = $type;
 		if (strlen($id)>0) {
 			if ($type == 2) {
@@ -666,7 +668,7 @@ class C_penerimaan_barang extends MY_Controller {
 											// UPDATE
 											foreach ($select_stok_gudang->result() as $value) {
 												$dataStok2 = array(
-													'm_gudang_id' 				=> $value['m_gudang_id'],
+													'm_gudang_id' 				=> $value->m_gudang_id,
 													'm_barang_id' 				=> $this->input->post('m_barang_id', TRUE)[$i],
 													'stok_gudang_jumlah' 		=> $data_det['penerimaan_barangdet_qty'] + $value->stok_gudang_jumlah,
 													// 'stok_gudang_no_seri' 		=> $noSeri[$j],
@@ -925,7 +927,7 @@ class C_penerimaan_barang extends MY_Controller {
 	}
 
 	public function deleteData(){
-		error_reporting(E_ALL);
+		// error_reporting(E_ALL);
 		$response['id'] = $this->input->post('id', TRUE);
 		$where['data'][] = array(
 			'column' => 'penerimaan_barang_id',
@@ -934,6 +936,13 @@ class C_penerimaan_barang extends MY_Controller {
 		$query = $this->mod->select('*', $this->tbl, NULL, $where);
 		if ($query) {
 			foreach ($query->result() as $row) {
+				// update qty realisasi
+				$whereOrderid = array('t_order_id' => $row->t_order_id);
+				$dataUpdateorder = array(
+					'orderdet_qty_realisasi' => 0,
+				);
+				$qorderdet = $this->mod->update_data_table('t_orderdet', $whereOrderid, $dataUpdateorder);
+				// end update qty realisasi
 				// HAPUS KARTU STOK
 				$where_kartustok['data'][] = array(
 					'column' => 'kartu_stok_referensi',
@@ -993,6 +1002,7 @@ class C_penerimaan_barang extends MY_Controller {
 				'param'	 => $this->input->post('id')
 			);
 			$query_penerimaan_dtl = $this->mod->delete_data_table('t_penerimaan_barangdet', $where_penerimaan_dtl);
+
 			// END HAPUS PENERIMAAN
 			$response['status'] = '200';
 		} else {

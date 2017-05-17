@@ -162,7 +162,8 @@ class C_purchase_order extends MY_Controller {
 		echo json_encode($response);
 	}
 
-	public function getForm1($id = null){
+	public function getForm1($id = null)
+	{
 		$this->check_session();
 		$data = array(
 			'aplikasi'		=> $this->app_name,

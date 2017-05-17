@@ -44,7 +44,7 @@ class C_barang extends MY_Controller {
 		);
 		//WHERE LIKE
 		$where_like['data'][] = array(
-			'column' => 'barang_nomor, barang_nama, jenis_barang_nama, barang_minimum_stok, satuan_nama, barang_status_aktif', 'param'	 => $this->input->get('search[value]')
+			'column' => 'barang_nomor, barang_kode, barang_nama, jenis_barang_nama, barang_minimum_stok, satuan_nama, barang_status_aktif', 'param'	 => $this->input->get('search[value]')
 		);
 		//ORDER
 		$index_order = $this->input->get('order[0][column]');
@@ -66,24 +66,24 @@ class C_barang extends MY_Controller {
 				$button = '<button class="btn blue-soft" type="button" onclick="openFormPrintbBarang('.$val->barang_id.')"
 				 						title="Print Price Tag" data-toggle="modal" href="#modalprint">
 										<i class="fa fa-print text-center"></i>
-									 </button>';
+									 </button>
+									 <button class="btn blue" type="button" onclick="openFormPrintbBarcode('.$val->barang_id.')" title="Print Barcode">
+	 									<i class="fa fa-print text-center"></i>
+	 								 </button>';
 				if ($val->barang_status_aktif == 'y') {
 					$status = '<span class="label bg-green-jungle bg-font-green-jungle"> Aktif </span>';
 					if($priv['update'] == 1)
 					{
 						$button = $button.'<button class="btn blue-ebonyclay" type="button" onclick="openFormBarang('.$val->barang_id.')" title="Edit" data-toggle="modal" href="#modaladd">
 											<i class="icon-pencil text-center"></i>
-										</button>
-								<button class="btn blue-soft" type="button" onclick="openFormValueBarang('.$val->barang_id.')" title="Edit Value" data-toggle="modal" href="#modaladd">
-									<i class="icon-notebook text-center"></i>
-								</button>';
+										</button>';
 					}
 					if($priv['delete'] == 1)
 					{
 						$button = $button.'
 									<button class="btn red-thunderbird" type="button" onclick="deleteData('.$val->barang_id.')" title="Non Aktifkan">
-							<i class="icon-power text-center"></i>
-						</button>';
+										<i class="icon-power text-center"></i>
+									</button>';
 					}
 
 				} else {
@@ -92,10 +92,7 @@ class C_barang extends MY_Controller {
 					{
 						$button = $button.'<button class="btn blue-ebonyclay" type="button" onclick="openFormBarang('.$val->barang_id.')" title="Edit" data-toggle="modal" href="#modaladd" disabled>
 											<i class="icon-pencil text-center"></i>
-										</button>
-								<button class="btn blue-soft" type="button" onclick="openFormValueBarang('.$val->barang_id.')" title="Edit Value" data-toggle="modal" href="#modaladd" disabled>
-									<i class="icon-notebook text-center"></i>
-								</button>';
+										</button>';
 
 					}
 					if($priv['delete'] == 1)
@@ -139,7 +136,6 @@ class C_barang extends MY_Controller {
 		$wherebarangid_ = array(
 			'barang_id' => $barang_id,
 		);
-
 		$data = array(
 			'barang' => $this->mod->select_config('m_barang', $wherebarangid)->row(),
 			'action' => 'C_barang/printpricetagaction'
@@ -155,19 +151,27 @@ class C_barang extends MY_Controller {
 
 		// echo "<img src=".$image."/>";
 		// imagepng($imageResource, 'public_html/img/barcode.png');
-
 		$this->load->view('barang/printpricetag_modal', $data);
 	}
 
-	function printpricetagbarcode($barang_kode)
+	function printpricetagbarcode()
 	{
-		// $wherebarangid_ = array('barang_id' => $id );
-		// $barang = $this->mod->select_config_one('m_barang', 'barang_kode', $wherebarangid_);
+		$barang_id = $this->input->post('id');
+		$wherebarangid = "WHERE barang_id = '$barang_id'";
+		$wherebarangid_ = array('barang_id' => $barang_id );
 
+		$data = array(
+			'barang' => $this->mod->select_config('m_barang', $wherebarangid)->row()
+		);
+
+		$this->load->view('barang/printbar_modal', $data);
+	}
+
+	function printpricetagbarcode_($barang_kode)
+	{
 		$this->load->library('zend');
     $this->zend->load('Zend/Barcode');
 		Zend_Barcode::render('code128', 'image', array('text'=>$barang_kode), array());
-
 	}
 
 	function printpricetagaction($id, $qty)
@@ -182,6 +186,20 @@ class C_barang extends MY_Controller {
 		);
 
 		$this->load->view('barang/printpricetag', $data);
+	}
+
+	function printBarcode($barang_id, $print_qty)
+	{
+		$wherebarangid = "WHERE barang_id = '$barang_id'";
+
+		$data = array(
+			'barang' 			=> $this->mod->select_config('m_barang', $wherebarangid)->row(),
+			'printqty'		=> $print_qty,
+			'action' 			=> 'C_barang',
+			'tanggal'			=> date("d/m/y")
+		);
+
+		$this->load->view('barang/printbar', $data);
 	}
 
 	public function import(){
@@ -324,7 +342,7 @@ class C_barang extends MY_Controller {
 
 				// FUNGSI GENERATE ARTIKEL
 
-				echo $this->db->last_query();
+				// echo $this->db->last_query();
 							if($hasil_jenis_barang_id < 10){
 	                $cat1 = "0".$hasil_jenis_barang_id;
 	            }else{
@@ -370,7 +388,7 @@ class C_barang extends MY_Controller {
 				}
 				// $barang_nomor = '';
 				$barang_nomor = "AJBS".$great_param.$cat1.$cat2.$no_;
-				$barang_artikel = $great_param.$cat1.$cat2.$no_;
+				$barang_artikel = $cat1.$cat2.$no_;
 				// ==================================================================================
 
 				// FUNGSI INSERT KE TABEL BARANG
@@ -904,6 +922,28 @@ class C_barang extends MY_Controller {
 		echo json_encode($response);
 	}
 
+	function checknamabarang()
+	{
+		$barang_nama = $this->input->post('barang_nama');
+		$table = "m_barang";
+		$select = "COUNT(barang_id) as result";
+		$where['data'][] = array(
+			'column' => 'barang_nama',
+			'param'	 => $barang_nama
+		);
+
+		$query = $this->mod->select($select, $table, NULL, $where);
+		// echo $this->db->last_query();
+		$result = $query->result();
+		$barang_exist = $result[0]->result;
+		if ($barang_exist > 0) {
+			$data['status'] = "204";
+		} else {
+			$data['status'] = "200";
+		}
+		echo json_encode($data);
+	}
+
 	// Function Insert & Update
 	public function postData(){
 		$id = $this->input->post('kode');
@@ -1241,58 +1281,126 @@ class C_barang extends MY_Controller {
 
 	public function loadDataSelectWhere(){
 		$param = $this->input->get('q');
+
 		$m_category_2_id = $this->input->get('parameter');
+		$table = "m_barang a";
+
 		if ($param!=NULL) {
 			$param = $this->input->get('q');
 		} else {
 			$param = "";
 		}
 
-		$select = '*';
-		$join['data'][] = array(
+		$select = 'a.*, c.stok_gudang_jumlah';
+
+
+		$join_['data'][] = array(
 			'table' => 'm_konversi_satuan b',
 			'join'	=> 'b.m_satuan_id = a.satuan_id',
 			'type'	=> 'left'
 		);
+
+		$join['data'][] = array(
+			'table' => 't_stok_gudang c',
+			'join'	=> 'c.m_barang_id = a.barang_id',
+			'type'	=> 'left'
+		);
+
 		$where['data'][] = array(
-			'column' => 'm_category_2_id',
+			'column' => 'a.m_category_2_id',
 			'param'	 => $m_category_2_id
 		);
+
 		$where_like['data'][] = array(
-			'column' => 'barang_nama',
+			'column' => 'a.barang_nama',
 			'param'	 => $this->input->get('q')
 		);
+
 		$order['data'][] = array(
-			'column' => 'barang_nama',
+			'column' => 'a.barang_nama',
 			'type'	 => 'ASC'
 		);
-		$query = $this->mod->select($select, $this->tbl, null, $where, null, $where_like, $order);
+
+		$query = $this->mod->select($select, $table, $join, $where, null, $where_like, $order);
 
 		// print_r($this->db->last_query());
 		$response['items'] = array();
 		if ($query<>false) {
 			foreach ($query->result() as $val) {
 				$response['items'][] = array(
-					'id'	=> $val->barang_id,
-					'text'	=> $val->barang_nama
+					'id'									=> $val->barang_id,
+					'text'								=> $val->barang_nama,
+					'stock_gudang_jumlah'	=> $val->stok_gudang_jumlah ? $val->stok_gudang_jumlah : 0
 				);
 			}
 			$response['status'] = '200';
 		}
+		// echo $this->db->last_query();
+		echo json_encode($response);
+	}
 
+	function checkGudang()
+	{
+		$barang_id = $this->input->post('barang_id');
+		$table = "t_stok_gudang";
+		$select = "stok_gudang_jumlah";
+
+
+		$where['data'][] = array(
+			'column' => 'm_barang_id',
+			'param'	 => $barang_id
+		);
+
+		$query = $this->mod->select($select, $table, NULL, $where, NULL);
+
+		$response = array();
+
+		if ($query<>false) {
+			$row = $query->result();
+			$result = $row[0]->stok_gudang_jumlah;
+
+			$response['stock_gudang_jumlah'] = $result;
+			$response['status'] = '200';
+		}
+		// echo $this->db->last_query();
 		echo json_encode($response);
 	}
 
 	function get_last_id(){
-		$select = 'barang_id';
+		$cat1 = $this->input->post('cat1');
+		$cat2 = $this->input->post('cat2');
+		$select = 'barang_nomor';
+
+		$where['data'][] = array(
+			'column' => 'm_jenis_barang_id',
+			'param'	 => $cat1
+		);
+
+		$where['data'][] = array(
+			'column' => 'm_category_2_id',
+			'param'	 => $cat2
+		);
+
 		$order['data'][] = array(
 			'column' => 'barang_id',
 			'type'	 => 'desc'
 		);
-		$query = $this->mod->select($select, 'm_barang', NULL, NULL, NULL, NULL, $order, NULL);
-		$result = $query->result();
-		$last_id = $result[0]->barang_id+1;
-		echo $last_id;
+
+		$limit = array(
+			'start'  => 1
+		);
+		$data = NULL;
+		if ($cat2) {
+
+			$query = $this->mod->select($select, 'm_barang', NULL, $where, NULL, NULL, $order, NULL, $limit);
+
+			$result = $query->result();
+			$last_id = $result[0]->barang_nomor;
+			$last_id = explode("0", $last_id);
+			$data = end($last_id)+1;
+		}
+
+		echo json_encode($data);
 	}
 
 }

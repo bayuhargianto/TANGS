@@ -37,7 +37,9 @@
                                 <div class="portlet-title">
                                     <div class="caption">
                                         <i class=" icon-doc font-dark"></i> &nbsp;&nbsp;
-                                        <span class="caption-subject font-dark sbold uppercase">Form  <?php if(isset($title_page2)) echo $title_page2;?></span>
+                                        <span class="caption-subject font-dark sbold uppercase">Form
+                                          <?php if(isset($title_page2)) echo $title_page2;?>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="portlet-body">
@@ -58,7 +60,8 @@
                                             <div class="col-md-8">
                                                 <div class="input-icon right">
                                                     <i class="fa"></i>
-                                                    <input type="text" class="form-control" name="kode" value="<?php if(isset($id)) echo $id;?>" readonly /> </div>
+                                                    <input type="text" class="form-control" name="kode"
+                                                    value="<?php if(isset($id)) echo $id;?>" readonly /> </div>
                                             </div>
                                         </div>
                                         <div class="form-group" hidden="true" id="KodeBPB">
@@ -79,7 +82,8 @@
                                                 <div class="input-icon right">
                                                     <i class="fa"></i>
                                                     <div class=" input-group date datepicker datepickerid" data-date-format="dd/mm/yyyy">
-                                                        <input name="penerimaan_barang_tanggal" type="text" value="<?php echo date('d/m/Y');?>" class="form-control" required>
+                                                        <input name="penerimaan_barang_tanggal" type="text"
+                                                        value="<?php echo date('d/m/Y');?>" class="form-control" required>
                                                         <span class="input-group-addon" style="">
                                                             <span class="icon-calendar"></span>
                                                         </span>
@@ -94,7 +98,8 @@
                                             <div class="col-md-8">
                                                 <div class="input-icon right">
                                                     <i class="fa"></i>
-                                                    <div class="input-group date datepicker datepickerid" data-date-format="dd/mm/yyyy" data-date-start-date="+0d">
+                                                    <div class="input-group date datepicker datepickerid"
+                                                     data-date-format="dd/mm/yyyy" data-date-start-date="+0d">
                                                         <input type="text" class="form-control" name="penerimaan_barang_tanggal_terima" required>
                                                         <span class="input-group-addon" style="">
                                                             <span class="icon-calendar"></span>
@@ -121,7 +126,8 @@
                                                 </div>
                                             </div>
                                         </div> -->
-                                        <input type="hidden" value="0" name="penerimaan_barang_jenis" id="penerimaan_barang_jenis1" onchange="getRef( this)" required />
+                                        <input type="hidden" value="0" name="penerimaan_barang_jenis" id="penerimaan_barang_jenis1"
+                                        onchange="getRef( this)" required />
                                         <div class="form-group">
                                             <label class="control-label col-md-4">Nama Pemeriksa
                                                 <span class="required"> * </span>
@@ -129,7 +135,8 @@
                                             <div class="col-md-8">
                                                 <div class="input-icon right">
                                                     <i class="fa"></i>
-                                                    <select class="form-control" id="penerimaan_barang_pemeriksa" name="penerimaan_barang_pemeriksa" aria-required="true" aria-describedby="select-error" required>
+                                                    <select class="form-control" id="penerimaan_barang_pemeriksa" name="penerimaan_barang_pemeriksa"
+                                                    aria-required="true" aria-describedby="select-error" required>
                                                     </select>
                                                 </div>
                                             </div>
@@ -141,7 +148,8 @@
                                             <div class="col-md-8">
                                                 <div class="input-icon right">
                                                     <i class="fa"></i>
-                                                    <select class="form-control" id="penerimaan_barang_penyetuju" name="penerimaan_barang_penyetuju" aria-required="true" aria-describedby="select-error">
+                                                    <select class="form-control" id="penerimaan_barang_penyetuju" name="penerimaan_barang_penyetuju"
+                                                    aria-required="true" aria-describedby="select-error">
                                                     </select>
                                                 </div>
                                             </div>
@@ -153,7 +161,8 @@
                                             <div class="col-md-8">
                                                 <div class="input-icon right">
                                                     <i class="fa"></i>
-                                                    <select class="form-control" id="m_gudang_id" name="m_gudang_id" aria-required="true" aria-describedby="select-error" required >
+                                                    <select class="form-control" id="m_gudang_id" name="m_gudang_id" aria-required="true"
+                                                    aria-describedby="select-error" required >
                                                     </select>
                                                 </div>
                                             </div>
@@ -175,7 +184,8 @@
                                             <div class="col-md-7">
                                                 <div class="input-icon right">
                                                     <i class="fa"></i>
-                                                    <select class="form-control" id="t_order_id" name="t_order_id" aria-required="true" aria-describedby="select-error" required>
+                                                    <select class="form-control" id="t_order_id" name="t_order_id" aria-required="true"
+                                                    aria-describedby="select-error" required>
                                                     </select>
                                                 </div>
                                             </div>
@@ -187,7 +197,8 @@
                                         <div class="form-group" id="tblInsert">
                                             <div class="col-md-12">
                                                 <input type="hidden" name="jml_itemBarang" id="jml_itemBarang" value="0" />
-                                                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="default-table" style="overflow: scroll; white-space: inherit;">
+                                                <table class="table table-striped table-bordered table-hover table-checkable order-column"
+                                                id="default-table" style="overflow: scroll; white-space: inherit;">
                                                     <thead>
                                                         <tr>
                                                             <th> No </th>
@@ -329,10 +340,12 @@
                                         '+data.val2[i].barang_uraian+'\
                                     </td>\
                                     <td id="td3'+(i+1)+'">\
-                                        <input type="text" class="form-control num2" id="orderdet_qty'+(i+1)+'" name="orderdet_qty_realisasi[]" value="'+(data.val2[i].orderdet_qty - data.val2[i].orderdet_qty_realisasi)+'" required readonly />\
+                                        <input type="text" class="form-control num2" id="orderdet_qty'+(i+1)+'" name="orderdet_qty_realisasi[]"\
+                                        value="'+(data.val2[i].orderdet_qty - data.val2[i].orderdet_qty_realisasi)+'" required readonly />\
                                     </td>\
                                     <td id="td4'+(i+1)+'">\
-                                        <input type="text" class="form-control num2" id="penerimaan_barangdet_qty'+(i+1)+'" name="penerimaan_barangdet_qty[]" value="0" required />\
+                                          <input type="text" class="form-control num2" id="penerimaan_barangdet_qty'+(i+1)+'"\
+                                        name="penerimaan_barangdet_qty[]" value="0" required />\
                                     </td>\
                                     <td id="td5'+(i+1)+'">\
                                         '+data.val2[i].satuan_nama+'\
@@ -430,13 +443,15 @@
                       document.getElementsByName('t_order_id')[0].disabled = true;
 
                       for(var j=0; j<data.val[i].penerimaan_barang_pemeriksa.val2.length; j++){
-                        $("#penerimaan_barang_pemeriksa").append('<option value="'+data.val[i].penerimaan_barang_pemeriksa.val2[j].id+'" selected>'+data.val[i].penerimaan_barang_pemeriksa.val2[j].text+'</option>');
+                        $("#penerimaan_barang_pemeriksa").append('<option value="'+data.val[i].penerimaan_barang_pemeriksa.val2[j].id+'"\
+                        selected>'+data.val[i].penerimaan_barang_pemeriksa.val2[j].text+'</option>');
                       }
                       $("#penerimaan_barang_pemeriksa").select2();
                       document.getElementsByName('penerimaan_barang_pemeriksa')[0].disabled = true;
 
                       for(var j=0; j<data.val[i].penerimaan_barang_penyetuju.val2.length; j++){
-                        $("#penerimaan_barang_penyetuju").append('<option value="'+data.val[i].penerimaan_barang_penyetuju.val2[j].id+'" selected>'+data.val[i].penerimaan_barang_penyetuju.val2[j].text+'</option>');
+                        $("#penerimaan_barang_penyetuju").append('<option value="'+data.val[i].penerimaan_barang_penyetuju.val2[j].id+'"\
+                        selected>'+data.val[i].penerimaan_barang_penyetuju.val2[j].text+'</option>');
                       }
                       $("#penerimaan_barang_penyetuju").select2();
                       document.getElementsByName('penerimaan_barang_penyetuju')[0].disabled = true;
@@ -469,7 +484,8 @@
                                     '+data.val2[i].barang_uraian+'\
                                 </td>\
                                 <td id="td3'+(i+1)+'">\
-                                        <input type="text" class="form-control num2" id="penerimaan_barangdet_qty'+(i+1)+'" name="penerimaan_barangdet_qty[]" value="'+data.val2[i].penerimaan_barangdet_qty+'" required readonly />\
+                                        <input type="text" class="form-control num2" id="penerimaan_barangdet_qty'+(i+1)+'"\
+                                        name="penerimaan_barangdet_qty[]" value="'+data.val2[i].penerimaan_barangdet_qty+'" required readonly />\
                                 </td>\
                                 <td id="td4'+(i+1)+'">\
                                     '+data.val2[i].satuan_nama+'\

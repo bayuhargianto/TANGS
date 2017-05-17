@@ -31,7 +31,7 @@ class C_atribut_barang extends MY_Controller {
 		{
 			$this->load->view('layout/V_404', $data);
 		}
-		
+
 	}
 
 	public function loadData(){
@@ -87,7 +87,7 @@ class C_atribut_barang extends MY_Controller {
 						<i class="icon-power text-center"></i>
 					</button>';
 					}
-					
+
 				} else {
 					$status = '<span class="label bg-red-thunderbird bg-font-red-thunderbird"> Non Aktif </span>';
 					if($priv['update'] == 1)
@@ -102,14 +102,14 @@ class C_atribut_barang extends MY_Controller {
 						<i class="icon-power text-center"></i>
 					</button>';
 					}
-					
+
 				}
-				
+
 				if ($val->atribut_jenis == 1) {
 					// SET TRUE IF WANT TO DECODE ALL TO ARRAY
 					$array_value = json_decode($val->atribut_default_value, TRUE);
 					$hasil = array();
-					for ($i = 0; $i < sizeof($array_value); $i++) { 
+					for ($i = 0; $i < sizeof($array_value); $i++) {
 						array_push($hasil, $array_value[$i]['nama']);
 					}
 					$default_value = implode(', ', $hasil);
@@ -261,7 +261,7 @@ class C_atribut_barang extends MY_Controller {
 				$response['status'] = '204';
 			}
 		}
-		
+
 		echo json_encode($response);
 	}
 

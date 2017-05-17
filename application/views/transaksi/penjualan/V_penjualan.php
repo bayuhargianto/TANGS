@@ -83,8 +83,8 @@
                                   <tr>
                                     <th width="10%">STATUS</th>
                                     <th width="50%">NAMA ITEM</th>
-                                    <th class="text-right">HARGA</th>
                                     <th width="20%">READY ITEM</th>
+                                    <th class="text-right">HARGA</th>
                                     <th class="text-center"><i class="fa fa-th"></i></th>
                                   </tr>
                                 </thead>
@@ -224,6 +224,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <input type="hidden" id="type_karyawan" name="type_karyawan" value="">
+                                    <input type="hidden" id="item_booking" name="item_booking" value="0">
                                     <label for="input-discount-item">Diskon(Rp) :</label>
                                     <input type="text" class="form-control input-lg numeric" id="input-discount-item" value="">
                                     <label for="input-discount-item-percent">Diskon(%) :</label>
@@ -288,7 +289,7 @@
                                               <input type="hidden" id="input-biaya" name="input_biaya" value="" class="">
                                               <div class="input-group">
                                                 <input type="text" class="form-control text-right" value="Pengiriman"
-                                                style="border: none; background-color: #fff;">
+                                                style="border: none; background-color: #fff; color: #000;">
                                                 <span class="input-group-addon"
                                                 style="border: none; background-color: #fff;">
                                                   <input type="checkbox" id="pengiriman" name="pengiriman" value="1"

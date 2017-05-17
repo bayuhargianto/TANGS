@@ -83,7 +83,6 @@
             storage_booking_detail = [];
             localStorage.setItem('sales_booking_detail', JSON.stringify(storage_booking_detail));
         }
-        // console.log(storage_booking_detail);
 
         $.each(outlets, function (index, value) {
             $('#sales-outlet').append($('<option/>', {
@@ -94,12 +93,13 @@
 
 
         $('#my-modal-disc').on('click', '.btn-ok', function () {
+            var total_sales_detail_ = total_sales_detail_booking+total_sales_detail;
             if( $('#input-discount').val().length == 0 ){
                 sales_discount = 0;
             }else{
                 sales_discount = parseInt($("#input-discount").autoNumeric('get'));
             }
-            if( sales_discount > total_sales_detail ){
+            if( sales_discount > total_sales_detail_){
                 alert('Diskon tidak boleh lebih dari total bayar!');
                 sales_discount = 0;
                 $("#input-discount").val('0');
@@ -111,75 +111,135 @@
         });
 
         $('#my-modal-disc-item').on('click', '.btn-ok', function () {
+            var item_index = sales_discount_item_current_index;
+            var this_name = '';
+            var this_id = 0;
+            var this_price = 0;
+            var this_qty = 0;
+            var this_disc = 0;
+            var this_disc_percent = 0;
+            var this_total = 0;
+            var item_exist = 0;
+            var item_exist_index = -1;
+            var stok_gudang_jumlah = 0;
+            var this_has_promo = 0;
+            var this_promo_type = 0;
+            var this_promo_gratis = 0;
+            var this_promo_item_name  = 0;
+            var this_promo_qty  = 0;
             var current_discount_item = 0;
+            // storage_booking_detail
             if( $('#input-discount-item').val().length == 0 ){
                 discount_percent = 0;
                 current_discount_item = 0;
-            }else{
+            } else {
                 discount_percent = $('#input-discount-item-percent').val();
                 current_discount_item = parseInt($("#input-discount-item").autoNumeric('get'));
             }
-            if( current_discount_item > sales_total_item ){
-                alert('Diskon tidak boleh lebih dari total!');
-                current_discount_item = 0;
-                $("#input-discount-item").val('0');
-                $("#input-discount-item-percent").val('0')
-            }else{
-                // console.log( current_discount_item );
-                var item_index = sales_discount_item_current_index;
-                var this_name = '';
-                var this_id = 0;
-                var this_price = 0;
-                var this_qty = 0;
-                var this_disc = 0;
-                var this_total = 0;
-                var item_exist = 0;
-                var item_exist_index = -1;
-                var stok_gudang_jumlah = 0;
+            var item_booking_param = $('#item_booking').val();
+            //  && current_discount_item > storage_booking_detail
+            if (item_booking_param==0) {
+              if(current_discount_item > sales_total_item){
+                  alert('Diskon tidak boleh lebih dari total!');
+                  current_discount_item = 0;
+                  $("#input-discount-item").val('0');
+                  $("#input-discount-item-percent").val('0');
+              }else{
 
+                  if (storage_sales_detail) {
+                      $.each(storage_sales_detail, function (index, value) {
+                          if (item_index == index) {
+                              this_name         = value.item_name;
+                              this_id           = value.item_id;
+                              this_price        = value.item_price;
+                              this_qty          = value.item_qty;
+                              this_disc         = current_discount_item;
+                              this_disc_percent = discount_percent;
+                              this_has_promo    = value.item_has_promo;
+                              this_promo_type   = value.item_promo_type;
+                              this_promo_gratis = value.item_promo_gratis;
+                              this_promo_item_name = value.item_promo_item_name;
+                              this_promo_qty    = value.item_promo_qty;
+                              this_total        = value.item_total * this_qty;
+                              item_exist        = 1;
+                              item_exist_index  = index;
+                              stok_gudang_jumlah = value.stok_gudang_jumlah;
+                          }
+                      });
+                      var new_data = {
+                          'item_name': this_name,
+                          'item_id': this_id,
+                          'item_price': this_price,
+                          'item_qty': this_qty,
+                          'item_disc': this_disc,
+                          'item_discount_percent': this_disc_percent,
+                          'item_total': this_total,
+                          'item_has_promo': this_has_promo,
+                          'item_promo_type': this_promo_type,
+                          'item_promo_gratis': this_promo_gratis,
+                          'item_promo_item_name': this_promo_item_name,
+                          'item_promo_qty': this_promo_qty,
+                          'stok_gudang_jumlah' : stok_gudang_jumlah
+                      };
+                      storage_sales_detail[item_exist_index] = new_data;
+                      localStorage.setItem('sales_detail', JSON.stringify(storage_sales_detail));
+                    }
+                  }
+                } else {
 
-                if (storage_sales_detail) {
-                    $.each(storage_sales_detail, function (index, value) {
-                        if (item_index == index) {
-                            this_name = value.item_name;
-                            this_id = value.item_id;
-                            this_price = value.item_price;
-                            this_qty = value.item_qty;
-                            this_disc = current_discount_item;
-                            this_disc_percent = discount_percent;
-                            this_has_promo = value.item_has_promo;
-                            this_promo_type = value.item_promo_type;
-                            this_promo_gratis = value.item_promo_gratis;
-                            this_promo_item_name = value.item_promo_item_name;
-                            this_promo_qty = value.item_promo_qty;
-                            this_total = value.item_total * this_qty;
-                            item_exist = 1;
-                            item_exist_index = index;
-                            stok_gudang_jumlah   : value.stok_gudang_jumlah;
-                        }
-                    });
-                }
-                var new_data = {
-                    'item_name': this_name,
-                    'item_id': this_id,
-                    'item_price': this_price,
-                    'item_qty': this_qty,
-                    'item_disc': this_disc,
-                    'item_discount_percent': this_disc_percent,
-                    'item_total': this_total,
-                    'item_has_promo': this_has_promo,
-                    'item_promo_type': this_promo_type,
-                    'item_promo_gratis': this_promo_gratis,
-                    'item_promo_item_name': this_promo_item_name,
-                    'item_promo_qty': this_promo_qty,
-                    'stok_gudang_jumlah' : stok_gudang_jumlah
-                };
-                storage_sales_detail[item_exist_index] = new_data;
-                localStorage.setItem('sales_detail', JSON.stringify(storage_sales_detail));
-                $.fn.refreshChart();
-                $('#my-modal-disc-item').modal('toggle');
-            }
-        });
+                    if (storage_booking_detail) {
+                      if(current_discount_item > storage_booking_detail){
+                          alert('Diskon tidak boleh lebih dari total!');
+                          current_discount_item = 0;
+                          $("#input-discount-item").val('0');
+                          $("#input-discount-item-percent").val('0');
+                      }else{
+                        $.each(storage_booking_detail, function (index, value) {
+                          if (item_index == index) {
+                              this_name         = value.item_name;
+                              this_id           = value.item_id;
+                              this_price        = value.item_price;
+                              this_qty          = value.item_qty;
+                              this_disc         = current_discount_item;
+                              this_disc_percent = discount_percent;
+                              this_has_promo    = value.item_has_promo;
+                              this_promo_type   = value.item_promo_type;
+                              this_promo_gratis = value.item_promo_gratis;
+                              this_promo_item_name = value.item_promo_item_name;
+                              this_promo_qty    = value.item_promo_qty;
+                              this_total        = value.item_total * this_qty;
+                              item_exist        = 1;
+                              item_exist_index  = index;
+                              stok_gudang_jumlah = value.stok_gudang_jumlah;
+                          }
+                        });
+                        var new_data_booking = {
+                            'item_name': this_name,
+                            'item_id': this_id,
+                            'item_price': this_price,
+                            'item_qty': this_qty,
+                            'item_disc': this_disc,
+                            'item_discount_percent': this_disc_percent,
+                            'item_total': this_total,
+                            'item_has_promo': this_has_promo,
+                            'item_promo_type': this_promo_type,
+                            'item_promo_gratis': this_promo_gratis,
+                            'item_promo_item_name': this_promo_item_name,
+                            'item_promo_qty': this_promo_qty,
+                            'stok_gudang_jumlah' : stok_gudang_jumlah
+                        };
+
+                        storage_booking_detail[item_exist_index] = new_data_booking;
+                        localStorage.setItem('sales_booking_detail', JSON.stringify(storage_booking_detail));
+                        console.log(storage_booking_detail);
+                        // alert();
+                      }
+                    }
+                  }
+                  $.fn.refreshChart();
+                  $('#my-modal-disc-item').modal('toggle');
+                });
+
 
         $.fn.getCustomers = function () {
             $.get( base_url+'C_POS/get_customers',function(data){
@@ -363,14 +423,13 @@
                 html += '</tr>';
 
             });
-            console.log(storage_booking_detail);
 
             $.each(storage_booking_detail, function (index, value) {
                 var item_disc_booking             = value.item_disc;
                 var stok_gudang_jumlah_booking    = value.stok_gudang_jumlah;
                 if( item_disc_booking ) has_discount_booking = 1;
                 if( stok_gudang_jumlah_booking == 0 ) status_booking_ = 1;
-                // console.log(status_booking_);
+                // console.log(value);
             });
 
             $.each(storage_booking_detail, function (index, value) {
@@ -451,7 +510,7 @@
                 html += '<td style="text-align: right;">' +
                         '<div class="btn-group">' +
                         '<button type="button" title="diskon item" data-discount-item="'+item_disc_total_booking+'"\
-                        data-total="'+item_total_before_discount_booking+'" class="btn btn-primary btn-sm btn-show-discount-item">\
+                        data-total="'+item_total_before_discount_booking+'" class="btn btn-primary btn-sm btn-show-discount-item-booking">\
                         <i class="fa fa-usd" aria-hidden="true"></i></button>' +
                         '<button type="button" title="hapus item" data-id="'+item_id_booking+'" data-status-book="'+status_booking_+'" class="btn btn-danger btn-sm btn-remove-cart">\
                         <i class="fa fa-trash" aria-hidden="true"></i></button>' +
@@ -459,7 +518,6 @@
                         '</td>';
                 html += '</tr>';
 
-                // console.log(index);
             });
             if( has_discount ) {
                 $("#sales-column-discount").removeClass('hide');
@@ -518,23 +576,24 @@
                 $(".diskon_text").removeClass('hide');
             }
 
-            if (total_item == 0 || total_item_booking == 0) {
+            if (total_item == 0 && total_item_booking == 0) {
                 $("#btn-sales-bayar").attr('disabled', 'disabled');
                 $("#btn-sales-diskon").attr('disabled', 'disabled');
                 $.fn.refreshSales();
             } else {
                 $("#btn-sales-bayar").removeAttr('disabled');
                 $("#btn-sales-diskon").removeAttr('disabled');
+                // $.fn.refreshSales();
             }
 
-            if (total_item_booking == 0) {
-                $("#btn-sales-bayar").attr('disabled', 'disabled');
-                $("#btn-sales-diskon").attr('disabled', 'disabled');
-                $.fn.refreshSales();
-            } else {
-                $("#btn-sales-bayar").removeAttr('disabled');
-                $("#btn-sales-diskon").removeAttr('disabled');
-            }
+            //  {
+            //     $("#btn-sales-bayar").attr('disabled', 'disabled');
+            //     $("#btn-sales-diskon").attr('disabled', 'disabled');
+            //     $.fn.refreshSales();
+            // } else {
+            //     $("#btn-sales-bayar").removeAttr('disabled');
+            //     $("#btn-sales-diskon").removeAttr('disabled');
+            // }
         };
 
         $.fn.addCart = function (btn) {
@@ -637,9 +696,7 @@
                 'item_promo_qty': this_promo_qty_book,
                 'stok_gudang_jumlah'   : stok_gudang_jumlah_book
             };
-            // console.log(new_sales_booking_detail);
             storage_booking_detail.push(new_sales_booking_detail);
-            // console.log(new_sales_booking_detail);
             localStorage.setItem('sales_booking_detail', JSON.stringify(storage_booking_detail));
             $.fn.refreshChart();
         };
@@ -649,7 +706,6 @@
             var status_booking = $(this).attr('data-status-book');
             var item_row = $(this).parent().parent().parent();
             var item_index = item_row.index();
-            console.log(status_booking);
 
             if (status_booking == 1) {
               $.each(storage_booking_detail, function (index, value) {
@@ -686,8 +742,22 @@
         });
 
         $("body").on("click", ".btn-show-discount-item", function (e) {
+            $('#item_booking').val(0);
             var item_row = $(this).parent().parent().parent();
             sales_discount_item_current_index = item_row.index();
+            sales_total_item = parseInt($(this).attr('data-total'));
+            sales_discount_item = parseInt($(this).attr('data-discount-item'));
+            $("#input-discount-item").autoNumeric('set', sales_discount_item);
+            var persen = sales_discount_item/sales_total_item*100;
+            $("#input-discount-item-percent").autoNumeric('set', persen);
+            $('#my-modal-disc-item').modal('toggle');
+            e.preventDefault();
+        });
+
+        $("body").on("click", ".btn-show-discount-item-booking", function (e) {
+            $('#item_booking').val(1);
+            var item_row = $(this).parent().parent().parent();
+            sales_discount_item_current_index_booking = item_row.index();
             sales_total_item = parseInt($(this).attr('data-total'));
             sales_discount_item = parseInt($(this).attr('data-discount-item'));
             $("#input-discount-item").autoNumeric('set', sales_discount_item);
@@ -712,7 +782,9 @@
         $("#input-discount").keyup(function () {
             var this_value = $(this).autoNumeric('get');
             var type_karyawan = $('#type_karyawan').val();
-            var persen = this_value/total_sales_detail*100;
+            total_sales_detail_ = total_sales_detail_booking+total_sales_detail;
+
+            var persen = this_value/total_sales_detail_*100;
 
             if (persen>=5) {
               if (type_karyawan!=2) {
@@ -730,7 +802,6 @@
             var type_karyawan = $('#type_karyawan').val();
             var nominal = '';
 
-            console.log(this_value);
             if (this_value>5) {
               if (type_karyawan!=1) {
                 $("#input-discount-percent").val(0);
@@ -802,21 +873,21 @@
             });
     };
 
-    // console.log(items);
 
         $("#search").keyup(function (e) {
           if(e.which == 13) {
             var this_data = null;
             var new_data = [];
             var word = $(this).val();
-            word = word.toLowerCase();
+            // word = word.toLowerCase();
+            // word = word.charCodeAt(0).toString();
             var i =1;
             $.each(items, function (index, value) {
-                var name = value.barang_nama.toLowerCase();
-                var barang_kode = value.barang_kode;
-                // // console.log(name);
-                if(name.search(word) > -1){
-                  // console.log(barang_kode);
+                var name = value.barang_nama;
+                barang_kode = value.barang_kode;
+                var search = name + barang_kode;
+                if(search.search(word) > -1)
+                {
                     this_data = {
                         'barang_id' : value.barang_id,
                         'm_jenis_barang_id' : value.m_jenis_barang_id,
@@ -840,31 +911,7 @@
                         'barang_revised': value.barang_revised,
                         'stok_gudang_jumlah': value.stok_gudang_jumlah
                     };
-                } else if (barang_kode.search(word) > -1) {
-                  console.log(barang_kode);
-                  this_data = {
-                      'barang_id' : value.barang_id,
-                      'm_jenis_barang_id' : value.m_jenis_barang_id,
-                      'category_2_id' : value.category_2_id,
-                      'barang_kode' : value.barang_kode,
-                      'barang_nomor' : value.barang_nomor,
-                      'barang_nama' : value.barang_nama,
-                      'm_satuan_id' : value.m_satuan_id,
-                      'brand_id' : value.brand_id,
-                      'harga_beli' : value.harga_beli,
-                      'harga_jual' : value.harga_jual,
-                      'harga_jual_pajak' : value.harga_jual_pajak,
-                      'stok' : value.stok,
-                      'barang_minimum_stok' : value.barang_minimum_stok,
-                      'stok_maks' : value.stok_maks,
-                      'barang_status_aktif' : value.barang_status_aktif,
-                      'barang_create_date' : value.barang_create_date,
-                      'barang_create_by' : value.barang_create_by,
-                      'barang_update_date' : value.barang_update_date,
-                      'barang_update_by' : value.barang_update_by,
-                      'barang_revised': value.barang_revised,
-                      'stok_gudang_jumlah': value.stok_gudang_jumlah
-                  };
+                    // console.log(name);
                 }
             });
             new_data.push(this_data);
@@ -915,10 +962,7 @@
           var CheckBook = 0;
           var stok_gudang = elem.attr('data-stok-gudang');
           var item_id     = elem.attr('data-id');
-          // console.log(item_id);
           var url = "<?php echo base_url()?>C_POS/booking_popmodal/"+stok_gudang+"/"+item_id+"/1";
-
-          // console.log(storage_sales_detail);
           if (storage_booking_detail) {
 
             $.each(storage_booking_detail, function (index, value) {
@@ -928,9 +972,7 @@
             if (CheckBook != 0) {
               // $.fn.refreshChart();
               $.fn.addBooking(elem);
-              // console.log(elem);
             } else {
-              // console.log(elem);
               $('#booking_modal').modal('show').find('.modal-content').load(url);
             }
 
@@ -1184,7 +1226,6 @@
                     data: $(this).serialize(),
                     url: url,
                     success: function (result) {
-                      // console.log(result);
                         // var obj = JSON.parse(result);
                         window.open(base_url+'Penjualan/print/'+result);
                         $('#my-modal-pay').find('input').val(0);
@@ -1239,7 +1280,6 @@
 					           var total_fee = 0;
                      $('#input-total-currency').val( Intl.NumberFormat().format(total_sales) );
                      $('#input-total').val(total_sales);
-                     console.log(total_sales);
                         bayar.show();
                         cashback.show();
                     break;
@@ -1247,15 +1287,15 @@
                 case '2':
                     $('#input-total-currency').val( Intl.NumberFormat().format(total_sales) );
                     $('#input-total').val(total_sales);
-                    dp.show();
+                        nama.show();
+                        bank.show();
+                        rekening.show();
                     break;
 
                 case '3':
                     $('#input-total-currency').val( Intl.NumberFormat().format(total_sales) );
                     $('#input-total').val(total_sales);
-                        nama.show();
-                        bank.show();
-                        rekening.show();
+                    dp.show();
                     break;
                 case '4':
                     $('#input-total-currency').val( Intl.NumberFormat().format(total_sales) );
