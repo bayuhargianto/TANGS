@@ -76,7 +76,7 @@ class C_brand extends MY_Controller {
 						<i class="icon-power text-center"></i>
 						</button>';
 					}
-					
+
 				} else {
 					$status = '<span class="label bg-red-thunderbird bg-font-red-thunderbird"> Non Aktif </span>';
 					if($priv['update'] == 1)
@@ -91,7 +91,7 @@ class C_brand extends MY_Controller {
 						<i class="icon-power text-center"></i>
 					</button>';
 					}
-					
+
 				}
 				$response['data'][] = array(
 					$no,
@@ -206,7 +206,7 @@ class C_brand extends MY_Controller {
 					$response['status'] = '200';
 				} else {
 					$response['status'] = '204';
-				}	
+				}
 			}
 		} else {
 			//INSERT
@@ -218,7 +218,7 @@ class C_brand extends MY_Controller {
 				$response['status'] = '204';
 			}
 		}
-		
+
 		echo json_encode($response);
 	}
 
@@ -333,7 +333,7 @@ class C_brand extends MY_Controller {
 					'karyawan_status_aktif' 	=> 'n',
 					'karyawan_update_date' 		=> date('Y-m-d H:i:s'),
 					'karyawan_update_by' 		=> $this->session->userdata('user_username'),
-					'karyawan_revised' 			=> $id['karyawan_revised'] + 1, 
+					'karyawan_revised' 			=> $id['karyawan_revised'] + 1,
 				);
 				//
 				//select user_revised
@@ -365,7 +365,7 @@ class C_brand extends MY_Controller {
 				$updateUser = $this->db->update_batch('s_user', $data, 'm_karyawan_id');
 			}
 		}
-		
+
 
         return true;
 	}

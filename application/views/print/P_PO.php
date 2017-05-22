@@ -38,6 +38,11 @@
     {
       border: none !important;
     }
+
+    .table-print-PO {
+      margin-left: 5px;
+    }
+
   </style>
   <title><?= $title[0]['aplikasi'].' '.$title[0]['title_page'].' - '.$title[0]['title_page2'] ?></title>
   </head>
@@ -64,7 +69,7 @@
       </td>
     </tr>
   </table>
-  <table style="width: 100%; margin-top: 20px;">
+  <table style="width: 100%; margin-top: 10px;">
     <tbody>
       <tr>
         <td style="width: 30%;"></td>
@@ -83,7 +88,7 @@
     </tbody>
   </table>
   <br>
-  <table width="100%" border="" cellspacing="0" rules="all" cellpadding="6">
+  <table class="table-print-PO" width="100%" border="" cellspacing="0" rules="all" cellpadding="6">
     <tbody>
       <tr>
         <td class="center" style="width: 48%;">SUPPLIER</td>
@@ -116,7 +121,7 @@
         </td>
         <td class="no-border"></td>
         <td valign="top">
-          <table style="width: 100%;">
+          <table class="table-print-PO" style="width: 100%;">
             <tbody>
               <tr>
                 <th style="width: 20%;" valign="top">Nama :</th>
@@ -135,13 +140,14 @@
   <br>
   <table width="100%" border="1" cellspacing="0" rules="all" cellpadding="6">
 	<tr>
-		<th width="5%" scope="col">No.</th>
+		<th width="2%" scope="col">No.</th>
 		<th width="5%" scope="col">Artikel</th>
-		<th width="15%" scope="col">Uraian dan Spesifikasi Barang/Jasa</th>
-		<th width="5%" scope="col">Qty</th>
-		<th width="5%" scope="col">Satuan</th>
+		<th width="10%" scope="col">Uraian dan Spesifikasi Barang/Jasa</th>
+		<th width="3%" scope="col">Qty</th>
+		<th width="3%" scope="col">Satuan</th>
 		<th width="5%" scope="col">Harga Satuan</th>
-    <th width="8%" scope="col">Disc ( % )</th>
+    <th width="3%" scope="col">PPN<br>(%)</th>
+    <th width="3%" scope="col">Disc <br>(%)</th>
     <th width="10%" scope="col">Total</th>
 	</tr>
   <?php
@@ -149,12 +155,12 @@
       foreach ($val2 as $barang => $itemBarang)
       {
         echo '<tr align="left">';
-        echo '<td>'.$no.'</td>';
+        echo '<td align="center">'.$no.'</td>';
         echo '<td>'.$itemBarang['barang_nomor'].'</td>';
-        echo '<td>'.$itemBarang['barang_uraian'].'</td>';
+        echo '<td align="left">'.$itemBarang['barang_uraian'].'</td>';
         // echo '<td></td>';
-        echo '<td>'.$itemBarang['orderdet_qty'].'</td>';
-        echo '<td>'.$itemBarang['satuan_nama'].'</td>';
+        echo '<td align="center">'.$itemBarang['orderdet_qty'].'</td>';
+        echo '<td align="center">'.$itemBarang['satuan_nama'].'</td>';
         echo '<td>
                   <table width="100%">
                     <tr>
@@ -167,8 +173,8 @@
         if ($itemBarang['orderdet_disc']>0) {
           $order_totdisc = $itemBarang['orderdet_total']-($itemBarang['orderdet_disc']/100*$itemBarang['orderdet_harga_satuan']*$itemBarang['orderdet_qty']);
         }
-        echo '<td>'.$itemBarang['orderdet_disc'].'</td>';
-
+        echo '<td align="center">'.$val[0]['order_ppn'].'</td>';
+        echo '<td align="center">'.$itemBarang['orderdet_disc'].'</td>';
         echo '<td>
                 <table width="100%">
                   <tr>
@@ -183,18 +189,18 @@
       }
     ?>
 	<tr>
-		<td colspan="8"><small>Catatan: Jika tidak sesuai pesanan, barang/jasa akan dikembalikan/dibatalkan untuk
+		<td colspan="9"><small>Catatan: Jika tidak sesuai pesanan, barang/jasa akan dikembalikan/dibatalkan untuk
 		setiap pengiriman, harap mencantumkan no. PO di surat jalan</small></td>
 	</tr>
 	<tr>
-		<td colspan="6" rowspan="3">
+		<td colspan="7" rowspan="3">
 			Terbilang : <?= $val[0]['order_terbilang'] ?> rupiah
 		</td>
 		<td>Sub Total</td>
     <td><table width="100%">
       <tr>
         <td align="left">Rp.</td>
-        <td align="right"><?= number_format($val[0]['order_subtotal'],"0", ",", ".") ?></td>
+        <td align="right"><?php echo number_format($val[0]['order_subtotal'],"0", ",", ".") ?></td>
       </tr>
     </table></td>
 
@@ -204,7 +210,7 @@
     <td><table width="100%">
       <tr>
         <td align="left">Rp.</td>
-        <td align="right"><?= number_format(($val[0]['order_ppn']*$val[0]['order_subtotal']/100),"0", ",", ".") ?></td>
+        <td align="right"><?php echo number_format(($val[0]['order_ppn']*$val[0]['order_subtotal']/100),"0", ",", ".") ?></td>
       </tr>
     </table></td>
 

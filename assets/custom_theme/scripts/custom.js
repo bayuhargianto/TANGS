@@ -1004,19 +1004,154 @@ function openFormCabang(id = null) {
         });
         $('#cabang_kota').css('width', '100%');
         selectList_Kota('#cabang_kota', 'Master-Data/Cabang/loadDataSelectKota');
+        var idnull;
+        selectList_global('#cabang_display', 'C_cabang/loadDataSelectDisplay', 'Setting Gudang Lebih dulu', idnull);
         if (id) {
             setTimeout(function(){
               $('#cabang_kota').select2('destroy');
+              $('#cabang_display').select2('destroy');
               editData(id);
               setTimeout(function(){
                 $('#cabang_kota').select2();
+                $('#cabang_display').select2();
+
                 selectList_Kota('#cabang_kota', 'Master-Data/Cabang/loadDataSelectKota');
+                selectList_global('#cabang_display', 'C_cabang/loadDataSelectDisplay', 'Pilih Display', id);
               }, 800);
             }, 200);
+              // $('#cabang_display').select2('data', { id:"2", text: "Display"}, console.log(id));
         }
       }
     });
 }
+
+function getData(form, url)
+{
+  var result = null;
+  // var storage1 = JSON.parse(localStorage.getItem('storage1'));
+  $.ajax({
+    type : 'POST',
+    url  : $base_url+url,
+    data : $(form).serialize(),
+    dataType : "json",
+    success:function(data){
+      getQtyresult(data);
+    }
+  });
+  // return result;
+}
+
+
+function openFormGlobal(id = null, url = null, elem) {
+    $.ajax({
+      type : 'POST',
+      url  : $base_url+url,
+      data : { id : id },
+      dataType : "html",
+      success:function(data){
+        $(elem).modal({
+              keyboard: false,
+              backdrop: 'static'
+            });
+        $(elem+" .modal-content").html();
+        $(elem+" .modal-content").html(data);
+        $(elem).modal('show');
+        // MyFormValidation.init();
+        rules();
+        $("#formAdd").submit(function(event){
+          if ($("#formAdd").valid() == true) {
+            actionData();
+          }
+          console.log(1);
+          return false;
+        });
+        functionform(id);
+      }
+    });
+}
+
+// globalselect
+function selectList_global(idElemen, url, placeholder, id = null)
+{
+    // $('#i_gudang').select2('destroy');
+    $(idElemen).css('width', '100%');
+    $(idElemen).select2({
+      placeholder: placeholder,
+      multiple: false,
+      allowClear: true,
+      ajax: {
+        url: $base_url+url,
+        dataType: 'json',
+        delay: 100,
+        cache: false,
+        data: function (params) {
+          return {
+            q: params.term, // search term
+            page: params.page,
+            id  : id
+          };
+        },
+        processResults: function (data, params) {
+          // parse the results into the format expected by Select2
+          // since we are using custom formatting functions we do not need to
+          // alter the remote JSON data, except to indicate that infinite
+          // scrolling can be used
+          params.page = params.page || 1;
+
+          return {
+            results: data.items,
+            pagination: {
+              more: (params.page * 30) < data.total_count
+            }
+          };
+          // console.log(data.items);
+        }
+      },
+      escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+      minimumInputLength: 1,
+      templateResult: FormatResult,
+      templateSelection: FormatSelection,
+    });
+    // console.log(data.items);
+  }
+
+  function selectList_Kota(idElemen, url) {
+    $(idElemen).select2({
+      placeholder: 'Pilih Kota',
+      multiple: false,
+      allowClear: true,
+      ajax: {
+        url: $base_url+url,
+        dataType: 'json',
+        delay: 100,
+        cache: false,
+        data: function (params) {
+          return {
+            q: params.term, // search term
+            page: params.page
+          };
+        },
+        processResults: function (data, params) {
+          // parse the results into the format expected by Select2
+          // since we are using custom formatting functions we do not need to
+          // alter the remote JSON data, except to indicate that infinite
+          // scrolling can be used
+          params.page = params.page || 1;
+
+          return {
+            results: data.items,
+            pagination: {
+              more: (params.page * 30) < data.total_count
+            }
+          };
+        }
+      },
+      escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+      minimumInputLength: 1,
+      templateResult: FormatResult,
+      templateSelection: FormatSelection,
+    });
+  }
 
 function openFormJenisGudang(id = null) {
     $.ajax({
@@ -1452,9 +1587,9 @@ function openFormBarang(id = null) {
                 $('#konversi_akhir_satuan').select2();
                 selectList_jenisBarang();
                 // selectList_Satuan('#m_category_2_id');
-                // selectList_Satuan('#m_brand_id');
                 selectList_Satuan('#m_satuan_id');
                 selectList_Satuan('#konversi_akhir_satuan');
+                selectList_global('#m_brand_id', 'Master-Barang/Getbrand', 'Pilih Brand', id);
               }, 800);
             }, 200);
         }
@@ -2147,7 +2282,7 @@ function selectList_cabang() {
       url: $base_url+'Master-Data/Cabang/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -2185,7 +2320,7 @@ function selectList_cabang2(idElemen) {
       url: $base_url+'Master-Data/Cabang/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -2223,7 +2358,7 @@ function selectList_typeKaryawan() {
       url: $base_url+'Master-Data/Tipe-Karyawan/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -2261,7 +2396,7 @@ function selectList_karyawan(idElemen) {
       url: $base_url+'Master-Data/Karyawan/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -2299,7 +2434,7 @@ function selectList_departemen() {
       url: $base_url+'Master-Data/Departemen/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -2337,45 +2472,7 @@ function selectList_mata_uang(idElemen) {
       url: $base_url+'Master-Data/Mata-Uang/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
-      data: function (params) {
-        return {
-          q: params.term, // search term
-          page: params.page
-        };
-      },
-      processResults: function (data, params) {
-        // parse the results into the format expected by Select2
-        // since we are using custom formatting functions we do not need to
-        // alter the remote JSON data, except to indicate that infinite
-        // scrolling can be used
-        params.page = params.page || 1;
-
-        return {
-          results: data.items,
-          pagination: {
-            more: (params.page * 30) < data.total_count
-          }
-        };
-      }
-    },
-    escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
-    minimumInputLength: 1,
-    templateResult: FormatResult,
-    templateSelection: FormatSelection,
-  });
-}
-
-function selectList_Kota(idElemen, url) {
-  $(idElemen).select2({
-    placeholder: 'Pilih Kota',
-    multiple: false,
-    allowClear: true,
-    ajax: {
-      url: $base_url+url,
-      dataType: 'json',
-      delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -2413,7 +2510,7 @@ function selectList_jenisGudang() {
       url: $base_url+'Master-Data/Jenis-Gudang/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -2451,7 +2548,7 @@ function selectList_jenisBarang() {
       url: $base_url+'Master-Data/Jenis-Barang/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -2489,7 +2586,7 @@ function selectList_gudangCabang(idElemen) {
       url: $base_url+'Master-Data/Gudang/loadDataSelectCabang2',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -2527,7 +2624,7 @@ function selectList_gudangCabangPermintaan() {
       url: $base_url+'Master-Data/Gudang/loadDataSelectCabang2',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -2565,7 +2662,7 @@ function selectList_gudangCabangTujuan() {
       url: $base_url+'Master-Data/Gudang/loadDataSelectCabang2',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -2603,7 +2700,7 @@ function selectList_barang() {
       url: $base_url+'Master-Data/Barang/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -2641,7 +2738,7 @@ function selectList_barang2(idElemen) {
       url: $base_url+'Master-Data/Barang/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -2679,7 +2776,7 @@ function selectList_barangKode(idElemen) {
       url: $base_url+'Master-Data/Barang/loadDataSelectKode',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -2717,7 +2814,7 @@ function selectList_barangUraian(idElemen) {
       url: $base_url+'Master-Data/Barang/loadDataSelectUraian',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -2755,7 +2852,7 @@ function selectList_atributBarang() {
       url: $base_url+'Master-Data/Atribut-Barang/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -2784,6 +2881,7 @@ function selectList_atributBarang() {
   });
 }
 
+
 function selectList_Satuan(idElemen) {
   $(idElemen).select2({
     placeholder: 'Pilih Satuan',
@@ -2793,7 +2891,7 @@ function selectList_Satuan(idElemen) {
       url: $base_url+'Master-Data/Satuan/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -2832,7 +2930,7 @@ function select2List(idElemen = null, url_data = null, label = null, parameter =
       url: $base_url+url_data,
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -2862,6 +2960,7 @@ function select2List(idElemen = null, url_data = null, label = null, parameter =
   });
 }
 
+
 function selectList_JenisProduksi(idElemen) {
   $(idElemen).select2({
     placeholder: 'Pilih Jenis Produksi',
@@ -2871,7 +2970,7 @@ function selectList_JenisProduksi(idElemen) {
       url: $base_url+'Master-Data/Jenis-Produksi/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -2909,7 +3008,7 @@ function selectList_supplier(idElemen) {
       url: $base_url+'Master-Data/Partner/loadDataSelect1',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -2947,7 +3046,7 @@ function selectList_customer(idElemen) {
       url: $base_url+'Master-Data/Partner/loadDataSelect2',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3023,7 +3122,7 @@ function selectList_penawaran(idElemen) {
       url: $base_url+'Pembelian/Penawaran-Harga/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3061,7 +3160,7 @@ function selectList_purchaseOrder(idElemen) {
       url: $base_url+'Pembelian/Purchase-Order/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3099,7 +3198,7 @@ function selectList_purchaseOrderPembayaran(idElemen, idSupplier) {
       url: $base_url+'Pembelian/Purchase-Order/loadDataPembayaran',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3138,7 +3237,7 @@ function selectList_workOrder(idElemen) {
       url: $base_url+'Pembelian/Work-Order/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3176,7 +3275,7 @@ function selectList_PJ(idElemen) {
       url: $base_url+'Gudang/Permintaan-Jasa/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3213,7 +3312,7 @@ function selectList_penerimaanBarang(idElemen) {
       url: $base_url+'Gudang/Penerimaan-Barang/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3250,7 +3349,7 @@ function selectList_penerimaanBarangPembayaran(idElemen, idSupplier) {
       url: $base_url+'Gudang/Penerimaan-Barang/loadDataPembayaran',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3289,7 +3388,7 @@ function selectList_returPembelian(idElemen) {
       url: $base_url+'Pembelian/Retur-Pembelian/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3326,7 +3425,7 @@ function selectList_notaDebet(idElemen) {
       url: $base_url+'Pembelian/Nota-Debet/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3363,7 +3462,7 @@ function selectList_estimasiPenjualan(idElemen) {
       url: $base_url+'Penjualan/Estimasi-Penjualan/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3437,7 +3536,7 @@ function selectList_jadwalProduksi2(idElemen) {
       url: $base_url+'Produksi/Jadwal-Produksi/loadDataSelect2',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3474,7 +3573,7 @@ function selectList_jadwalProduksiBahanAwal(idElemen, id) {
       url: $base_url+'Produksi/Jadwal-Produksi/loadDataSelectBahanAwal',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3512,7 +3611,7 @@ function selectList_perhitunganKebutuhan(idElemen) {
       url: $base_url+'Produksi/Perhitungan-Kebutuhan-Bahan/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3549,7 +3648,7 @@ function selectList_perolehanProduksi(idElemen) {
       url: $base_url+'Produksi/Perolehan-Produksi/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3585,7 +3684,7 @@ function selectList_perolehanProduksi2(idElemen) {
       url: $base_url+'Produksi/Perolehan-Produksi/loadDataSelect2',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3622,7 +3721,7 @@ function selectList_pengubahanBahan(idElemen) {
       url: $base_url+'Produksi/Pengubahan-Bahan/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3659,7 +3758,7 @@ function selectList_POCustomer(idElemen) {
       url: $base_url+'Persetujuan/Purchase-Order-Customer/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3696,7 +3795,7 @@ function selectList_SOCustomer(idElemen) {
       url: $base_url+'Persetujuan/Sales-Order-Customer/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3770,7 +3869,7 @@ function selectList_SOCustomer2(idElemen, idCust) {
       url: $base_url+'Persetujuan/Sales-Order-Customer/loadDataSelect2',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           idCust: $(this).data(idCust),
@@ -3808,7 +3907,7 @@ function selectList_SJ(idElemen) {
       url: $base_url+'Penjualan/Surat-Jalan/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3845,7 +3944,7 @@ function selectList_SJ2(idElemen) {
       url: $base_url+'Penjualan/Surat-Jalan/loadDataSelect2',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3882,7 +3981,7 @@ function selectList_fakturPenjualan(idElemen) {
       url: $base_url+'Penjualan/Faktur-Penjualan/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3919,7 +4018,7 @@ function selectList_fakturPenjualanPembayaran(idElemen, idCustomer) {
       url: $base_url+'Penjualan/Faktur-Penjualan/loadDataPembayaran',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3958,7 +4057,7 @@ function selectList_suratJalanRetur(idElemen) {
       url: $base_url+'Penjualan/Surat-Jalan-Retur/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -3995,7 +4094,7 @@ function selectList_returPenjualan(idElemen) {
       url: $base_url+'Persetujuan/Klaim-Retur-Penjualan/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -4032,7 +4131,7 @@ function selectList_returPenjualan2(idElemen) {
       url: $base_url+'Persetujuan/Klaim-Retur-Penjualan/loadDataSelect2',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -4069,7 +4168,7 @@ function selectList_penerimaanBarangRetur(idElemen) {
       url: $base_url+'Gudang/Penerimaan-Barang-Retur/loadDataSelect',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -4106,7 +4205,7 @@ function selectList_masterCOA(idElemen,type) {
       url: $base_url+'Master-Data/COA/loadDataSelect/'+type,
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -4143,7 +4242,7 @@ function selectList_masterBank(idElemen) {
       url: $base_url+'Master-Data/Bank/loadDataSelect/',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -4180,7 +4279,7 @@ function selectList_masterKas(idElemen) {
       url: $base_url+'Master-Data/Kas/loadDataSelect/',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -4217,7 +4316,7 @@ function selectList_paymentRequest(idElemen, typeBukti = null, idSupplier = null
       url: $base_url+'Accounting/Payment-Request/loadDataSelect/',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term
@@ -4256,7 +4355,7 @@ function selectList_paymentRequestPiutang(idElemen, typeBukti = null, idCustomer
       url: $base_url+'Accounting/Pelunasan-Piutang/loadDataSelect/',
       dataType: 'json',
       delay: 100,
-      cache: true,
+      cache: false,
       data: function (params) {
         return {
           q: params.term, // search term

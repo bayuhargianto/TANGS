@@ -9,12 +9,12 @@
     }
     .tb2{
       padding-top: 10px;
-      
+
       width: 50%;
       text-align: center;
     }
     .catatan {
-      padding-top: 10px;    
+      padding-top: 10px;
     }
   </style>
   <title><?= $title[0]['aplikasi'].' '.$title[0]['title_page'].' - '.$title[0]['title_page2'] ?></title>
@@ -28,7 +28,7 @@
     </tr>
     <tr>
       <td><?= $val[0]['cabang']['val2'][0]['alamat']?>, <?= $val[0]['cabang']['val2'][0]['kota']['val3'][0]['text']?><br>
-      Telp. <?php 
+      Telp. <?php
       for($i=0; $i < count($val[0]['cabang']['val2'][0]['telp']); $i++)
       {
         if($i == count($val[0]['cabang']['val2'][0]['telp'])-1)
@@ -53,7 +53,7 @@
     <th scope="col">&nbsp;</th>
     <?php
       $i = 0;
-      foreach ($step2 as $supplier => $detSupplier) 
+      foreach ($step2 as $supplier => $detSupplier)
       {
         $i++;
         echo '<th scope="col"><div align="center">Supplier '.$i.'</div></th>';
@@ -63,7 +63,7 @@
   <tr>
     <td>Nama Supplier</td>
     <?php
-      foreach ($step2 as $supplier => $detSupplier) 
+      foreach ($step2 as $supplier => $detSupplier)
       {
         echo '<td align="center">'.$detSupplier['partner_nama'].'</td>';
       }
@@ -75,7 +75,7 @@
   <tr>
     <td>Nama yang dihubungi</td>
     <?php
-      foreach ($step2 as $supplier => $detSupplier) 
+      foreach ($step2 as $supplier => $detSupplier)
       {
         echo '<td align="center">'.$detSupplier['penawaran_supplier_kontak'].'</td>';
       }
@@ -84,7 +84,7 @@
   <tr>
     <td rowspan="2" valign="top">Alamat</td>
     <?php
-      foreach ($step2 as $supplier => $detSupplier) 
+      foreach ($step2 as $supplier => $detSupplier)
       {
         echo '<td valign="top" rowspan="2">'.$detSupplier['partner_alamat'].'</td>';
       }
@@ -97,7 +97,7 @@
     <?php
       $suppPemenang = '';
       $alasan = '';
-      foreach ($step2 as $supplier => $detSupplier) 
+      foreach ($step2 as $supplier => $detSupplier)
       {
         echo '<td align="center">'.$detSupplier['partner_telepon'].'</td>';
         if($detSupplier['penawaran_supplier_pemenang'] == '1')
@@ -116,7 +116,7 @@
     <td rowspan="2"><div align="center">Satuan</div></td>
     <td>Tanggal Kirim</td>
     <?php
-      foreach ($step2 as $supplier => $detSupplier) 
+      foreach ($step2 as $supplier => $detSupplier)
       {
         echo '<td  align="center">'.date("d-m-Y", strtotime($detSupplier['penawaran_supplier_tanggal_kirim'])).'</td>';
       }
@@ -125,17 +125,17 @@
   <tr>
     <td>Diskon yang diberikan</td>
     <?php
-      foreach ($step2 as $supplier => $detSupplier) 
+      foreach ($step2 as $supplier => $detSupplier)
       {
         echo '<td align="center">'.$detSupplier['penawaran_supplier_diskon'].'%</td>';
       }
     ?>
   </tr>
-  
+
     <?php
       $noBarang = 1;
       foreach ($step1 as $barang => $itemBarang) {
-        $penawaran = $itemBarang['penawaran_barang_id']; 
+        $penawaran = $itemBarang['penawaran_barang_id'];
         echo '<tr>';
         echo '<td align="center">'.$noBarang.'</td>';
         echo '<td>'.$itemBarang['barang_nomor'].'</td>';
@@ -154,7 +154,7 @@
                   <td align="right">'.number_format($itemHarga['harga'], "0", ",", ".").'</td>
                 </tr>
                   </table></td>';
-               
+
             }
           }
         }

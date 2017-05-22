@@ -90,7 +90,6 @@ class MY_Model extends CI_Model {
             // if($error['code'] <> 0)
             $result->output = $error['code'].': '.$error['message'];
         }
-
         return $result;
     }
 
@@ -202,6 +201,27 @@ class MY_Model extends CI_Model {
     function delete_config($table, $where){
       $this->db->where($where);
       $this->db->delete($table);
+    }
+
+    function gudangnotdisplay($id)
+    {
+        $query = $this->db->query("SELECT a.*
+                                FROM m_gudang a
+                                LEFT JOIN m_cabang b ON b.cabang_id = a.m_cabang_id
+                                WHERE a.m_cabang_id = '$id'
+                                AND b.cabang_gudangdisplay != a.gudang_id");
+        return $query;
+    }
+
+    public function selectPO()
+    {
+      $query = $this->db->query("SELECT a.*
+                                  FROM t_order a
+                                  LEFT JOIN t_orderdet b ON b.t_order_id = a.order_id
+                                  WHERE a.order_status >= 3
+                                  AND a.order_status <= 4
+                                  AND a.order_type = 0");
+      return $query;
     }
 
 }

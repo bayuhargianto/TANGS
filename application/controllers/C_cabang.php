@@ -76,7 +76,7 @@ class C_cabang extends MY_Controller {
 						<i class="icon-power text-center"></i>
 					</button>';
 					}
-					
+
 				} else {
 					$status = '<span class="label bg-red-thunderbird bg-font-red-thunderbird"> Non Aktif </span>';
 					if($priv['update'] == 1)
@@ -91,7 +91,7 @@ class C_cabang extends MY_Controller {
 						<i class="icon-power text-center"></i>
 						</button>';
 					}
-					
+
 				}
 				$response['data'][] = array(
 					$no,
@@ -144,23 +144,33 @@ class C_cabang extends MY_Controller {
 				}
 				// END CARI Kota
 				$array_telp = json_decode($val->cabang_telepon);
-				for ($i = 0; $i < sizeof($array_telp); $i++) { 
+				for ($i = 0; $i < sizeof($array_telp); $i++) {
 					$hasil3['val2'][] = array(
 						'text' 	=> $array_telp[$i]
 					);
 				}
 				$array_fax = json_decode($val->cabang_fax);
-				for ($i = 0; $i < sizeof($array_fax); $i++) { 
+				for ($i = 0; $i < sizeof($array_fax); $i++) {
 					$hasil2['val2'][] = array(
 						'text' 	=> $array_fax[$i]
 					);
 				}
 				$array_email = json_decode($val->cabang_email);
-				for ($i = 0; $i < sizeof($array_email); $i++) { 
+				for ($i = 0; $i < sizeof($array_email); $i++) {
 					$hasil4['val2'][] = array(
 						'text' 	=> $array_email[$i]
 					);
 				}
+				$where_ ="";
+				if ($val->cabang_gudangdisplay) {
+					$where_['data'][] = array(
+						'column' => 'gudang_id',
+						'param'	 => $val->cabang_gudangdisplay
+					);
+				}
+
+				$gudang = $this->mod->select('gudang_nama', 'm_gudang', NULL, $where_)->row();
+				// echo $this->db->last_query();
 				$response['val'][] = array(
 					'kode' 					=> $val->cabang_id,
 					'cabang_nama' 			=> $val->cabang_nama,
@@ -172,7 +182,9 @@ class C_cabang extends MY_Controller {
 					'jml_fax'				=> sizeof(json_decode($val->cabang_fax)),
 					'cabang_email' 			=> $hasil4,
 					'jml_email'				=> sizeof(json_decode($val->cabang_email)),
-					'cabang_status_aktif' 	=> $val->cabang_status_aktif
+					'cabang_status_aktif' 	=> $val->cabang_status_aktif,
+					'cabang_gudangdisplay'	=> $val->cabang_gudangdisplay,
+					'cabang_gudangdisplaynama'	=> $gudang->gudang_nama
 				);
 			}
 
@@ -207,37 +219,6 @@ class C_cabang extends MY_Controller {
 				$response['items'][] = array(
 					'id'	=> $val->cabang_id,
 					'text'	=> $val->cabang_nama
-				);
-			}
-			$response['status'] = '200';
-		}
-
-		echo json_encode($response);
-	}
-
-	public function loadData_selectKota(){ // untuk select data kota
-		$param = $this->input->get('q');
-		if ($param!=NULL) {
-			$param = $this->input->get('q');
-		} else {
-			$param = "";
-		}
-		$select = '*';
-		$where_like['data'][] = array(
-			'column' => 'name',
-			'param'	 => $this->input->get('q')
-		);
-		$order['data'][] = array(
-			'column' => 'name',
-			'type'	 => 'ASC'
-		);
-		$query = $this->mod->select($select, 'regencies', NULL, NULL, NULL, $where_like, $order);
-		$response['items'] = array();
-		if ($query<>false) {
-			foreach ($query->result() as $val) {
-				$response['items'][] = array(
-					'id'	=> $val->id,
-					'text'	=> $val->name
 				);
 			}
 			$response['status'] = '200';
@@ -290,7 +271,7 @@ class C_cabang extends MY_Controller {
 				$response['status'] = '204';
 			}
 		}
-		
+
 		echo json_encode($response);
 	}
 
@@ -355,47 +336,49 @@ class C_cabang extends MY_Controller {
 			$fax = json_encode($this->input->post('cabang_fax'));
 			$email = json_encode($this->input->post('cabang_email'));
 			$data = array(
-				'cabang_nama' 			=> $this->input->post('cabang_nama', TRUE),
-				'cabang_alamat' 		=> $this->input->post('cabang_alamat', TRUE),
-				'cabang_kota' 			=> $this->input->post('cabang_kota', TRUE),
-				'cabang_telepon' 		=> $defaultValue,
-				'cabang_fax' 			=> $fax,
-				'cabang_email' 			=> $email,
-				'cabang_status_aktif' 	=> $this->input->post('cabang_status_aktif', TRUE),
-				'cabang_create_date' 	=> date('Y-m-d H:i:s'),
-				'cabang_update_date' 	=> date('Y-m-d H:i:s'),
-				'cabang_create_by' 		=> $this->session->userdata('user_username'),
-				'cabang_revised' 		=> 0,
+				'cabang_nama' 						=> $this->input->post('cabang_nama', TRUE),
+				'cabang_alamat' 					=> $this->input->post('cabang_alamat', TRUE),
+				'cabang_kota' 						=> $this->input->post('cabang_kota', TRUE),
+				'cabang_telepon' 					=> $defaultValue,
+				'cabang_fax' 							=> $fax,
+				'cabang_email' 						=> $email,
+				'cabang_status_aktif' 		=> $this->input->post('cabang_status_aktif', TRUE),
+				'cabang_create_date' 			=> date('Y-m-d H:i:s'),
+				'cabang_update_date' 			=> date('Y-m-d H:i:s'),
+				'cabang_create_by' 				=> $this->session->userdata('user_username'),
+				'cabang_revised' 					=> 0,
+				'cabang_gudangdisplay' 		=> $this->input->post('cabang_display', TRUE)
 			);
 		} else if ($type == 2) {
 			$defaultValue = json_encode($this->input->post('cabang_telepon'));
 			$fax = json_encode($this->input->post('cabang_fax'));
 			$email = json_encode($this->input->post('cabang_email'));
 			$data = array(
-				'cabang_nama' 			=> $this->input->post('cabang_nama', TRUE),
-				'cabang_alamat' 		=> $this->input->post('cabang_alamat', TRUE),
-				'cabang_kota' 			=> $this->input->post('cabang_kota', TRUE),
-				'cabang_telepon' 		=> $defaultValue,
-				'cabang_fax' 			=> $fax,
-				'cabang_email' 			=> $email,
+				'cabang_nama' 					=> $this->input->post('cabang_nama', TRUE),
+				'cabang_alamat' 				=> $this->input->post('cabang_alamat', TRUE),
+				'cabang_kota' 					=> $this->input->post('cabang_kota', TRUE),
+				'cabang_telepon' 				=> $defaultValue,
+				'cabang_fax' 						=> $fax,
+				'cabang_email' 					=> $email,
 				'cabang_status_aktif' 	=> $this->input->post('cabang_status_aktif', TRUE),
-				'cabang_update_date' 	=> date('Y-m-d H:i:s'),
-				'cabang_update_by' 		=> $this->session->userdata('user_username'),
-				'cabang_revised' 		=> $rev,
+				'cabang_update_date' 		=> date('Y-m-d H:i:s'),
+				'cabang_update_by' 			=> $this->session->userdata('user_username'),
+				'cabang_revised' 				=> $rev,
+				'cabang_gudangdisplay' 	=> $this->input->post('cabang_display', TRUE)
 			);
 		} else if ($type == 3) {
 			$data = array(
 				'cabang_status_aktif' 	=> 'n',
-				'cabang_update_date' 	=> date('Y-m-d H:i:s'),
-				'cabang_update_by' 		=> $this->session->userdata('user_username'),
-				'cabang_revised' 		=> $rev,
+				'cabang_update_date' 		=> date('Y-m-d H:i:s'),
+				'cabang_update_by' 			=> $this->session->userdata('user_username'),
+				'cabang_revised' 				=> $rev
 			);
 		} else if ($type == 4) {
 			$data = array(
 				'cabang_status_aktif' 	=> 'y',
-				'cabang_update_date' 	=> date('Y-m-d H:i:s'),
-				'cabang_update_by' 		=> $this->session->userdata('user_username'),
-				'cabang_revised' 		=> $rev,
+				'cabang_update_date' 		=> date('Y-m-d H:i:s'),
+				'cabang_update_by' 			=> $this->session->userdata('user_username'),
+				'cabang_revised' 				=> $rev
 			);
 		}
 
@@ -428,7 +411,7 @@ class C_cabang extends MY_Controller {
 		}
 		else
 			return true;
-		
+
 	}
 
 	function nonaktif_karyawan($type_id)
@@ -452,7 +435,7 @@ class C_cabang extends MY_Controller {
 					'karyawan_status_aktif' 	=> 'n',
 					'karyawan_update_date' 		=> date('Y-m-d H:i:s'),
 					'karyawan_update_by' 		=> $this->session->userdata('user_username'),
-					'karyawan_revised' 			=> $id['karyawan_revised'] + 1, 
+					'karyawan_revised' 			=> $id['karyawan_revised'] + 1,
 				);
 				//
 				//select user_revised
@@ -484,9 +467,86 @@ class C_cabang extends MY_Controller {
 				$updateUser = $this->db->update_batch('s_user', $data, 'm_karyawan_id');
 			}
 		}
-		
+
 
         return true;
+	}
+
+	public function loadData_selectKota(){ // untuk select data kota
+		$param = $this->input->get('q');
+		if ($param!=NULL) {
+			$param = $this->input->get('q');
+		} else {
+			$param = "";
+		}
+		$select = '*';
+		$where_like['data'][] = array(
+			'column' => 'name',
+			'param'	 => $this->input->get('q')
+		);
+		$order['data'][] = array(
+			'column' => 'name',
+			'type'	 => 'ASC'
+		);
+		$query = $this->mod->select($select, 'regencies', NULL, NULL, NULL, $where_like, $order);
+		$response['items'] = array();
+		if ($query<>false) {
+			foreach ($query->result() as $val) {
+				$response['items'][] = array(
+					'id'	=> $val->id,
+					'text'	=> $val->name
+				);
+			}
+			$response['status'] = '200';
+		}
+
+		echo json_encode($response);
+	}
+
+	function loadDataSelectDisplay()
+	{
+		$param = $this->input->get('q');
+		if ($param!=NULL) {
+			$param = $this->input->get('q');
+		} else {
+			$param = "";
+		}
+		$select = 'a.gudang_id, a.gudang_nama';
+		$cabang_id = $this->input->get('id');
+		// echo $cabang_id;
+		$join = array();
+		if ($cabang_id) {
+
+			$select = 'a.gudang_id, a.gudang_nama, b.cabang_gudangdisplay';
+			$join['data'][] = array(
+				'table' => 'm_cabang b',
+				'join'	=> 'b.cabang_id = a.m_cabang_id',
+				'type'	=> 'left'
+			);
+		}
+
+		$where['data'][] = array(
+			'column' => 'a.m_cabang_id',
+			'param'	 => $cabang_id
+		);
+
+		$where['data'][] = array(
+			'column' => 'a.gudang_status_aktif',
+			'param'	 => 'y'
+		);
+
+		$response['items'] = array();
+		$qGudangDisplay = $this->mod->select($select, 'm_gudang a', $join, $where);
+
+		if ($qGudangDisplay<>false) {
+			foreach ($qGudangDisplay->result() as $row) {
+				$response['items'][] = array(
+					'id' 		=> $row->gudang_id,
+					'text' 	=> $row->gudang_nama
+				);
+			}
+		}
+		echo json_encode($response);
 	}
 	/* end Function */
 

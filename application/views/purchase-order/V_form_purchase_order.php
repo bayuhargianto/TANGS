@@ -246,6 +246,24 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="form-group" id="divPembayaran">
+                                        <label class="control-label col-md-4">Total Pembayaran
+                                            <span class="required"> * </span>
+                                        </label>
+                                        <div class="col-md-8">
+                                            <div class="input-icon right">
+                                                <i class="fa"></i>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" style="">
+                                                        RP
+                                                    </span>
+                                                    <input type="text" class="form-control money" id="i_payment" name="i_payment" value="0" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="form-group hidden" id="order_hari">
                                         <label class="control-label col-md-4">Term Of Payment
                                             <span class="required"> * </span>
@@ -262,7 +280,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="form-group" id="order_dp">
+
+                                    <div class="form-group hidden" id="order_dp">
                                         <label class="control-label col-md-4">DP
                                             <span class="required"> * </span>
                                         </label>
@@ -277,7 +296,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> -->
+                                    </div>
                                     <div class="form-actions">
                                         <div class="row">
                                             <div class="col-md-offset-4 col-md-8 text-right">
@@ -335,10 +354,12 @@
             function checkPembayaran() {
                 if (document.getElementsByName('order_pembayaran')[0].value == 1) {
                     $("#order_hari").removeClass("hidden");
-                    $("#order_dp").addClass("hidden");
-                } else {
-                    $("#order_hari").addClass("hidden");
                     $("#order_dp").removeClass("hidden");
+                    $('#divPembayaran').addClass("hidden");
+                } else {
+                    $('#divPembayaran').removeClass("hidden");
+                    $("#order_hari").addClass("hidden");
+                    $("#order_dp").addClass("hidden");
                 }
             }
 

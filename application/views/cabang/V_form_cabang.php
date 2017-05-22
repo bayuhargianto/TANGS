@@ -45,8 +45,9 @@
                     <div class="input-icon right">
                         <i class="fa"></i>
                         <select class="form-control select2" id="cabang_kota" name="cabang_kota" required />
-                            
-                        </select></div>
+
+                        </select>
+                    </div>
                 </div>
             </div>
             <!-- <div class="form-group">
@@ -140,13 +141,27 @@
                 <div class="col-md-8">
                     <div class="input-icon right">
                         <i class="fa"></i>
-                        <select class="form-control select2" name="cabang_status_aktif" aria-required="true" aria-describedby="select-error" required>
+                        <select class="form-control select2" name="cabang_status_aktif" aria-required="true"
+                        aria-describedby="select-error" required>
                             <option id="aktif" value="y"> Aktif </option>
                             <option id="nonaktif" value="n"> Non Aktif </option>
                         </select>
+                    </div>
                 </div>
             </div>
-        </div>
+            <div class="form-group">
+              <!-- <input type="" name="cabang_display_aktif" id="cabang_display_aktif" value="" /> -->
+                <label class="control-label col-md-4">Display Penjualan
+                    <span class="required"> * </span>
+                </label>
+                <div class="col-md-8">
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        <select class="form-control select2" id="cabang_display" name="cabang_display"
+                         aria-required="true" aria-describedby="select-error" required></select>
+                    </div>
+                </div>
+            </div>
         <div class="form-actions">
             <div class="row">
                 <div class="col-md-offset-4 col-md-8 text-right">
@@ -175,6 +190,9 @@
                 // alert("masukfax");
               generateItemOption("cabang_email", "default_value2Email", "detailEmail");
             });
+
+
+
         });
 
         function defaultValue() {
@@ -184,9 +202,12 @@
             $("#default_value2Fax").empty();
             $("#default_valueEmail").empty();
             $("#default_value2Email").empty();
+
             $("#jml_itemOption").val(1);
             $("#jml_itemOptionFax").val(1);
             $("#jml_itemOptionEmail").val(1);
+            // $("#cabang_display_aktif").val(1);
+
             itemOption = parseInt($("#jml_itemOption").val());
             itemOptionFax = parseInt($("#jml_itemOptionFax").val());
             itemOptionEmail = parseInt($("#jml_itemOptionEmail").val());
@@ -221,7 +242,7 @@
             // Allow: backspace, delete, tab, escape, enter and .
             if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
                  // Allow: Ctrl+A, Command+A
-                (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) || 
+                (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
                  // Allow: home, end, left, right, down, up
                 (event.keyCode >= 35 && event.keyCode <= 40)) {
                      // let it happen, don't do anything
@@ -280,7 +301,7 @@
             // Allow: backspace, delete, tab, escape, enter and .
             if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
                  // Allow: Ctrl+A, Command+A
-                (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) || 
+                (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
                  // Allow: home, end, left, right, down, up
                 (event.keyCode >= 35 && event.keyCode <= 40)) {
                      // let it happen, don't do anything
@@ -333,7 +354,7 @@
             // Allow: backspace, delete, tab, escape, enter and .
             if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
                  // Allow: Ctrl+A, Command+A
-                (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) || 
+                (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
                  // Allow: home, end, left, right, down, up
                 (event.keyCode >= 35 && event.keyCode <= 40)) {
                      // let it happen, don't do anything
@@ -376,7 +397,7 @@
                 parent.removeChild(child);
               };
             };
-            
+
             if(nama == 'cabang_telepon')
             {
                 itemOption--;

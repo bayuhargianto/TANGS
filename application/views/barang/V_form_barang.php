@@ -15,7 +15,7 @@
                 <div class="col-md-8">
                     <div class="input-icon right">
                         <i class="fa"></i>
-                        <input type="text" class="form-control" name="kode" readonly /> </div>
+                        <input type="text" class="form-control" name="kode" readonly/> </div>
                 </div>
             </div>
             <div class="form-group">
@@ -153,7 +153,8 @@
         <div class="form-actions">
             <div class="row">
                 <div class="col-md-offset-4 col-md-8 text-right">
-                    <button type="button" class="btn green-jungle" id="submit">Submit</button>
+                    <button type="submit" class="btn green-jungle hidden" id="submitedit">Submit</button>
+                    <button type="submit" class="btn green-jungle" id="submit">Submit</button>
                     <button type="button" class="btn default reset" onclick="reset()">Reset</button>
                 </div>
             </div>
@@ -210,9 +211,14 @@
             });
         }
 
+      // submitedit
+      $("#submitedit").on('click', function(e) {
+        actionData2();
+      });
+
       $("#submit").on('click', function(e) {
         // alert();
-      var url = "C_barang/checknamabarang"; // the script where you handle the form input.
+      var url = "Master-Barang/CheckNamabarang"; // the script where you handle the form input.
       var barang_nama = $("#barang_nama").val();
       $.ajax({
              type: "POST",
@@ -225,7 +231,7 @@
                  {
                    actionData2();
                  } else if (data.status == '204') {
-                   alert("Item Sudah ada");
+                   alert("Item Sudah ada, Mohon menggunakan nama lain");
                  }
              }
            });

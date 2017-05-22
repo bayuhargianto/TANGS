@@ -76,7 +76,7 @@ class C_satuan extends MY_Controller {
 						<i class="icon-power text-center"></i>
 						</button>';
 					}
-					
+
 				} else {
 					$status = '<span class="label bg-red-thunderbird bg-font-red-thunderbird"> Non Aktif </span>';
 					if($priv['update'] == 1)
@@ -91,7 +91,7 @@ class C_satuan extends MY_Controller {
 						<i class="icon-power text-center"></i>
 					</button>';
 					}
-					
+
 				}
 				$response['data'][] = array(
 					$no,
@@ -215,7 +215,7 @@ class C_satuan extends MY_Controller {
 				$response['status'] = '204';
 			}
 		}
-		
+
 		echo json_encode($response);
 	}
 

@@ -1,3 +1,9 @@
+
+<style media="screen">
+  .active-btn-print{
+    background-color: #ff0000!important;
+  }
+</style>
             <!-- BEGIN CONTENT -->
             <div class="page-content-wrapper">
                 <!-- BEGIN CONTENT BODY -->
@@ -43,7 +49,7 @@
                                 <div class="portlet-body">
                                     <div class="table-toolbar">
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-12">
                                                 <div class="btn-group">
                                                   <?php
                                                     if($priv_add == 1)
@@ -51,25 +57,21 @@
                                                       // echo "<h3 align='center'>";
                                                       // $this->session->flashdata('msg');
                                                       // echo "</h3>";
-                                                      echo '<button id="modalAdd-btn" class="btn sbold dark" data-toggle="modal" onclick="openFormBarang(),reset()"><i class="icon-plus"></i>&nbsp; Tambah Data
-                                                      </button>';
-                                                      echo '<button id="btn1" class="btn sbold dark" data-toggle="modal"><i class="icon-doc"></i>&nbsp; Import Data
-                                                      </button><br><br>
+                                                      echo '<button class="btn sbold dark" data-toggle="modal" onclick="openFormBarang(),reset()"><i class="icon-plus"></i>&nbsp; Tambah Data
+                                                            </button>';
+                                                      echo '<button class="btn sbold dark" data-toggle="modal"><i class="icon-doc"></i>&nbsp; Import Data
+                                                            </button>';
+                                                      echo '<button class="btn sbold dark" data-toggle="modal" onclick="openFormPrintbBarang()"><i class="icon-plus"></i>&nbsp; Print PriceTag
+                                                            </button>';
+                                                      echo '<button class="btn sbold dark" data-toggle="modal" onclick="openFormPrintbBarcode()"><i class="icon-plus"></i>&nbsp; Print Barcode
+                                                            </button>
                                                       <form action="'.site_url('Master-Data/Barang/Import').'" class="dropzone dropzone-file-area" id="contoh1" style="width: 1000px;">
                                                         <h3 class="sbold">Drop files here or click to import excel files</h3>
                                                         <div class="fallback">
                                                           <input name="file" type="file"/>
                                                         </div>
                                                       </form>';
-
-                                                      // echo '<form action="'.site_url('Master-Data/Barang/Import').'" method="post" enctype="multipart/form-data">
-
-                                                      //     <input name="file" type="file" multiple />
-                                                      //     <input name="submit" type="submit"/>
-
-                                                      // </form>';
-                                                    }
-                                                  ?>
+                                                    }?>
 
                                                 </div>
                                             </div>
@@ -133,6 +135,36 @@
                 });
             });
 
+
+            var barang_idprint = [];
+            function addPrintbBarang(elem, id){
+              var print_id = $(elem).attr('data-btn-print');
+              $(print_id).attr('checked', true);
+              checked(print_id);
+            }
+
+            function checked(id){
+              var btnprintpricetag = $(id).parent().parent();
+              var checkbox = {id:id, btnprintpricetag:btnprintpricetag};
+              barang_idprint.push(checkbox);
+              btnprintpricetag.addClass('active-btn-print');
+            }
+// prinpricetag end
+            var barang_idprintbar = [];
+            function addPrintBarcode(elem, id){
+              var print_id = $(elem).attr('data-btn-print');
+              $(print_id).attr('checked', true);
+              barchecked(print_id, elem);
+            }
+
+            function barchecked(id, elem){
+              var btnprintbar = $(id).parent().parent();
+              var dataid = $(elem).attr('data-id');
+              var checkbox = {id:id, dataid:dataid};
+              barang_idprintbar.push(checkbox);
+              btnprintbar.addClass('active-btn-print');
+            }
+// prinbar end
             function searchData() {
                 $('#default-table').DataTable({
                     destroy: true,
@@ -198,6 +230,7 @@
                     ],
                     "iDisplayLength": 10
                 });
+                // console.log(2);
             }
 
               function editData(id) {
@@ -234,6 +267,9 @@
                       }
                       $('.num2').number(true, 2, ".", ",");
                     }
+
+                    $('#submitedit').removeClass('hidden');
+                    $('#submit').addClass('hidden');
                   }
                 });
               }
@@ -490,10 +526,14 @@
 
               function openFormPrintbBarang(id)
               {
+                var item_id = [];
+                for (var i = 0; i < barang_idprint.length; i++) {
+                  item_id.push(barang_idprint[i].btnprintpricetag.attr('data-id'));
+                }
                 $.ajax({
                   type : 'POST',
                   url  : $base_url+'Master-Data/Barang/printPriceTag',
-                  data : { id : id },
+                  data : { id : item_id },
                   dataType : "html",
                   success:function(data){
                     $("#modal_print .modal-content").html();
@@ -505,16 +545,84 @@
 
               function openFormPrintbBarcode(id)
               {
+                // console.log(barang_idprintbar);
+                var item_id = [];
+                for (var i = 0; i < barang_idprintbar.length; i++) {
+                  item_id.push(barang_idprintbar[i].dataid);
+                }
                 $.ajax({
                   type : 'POST',
                   url  : $base_url+'C_barang/printpricetagbarcode',
-                  data : { id : id},
+                  data : { id : item_id},
                   dataType : "html",
                   success:function(data){
                     $("#modal_print_bar .modal-content").html();
                     $("#modal_print_bar .modal-content").html(data);
                     $('#modal_print_bar').modal('show');
                   }
+                });
+              }
+
+              // $(document).ready(function(){
+              //   var barang_idprint = [];
+              //   var inputchecked   = [];
+              //   var data_id        = [];
+              //
+              //   $("body").on("click", ".btn-checkbox", function (event) {
+              //     var btnid = $(this).attr('id');
+              //     var print_id = $(this).attr('data-btn-print');
+              //     $(print_id).attr('checked', true);
+              //     $.fn.btnchecked(print_id);
+              //   });
+              //
+              //   $.fn.btnchecked = function(print_id){
+              //     var checkbox = {print_id:print_id};
+              //     barang_idprint.push(print_id);
+              //     console.log(barang_idprint);
+              //   }
+              //
+              //   $.fn.btnchecked();
+              //
+              // });
+
+              function select2ListNEW(idElemen = null, url_data = null, label = null, parameter = null) {
+                alert();
+                $(idElemen).select2('destroy');
+                $(idElemen).select2({
+                  placeholder: label,
+                  multiple: false,
+                  allowClear: true,
+                  ajax: {
+                    url: $base_url+url_data,
+                    dataType: 'json',
+                    delay: 100,
+                    cache: true,
+                    data: function (params) {
+                      return {
+                        q: params.term, // search term
+                        parameter: parameter,
+                        page: params.page
+                      };
+                    },
+                    processResults: function (data, params) {
+                      // parse the results into the format expected by Select2
+                      // since we are using custom formatting functions we do not need to
+                      // alter the remote JSON data, except to indicate that infinite
+                      // scrolling can be used
+                      params.page = params.page || 1;
+
+                      return {
+                        results: data.items,
+                        pagination: {
+                          more: (params.page * 30) < data.total_count
+                        }
+                      };
+                    }
+                  },
+                  escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+                  minimumInputLength: 1,
+                  templateResult: FormatResult,
+                  templateSelection: FormatSelection,
                 });
               }
 

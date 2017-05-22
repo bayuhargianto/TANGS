@@ -520,7 +520,7 @@
                 for (var i = 0; i < document.getElementsByName("t_permintaan_pembelian_id"); i++) {
                     for(var j = 0; j < id.length; j++)
                     {
-                        alert(inputs[i].value);
+                        // alert(inputs[i].value);
                         if(inputs[i].value == id[j])
                         {
 
@@ -534,7 +534,7 @@
             }
 
             function getDetailSpp(id) {
-              alert(id);
+              // alert(id);
                 $.ajax({
                   type : "POST",
                   url  : '<?php echo base_url();?>Gudang/Surat-Permintaan-Pembelian/loadDataWhere/',

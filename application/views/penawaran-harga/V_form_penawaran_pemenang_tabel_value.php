@@ -49,8 +49,8 @@
                         echo '
                             <th style="vertical-align: middle; text-align: center;"> Qty Ditawarkan </th>
                             <th style="vertical-align: middle; text-align: center;"> Harga Satuan </th>
-                            <th style="vertical-align: middle; text-align: center;"> Diskon </th>
                             <th style="vertical-align: middle; text-align: center;"> Mata Uang </th>
+                            <th style="vertical-align: middle; text-align: center;"> Diskon </th>
                             <th style="vertical-align: middle; text-align: center;"> PPN </th>
                         ';
                     }
@@ -183,7 +183,8 @@
                     foreach ($supplier->result() as $row) {
                         echo '<th colspan="4">
                                     <div class="input-group">
-                                        <input type="text" class="form-control decimal" name="penawaran_supplier_diskon[]" id="penawaran_supplier_diskon'.$no.'"  value="'.$row->penawaran_supplier_diskon.'" readonly>
+                                        <input type="text" class="form-control decimal" name="penawaran_supplier_diskon[]"
+                                        id="penawaran_supplier_diskon'.$no.'"  value="'.$row->penawaran_supplier_diskon.'" readonly>
                                         <span class="input-group-addon" style="">
                                             %
                                         </span>
@@ -203,7 +204,8 @@
                     foreach ($supplier->result() as $row) {
                         echo '<th colspan="4">
                                     <div class="input-group">
-                                        <input type="text" class="form-control decimal" name="penawaran_supplier_ppn[]" id="penawaran_supplier_ppn'.$no.'" value="'.$row->penawaran_supplier_ppn.'" readonly>
+                                        <input type="text" class="form-control decimal" name="penawaran_supplier_ppn[]"
+                                        id="penawaran_supplier_ppn'.$no.'" value="'.$row->penawaran_supplier_ppn.'" readonly>
                                         <span class="input-group-addon" style="">
                                             %
                                         </span>
@@ -228,9 +230,11 @@
                         }
                         echo '
                             <th colspan="4">
-                                <input type="hidden" id="penawaran_supplier_pemenang'.$no.'" name="penawaran_supplier_pemenang[]" value="'.$row->penawaran_supplier_pemenang.'">
+                                <input type="hidden" id="penawaran_supplier_pemenang'.$no.'" name="penawaran_supplier_pemenang[]"
+                                value="'.$row->penawaran_supplier_pemenang.'">
                                 <label class="mt-checkbox"> Pilih Pemenang
-                                    <input type="checkbox" value="1" id="penawaran_supplier_pemenang2'.$no.'" onclick="checkPemenang('.$no.');" '.$checked.' disabled />
+                                    <input type="checkbox" value="1" id="penawaran_supplier_pemenang2'.$no.'"
+                                    onclick="checkPemenang('.$no.');" '.$checked.' disabled />
                                     <span></span>
                                 </label>
                                 <textarea class="form-control" rows="3" name="penawaran_supplier_alasan[]" readonly>'.$row->penawaran_supplier_alasan.'</textarea>

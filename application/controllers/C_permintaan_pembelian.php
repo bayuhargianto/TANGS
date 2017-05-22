@@ -396,6 +396,7 @@ class C_permintaan_pembelian extends MY_Controller {
 				'type'	 => 'ASC'
 			);
 			$query = $this->mod->select($select, $this->tbl, NULL, $where, NULL, $where_like, $order);
+			// echo $this->db->last_query();
 			$response['items'] = array();
 			if ($query<>false) {
 				foreach ($query->result() as $val) {

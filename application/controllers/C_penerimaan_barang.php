@@ -133,10 +133,10 @@ class C_penerimaan_barang extends MY_Controller {
 	public function getForm1($id = null){
 		$this->check_session();
 		$data = array(
-			'aplikasi'		=> $this->app_name,
-			'title_page' 	=> 'Gudang',
+			'aplikasi'			=> $this->app_name,
+			'title_page' 		=> 'Gudang',
 			'title_page2' 	=> 'Penerimaan Barang',
-			'id'			=> $id
+			'id'						=> $id
 		);
 		$this->open_page('penerimaan-barang/V_form_penerimaan_barang', $data);
 	}
@@ -332,8 +332,7 @@ class C_penerimaan_barang extends MY_Controller {
 		echo json_encode($response);
 	}
 
-	public function checkPO()
-	{
+	public function checkPO(){
 		$where['data'][] = array(
 			'column' => 't_order_id',
 			'param'	 => $this->input->get('id', TRUE)
@@ -678,8 +677,8 @@ class C_penerimaan_barang extends MY_Controller {
 													'stok_gudang_revised' 		=> 0,
 												);
 												$insertStok2 = $this->mod->update_data_table('t_stok_gudang', $where_stok_gudang, $dataStok2);
-												echo "string1";
-												print_r($dataStok2);
+												// echo "string1";
+												// print_r($dataStok2);
 											}
 										} else {
 											// INSERT
@@ -716,8 +715,8 @@ class C_penerimaan_barang extends MY_Controller {
 									'orderdet_revised' 			=> $row->orderdet_revised + 1,
 								);
 								$update_po2 = $this->mod->update_data_table('t_orderdet', $where_po2, $data_po2);
-								echo "string2";
-								print_r($data_po2);
+								// echo "string2";
+								// print_r($data_po2);
 							}
 						}
 						// END PO
@@ -729,7 +728,7 @@ class C_penerimaan_barang extends MY_Controller {
 				$response['status'] = '204';
 			}
 		}
-		print_r($this->db->last_query());
+		// print_r($this->db->last_query());
 		echo json_encode($response);
 	}
 
@@ -937,10 +936,14 @@ class C_penerimaan_barang extends MY_Controller {
 		if ($query) {
 			foreach ($query->result() as $row) {
 				// update qty realisasi
-				$whereOrderid = array('t_order_id' => $row->t_order_id);
+				$whereOrderid['data'][] = array(
+					'column' => 't_order_id',
+					'param'	 => $row->t_order_id);
+
 				$dataUpdateorder = array(
 					'orderdet_qty_realisasi' => 0,
 				);
+
 				$qorderdet = $this->mod->update_data_table('t_orderdet', $whereOrderid, $dataUpdateorder);
 				// end update qty realisasi
 				// HAPUS KARTU STOK

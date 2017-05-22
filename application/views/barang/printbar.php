@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title><?php echo $barang->barang_nama;?></title>
+    <title></title>
     <style media="screen">
 
       body {
@@ -40,11 +40,27 @@
         td {
           height: 100px;
         }
+
+        tr.barcode{
+          margin: 40px;
+        }
       }
 
     </style>
   </head>
   <body  onload=print()>
-    
+    <table>
+        <tr class="barcode">
+            <div style="margin-top: 10px;margin-bottom: 10px;">
+              <?php foreach ($img as $value) {?>
+                <tr style="padding-top: 20px;">
+                  <td>
+                    <img src="<?php echo site_url();?>C_barang/printpricetagbarcode_/<?php echo $value;?>" id="image_barcode">
+                  </td>
+                </tr>
+                <?php  } ?>
+            </div>
+        </tr>
+    </table>
   </body>
 </html>

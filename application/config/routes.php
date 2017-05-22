@@ -122,6 +122,7 @@ $route['Master-Data/Departemen/loadDataWhere']					= 'C_departemen/loadDataWhere
 $route['Master-Data/Departemen/loadDataSelect']					= 'C_departemen/loadData_select';
 // End Departemen
 // Jenis Gudang
+$route['Master-Data/Mutasi/postData']								= 'C_mutasibarang/postData';
 $route['Master-Data/Jenis-Gudang']								= 'C_jenis_gudang';
 $route['Master-Data/Jenis-Gudang/getForm']						= 'C_jenis_gudang/getForm';
 $route['Master-Data/Jenis-Gudang/loadData']						= 'C_jenis_gudang/loadData';
@@ -167,7 +168,9 @@ $route['Master-Data/Gudang/loadDataWhere']						= 'C_gudang/loadDataWhere';
 $route['Master-Data/Gudang/loadDataSelect']						= 'C_gudang/loadData_select';
 $route['Master-Data/Gudang/loadDataSelectCabang']				= 'C_gudang/loadData_selectGudang/1';
 $route['Master-Data/Gudang/loadDataSelectCabang2']				= 'C_gudang/loadData_selectGudang/2';
-$route['Master-Data/Gudang/loadDataSelectKota']					= 'C_gudang/loadData_selectKota';
+$route['Master-Data/Gudang/loadDataSelectKota']					              = 'C_gudang/loadData_selectKota';
+$route['Master-Data/Gudang/Mutasi-Barang']				                    = 'C_mutasibarang';
+$route['Master-Data/Gudang/Mutasi-Barang/(:any)/(:any)']				      = 'C_mutasibarang/$1/$2';
 // End Gudang
 // Jenis Barang
 $route['Master-Data/Jenis-Barang']								= 'C_jenis_barang';
@@ -330,22 +333,22 @@ $route['Gudang/Surat-Permintaan-Pembelian/(:any)/(:any)']				= 'C_permintaan_pem
 // end SPP
 
 // Penawaran Harga
-$route['Pembelian/Penawaran-Harga']								= 'C_penawaran_harga';
-$route['Pembelian/Penawaran-Harga/loadData']					= 'C_penawaran_harga/loadData/1';
-$route['Pembelian/Penawaran-Harga/Form']						= 'C_penawaran_harga/getForm1';
+$route['Pembelian/Penawaran-Harga']								      = 'C_penawaran_harga';
+$route['Pembelian/Penawaran-Harga/loadData']					  = 'C_penawaran_harga/loadData/1';
+$route['Pembelian/Penawaran-Harga/Form']						    = 'C_penawaran_harga/getForm1';
 $route['Pembelian/Penawaran-Harga/Form/(:any)']					= 'C_penawaran_harga/getForm1/$1';
-$route['Pembelian/Penawaran-Harga/postData']					= 'C_penawaran_harga/postData/1';
+$route['Pembelian/Penawaran-Harga/postData']					  = 'C_penawaran_harga/postData/1';
 $route['Pembelian/Penawaran-Harga/loadDataHarga']				= 'C_penawaran_harga/loadDataHarga/1';
-$route['Pembelian/Penawaran-Harga/loadDataHarga2']				= 'C_penawaran_harga/loadDataHarga/2';
-$route['Pembelian/Penawaran-Harga/loadDataPemenang']			= 'C_penawaran_harga/loadDataPemenang/1';
-$route['Pembelian/Penawaran-Harga/loadDataPemenang2']			= 'C_penawaran_harga/loadDataPemenang/2';
+$route['Pembelian/Penawaran-Harga/loadDataHarga2']			= 'C_penawaran_harga/loadDataHarga/2';
+$route['Pembelian/Penawaran-Harga/loadDataPemenang']		= 'C_penawaran_harga/loadDataPemenang/1';
+$route['Pembelian/Penawaran-Harga/loadDataPemenang2']		= 'C_penawaran_harga/loadDataPemenang/2';
 $route['Pembelian/Penawaran-Harga/loadDataWhere']				= 'C_penawaran_harga/loadDataWhere/1';
-$route['Pembelian/Penawaran-Harga/loadDataSelect']				= 'C_penawaran_harga/loadData_select/1';
-$route['Pembelian/Penawaran-Harga/loadDataSelect2']				= 'C_penawaran_harga/loadData_select/2';
-$route['Pembelian/Penawaran-Harga/loadDataSelect3']				= 'C_penawaran_harga/loadData_select/3';
-$route['Pembelian/Penawaran-Harga/print-Penawaran/(:any)']		= 'C_penawaran_harga/cetakPDF/$1';
-$route['Pembelian/Penawaran-Harga/(:any)']						= 'C_penawaran_harga/$1';
-$route['Pembelian/Penawaran-Harga/(:any)/(:any)']				= 'C_penawaran_harga/$1/$2';
+$route['Pembelian/Penawaran-Harga/loadDataSelect']			= 'C_penawaran_harga/loadData_select/1';
+$route['Pembelian/Penawaran-Harga/loadDataSelect2']			= 'C_penawaran_harga/loadData_select/2';
+$route['Pembelian/Penawaran-Harga/loadDataSelect3']			= 'C_penawaran_harga/loadData_select/3';
+$route['Pembelian/Penawaran-Harga/print-Penawaran/(:any)']	= 'C_penawaran_harga/cetakPDF/$1';
+$route['Pembelian/Penawaran-Harga/(:any)']						      = 'C_penawaran_harga/$1';
+$route['Pembelian/Penawaran-Harga/(:any)/(:any)']				    = 'C_penawaran_harga/$1/$2';
 
 // end Penawaran Harga
 
@@ -380,6 +383,7 @@ $route['Gudang/Penerimaan-Barang/Form']							= 'C_penerimaan_barang/getForm1';
 $route['Gudang/Penerimaan-Barang/Form/(:any)']					= 'C_penerimaan_barang/getForm1/$1';
 $route['Gudang/Penerimaan-Barang/postData']						= 'C_penerimaan_barang/postData/1';
 $route['Gudang/Penerimaan-Barang/print-BPB/(:any)']				= 'C_penerimaan_barang/cetakPDF/$1';
+
 
 $route['Gudang/Penerimaan-Barang/print-BPBJ/(:any)']			= 'C_penerimaan_barang/cetakPDFBPBJ/$1';
 $route['Gudang/Penerimaan-Barang/loadDataWhere']				= 'C_penerimaan_barang/loadDataWhere/1';
@@ -816,3 +820,8 @@ $route['Gudang/Penerimaan-Barang-Retur/postData']							= 'C_penerimaan_barang_r
 $route['Gudang/Penerimaan-Barang-Retur/loadDataWhere']						= 'C_penerimaan_barang_retur/loadDataWhere/1';
 $route['Gudang/Penerimaan-Barang-Retur/loadDataSelect']						= 'C_penerimaan_barang_retur/loadData_select/1';
 // end BPBR
+
+
+// custom js route javascript
+$route['Master-Barang/Getbrand']						= 'C_barang/loadDataSelectBrand';
+$route['Master-Barang/CheckNamabarang']						= 'C_barang/checknamabarang';

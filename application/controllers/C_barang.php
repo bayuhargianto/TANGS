@@ -42,6 +42,12 @@ class C_barang extends MY_Controller {
 			'start'  => $this->input->get('start'),
 			'finish' => $this->input->get('length')
 		);
+
+		$join_det['data'][] = array(
+			'table' => 'm_jenis_barang b',
+			'join'	=> 'c.jenis_barang_id = b.m_jenis_barang_id',
+			'type'	=> 'left'
+		);
 		//WHERE LIKE
 		$where_like['data'][] = array(
 			'column' => 'barang_nomor, barang_kode, barang_nama, jenis_barang_nama, barang_minimum_stok, satuan_nama, barang_status_aktif', 'param'	 => $this->input->get('search[value]')
@@ -63,11 +69,26 @@ class C_barang extends MY_Controller {
 
 			foreach ($query->result() as $val) {
 				$button = '';
-				$button = '<button class="btn blue-soft" type="button" onclick="openFormPrintbBarang('.$val->barang_id.')"
-				 						title="Print Price Tag" data-toggle="modal" href="#modalprint">
+			// <button class="btn blue-soft" type="button" onclick="openFormPrintbBarang('.$val->barang_id.')"
+			// title="Print Price Tag" data-toggle="modal" href="#modalprint">
+			// <i class="fa fa-print text-center"></i>
+			// </button>
+				$button = '<button class="btn blue-soft" type="button" id="btnprintpricetag'.$val->barang_id.'"
+				 						data-btn-print="#printcheckbox_'.$val->barang_id.'" onclick="addPrintbBarang(this, '.$val->barang_id.');"
+				 						title="Print Price Tag" data-id="'.$val->barang_id.'">
+										<label class="mt-checkbox mt-checkbox-outline">
+                        <input type="checkbox" id="printcheckbox_'.$val->barang_id.'">
+                        <span style="background-color: #fff;"></span>
+                    </label>
 										<i class="fa fa-print text-center"></i>
 									 </button>
-									 <button class="btn blue" type="button" onclick="openFormPrintbBarcode('.$val->barang_id.')" title="Print Barcode">
+									 <button class="btn blue-soft" type="button" id="btnprintbar'.$val->barang_id.'"
+					 				 data-btn-print="#printbarcheckbox_'.$val->barang_id.'" onclick="addPrintBarcode(this, '.$val->barang_id.')"
+									 title="Print Barcode" data-id="'.$val->barang_id.'">
+										 <label class="mt-checkbox mt-checkbox-outline">
+												 <input type="checkbox" id="printbarcheckbox_'.$val->barang_id.'">
+												 <span style="background-color: #fff;"></span>
+										 </label>
 	 									<i class="fa fa-print text-center"></i>
 	 								 </button>';
 				if ($val->barang_status_aktif == 'y') {
@@ -75,15 +96,14 @@ class C_barang extends MY_Controller {
 					if($priv['update'] == 1)
 					{
 						$button = $button.'<button class="btn blue-ebonyclay" type="button" onclick="openFormBarang('.$val->barang_id.')" title="Edit" data-toggle="modal" href="#modaladd">
-											<i class="icon-pencil text-center"></i>
-										</button>';
+																<i class="icon-pencil text-center"></i>
+															 </button>';
 					}
 					if($priv['delete'] == 1)
 					{
-						$button = $button.'
-									<button class="btn red-thunderbird" type="button" onclick="deleteData('.$val->barang_id.')" title="Non Aktifkan">
-										<i class="icon-power text-center"></i>
-									</button>';
+						$button = $button.'<button class="btn red-thunderbird" type="button" onclick="deleteData('.$val->barang_id.')" title="Non Aktifkan">
+																<i class="icon-power text-center"></i>
+															 </button>';
 					}
 
 				} else {
@@ -91,15 +111,15 @@ class C_barang extends MY_Controller {
 					if($priv['update'] == 1)
 					{
 						$button = $button.'<button class="btn blue-ebonyclay" type="button" onclick="openFormBarang('.$val->barang_id.')" title="Edit" data-toggle="modal" href="#modaladd" disabled>
-											<i class="icon-pencil text-center"></i>
-										</button>';
+																<i class="icon-pencil text-center"></i>
+															 </button>';
 
 					}
 					if($priv['delete'] == 1)
 					{
 						$button = $button.'<button class="btn green-jungle" type="button" onclick="aktifData('.$val->barang_id.')" title="Aktifkan">
-						<i class="icon-power text-center"></i>
-						</button>';
+																<i class="icon-power text-center"></i>
+															 </button>';
 					}
 
 				}
@@ -132,37 +152,43 @@ class C_barang extends MY_Controller {
 	function printpricetag()
 	{
 		$barang_id = $this->input->post('id');
-		$wherebarangid = "WHERE barang_id = '$barang_id'";
-		$wherebarangid_ = array(
-			'barang_id' => $barang_id,
-		);
+		$barang_id = implode(".", $barang_id);
+		// var_dump($barang_id);
+		// $wherebarangid = "WHERE barang_id = '$barang_id[0]'";
+		// $wherebarangid_ = array(
+		// 	'barang_id' => $barang_id,
+		// );
 		$data = array(
-			'barang' => $this->mod->select_config('m_barang', $wherebarangid)->row(),
+			'barang' => $barang_id,
 			'action' => 'C_barang/printpricetagaction'
 		);
-
-    // $barcodeOptions = array('text' => $barang->barang_kode);
-    // $rendererOptions = array('imageType'          =>'png',
-    //                          'horizontalPosition' => 'center',
-    //                          'verticalPosition'   => 'middle');
-		// $image = Zend_Barcode::factory('code39', 'image', $barcodeOptions, $rendererOptions)->render();
-
-
-
-		// echo "<img src=".$image."/>";
-		// imagepng($imageResource, 'public_html/img/barcode.png');
+		//
+    // // $barcodeOptions = array('text' => $barang->barang_kode);
+    // // $rendererOptions = array('imageType'          =>'png',
+    // //                          'horizontalPosition' => 'center',
+    // //                          'verticalPosition'   => 'middle');
+		// // $image = Zend_Barcode::factory('code39', 'image', $barcodeOptions, $rendererOptions)->render();
+		//
+		//
+		//
+		// // echo "<img src=".$image."/>";
+		// // imagepng($imageResource, 'public_html/img/barcode.png');
 		$this->load->view('barang/printpricetag_modal', $data);
 	}
 
 	function printpricetagbarcode()
 	{
 		$barang_id = $this->input->post('id');
-		$wherebarangid = "WHERE barang_id = '$barang_id'";
-		$wherebarangid_ = array('barang_id' => $barang_id );
-
+		$barang_id = implode(".", $barang_id);
+		// $wherebarangid = "WHERE barang_id = '$barang_id'";
+		// $wherebarangid_ = array('barang_id' => $barang_id );
+		//
 		$data = array(
-			'barang' => $this->mod->select_config('m_barang', $wherebarangid)->row()
+			'barang' => $barang_id
 		);
+		// $data = array(
+		// 	'barang' => $this->mod->select_config('m_barang', $wherebarangid)->row()
+		// );
 
 		$this->load->view('barang/printbar_modal', $data);
 	}
@@ -176,39 +202,100 @@ class C_barang extends MY_Controller {
 
 	function printpricetagaction($id, $qty)
 	{
-		$wherebarangid = "WHERE barang_id = '$id'";
+		$barang_id = explode(".", $id);
+		$query = '';
+		$no = 0;
+		$htmlarr = [];
+		$tanggal = date("Y/m/d");
+		foreach ($barang_id as $value) {
+			$wherebarangid = "WHERE barang_id = '$value'";
+			$query = $this->mod->select_config('m_barang', $wherebarangid);
+			foreach ($query->result() as $row) {
+				$html = '';
+				$html = "<td class='title'>$row->barang_nama";
+				$html = $html."<table>";
+				$html = $html."<tr><td class='rupiah'>
+				Rp.
+				</td>";
+				$html = $html."</tr>
+				<tr>
+				<td class='price' colspan='2'>
+				<b>".number_format($row->harga_jual_pajak,"0", ",", ".")."</b>
+				</td>
+				</tr>
+				<tr>
+				<td>
+				$row->barang_kode
+				</td>
+				<td>
+				$row->barang_nomor
+				</td>
+				<tr>
+				<tr>
+				<td></td>
+				<td class='tanggal'>$tanggal</td>
+				</tr>";
+				$html = $html."</table>";
+				$html = $html."</td>";
+			}
+			$htmlarr[$no] = $html;
+
+			$no++;
+		}
+
+		$printPriceTag = [];
+		for ($i=0; $i < $no; $i++) {
+			for ($j=0; $j < $qty; $j++)
+			{
+				 $printPriceTag[] = $htmlarr[$i];
+			}
+		}
+
+		// var_dump($printbar);
 
 		$data = array(
-			'barang' 			=> $this->mod->select_config('m_barang', $wherebarangid)->row(),
-			'printqty'		=> $qty,
-			'action' 			=> 'C_barang',
-			'tanggal'			=> date("d/m/y")
+			'printPriceTag' 			=> $printPriceTag,
 		);
-
+		//
 		$this->load->view('barang/printpricetag', $data);
 	}
 
 	function printBarcode($barang_id, $print_qty)
 	{
-		$wherebarangid = "WHERE barang_id = '$barang_id'";
+		$barang_id = explode(".", $barang_id);
+		$query = '';
+		$no = 0;
+		$htmlarr = [];
+		$tanggal = date("Y/m/d");
+		$this->load->library('zend');
+		$this->zend->load('Zend/Barcode');
+		$img = [];
+		foreach ($barang_id as $value) {
+			$wherebarangid = "WHERE barang_id = '$value'";
+			$query = $this->mod->select_config('m_barang', $wherebarangid);
+			for ($i=0; $i < $print_qty; $i++) {
+				foreach ($query->result() as $row) {
+					// Zend_Barcode::render('code128', 'image', array('text'=>$row->barang_kode), array());
+					$img[] = $row->barang_kode;
+				}
+			}
 
+			$no++;
+		}
 		$data = array(
-			'barang' 			=> $this->mod->select_config('m_barang', $wherebarangid)->row(),
-			'printqty'		=> $print_qty,
-			'action' 			=> 'C_barang',
-			'tanggal'			=> date("d/m/y")
-		);
+			'img' => $img);
+
 
 		$this->load->view('barang/printbar', $data);
 	}
 
 	public function import(){
-		ini_set('max_execution_time', 3600);
+		// ini_set('max_execution_time', 3600);
 		if(!isset($_FILES['file'])){
 
 			$this->session->set_flashdata('msg', 'Mohon Cek Kembali File Anda');
 
-		}else{
+		} else {
 
 			$fileName = str_replace(" ", "_", time().$_FILES['file']['name']);
 
@@ -248,12 +335,17 @@ class C_barang extends MY_Controller {
 			                                    FALSE);
 
 			    // QUERY UNTUK MENCARI ID DI SETIAP TABEL BERDASARKAN NAMA YANG ADA DI FILE EXCEL
-			  $cat1_id = $this->db->query("SELECT jenis_barang_id FROM m_jenis_barang WHERE jenis_barang_nama = '".$rowData[0][0]."'")->row();
-				$cat2_id = $this->db->query("SELECT category_2_id FROM m_category_2 WHERE category_2_nama = '".$rowData[0][1]."'")->row();
-				$sat_id = $this->db->query("SELECT satuan_id FROM m_satuan WHERE satuan_nama = '".$rowData[0][5]."'")->row();
-				$brd_id = $this->db->query("SELECT brand_id FROM m_brand WHERE brand_nama = '".$rowData[0][6]."'")->row();
+			  $cat1_id = $this->db->query("SELECT jenis_barang_id FROM m_jenis_barang WHERE jenis_barang_nama = '".$rowData[0][0]."' OR jenis_barang_id = '".$rowData[0][0]."'")->row();
+				$cat2_id = $this->db->query("SELECT category_2_id FROM m_category_2 WHERE category_2_nama = '".$rowData[0][1]."' OR category_2_id = '".$rowData[0][1]."'")->row();
+				// $cat1_id = $this->db->query("SELECT jenis_barang_id FROM m_jenis_barang WHERE jenis_barang_id = '".$rowData[0][0]."'")->row();
+				// $cat2_id = $this->db->query("SELECT category_2_id FROM m_category_2 WHERE  category_2_id = '".$rowData[0][1]."'")->row();
 
-				$jenis_barang_id 	= $cat1_id->jenis_barang_id;
+				$sat_id = $this->db->query("SELECT satuan_id FROM m_satuan WHERE satuan_nama = '".$rowData[0][5]."' OR satuan_id = '".$rowData[0][5]."'")->row();
+				$brd_id = $this->db->query("SELECT brand_id FROM m_brand WHERE brand_nama = '".$rowData[0][6]."' OR brand_id = '".$rowData[0][6]."'")->row();
+				// $sat_id = $this->db->query("SELECT satuan_id FROM m_satuan WHERE satuan_id = '".$rowData[0][5]."'")->row();
+				// $brd_id = $this->db->query("SELECT brand_id FROM m_brand WHERE brand_id = '".$rowData[0][6]."'")->row();
+
+					$jenis_barang_id 	= $cat1_id->jenis_barang_id;
 			    $category_2_id 		= $cat2_id->category_2_id;
 			    $satuan_id 			= $sat_id->satuan_id;
 			    $brand_id 			= $brd_id->brand_id;
@@ -294,7 +386,6 @@ class C_barang extends MY_Controller {
 			    // QUERY INSERT KE TABEL m_jenis_barang, m_category_2, m_satuan, m_brand
 				if($cat1_id){
 					$hasil_jenis_barang_id		= $cat1_id->jenis_barang_id;
-
 				}else{
 					$this->db->query("insert ignore into m_jenis_barang values('".implode("', '", $data_category1)."')");
 					$q = $this->db->query("select jenis_barang_id from m_jenis_barang where jenis_barang_nama = '".$rowData[0][0]."'")->row();
@@ -341,8 +432,36 @@ class C_barang extends MY_Controller {
 				// ==================================================================================
 
 				// FUNGSI GENERATE ARTIKEL
+				$query = $this->db->query("SELECT *, barang_id AS result
+																		FROM m_barang
+																		WHERE barang_nomor = (SELECT MAX(barang_nomor) FROM m_barang
+																		WHERE m_jenis_barang_id = '".$rowData[0][0]."' AND m_category_2_id = '".$rowData[0][1]."')");
 
-				// echo $this->db->last_query();
+				$result = $query->row();
+				if ($result) {
+						$last_id_ = $result->barang_nomor;
+					}else {
+						$last_id_ = '0000';
+					}
+				// echo $last_id_;
+				$last_id = substr($last_id_, -4);
+				// $last_id = explode("0", $last_id);
+				// $data = end($last_id)+1;
+				$last_id = $last_id+1;
+				if($last_id < 10){
+						$last_id = "000".$last_id;
+				}else if($last_id < 100){
+						$last_id = "00".$last_id;
+				}else if($last_id < 1000){
+						$last_id = "0".$last_id;
+				}
+
+				if ($last_id > 9999)
+				{
+					$last_id = $last_id - 9999;
+					$great_param++;
+				}
+
 							if($hasil_jenis_barang_id < 10){
 	                $cat1 = "0".$hasil_jenis_barang_id;
 	            }else{
@@ -360,35 +479,8 @@ class C_barang extends MY_Controller {
 										'm_category_2_id' 	=> $hasil_category_2_id
 									);
 
-							$id_terakhir = $this->select_config_one("m_barang", "MAX(barang_id) AS result", $where_idterakhir);
-							if ($id_terakhir->result != null) {
-								if ($no == 1) {
-									$no_ =	$id_terakhir->result;
-								} else {
-									$no_ = $no_ + 1;
-								}
-							} else {
-								$no_ = 1;
-							}
-
-
-
-				if ($no_ > 9999)
-				{
-					$no_ = $no_ - 9999;
-					$great_param++;
-				}
-
-				if($no_ < 10){
-						$no_ = "000".$no_;
-				}else if($no_ < 100){
-						$no_ = "00".$no_;
-				}else if($no_ < 1000){
-						$no_ = "0".$no;
-				}
-				// $barang_nomor = '';
-				$barang_nomor = "AJBS".$great_param.$cat1.$cat2.$no_;
-				$barang_artikel = $cat1.$cat2.$no_;
+				$barang_nomor = "TANGS".$great_param.$cat1.$cat2.$last_id;
+				$barang_artikel = $cat1.$cat2.$last_id;
 				// ==================================================================================
 
 				// FUNGSI INSERT KE TABEL BARANG
@@ -407,7 +499,7 @@ class C_barang extends MY_Controller {
 						 	"barang_nomor"						=> $barang_artikel,
 						 	"barang_nama"							=> $barang_nama,
 						 	"m_satuan_id"							=> $hasil_satuan_id,
-						 	"brand_id"								=> $hasil_brand_id,
+						 	"m_brand_id"								=> $hasil_brand_id,
 						 	"harga_beli"							=> $this->db->escape_str($rowData[0][7]),
 						 	"harga_jual"							=> $this->db->escape_str($rowData[0][8]),
 						 	"harga_jual_pajak"				=> $this->db->escape_str($rowData[0][8]) + $this->db->escape_str($rowData[0][8]) * 10 / 100,
@@ -421,13 +513,17 @@ class C_barang extends MY_Controller {
 						 	"barang_update_by"				=> '',
 						 	"barang_revised"					=> 0
 				 );
-
+				//  var_dump($last_id);
 			    $this->db->query("insert ignore into m_barang values('".implode("', '", $data_barang)."')");
+					$barang_id = $this->db->insert_id();
+					$hasil_barang_id = $barang_id;
+					// $table = "m_barang";
+					// $this->mod->insert_data_table($table, );
 			    // ==================================================================================
 
 			    // QUERY MENCARI id_barang
-			    $brg_id = $this->db->query("SELECT barang_id FROM m_barang WHERE barang_nama = '".$barang_nama."'")->row();
-					$hasil_barang_id 			= $brg_id->barang_id;
+			    // $brg_id = $this->db->query("SELECT barang_id FROM m_barang WHERE barang_nama = '".$barang_nama."'")->row();
+					// $hasil_barang_id 			= $brg_id->barang_id;
 					// ==================================================================================
 
 					// QUERY INSERT KE TABEL KONSINYASI
@@ -934,8 +1030,8 @@ class C_barang extends MY_Controller {
 
 		$query = $this->mod->select($select, $table, NULL, $where);
 		// echo $this->db->last_query();
-		$result = $query->result();
-		$barang_exist = $result[0]->result;
+		$result = $query->row();
+		$barang_exist = $result->result;
 		if ($barang_exist > 0) {
 			$data['status'] = "204";
 		} else {
@@ -1066,9 +1162,17 @@ class C_barang extends MY_Controller {
 			$revised = $queryRevised->row_array();
 			$rev = $revised['barang_revised'] + 1;
 		}
+		$barang_kode = $this->input->post('barang_nomor', TRUE);
 		if ($type == 1) {
+
+			// if ($no_ > 9999)
+			// {
+			// 	$no_ = $no_ - 9999;
+			// 	$great_param++;
+			// }
+
 			$data = array(
-				// 'barang_kode' 					=> $this->input->post('barang_kode', TRUE),
+				'barang_kode' 					=> "TANGS"."0".$barang_kode,
 				'barang_nomor' 					=> $this->input->post('barang_nomor', TRUE),
 				'barang_nama' 					=> $this->input->post('barang_nama', TRUE),
 				'm_category_2_id' 				=> $this->input->post('m_category_2_id', TRUE),
@@ -1089,8 +1193,8 @@ class C_barang extends MY_Controller {
 			);
 		} else if ($type == 2) {
 			$data = array(
-				// 'barang_kode' 					=> $this->input->post('barang_kode', TRUE),
-				//'barang_nomor' 					=> $this->input->post('barang_nomor', TRUE),
+				'barang_kode' 					=> "TANGS"."0".$barang_kode,
+				'barang_nomor' 					=> $this->input->post('barang_nomor', TRUE),
 				'm_jenis_barang_id' 			=> $this->input->post('m_jenis_barang_id', TRUE),
 				'barang_nama' 					=> $this->input->post('barang_nama', TRUE),
 				'm_category_2_id' 				=> $this->input->post('m_category_2_id', TRUE),
@@ -1383,7 +1487,7 @@ class C_barang extends MY_Controller {
 
 		$order['data'][] = array(
 			'column' => 'barang_id',
-			'type'	 => 'desc'
+			'type'	 => 'ASC'
 		);
 
 		$limit = array(
@@ -1392,15 +1496,69 @@ class C_barang extends MY_Controller {
 		$data = NULL;
 		if ($cat2) {
 
-			$query = $this->mod->select($select, 'm_barang', NULL, $where, NULL, NULL, $order, NULL, $limit);
+			$query = $this->db->query("SELECT *, barang_id AS result
+																	FROM `m_barang`
+																	WHERE barang_nomor = (SELECT MAX(barang_nomor) FROM m_barang
+																	WHERE m_jenis_barang_id = '$cat1' AND m_category_2_id = '$cat2')");
 
-			$result = $query->result();
-			$last_id = $result[0]->barang_nomor;
-			$last_id = explode("0", $last_id);
-			$data = end($last_id)+1;
+			$result = $query->row();
+			if ($result) {
+					$last_id_ = $result->barang_nomor;
+				}else {
+					$last_id_ = '0000';
+				}
+			// echo $last_id_;
+			$last_id = substr($last_id_, -4);
+			// $last_id = explode("0", $last_id);
+			// $data = end($last_id)+1;
+			$last_id = $last_id+1;
+			if($last_id < 10){
+					$last_id = "000".$last_id;
+			}else if($last_id < 100){
+					$last_id = "00".$last_id;
+			}else if($data < 1000){
+					$last_id = "0".$last_id;
+			}
+
+		}
+		// echo $this->db->last_query();
+		echo json_encode($last_id);
+	}
+
+	public function loadDataSelectBrand(){
+		$param = $this->input->get('q');
+		if ($param!=NULL) {
+			$param = $this->input->get('q');
+		} else {
+			$param = "";
+		}
+		$select = '*';
+		$where['data'][] = array(
+			'column' => 'brand_status_aktif',
+			'param'	 => 'y'
+		);
+		$where_like['data'][] = array(
+			'column' => 'brand_nama',
+			'param'	 => $this->input->get('q')
+		);
+		$order['data'][] = array(
+			'column' => 'brand_nama',
+			'type'	 => 'ASC'
+		);
+		$query = $this->mod->select($select, 'm_brand', NULL, $where, NULL, $where_like, $order);
+		$response['items'] = array();
+		if ($query<>false) {
+			foreach ($query->result() as $val) {
+					$response['items'][] = array(
+						'id'	=> $val->brand_id,
+						'text'	=> $val->brand_nama
+					);
+			}
+			$response['status'] = '200';
 		}
 
-		echo json_encode($data);
+		echo json_encode($response);
 	}
+
 
 }

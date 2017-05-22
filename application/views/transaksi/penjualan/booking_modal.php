@@ -20,7 +20,8 @@ if ($barang->det_promo_status_aktif != null || $barang->promo_status_aktif != nu
     <center>
       <button id="btn_booking" type="button" class="btn btn-primary" data-disc="" data-qty="1" data-price="<?php echo $barang->harga_jual_pajak?>"
       data-name="<?php echo $barang->barang_nama?>" data-id="<?php echo $barang->barang_id?>" data-has-promo="<?php echo $aktif?>" data-promo-harga="" data-promo-type=""
-      data-status-aktif="" data-stok-gudang="<?php echo $barang->stok_gudang_jumlah?>" data-promo-item-name="<?php echo $barang->promo_nama?>"
+      data-status-aktif="" data-stok-display="<?php echo $stockdisplay?>"
+      data-stok-gudang="<?php echo $barang->stok_gudang_jumlah?>" data-promo-item-name="<?php echo $barang->promo_nama?>"
       data-promo-gratis="" data-promo-qty="<?php echo $barang->promo_qty?>">
         Booking
       </button>

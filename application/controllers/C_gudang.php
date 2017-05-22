@@ -76,7 +76,7 @@ class C_gudang extends MY_Controller {
 						<i class="icon-power text-center"></i>
 					</button>';
 					}
-					
+
 				} else {
 					$status = '<span class="label bg-red-thunderbird bg-font-red-thunderbird"> Non Aktif </span>';
 					if($priv['update'] == 1)
@@ -91,7 +91,7 @@ class C_gudang extends MY_Controller {
 						<i class="icon-power text-center"></i>
 					</button>';
 					}
-					
+
 				}
 				$response['data'][] = array(
 					$no,
@@ -124,7 +124,7 @@ class C_gudang extends MY_Controller {
 		$jenis['jenisgudang'] = $queryJenis->result_array();
 		$data = array(
 			'cabang' => $cab['cabang'],
-			'jenis' => $jenis['jenisgudang'], 
+			'jenis' => $jenis['jenisgudang'],
 		);
  		$this->load->view("gudang/V_form_gudang", $data);
 	}
@@ -182,19 +182,19 @@ class C_gudang extends MY_Controller {
 				}
 				// END CARI CABANG
 				$array_telp = json_decode($val->gudang_telepon);
-				for ($i = 0; $i < sizeof($array_telp); $i++) { 
+				for ($i = 0; $i < sizeof($array_telp); $i++) {
 					$hasil4['val2'][] = array(
 						'text' 	=> $array_telp[$i]
 					);
 				}
 				$array_fax = json_decode($val->gudang_fax);
-				for ($i = 0; $i < sizeof($array_fax); $i++) { 
+				for ($i = 0; $i < sizeof($array_fax); $i++) {
 					$hasil5['val2'][] = array(
 						'text' 	=> $array_fax[$i]
 					);
 				}
 				$array_email = json_decode($val->gudang_email);
-				for ($i = 0; $i < sizeof($array_email); $i++) { 
+				for ($i = 0; $i < sizeof($array_email); $i++) {
 					$hasil6['val2'][] = array(
 						'text' 	=> $array_email[$i]
 					);
@@ -257,21 +257,59 @@ class C_gudang extends MY_Controller {
 	}
 
 	public function loadData_selectGudang($type){
-		if ($type == 1) {
-			$select = '*';
+		$table = "m_gudang a";
+
+		$select_ = "a.*, b.m_cabang_id, c.cabang_gudangdisplay";
+	  $tableuser = 's_user a';
+
+	  $join_['data'][] = array(
+	    'table' => 'm_karyawan b',
+	    'join'	=> 'b.karyawan_id = a.m_karyawan_id',
+	    'type'	=> 'left'
+	  );
+
+	  $join_['data'][] = array(
+	    'table' => 'm_cabang c',
+	    'join'	=> 'c.cabang_id = b.m_cabang_id',
+	    'type'	=> 'left'
+	  );
+
+	  $where_['data'][] = array(
+	    'column' => 'a.user_id',
+	    'param'	 => $this->session->userdata('user_id')
+	  );
+
+
+	  $user = $this->mod->select($select_, $tableuser, $join_, $where_)->row();
+		$cabang = $user->m_cabang_id;
+		$gudangdisplayid = $user->cabang_gudangdisplay;
+
+
+		if ($type == 1){
+			$select = 'a.*';
+
+			$join['data'][] = array(
+				'table' => 'm_cabang b',
+				'join'	=> 'b.cabang_id = a.m_cabang_id',
+				'type'	=> 'left'
+			);
+
 			$where['data'][] = array(
-				'column' => 'gudang_status_aktif',
+				'column' => 'a.gudang_status_aktif',
 				'param'	 => 'y'
 			);
+
 			$where['data'][] = array(
-				'column' => 'm_cabang_id',
+				'column' => 'a.m_cabang_id',
 				'param'	 => $this->input->get('id')
 			);
+
 			$order['data'][] = array(
-				'column' => 'gudang_nama',
+				'column' => 'a.gudang_nama',
 				'type'	 => 'ASC'
 			);
-			$query = $this->mod->select($select, $this->tbl, NULL, $where, NULL, NULL, $order);
+
+			$query = $this->mod->select($select, $table, NULL, $where, NULL, NULL, $order);
 			$response['items'] = array();
 			if ($query<>false) {
 				foreach ($query->result() as $val) {
@@ -289,24 +327,34 @@ class C_gudang extends MY_Controller {
 			} else {
 				$param = "";
 			}
-			$select = '*';
-			$where['data'][] = array(
-				'column' => 'gudang_status_aktif',
+			$selectdisplay = 'a.*';
+
+			$joindisplay['data'][] = array(
+				'table' => 'm_cabang b',
+				'join'	=> 'b.cabang_id = a.m_cabang_id',
+				'type'	=> 'left'
+			);
+
+			$wheredisplay['data'][] = array(
+				'column' => 'a.gudang_status_aktif',
 				'param'	 => 'y'
 			);
-			$where['data'][] = array(
-				'column' => 'm_cabang_id',
+			$wheredisplay['data'][] = array(
+				'column' => 'a.m_cabang_id',
 				'param'	 => $this->session->userdata('cabang_id'),
 			);
-			$where_like['data'][] = array(
-				'column' => 'gudang_nama',
+			$where_likedisplay['data'][] = array(
+				'column' => 'a.gudang_nama',
 				'param'	 => $this->input->get('q')
 			);
-			$order['data'][] = array(
-				'column' => 'gudang_nama',
+			$orderdisplay['data'][] = array(
+				'column' => 'a.gudang_nama',
 				'type'	 => 'ASC'
 			);
-			$query = $this->mod->select($select, $this->tbl, NULL, $where, NULL, $where_like, $order);
+
+			$where2display = array('a.gudang_id !=' => $gudangdisplayid);
+
+			$query = $this->mod->select($selectdisplay, $table, $joindisplay, $wheredisplay, $where2display, $where_likedisplay, $orderdisplay);
 			$response['items'] = array();
 			if ($query<>false) {
 				foreach ($query->result() as $val) {
@@ -318,7 +366,6 @@ class C_gudang extends MY_Controller {
 				$response['status'] = '200';
 			}
 		}
-
 		echo json_encode($response);
 	}
 
@@ -354,7 +401,8 @@ class C_gudang extends MY_Controller {
 	}
 
 	// Function Insert & Update
-	public function postData(){
+	public function postData()
+	{
 		$id = $this->input->post('kode');
 		if (strlen($id)>0) {
 			//UPDATE
@@ -379,7 +427,7 @@ class C_gudang extends MY_Controller {
 				$response['status'] = '204';
 			}
 		}
-		
+
 		echo json_encode($response);
 	}
 
@@ -485,6 +533,8 @@ class C_gudang extends MY_Controller {
 
 		return $data;
 	}
+
+
 	/* end Function */
 
 }

@@ -177,15 +177,16 @@ class C_penawaran_harga extends MY_Controller {
 					foreach ($query_brg->result() as $val2) {
 
 						$response['step1'][] = array(
-							'penawaran_barang_id'					=> $val2->penawaran_barang_id,
+							'penawaran_barang_id'				=> $val2->penawaran_barang_id,
 							't_permintaan_pembelian'			=> $val2->t_permintaan_pembelian,
-							'm_barang_id'									=> $val2->m_barang_id,
-							'barang_nomor'								=> $val2->barang_nomor,
-							'barang_uraian'								=> $val2->barang_nama.'('.$val2->barang_nomor.', '.$val2->jenis_barang_nama.')',
+							'm_barang_id'						=> $val2->m_barang_id,
+							'barang_nomor'						=> $val2->barang_nomor,
+							'barang_uraian'						=> $val2->barang_nama.'('.$val2->barang_nomor.', '.$val2->jenis_barang_nama.')',
 							'penawaran_barang_qty'				=> $val2->penawaran_barang_qty,
-							'satuan_nama'									=> $val2->satuan_nama,
+							'satuan_nama'						=> $val2->satuan_nama,
 						);
 					}
+					// echo $this->db->last_query();
 				}
 
 				// SUPPLIER
@@ -231,11 +232,11 @@ class C_penawaran_harga extends MY_Controller {
 					$response['step3'] = 1;
 					foreach ($query_hrg->result() as $val2) {
 						$response['step5'][] = array(
-							't_penawaran_id' 									=> $val2->t_penawaran_id,
+							't_penawaran_id' 						=> $val2->t_penawaran_id,
 							't_penawaran_supplier_id' 				=> $val2->t_penawaran_supplier_id,
-							't_penawaran_barang_id' 					=> $val2->t_penawaran_barang_id,
-							'penawaran_harga_qty_ditawarkan'	=> $val2->penawaran_harga_qty_ditawarkan,
-							'diskon_perbarang' 								=> $val2->diskon_perbarang,
+							't_penawaran_barang_id' 				=> $val2->t_penawaran_barang_id,
+							'penawaran_harga_qty_ditawarkan'		=> $val2->penawaran_harga_qty_ditawarkan,
+							'diskon_perbarang' 						=> $val2->diskon_perbarang,
 							'penawaran_harga_nominal' 				=> $val2->penawaran_harga_nominal
 						);
 					}
@@ -255,10 +256,10 @@ class C_penawaran_harga extends MY_Controller {
 					$query_spp = $this->mod->select('*','t_permintaan_pembelian',NULL,$where_spp);
 					// $response['spp'][] = $sppID[$j];
 					foreach ($query_spp->result() as $val1) {
-						$response['spp'][] = $val1->permintaan_pembelian_id;
-						$hasil1['val1'][] = array(
-							'id' 	=> $val1->permintaan_pembelian_id,
-							'text' 	=> $val1->permintaan_pembelian_nomor
+						$response['spp'][] 	= $val1->permintaan_pembelian_id;
+						$hasil1['val1'][] 	= array(
+							'id' 			=> $val1->permintaan_pembelian_id,
+							'text' 			=> $val1->permintaan_pembelian_nomor
 						);
 					}
 				}
@@ -270,8 +271,8 @@ class C_penawaran_harga extends MY_Controller {
 					'penawaran_tanggal'				=> date("d/m/Y",strtotime($val->penawaran_tanggal)),
 					'penawaran_jenis' 				=> $val->penawaran_jenis,
 					'penawaran_status' 				=> $val->penawaran_status,
-					'permintaan_pembelian_id' => $hasil1,
-					'penawaran_step' 					=> $val->penawaran_step,
+					'permintaan_pembelian_id' 		=> $hasil1,
+					'penawaran_step' 				=> $val->penawaran_step,
 				);
 			}
 			// echo $this->db->last_query();
@@ -505,7 +506,7 @@ class C_penawaran_harga extends MY_Controller {
 						$response['step3'][] = array(
 							'supplier_kode'				=> $val4->t_penawaran_supplier_id,
 							'barang_nomor'				=> $val4->t_penawaran_barang_id,
-							'harga'						=> $val4->penawaran_harga_nominal
+							'harga'								=> $val4->penawaran_harga_nominal
 						);
 					}
 				}
@@ -550,11 +551,11 @@ class C_penawaran_harga extends MY_Controller {
 					'kode' 							=> $val->penawaran_id,
 					'penawaran_nomor' 				=> $val->penawaran_nomor,
 					'penawaran_tanggal'				=> date("d/m/Y",strtotime($val->penawaran_tanggal)),
-					'cabang'						=> $hasil6,
+					'cabang'									=> $hasil6,
 					'penawaran_jenis' 				=> $val->penawaran_jenis,
 					'penawaran_status' 				=> $val->penawaran_status,
-					'penawaran_step' 				=> $val->penawaran_step,
-					'penawaran_create_by' 			=> $val->penawaran_create_by
+					'penawaran_step' 					=> $val->penawaran_step,
+					'penawaran_create_by' 		=> $val->penawaran_create_by
 				);
 			}
 		}

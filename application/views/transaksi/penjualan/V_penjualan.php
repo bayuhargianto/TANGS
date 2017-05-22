@@ -344,8 +344,12 @@
                                                   <input type="text" class="form-control" id="sales-nama-bank" name="sales-nama-bank">
                                               </div>
                                               <div style="display: none;" class="box-sales" id="box-sales-nomor-rekening">
-                                                  <label for="sales-nomor-rekening">Nomor Rekening :</label>
+                                                  <label for="sales-nomor-rekening">Nomor Kartu :</label>
                                                   <input type="text" class="form-control" id="sales-nomor-rekening" name="sales-nomor-rekening">
+                                              </div>
+                                              <div style="display: none;" class="box-sales" id="box-edc">
+                                                  <label for="mesin-edc">Mesin EDC :</label>
+                                                  <input type="number" class="form-control" id="mesin-edc" name="mesin-edc">
                                               </div>
                                               <!-- END -->
                                               <div class="box-sales" id="box-input-cashback">
@@ -419,21 +423,31 @@
   </div>
 </div>
 
-<div class="modal fade" id="modal_login">
-  <div class="modal-dialog">
-    <div class="modal-content">
+  <div class="modal fade" id="modal_login">
+    <div class="modal-dialog">
+      <div class="modal-content">
 
+      </div>
     </div>
   </div>
-</div>
 
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="booking_modal">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
+  <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+  id="booking_modal">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
 
+      </div>
     </div>
   </div>
-</div>
+
+  <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+  id="getfromGudang_popmodal">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
 
 <script type="text/javascript">
   function form_login()

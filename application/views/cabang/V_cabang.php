@@ -52,7 +52,7 @@
                                                       </button>';
                                                     }
                                                   ?>
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -89,7 +89,7 @@
                 searchData();
             });
 
-            function searchData() { 
+            function searchData() {
                 $('#default-table').DataTable({
                     destroy: true,
                     "processing": true,
@@ -125,8 +125,8 @@
                     },
 
                     // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-                    // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js). 
-                    // So when dropdowns used the scrollable div should be removed. 
+                    // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js).
+                    // So when dropdowns used the scrollable div should be removed.
                     //"dom": "<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r>t<'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
 
                     "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
@@ -163,9 +163,16 @@
                       document.getElementsByName("kode")[0].value = data.val[i].kode;
                       document.getElementsByName("cabang_nama")[0].value = data.val[i].cabang_nama;
                       document.getElementsByName("cabang_alamat")[0].value = data.val[i].cabang_alamat;
+                      document.getElementsByName("cabang_display")[0].value = data.val[i].cabang_gudangdisplay;
+
                       for(var j=0; j<data.val[i].cabang_kota.val2.length; j++){
-                        $("#cabang_kota").append('<option value="'+data.val[i].cabang_kota.val2[j].id+'" selected>'+data.val[i].cabang_kota.val2[j].text+'</option>');
+                        $("#cabang_kota").append('<option value="'+data.val[i].cabang_kota.val2[j].id+'" selected>\
+                        '+data.val[i].cabang_kota.val2[j].text+'</option>');
                       }
+
+                        $("#cabang_display").append('<option value="'+data.val[i].cabang_gudangdisplay+'" selected>\
+                          '+data.val[i].cabang_gudangdisplaynama+'</option>');
+
                       // document.getElementsByName("cabang_telepon")[0].value = data.val[i].cabang_telepon;
                       document.getElementsByName("jml_itemOption")[0].value = data.val[i].jml_telepon;
                       itemOption = parseInt($("#jml_itemOption").val());

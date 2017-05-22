@@ -2,85 +2,28 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title><?php echo $barang->barang_nama;?></title>
+    <title>Print Pricetag</title>
     <link rel="stylesheet" href="<?php echo base_url('assets/custom_theme/css/print.css')?>">
   </head>
   <body  onload=print()>
+    <?php
+    $page = 1;?>
     <page size="A4">
       <table>
         <?php
+        $row = 1;
         $col = 1;
-        echo "<tr>";
-        // for ($i=0; $i < 3; $i++) {
-        for ($j=0; $j < $printqty; $j++) {
-          // echo $j;
+        foreach ($printPriceTag as  $value) {
           if ($col<4) {
-            echo "
-            <td class='title'>
-            $barang->barang_nama
-            <table>
-            <tr>
-            <td class='rupiah'>
-            Rp.
-            </td>
-            </tr>
-            <tr>
-            <td class='price' colspan='2'>
-            <b>$barang->harga_jual_pajak</b>
-            </td>
-            </tr>
-            <tr>
-            <td>
-            $barang->barang_kode
-            </td>
-            <td>
-            $barang->barang_nomor
-            </td>
-            <tr>
-            <tr>
-            <td></td>
-            <td class='tanggal'>$tanggal</td>
-            </tr>
-            </table>
-            </td>";
+            echo $value;
           } else {
             echo "</tr>";
             echo "<tr>";
-            echo "
-            <td class='title'>
-            $barang->barang_nama
-            <table>
-            <tr>
-            <td class='rupiah'>
-            Rp.
-            </td>
-            </tr>
-            <tr>
-            <td class='price' colspan='2'>
-              <b>$barang->harga_jual_pajak</b>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              $barang->barang_kode
-            </td>
-            <td>
-              $barang->barang_nomor
-            </td>
-            <tr>
-              <tr>
-                <td></td>
-                <td class='tanggal'>$tanggal</td>
-              </tr>
-            </table>
-          </td>";
-          $col = 1;
-        }
-
-        $col++;
-        // }
-      } ?>
-    </table>
+            echo $value;
+            $col = 1;
+          }
+        $col++;}?>
+      </table>
     </page>
   </body>
 </html>

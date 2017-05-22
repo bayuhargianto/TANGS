@@ -37,7 +37,9 @@
                                 <div class="portlet-title">
                                     <div class="caption">
                                         <i class=" icon-doc font-dark"></i> &nbsp;&nbsp;
-                                        <span class="caption-subject font-dark sbold uppercase">Form  <?php if(isset($title_page2)) echo $title_page2;?></span>
+                                        <span class="caption-subject font-dark sbold uppercase">Form
+                                          <?php if(isset($title_page2)) echo $title_page2;?>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="portlet-body">
@@ -58,7 +60,8 @@
                                             <div class="col-md-8">
                                                 <div class="input-icon right">
                                                     <i class="fa"></i>
-                                                    <input type="text" class="form-control" name="kode" value="<?php if(isset($id)) echo $id;?>" readonly /> </div>
+                                                    <input type="text" class="form-control" name="kode" value="<?php if(isset($id)) echo $id;?>" readonly />
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group" hidden="true" id="KodeSPP">
