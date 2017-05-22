@@ -942,8 +942,6 @@
                       };
                       new_data.push(this_data);
                   }
-                  console.log();
-
               });
           }, 3000);
 
